@@ -157,6 +157,18 @@ describe('Inicio de sesión (e2e)', () => {
     expect(unknown.body.message).toBe(expected);
   });
 
+  it('simula intentos y bloqueo para un correo no registrado', async () => {
+    const email = `fantasma.${Date.now()}@vetmanage.test`;
+
+    for (let remaining = 4; remaining >= 1; remaining--) {
+      const { body } = await login({ email, password: PASSWORD }).expect(401);
+      expect(body.message).toContain(remaining === 1 ? 'Le queda 1 intento' : `Le quedan ${remaining} intentos`);
+    }
+    const fifth = await login({ email, password: PASSWORD }).expect(423);
+    expect(fifth.body.message).toBe('Cuenta bloqueada temporalmente. Intente en 15 minutos');
+    await login({ email, password: PASSWORD }).expect(423);
+  });
+
   it('bloquea la cuenta al quinto intento fallido y niega el acceso durante el bloqueo', async () => {
     const user = await createUser();
     for (let i = 0; i < 4; i++) await login({ email: user.email, password: 'Otra1234' }).expect(401);
