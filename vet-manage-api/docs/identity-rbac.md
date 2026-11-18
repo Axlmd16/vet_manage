@@ -6,8 +6,11 @@ guards reutilizables por los demás módulos.
 
 ## Catálogos de permisos y roles
 
-- `src/config/permissions.catalog.ts`: permisos del sistema, con claves
-  `modulo:accion`, una por función.
+- `src/config/permissions.catalog.ts`: agregador público de permisos.
+- `src/config/permissions/`: tres catálogos separados por módulo:
+  `identity.permissions.ts`, `clinical.permissions.ts` e
+  `inventory.permissions.ts`. Cada archivo es fuente de verdad de su dominio y
+  usa claves `modulo:accion`.
 - `src/config/roles.catalog.ts`: los 8 roles y sus permisos iniciales.
 - `src/modules/identity/services/rbac-catalog-synchronizer.service.ts`:
   sincroniza ambos catálogos al arrancar la API.
@@ -33,9 +36,9 @@ La variable `RBAC_SYNC_MODE` define quién manda sobre los roles del sistema:
   personalizados. Es el valor de `docker-compose.yml` en desarrollo, para que
   los cambios de permisos en el código se apliquen sin reiniciar la base.
 
-Para agregar un permiso, añádelo a `PERMISSION_ENTRIES` y a los roles que
-corresponda. Los cambios de estructura requieren una migración; los de
-permisos solo reiniciar la API.
+Para agregar un permiso, añádelo al archivo del módulo correspondiente y a los
+roles que corresponda. Los cambios de estructura requieren una migración; los
+de permisos solo reiniciar la API.
 
 ## Administrador inicial
 
