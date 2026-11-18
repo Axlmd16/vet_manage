@@ -9,6 +9,7 @@ import {
   ChevronDownIcon,
   FolderIcon,
   HomeIcon,
+  IdCardIcon,
   PackageIcon,
   PawIcon,
   TagIcon,
@@ -33,14 +34,16 @@ const inventoryNavigation: NavItem[] = [
   { label: 'Marcas', to: '/inventory/brands', icon: TagIcon },
 ];
 
+const administrationNavigation: NavItem[] = [
+  { label: 'Usuarios', to: '/users', icon: IdCardIcon, permission: 'users:read' },
+];
+
 const linkClass = (base: string) => ({ isActive }: { isActive: boolean }) =>
   isActive ? `${base} ${base}--active` : base;
 
 export function AppShell() {
   const [inventoryOpen, setInventoryOpen] = useState(true);
-  const { session, hasPermission } = useAuth();
-  const user = session?.user;
-  const initials = user ? `${user.firstName[0] ?? ''}${user.lastName[0] ?? ''}`.toUpperCase() : '';
+  const { hasPermission } = useAuth();
   const visible = (items: NavItem[]) => items.filter((item) => !item.permission || hasPermission(item.permission));
 
   return (
@@ -84,19 +87,24 @@ export function AppShell() {
               ))}
             </div>
           )}
+
+          {visible(administrationNavigation).length > 0 && (
+            <>
+              <span className="sidebar-nav__label">Administración</span>
+              {visible(administrationNavigation).map(({ label, to, icon: ItemIcon }) => (
+                <NavLink key={to} to={to} className={linkClass('sidebar-link')}>
+                  <ItemIcon size={18} />
+                  <span>{label}</span>
+                </NavLink>
+              ))}
+            </>
+          )}
         </nav>
 
         <UserMenu />
       </aside>
 
       <main className="main-content">
-        <header className="topbar">
-          <div>
-            <span className="eyebrow">Clínica principal</span>
-            <h1>Panel de control</h1>
-          </div>
-          <span className="profile-button" aria-hidden="true">{initials}</span>
-        </header>
         <Outlet />
       </main>
     </div>

@@ -68,11 +68,11 @@ The system SHALL reject with 401 any request to a protected route that has no to
 - **THEN** the response is 401
 
 ### Requirement: Permission guard checks current permissions
-The system SHALL reject with 403 a request whose user lacks any permission required by the route, resolving permissions from the database on each request as the union of the permissions of all the user's active, non-expired roles.
+The system SHALL reject with 403 and the message "No tiene permisos para realizar esta acción" a request whose user lacks any permission required by the route, resolving permissions from the database on each request as the union of the permissions of all the user's active, non-expired roles.
 
 #### Scenario: User without the permission
 - **WHEN** an authenticated user without the required permission calls the route
-- **THEN** the response is 403
+- **THEN** the response is 403 with the message "No tiene permisos para realizar esta acción"
 
 #### Scenario: User with the permission
 - **WHEN** an authenticated user with the required permission calls the route

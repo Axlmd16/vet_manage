@@ -38,8 +38,8 @@ function ToastItem({ toast, onDismiss }: { toast: Toast; onDismiss: (id: number)
     return () => window.clearTimeout(timeout);
   }, [onDismiss, toast.id]);
 
-  const label = toast.type === 'success' ? 'Listo' : toast.type === 'error' ? 'No se pudo completar' : 'Información';
-  const icon = toast.type === 'success' ? '✓' : toast.type === 'error' ? '!' : 'i';
+  const label = { success: 'Listo', error: 'No se pudo completar', warning: 'Atención', info: 'Información' }[toast.type];
+  const icon = { success: '✓', error: '!', warning: '!', info: 'i' }[toast.type];
 
   return (
     <div className={`toast toast--${toast.type}`} role={toast.type === 'error' ? 'alert' : 'status'}>

@@ -4,6 +4,8 @@ export default () => ({
     port: Number(process.env.PORT ?? 3080),
     prefix: process.env.API_PREFIX ?? 'api/v1',
     nodeEnv: process.env.NODE_ENV ?? 'development',
+    // Dirección pública del frontend; se usa en los enlaces de los correos.
+    url: process.env.APP_URL ?? 'http://localhost:5174',
   },
   database: {
     url: process.env.DATABASE_URL,
@@ -25,6 +27,14 @@ export default () => ({
     identification: process.env.ADMIN_IDENTIFICATION,
     firstName: process.env.ADMIN_FIRST_NAME,
     lastName: process.env.ADMIN_LAST_NAME,
+  },
+  mail: {
+    host: process.env.SMTP_HOST ?? 'mailpit',
+    port: Number(process.env.SMTP_PORT ?? 51025),
+    secure: process.env.SMTP_SECURE === 'true',
+    user: process.env.SMTP_USER || undefined,
+    password: process.env.SMTP_PASSWORD || undefined,
+    from: process.env.MAIL_FROM ?? 'VetManage <no-reply@vetmanage.local>',
   },
   rabbitmq: {
     url: process.env.RABBITMQ_URL ?? 'amqp://vetmanage:vetmanage_dev_password@rabbitmq:55672',

@@ -33,7 +33,7 @@ type IdentitySeedClient = {
 type IdentitySeedTransaction = {
   person: {
     upsert(args: {
-      where: { identification: string };
+      where: { email: string };
       update: Record<string, unknown>;
       create: Record<string, unknown>;
     }): Promise<{ id: string }>;
@@ -65,7 +65,7 @@ export const DEMO_PASSWORD = 'Vet12345';
 export const IDENTITY_DEMO: { users: readonly DemoUser[] } = {
   users: [
     {
-      identification: '1700000101',
+      identification: '1710000017',
       firstName: 'Marcelo',
       lastName: 'Paredes',
       email: 'gerente@vetmanage.local',
@@ -73,7 +73,7 @@ export const IDENTITY_DEMO: { users: readonly DemoUser[] } = {
       roles: ['manager'],
     },
     {
-      identification: '1700000102',
+      identification: '1710000025',
       firstName: 'Valentina',
       lastName: 'Ruiz',
       email: 'veterinario@vetmanage.local',
@@ -81,7 +81,7 @@ export const IDENTITY_DEMO: { users: readonly DemoUser[] } = {
       roles: ['veterinarian'],
     },
     {
-      identification: '1700000103',
+      identification: '1710000033',
       firstName: 'Diego',
       lastName: 'Reyes',
       email: 'veterinario2@vetmanage.local',
@@ -89,7 +89,7 @@ export const IDENTITY_DEMO: { users: readonly DemoUser[] } = {
       roles: ['veterinarian'],
     },
     {
-      identification: '1700000104',
+      identification: '1710000041',
       firstName: 'Camila',
       lastName: 'Andrade',
       email: 'tecnico@vetmanage.local',
@@ -97,7 +97,7 @@ export const IDENTITY_DEMO: { users: readonly DemoUser[] } = {
       roles: ['veterinary_technician'],
     },
     {
-      identification: '1700000105',
+      identification: '1710000058',
       firstName: 'Lucía',
       lastName: 'Mendoza',
       email: 'recepcion@vetmanage.local',
@@ -105,7 +105,7 @@ export const IDENTITY_DEMO: { users: readonly DemoUser[] } = {
       roles: ['receptionist'],
     },
     {
-      identification: '1700000106',
+      identification: '1710000066',
       firstName: 'Andrés',
       lastName: 'Vera',
       email: 'cajero@vetmanage.local',
@@ -113,7 +113,7 @@ export const IDENTITY_DEMO: { users: readonly DemoUser[] } = {
       roles: ['cashier'],
     },
     {
-      identification: '1700000107',
+      identification: '1710000074',
       firstName: 'Pablo',
       lastName: 'Cedeño',
       email: 'bodeguero@vetmanage.local',
@@ -121,7 +121,7 @@ export const IDENTITY_DEMO: { users: readonly DemoUser[] } = {
       roles: ['warehouse_keeper'],
     },
     {
-      identification: '1700000108',
+      identification: '1710000082',
       firstName: 'Sofía',
       lastName: 'Herrera',
       email: 'cliente@vetmanage.local',
@@ -130,7 +130,7 @@ export const IDENTITY_DEMO: { users: readonly DemoUser[] } = {
     },
     // Usuario con varios roles.
     {
-      identification: '1700000109',
+      identification: '1710000090',
       firstName: 'Jorge',
       lastName: 'Solís',
       email: 'gerente.veterinario@vetmanage.local',
@@ -138,7 +138,7 @@ export const IDENTITY_DEMO: { users: readonly DemoUser[] } = {
     },
     // Cuenta inactiva: no puede iniciar sesión.
     {
-      identification: '1700000110',
+      identification: '1710000108',
       firstName: 'Rafael',
       lastName: 'Cruz',
       email: 'inactivo@vetmanage.local',
@@ -147,7 +147,7 @@ export const IDENTITY_DEMO: { users: readonly DemoUser[] } = {
     },
     // Contraseña temporal: el sistema debe pedir el cambio en el primer ingreso.
     {
-      identification: '1700000111',
+      identification: '1710000116',
       firstName: 'Elena',
       lastName: 'Torres',
       email: 'temporal@vetmanage.local',
@@ -212,11 +212,11 @@ export async function seedIdentity(
     let assignments = 0;
     for (const demo of IDENTITY_DEMO.users) {
       const person = await tx.person.upsert({
-        where: { identification: demo.identification },
+        where: { email: demo.email },
         update: {
+          identification: demo.identification,
           firstName: demo.firstName,
           lastName: demo.lastName,
-          email: demo.email,
           phone: demo.phone ?? null,
         },
         create: {
