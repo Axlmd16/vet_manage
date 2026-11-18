@@ -14,6 +14,7 @@ export default () => ({
   auth: {
     jwtSecret: process.env.JWT_SECRET,
     jwtExpiresIn: process.env.JWT_EXPIRES_IN ?? '15m',
+    sessionExpiresIn: process.env.SESSION_EXPIRES_IN ?? '12h',
   },
   rbac: {
     syncMode: process.env.RBAC_SYNC_MODE ?? 'create-only',
