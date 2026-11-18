@@ -20,7 +20,17 @@
 - [x] 3.4 Proteger las rutas con `RequireAuth` y agregar la ruta `/login`
 - [x] 3.5 Filtrar el menú de `AppShell` por permisos y mostrar nombre, roles y "Cerrar sesión"
 
-## 4. Verificación
+## 4. Mejoras: sesiones renovables, intentos y pantalla
 
-- [x] 4.1 Ejecutar lint, pruebas unitarias y e2e de la API y build del frontend
-- [x] 4.2 Probar en Docker los escenarios de la HU con el Administrador inicial
+- [x] 4.1 Validar el formato del correo en la API y en la pantalla
+- [x] 4.2 Indicar los intentos restantes y simular intentos y bloqueo en Redis para correos no registrados
+- [x] 4.3 Crear `SessionService` con refresh token rotativo en `user_sessions` y la variable `SESSION_EXPIRES_IN`
+- [x] 4.4 Agregar `POST /auth/refresh` y `POST /auth/logout` con la cookie `httpOnly`
+- [x] 4.5 Guardar el token de acceso en memoria, renovar la sesión ante un 401 y al recargar
+- [x] 4.6 Rediseñar la pantalla de inicio de sesión
+- [x] 4.7 Pruebas unitarias y e2e de intentos restantes, correo inválido, renovación, reutilización y cierre de sesión
+
+## 5. Verificación
+
+- [x] 5.1 Ejecutar lint, pruebas unitarias y e2e de la API y build del frontend
+- [x] 5.2 Probar en Docker los escenarios de la HU con el Administrador inicial

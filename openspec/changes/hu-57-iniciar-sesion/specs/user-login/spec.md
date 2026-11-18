@@ -30,16 +30,27 @@ The system SHALL reject with 400 and the message "Ingrese su correo y contraseñ
 - **WHEN** the login request has no email
 - **THEN** the response is 400 with the message "Ingrese su correo y contraseña"
 
+### Requirement: Email format is validated
+The system SHALL reject with 400 and the message "Ingrese un correo electrónico válido" a login whose email does not have a valid format, without looking up the account or counting a failed attempt.
+
+#### Scenario: Malformed email
+- **WHEN** the login request has the email "correo-invalido"
+- **THEN** the response is 400 with the message "Ingrese un correo electrónico válido"
+
 ### Requirement: Invalid credentials do not reveal which field failed
-The system SHALL reject with 401 and the message "Correo o contraseña incorrectos" a login with an unregistered email, a wrong password or an account without password.
+The system SHALL reject with 401 a login with an unregistered email, a wrong password or an account without password, with the message "Correo o contraseña incorrectos" followed by the number of attempts left before the lock. Unregistered emails SHALL receive the same attempt count and lock as a registered account, so the response does not reveal whether the account exists.
 
 #### Scenario: Wrong password
-- **WHEN** a registered user sends a wrong password
-- **THEN** the response is 401 with the message "Correo o contraseña incorrectos"
+- **WHEN** a registered user without previous failures sends a wrong password
+- **THEN** the response is 401 with the message "Correo o contraseña incorrectos. Le quedan 4 intentos antes de que la cuenta se bloquee"
+
+#### Scenario: Last attempt
+- **WHEN** a user with three consecutive failures fails again
+- **THEN** the message ends with "Le queda 1 intento antes de que la cuenta se bloquee"
 
 #### Scenario: Unregistered email
 - **WHEN** the email does not belong to any user
-- **THEN** the response is 401 with the same message
+- **THEN** the response is 401 with the same message a registered account would get, and the fifth attempt returns the lock message
 
 ### Requirement: Account is locked after five consecutive failures
 The system SHALL count consecutive failed logins of an account and, on the fifth, SHALL lock it for 15 minutes and respond with 423 and the message "Cuenta bloqueada temporalmente. Intente en 15 minutos". While the lock lasts, every login attempt SHALL be rejected with 423 and the remaining minutes rounded up, even with the correct password, and SHALL NOT extend the lock. When the lock expires the account SHALL accept logins again with the counter at zero.
@@ -84,3 +95,26 @@ The system SHALL expose `GET /auth/me`, protected by the authentication guard, t
 #### Scenario: Without token
 - **WHEN** the endpoint is called without a token
 - **THEN** the response is 401
+
+### Requirement: Renewable sessions
+The system SHALL open a session on each successful login, identified by a random refresh token stored only as a hash and sent in an `httpOnly` cookie restricted to the authentication routes. `POST /auth/refresh` SHALL exchange a valid refresh token for a new one and a new access token with the current profile, revoking the previous one. The session SHALL last `SESSION_EXPIRES_IN`, 12 hours by default. `POST /auth/logout` SHALL revoke the session and clear the cookie.
+
+#### Scenario: Refresh token in a cookie
+- **WHEN** the login succeeds
+- **THEN** the response sets an `httpOnly` cookie with the refresh token and the body does not include it
+
+#### Scenario: Renewal
+- **WHEN** the client calls `POST /auth/refresh` with a valid cookie
+- **THEN** the response is 200 with a new access token and the previous refresh token is revoked
+
+#### Scenario: Reused token
+- **WHEN** a refresh token that was already exchanged is sent again
+- **THEN** the response is 401 with the message "La sesión expiró. Inicie sesión nuevamente"
+
+#### Scenario: Expired session or disabled account
+- **WHEN** the session expired or the account is no longer active
+- **THEN** the renewal is rejected with 401
+
+#### Scenario: Logout
+- **WHEN** the client calls `POST /auth/logout`
+- **THEN** the session is revoked and a later renewal with the same cookie returns 401
