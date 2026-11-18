@@ -250,6 +250,15 @@ describe('Registro de usuarios (e2e)', () => {
     await request(app.getHttpServer()).get('/users/assignable-roles').set('Authorization', `Bearer ${token}`).expect(403);
   });
 
+  it('niega el registro a una Recepcionista con el rol real del catálogo', async () => {
+    const receptionist = await prisma.role.findUniqueOrThrow({ where: { name: 'receptionist' } });
+    const { user } = await createAccount([receptionist]);
+
+    const response = await register(body(), await tokens.issue(user.id)).expect(403);
+
+    expect(response.body.message).toBe('No tiene permisos para realizar esta acción');
+  });
+
   it('lista los roles asignables del personal sin el rol de cliente', async () => {
     const response = await request(app.getHttpServer())
       .get('/users/assignable-roles')

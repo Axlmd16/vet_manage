@@ -1,3 +1,4 @@
+import { Logger } from '@nestjs/common';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ApiException } from '../../../common/errors/api-exception.js';
 import { isValidPassword } from '../../../common/security/password-policy.js';
@@ -204,6 +205,19 @@ describe('UserRegistrationService', () => {
     expect(error).toMatchObject({ statusCode: 409, message: 'El correo ya se encuentra registrado', code: 'USER_EMAIL_TAKEN' });
     expect(ctx.tx.person.create).not.toHaveBeenCalled();
     expect(ctx.tx.person.findFirst).toHaveBeenCalledWith(expect.objectContaining({ where: { email: { equals: 'mlopez@vetmanage.com', mode: 'insensitive' } } }));
+  });
+
+  it('no registra la contraseña temporal en los logs cuando falla el correo', async () => {
+    const warn = vi.spyOn(Logger.prototype, 'warn').mockImplementation(() => undefined);
+    ctx.mail.send.mockRejectedValue(new Error('SMTP caído'));
+
+    await ctx.service.register(valid, 'admin-1');
+
+    const password = ctx.tx.user.create.mock.calls[0][0].data.password.replace('hash:', '');
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(String(warn.mock.calls[0][0])).not.toContain(password);
+    expect(String(warn.mock.calls[0][0])).toContain('u1');
+    warn.mockRestore();
   });
 
   it('mantiene la cuenta si falla el envío del correo (escenario 8)', async () => {

@@ -168,21 +168,16 @@ export class UserRegistrationService {
       },
     });
 
-    let user = found?.user ?? null;
-    let passwordAssigned = false;
-    if (!user) {
-      user = await tx.user.create({
-        data: { personId: person.id, password: passwordHash, mustChangePassword: true },
-        include: { userRoles: { select: { role: { select: { category: true } } } } },
-      });
-      passwordAssigned = true;
-    } else if (!user.password) {
-      user = await tx.user.update({
-        where: { id: user.id },
-        data: { password: passwordHash, mustChangePassword: true },
-        include: { userRoles: { select: { role: { select: { category: true } } } } },
-      });
-      passwordAssigned = true;
+    const select = { id: true, status: true } as const;
+    let user: { id: string; status: string };
+    let passwordAssigned = true;
+    if (!found?.user) {
+      user = await tx.user.create({ data: { personId: person.id, password: passwordHash, mustChangePassword: true }, select });
+    } else if (!found.user.password) {
+      user = await tx.user.update({ where: { id: found.user.id }, data: { password: passwordHash, mustChangePassword: true }, select });
+    } else {
+      user = found.user;
+      passwordAssigned = false;
     }
 
     await this.assignRoles(tx, user.id, roles, assignedById, now);
