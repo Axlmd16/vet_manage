@@ -4,6 +4,7 @@ import { NavLink, Outlet } from 'react-router-dom';
 const navigation = [
   { label: 'Resumen', to: '/' },
   { label: 'Pacientes', to: '/pets' },
+  { label: 'Catálogos', to: '/catalogs' },
   { label: 'Clientes', to: '/clients' },
   { label: 'Agenda', to: '/appointments' },
 ];
