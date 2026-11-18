@@ -1,15 +1,23 @@
 import { useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
+import { useAuth } from '../../modules/auth/auth-context';
 
-const navigation = [
+// Cada sección se muestra si el usuario tiene su permiso de lectura; sin permiso, la ve cualquiera.
+const navigation: { label: string; to: string; permission?: string }[] = [
   { label: 'Resumen', to: '/' },
-  { label: 'Pacientes', to: '/pets' },
-  { label: 'Clientes', to: '/clients' },
+  { label: 'Pacientes', to: '/pets', permission: 'pets:read' },
+  { label: 'Clientes', to: '/clients', permission: 'clients:read' },
   { label: 'Agenda', to: '/appointments' },
 ];
 
 export function AppShell() {
   const [inventoryOpen, setInventoryOpen] = useState(true);
+  const { session, logout, hasPermission } = useAuth();
+  const user = session?.user;
+  const fullName = user ? `${user.firstName} ${user.lastName}` : '';
+  const initials = user ? `${user.firstName[0] ?? ''}${user.lastName[0] ?? ''}`.toUpperCase() : '';
+  const roles = user?.roles.map((role) => role.displayName).join(', ') ?? '';
+  const visibleNavigation = navigation.filter((item) => !item.permission || hasPermission(item.permission));
   return (
     <div className="app-shell">
       <aside className="sidebar">
@@ -22,7 +30,7 @@ export function AppShell() {
         </div>
 
         <nav className="main-nav" aria-label="Navegación principal">
-          {navigation.map((item) => (
+          {visibleNavigation.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
@@ -39,12 +47,15 @@ export function AppShell() {
         </nav>
 
         <div className="sidebar-footer">
-          <span className="avatar">DR</span>
-          <div>
-            <strong>Demo user</strong>
-            <span>Administrador</span>
+          <span className="avatar" aria-hidden="true">{initials}</span>
+          <div className="sidebar-user">
+            <strong title={fullName}>{fullName}</strong>
+            <span title={roles}>{roles || 'Sin roles asignados'}</span>
           </div>
         </div>
+        <button className="button button--ghost button--small logout-button" type="button" onClick={logout}>
+          Cerrar sesión
+        </button>
       </aside>
 
       <main className="main-content">
@@ -53,9 +64,9 @@ export function AppShell() {
             <span className="eyebrow">Clínica principal</span>
             <h1>Panel de control</h1>
           </div>
-          <button className="profile-button" type="button" aria-label="Abrir perfil">
-            DR
-          </button>
+          <span className="profile-button" title={fullName} aria-hidden="true">
+            {initials}
+          </span>
         </header>
         <Outlet />
       </main>

@@ -1,5 +1,6 @@
 import { env } from '../../config/env';
 import { isApiResponse } from './api-response';
+import { sessionToken } from './session-token';
 
 export class ApiError extends Error {
   readonly status: number;
@@ -22,18 +23,22 @@ export class ApiError extends Error {
 }
 
 async function requestJson<T>(path: string, options: RequestInit = {}): Promise<T> {
+  const token = sessionToken.get();
   const response = await fetch(`${env.apiUrl}${path}`, {
     ...options,
     headers: {
       Accept: 'application/json',
       ...(options.body ? { 'Content-Type': 'application/json' } : {}),
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...options.headers,
     },
   });
 
-  const body: unknown = await response.json();
+  const body: unknown = await response.json().catch(() => null);
 
   if (!response.ok) {
+    if (response.status === 401 && token) sessionToken.expire();
+
     if (isApiResponse(body)) {
       throw new ApiError(body.message, response.status, body);
     }
