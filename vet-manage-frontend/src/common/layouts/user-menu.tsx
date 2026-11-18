@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { useAuth } from '../../modules/auth/auth-context';
-import { ChevronsUpDownIcon, LogoutIcon, MailIcon } from '../components/icons';
+import { LogoutIcon, MailIcon, MoreIcon } from '../components/icons';
 
 // Tarjeta del usuario en el menú lateral con un panel de opciones de la cuenta.
 export function UserMenu() {
@@ -73,7 +73,7 @@ export function UserMenu() {
           <strong title={fullName}>{fullName}</strong>
           <span>{primaryRole}{extraRoles}</span>
         </span>
-        <ChevronsUpDownIcon size={16} className="user-card__chevron" />
+        <span className="user-card__more"><MoreIcon size={18} /></span>
       </button>
     </div>
   );

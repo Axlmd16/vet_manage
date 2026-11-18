@@ -47,7 +47,7 @@ export function AppShell() {
     <div className="app-shell">
       <aside className="sidebar">
         <div className="sidebar-brand">
-          <img src={logo} alt="" className="sidebar-brand__logo" />
+          <span className="sidebar-brand__logo"><img src={logo} alt="" /></span>
           <div>
             <strong>VetManage</strong>
             <span>Gestión veterinaria</span>
@@ -58,8 +58,8 @@ export function AppShell() {
           <span className="sidebar-nav__label">Principal</span>
           {visible(mainNavigation).map(({ label, to, icon: ItemIcon }) => (
             <NavLink key={to} to={to} end={to === '/'} className={linkClass('sidebar-link')}>
-              <ItemIcon size={18} />
-              <span>{label}</span>
+              <span className="sidebar-link__icon"><ItemIcon size={17} /></span>
+              <span className="sidebar-link__label">{label}</span>
             </NavLink>
           ))}
 
@@ -70,8 +70,8 @@ export function AppShell() {
             aria-expanded={inventoryOpen}
             onClick={() => setInventoryOpen((open) => !open)}
           >
-            <BoxIcon size={18} />
-            <span>Inventario</span>
+            <span className="sidebar-link__icon"><BoxIcon size={17} /></span>
+            <span className="sidebar-link__label">Inventario</span>
             <ChevronDownIcon size={16} className={`sidebar-group__chevron${inventoryOpen ? ' sidebar-group__chevron--open' : ''}`} />
           </button>
           {inventoryOpen && (

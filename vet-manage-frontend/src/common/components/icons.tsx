@@ -61,9 +61,6 @@ export const ChevronDownIcon = (props: IconProps) => (
   <Icon {...props}><path d="m6 9 6 6 6-6" /></Icon>
 );
 
-export const ChevronsUpDownIcon = (props: IconProps) => (
-  <Icon {...props}><path d="m7 15 5 5 5-5M7 9l5-5 5 5" /></Icon>
-);
 
 export const LogoutIcon = (props: IconProps) => (
   <Icon {...props}><path d="M14 4h3.5A2.5 2.5 0 0 1 20 6.5v11a2.5 2.5 0 0 1-2.5 2.5H14" /><path d="M10 16.5 5.5 12 10 7.5M5.5 12H15" /></Icon>
@@ -71,4 +68,8 @@ export const LogoutIcon = (props: IconProps) => (
 
 export const MailIcon = (props: IconProps) => (
   <Icon {...props}><rect x="3" y="5" width="18" height="14" rx="3" /><path d="m4 7 8 6 8-6" /></Icon>
+);
+
+export const MoreIcon = (props: IconProps) => (
+  <Icon {...props}><circle cx="5.5" cy="12" r="1.2" fill="currentColor" /><circle cx="12" cy="12" r="1.2" fill="currentColor" /><circle cx="18.5" cy="12" r="1.2" fill="currentColor" /></Icon>
 );
