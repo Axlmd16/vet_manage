@@ -1,34 +1,41 @@
+-- CreateSchema
+CREATE SCHEMA IF NOT EXISTS "public";
+
+-- CreateEnum
+CREATE TYPE "RoleCategory" AS ENUM ('SYSTEM', 'STAFF', 'CLIENT');
+
+-- CreateEnum
+CREATE TYPE "RecordStatus" AS ENUM ('ACTIVE', 'INACTIVE', 'DEACTIVATED');
+
+-- CreateTable
+CREATE TABLE "persons" (
+    "id" UUID NOT NULL,
+    "identification" VARCHAR(10) NOT NULL,
+    "first_name" VARCHAR(100) NOT NULL,
+    "last_name" VARCHAR(100) NOT NULL,
+    "email" VARCHAR(255) NOT NULL,
+    "phone" VARCHAR(20),
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "persons_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateTable
 CREATE TABLE "users" (
     "id" UUID NOT NULL,
-    "email" VARCHAR(255) NOT NULL,
-    "name" VARCHAR(100) NOT NULL,
+    "person_id" UUID NOT NULL,
     "password" VARCHAR(255),
-    "is_active" BOOLEAN NOT NULL DEFAULT false,
+    "status" "RecordStatus" NOT NULL DEFAULT 'ACTIVE',
+    "deactivated_at" TIMESTAMP(3),
+    "deactivation_reason" TEXT,
+    "is_locked" BOOLEAN NOT NULL DEFAULT false,
     "locked_at" TIMESTAMP(3),
-    "email_verified_at" TIMESTAMP(3),
     "must_change_password" BOOLEAN NOT NULL DEFAULT false,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "user_profiles" (
-    "id" UUID NOT NULL,
-    "first_name" VARCHAR(100),
-    "last_name" VARCHAR(100),
-    "phone" VARCHAR(20),
-    "identification" VARCHAR(20),
-    "avatar_url" TEXT,
-    "birth_date" DATE,
-    "address" TEXT,
-    "sex" VARCHAR(20),
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "user_profiles_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -52,7 +59,10 @@ CREATE TABLE "roles" (
     "name" VARCHAR(50) NOT NULL,
     "display_name" VARCHAR(150) NOT NULL,
     "description" TEXT,
+    "is_system" BOOLEAN NOT NULL DEFAULT false,
     "is_active" BOOLEAN NOT NULL DEFAULT true,
+    "is_visible" BOOLEAN NOT NULL DEFAULT true,
+    "role_category" "RoleCategory" NOT NULL DEFAULT 'STAFF',
     "organization_id" UUID,
     "created_by_id" UUID,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -69,6 +79,7 @@ CREATE TABLE "permissions" (
     "display_name" VARCHAR(150) NOT NULL,
     "description" TEXT,
     "is_active" BOOLEAN NOT NULL DEFAULT true,
+    "is_visible" BOOLEAN NOT NULL DEFAULT true,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -93,6 +104,7 @@ CREATE TABLE "user_roles" (
 CREATE TABLE "role_permissions" (
     "role_id" UUID NOT NULL,
     "permission_id" UUID NOT NULL,
+    "granted_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -100,19 +112,19 @@ CREATE TABLE "role_permissions" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
+CREATE UNIQUE INDEX "persons_identification_key" ON "persons"("identification");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "users_google_id_key" ON "users"("google_id");
+CREATE UNIQUE INDEX "persons_email_key" ON "persons"("email");
 
 -- CreateIndex
-CREATE INDEX "users_email_idx" ON "users"("email");
+CREATE INDEX "persons_last_name_first_name_idx" ON "persons"("last_name", "first_name");
 
 -- CreateIndex
-CREATE INDEX "users_name_idx" ON "users"("name");
+CREATE UNIQUE INDEX "users_person_id_key" ON "users"("person_id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "user_profiles_identification_key" ON "user_profiles"("identification");
+CREATE INDEX "users_status_idx" ON "users"("status");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "user_sessions_refresh_token_hash_key" ON "user_sessions"("refresh_token_hash");
@@ -157,7 +169,7 @@ CREATE UNIQUE INDEX "user_roles_user_id_role_id_organization_id_key" ON "user_ro
 CREATE INDEX "role_permissions_permission_id_idx" ON "role_permissions"("permission_id");
 
 -- AddForeignKey
-ALTER TABLE "user_profiles" ADD CONSTRAINT "user_profiles_id_fkey" FOREIGN KEY ("id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "users" ADD CONSTRAINT "users_person_id_fkey" FOREIGN KEY ("person_id") REFERENCES "persons"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "user_sessions" ADD CONSTRAINT "user_sessions_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -179,3 +191,4 @@ ALTER TABLE "role_permissions" ADD CONSTRAINT "role_permissions_role_id_fkey" FO
 
 -- AddForeignKey
 ALTER TABLE "role_permissions" ADD CONSTRAINT "role_permissions_permission_id_fkey" FOREIGN KEY ("permission_id") REFERENCES "permissions"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
