@@ -55,5 +55,21 @@ La validación pura está en `src/modules/inventory/services/product-input.servi
 y sus tests cubren producto válido, campos obligatorios, precio cero/negativo y
 descripción vacía. Los tests del servicio cubren creación inline, actualización
 de referencias y productos, precio no positivo, IDs inexistentes y conflictos
-por código/nombre; actualmente hay 14 tests backend pasando. La validación
+por código/nombre; actualmente hay 16 tests backend pasando. La validación
 manual del flujo completo se ejecuta contra el compose levantado.
+
+## Datos demo
+
+El seed de Inventory está separado en `seed/inventory.seed.ts` y crea
+categorías, marcas y productos de ejemplo. No crea usuarios, roles ni
+permisos.
+
+```bash
+make up-podman-seed
+# o
+make up-seed
+```
+
+El seed usa `upsert` por nombre de categoría/marca y por código de producto,
+por lo que puede ejecutarse varias veces sin duplicar registros. El comando
+`make up-podman` continúa levantando la aplicación sin cargar datos demo.
