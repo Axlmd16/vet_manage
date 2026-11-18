@@ -1,148 +1,138 @@
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import type { Prisma } from '../../../generated/prisma/client.js';
 import { PERMISSIONS } from '../../../config/permissions.catalog.js';
 import { ROLES } from '../../../config/roles.catalog.js';
 import { PrismaService } from '../../../infrastructure/database/prisma/prisma.service.js';
 
+export type RbacSyncResult = {
+  permissionsCreated: number;
+  permissionsReactivated: number;
+  permissionsDeactivated: number;
+  rolesCreated: number;
+  grantsCreated: number;
+  grantsRevoked: number;
+};
+
+// create-only: solo crea lo que falta. strict: el catálogo manda y repone roles y asignaciones.
+export type RbacSyncMode = 'create-only' | 'strict';
+
 @Injectable()
-export class RbacCatalogSynchronizer implements OnModuleInit {
-  private readonly logger = new Logger(RbacCatalogSynchronizer.name);
+export class RbacCatalogSynchronizer {
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly config: ConfigService,
+  ) {}
 
-  constructor(private readonly prisma: PrismaService) {}
-
-  async onModuleInit() {
-    if (process.env.NODE_ENV === 'test') return;
-
-    const result = await this.synchronize();
-    this.logger.log(
-      `RBAC sincronizado: ${result.permissionsCreated} permisos creados, `
-      + `${result.permissionsUpdated} actualizados, ${result.permissionsDeactivated} desactivados; `
-      + `${result.rolesCreated} roles creados, ${result.grantsCreated} grants agregados, `
-      + `${result.grantsRevoked} grants revocados`,
-    );
+  get mode(): RbacSyncMode {
+    return this.config.get<RbacSyncMode>('rbac.syncMode') ?? 'create-only';
   }
 
-  async synchronize() {
-    return this.prisma.$transaction(async (tx) => {
-      const existingPermissions = await tx.permission.findMany();
-      let permissionsCreated = 0;
-      let permissionsUpdated = 0;
+  synchronize(): Promise<RbacSyncResult> {
+    return this.prisma.$transaction((tx) => this.synchronizeWith(tx, this.mode));
+  }
 
-      for (const definition of PERMISSIONS) {
-        const [module, action] = definition.key.split(':', 2);
-        const existing = existingPermissions.find(
-          (permission) => permission.module === module && permission.action === action,
-        );
-        const data = {
-          module,
-          action,
-          displayName: definition.displayName,
-          description: definition.description,
-          isVisible: definition.visible ?? true,
-          isActive: true,
-        };
+  // En create-only no modifica ni revoca lo que ya existe en la base.
+  async synchronizeWith(tx: Prisma.TransactionClient, mode: RbacSyncMode = 'create-only'): Promise<RbacSyncResult> {
+    const strict = mode === 'strict';
+    const existing = await tx.permission.findMany();
+    const permissionIds = new Map(existing.map((p) => [`${p.module}:${p.action}`, p.id]));
+    const newPermissionKeys = new Set<string>();
+    let permissionsReactivated = 0;
 
-        if (!existing) {
-          await tx.permission.create({ data });
-          permissionsCreated++;
-        } else if (
-          existing.displayName !== data.displayName
-          || existing.description !== data.description
-          || existing.isVisible !== data.isVisible
-          || !existing.isActive
-        ) {
-          await tx.permission.update({ where: { id: existing.id }, data });
-          permissionsUpdated++;
-        }
+    for (const definition of PERMISSIONS) {
+      const [module, action] = definition.key.split(':', 2);
+      const current = existing.find((p) => p.module === module && p.action === action);
+
+      if (!current) {
+        const created = await tx.permission.create({
+          data: {
+            module,
+            action,
+            displayName: definition.displayName,
+            description: definition.description,
+            isVisible: definition.visible ?? true,
+          },
+        });
+        permissionIds.set(definition.key, created.id);
+        newPermissionKeys.add(definition.key);
+      } else if (!current.isActive) {
+        await tx.permission.update({ where: { id: current.id }, data: { isActive: true } });
+        permissionsReactivated++;
+      }
+    }
+
+    const declaredKeys = new Set<string>(PERMISSIONS.map((p) => p.key));
+    const retiredIds = existing
+      .filter((p) => p.isActive && !declaredKeys.has(`${p.module}:${p.action}`))
+      .map((p) => p.id);
+    if (retiredIds.length > 0) {
+      await tx.permission.updateMany({ where: { id: { in: retiredIds } }, data: { isActive: false } });
+    }
+
+    let rolesCreated = 0;
+    let grantsCreated = 0;
+    let grantsRevoked = 0;
+
+    for (const definition of ROLES) {
+      let role = await tx.role.findUnique({ where: { name: definition.name } });
+      const isNewRole = !role;
+
+      if (!role) {
+        role = await tx.role.create({
+          data: {
+            name: definition.name,
+            displayName: definition.displayName,
+            description: definition.description,
+            category: definition.category,
+            isSystem: true,
+            isVisible: definition.visible ?? true,
+          },
+        });
+        rolesCreated++;
+      } else if (strict) {
+        role = await tx.role.update({
+          where: { id: role.id },
+          data: {
+            displayName: definition.displayName,
+            description: definition.description,
+            category: definition.category,
+            isSystem: true,
+            isVisible: definition.visible ?? true,
+            isActive: true,
+          },
+        });
       }
 
-      const declaredKeys = new Set(PERMISSIONS.map((permission) => permission.key));
-      const currentPermissions = await tx.permission.findMany({ where: { isActive: true } });
-      const undeclaredPermissionIds = currentPermissions
-        .filter((permission) => !declaredKeys.has(`${permission.module}:${permission.action}`))
-        .map((permission) => permission.id);
-      const permissionsDeactivated = undeclaredPermissionIds.length > 0
-        ? await tx.permission.updateMany({
-          where: { id: { in: undeclaredPermissionIds } },
-          data: { isActive: false },
-        })
-        : { count: 0 };
+      // Un rol nuevo recibe todos sus permisos; uno existente solo los recién creados (o todos en strict).
+      const keysToGrant = isNewRole || strict
+        ? definition.permissions
+        : definition.permissions.filter((key) => newPermissionKeys.has(key));
+      const desiredIds = new Set(
+        keysToGrant.map((key) => permissionIds.get(key)).filter((id): id is string => Boolean(id)),
+      );
 
-      const activePermissions = await tx.permission.findMany({ where: { isActive: true } });
-      const permissionIds = new Map(activePermissions.map((permission) => [
-        `${permission.module}:${permission.action}`,
-        permission.id,
-      ]));
-      let rolesCreated = 0;
-      let grantsCreated = 0;
-      let grantsRevoked = 0;
-
-      for (const definition of ROLES) {
-        const existing = await tx.role.findUnique({ where: { name: definition.name } });
-        const role = existing
-          ? await tx.role.update({
-            where: { id: existing.id },
-            data: {
-              displayName: definition.displayName,
-              description: definition.description,
-              category: definition.category,
-              isSystem: true,
-              isVisible: definition.visible ?? true,
-              isActive: true,
-            },
-          })
-          : await tx.role.create({
-            data: {
-              name: definition.name,
-              displayName: definition.displayName,
-              description: definition.description,
-              category: definition.category,
-              isSystem: true,
-              isVisible: definition.visible ?? true,
-              isActive: true,
-            },
-          });
-
-        if (!existing) rolesCreated++;
-
-        const desiredPermissionIds = new Set(
-          (definition.allPermissions ? activePermissions.map((permission) => permission.id) : definition.permissions
-            .map((key) => permissionIds.get(key))
-            .filter((id): id is string => Boolean(id))),
-        );
-        const currentGrants = await tx.rolePermission.findMany({ where: { roleId: role.id } });
-        const revoked = currentGrants.filter((grant) => !desiredPermissionIds.has(grant.permissionId));
-        if (revoked.length > 0) {
-          await tx.rolePermission.deleteMany({
-            where: { roleId: role.id, permissionId: { in: revoked.map((grant) => grant.permissionId) } },
-          });
-          grantsRevoked += revoked.length;
-        }
-
-        const currentIds = new Set(currentGrants.map((grant) => grant.permissionId));
-        const missing = [...desiredPermissionIds].filter((permissionId) => !currentIds.has(permissionId));
-        if (missing.length > 0) {
-          await tx.rolePermission.createMany({
-            data: missing.map((permissionId) => ({ roleId: role.id, permissionId })),
-            skipDuplicates: true,
-          });
-          grantsCreated += missing.length;
-        }
+      if (strict && !isNewRole) {
+        const revoked = await tx.rolePermission.deleteMany({
+          where: { roleId: role.id, permissionId: { notIn: [...desiredIds] } },
+        });
+        grantsRevoked += revoked.count;
       }
 
-      const declaredRoleNames = ROLES.map((role) => role.name);
-      await tx.role.updateMany({
-        where: { isSystem: true, isActive: true, name: { notIn: declaredRoleNames } },
-        data: { isActive: false },
-      });
+      const data = [...desiredIds].map((permissionId) => ({ roleId: role.id, permissionId }));
+      if (data.length > 0) {
+        const result = await tx.rolePermission.createMany({ data, skipDuplicates: true });
+        grantsCreated += result.count;
+      }
+    }
 
-      return {
-        permissionsCreated,
-        permissionsUpdated,
-        permissionsDeactivated: permissionsDeactivated.count,
-        rolesCreated,
-        grantsCreated,
-        grantsRevoked,
-      };
-    });
+    return {
+      permissionsCreated: newPermissionKeys.size,
+      permissionsReactivated,
+      permissionsDeactivated: retiredIds.length,
+      rolesCreated,
+      grantsCreated,
+      grantsRevoked,
+    };
   }
 }

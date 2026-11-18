@@ -65,6 +65,14 @@ services:
       DATABASE_URL: postgresql://${POSTGRES_USER:-vetmanage}:${POSTGRES_PASSWORD:-vetmanage_dev_password}@postgres:55432/${POSTGRES_DB:-vet_manage}?schema=public
       REDIS_URL: redis://redis:56379
       RABBITMQ_URL: amqp://${RABBITMQ_USER:-vetmanage}:${RABBITMQ_PASSWORD:-vetmanage_dev_password}@rabbitmq:55672
+      RBAC_SYNC_MODE: ${RBAC_SYNC_MODE:-strict}
+      JWT_SECRET: ${JWT_SECRET:-vetmanage-dev-jwt-secret-change-me-0123456789}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-15m}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@vetmanage.local}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-Admin12345}
+      ADMIN_IDENTIFICATION: ${ADMIN_IDENTIFICATION:-1700000001}
+      ADMIN_FIRST_NAME: ${ADMIN_FIRST_NAME:-Administrador}
+      ADMIN_LAST_NAME: ${ADMIN_LAST_NAME:-Inicial}
       CHOKIDAR_USEPOLLING: 'true'
       WATCHPACK_POLLING: 'true'
       TSC_WATCHFILE: DynamicPolling
