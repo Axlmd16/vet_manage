@@ -13,11 +13,11 @@ up-podman:
 
 up-seed:
 	$(DOCKER_COMPOSE) up --build -d
-	$(DOCKER_COMPOSE) run --rm --no-deps api sh -c 'npx prisma migrate deploy && npx prisma generate && npm run seed'
+	$(DOCKER_COMPOSE) run --rm --no-deps api sh -c 'i=0; until wget -qO- http://api:3080/api/v1/health/ready >/dev/null 2>&1; do i=$$((i + 1)); [ $$i -ge 60 ] && echo "La API no alcanzó readiness" >&2 && exit 1; sleep 2; done; npx prisma migrate deploy && npx prisma generate && npm run seed'
 
 up-podman-seed:
 	$(PODMAN_COMPOSE) up --build -d
-	$(PODMAN_COMPOSE) run --rm --no-deps api sh -c 'npx prisma migrate deploy && npx prisma generate && npm run seed'
+	$(PODMAN_COMPOSE) run --rm --no-deps api sh -c 'i=0; until wget -qO- http://api:3080/api/v1/health/ready >/dev/null 2>&1; do i=$$((i + 1)); [ $$i -ge 60 ] && echo "La API no alcanzó readiness" >&2 && exit 1; sleep 2; done; npx prisma migrate deploy && npx prisma generate && npm run seed'
 
 down:
 	$(DOCKER_COMPOSE) down
