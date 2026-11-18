@@ -51,7 +51,8 @@ persona ya existe por cédula, se reutiliza.
 | Variable | Obligatoria | Descripción |
 | --- | --- | --- |
 | `JWT_SECRET` | sí | Secreto de firma, mínimo 32 caracteres. |
-| `JWT_EXPIRES_IN` | no | Vigencia del token (`15m` por defecto; ejemplos: `1h`, `7d`). |
+| `JWT_EXPIRES_IN` | no | Vigencia del token de acceso (`15m` por defecto; ejemplos: `1h`, `7d`). |
+| `SESSION_EXPIRES_IN` | no | Vigencia de la sesión renovable (`12h` por defecto). |
 | `RBAC_SYNC_MODE` | no | `create-only` (por defecto) o `strict`. Ver arriba. |
 | `ADMIN_EMAIL` | sí | Correo del Administrador inicial. |
 | `ADMIN_PASSWORD` | sí | Mínimo 8 caracteres con mayúscula, minúscula y número. |
@@ -61,6 +62,38 @@ persona ya existe por cédula, se reutiliza.
 La API no arranca si falta alguna o es inválida. `docker-compose.yml` las
 provee con valores de desarrollo; en producción deben definirse con valores
 propios.
+
+## Usuarios de demostración
+
+`seed/identity.seed.ts` crea 11 cuentas de ejemplo para probar cada rol. Se
+cargan junto con el seed de Inventory:
+
+```sh
+make up-seed          # o make up-podman-seed
+# con la API ya levantada:
+docker compose exec api npm run seed
+```
+
+Todas usan la contraseña `Vet12345`. El Administrador no forma parte del seed:
+lo crea la API al arrancar con las variables `ADMIN_*`.
+
+| Correo | Rol | Caso |
+| --- | --- | --- |
+| `gerente@vetmanage.local` | Gerente | |
+| `veterinario@vetmanage.local`, `veterinario2@vetmanage.local` | Veterinario | |
+| `tecnico@vetmanage.local` | Técnico Veterinario | |
+| `recepcion@vetmanage.local` | Recepcionista | |
+| `cajero@vetmanage.local` | Cajero | |
+| `bodeguero@vetmanage.local` | Bodeguero | |
+| `cliente@vetmanage.local` | Cliente | |
+| `gerente.veterinario@vetmanage.local` | Gerente y Veterinario | Varios roles |
+| `inactivo@vetmanage.local` | Recepcionista | Cuenta inactiva: no inicia sesión |
+| `temporal@vetmanage.local` | Recepcionista | Contraseña temporal (`mustChangePassword`) |
+
+El seed espera hasta 60 segundos a que la API cree los roles del sistema. Es
+idempotente: personas y cuentas se actualizan por cédula, y al repetirlo
+restaura la contraseña, el estado y el bloqueo de estas cuentas, útil después de
+probar el bloqueo por intentos fallidos.
 
 ## Proteger una ruta
 
@@ -80,6 +113,34 @@ Respuestas: `401` sin token, con token inválido o vencido, o con cuenta
 inexistente o inactiva; `403` si falta algún permiso. Los permisos se consultan
 en la base de datos en cada petición (roles activos y vigentes), por lo que un
 cambio del Administrador aplica sin reiniciar ni reemitir tokens.
+
+## Inicio de sesión y sesiones
+
+| Ruta | Acceso | Descripción |
+| --- | --- | --- |
+| `POST /auth/login` | pública | Recibe `email` y `password`. Devuelve `accessToken`, `user` (datos, roles y permisos) y `mustChangePassword`, y deja el refresh token en la cookie `vetmanage_refresh`. |
+| `POST /auth/refresh` | cookie | Cambia el refresh token por uno nuevo (rotación) y devuelve un token de acceso y el perfil vigente. |
+| `POST /auth/logout` | cookie | Revoca la sesión y borra la cookie. |
+| `GET /auth/me` | token | Perfil de la sesión con roles y permisos vigentes. |
+
+- El token de acceso dura `JWT_EXPIRES_IN`; el frontend lo guarda solo en
+  memoria y lo renueva con `/auth/refresh` cuando la API responde 401.
+- El refresh token es aleatorio, se guarda como hash SHA-256 en
+  `user_sessions` y viaja en una cookie `httpOnly`, `SameSite=Lax`, limitada a
+  la ruta `/auth` y `Secure` en producción. Cada uso lo revoca y emite otro; un
+  token usado, vencido o de una cuenta no activa responde 401.
+- Tras 5 intentos fallidos consecutivos la cuenta se bloquea 15 minutos. Cada
+  fallo indica los intentos restantes. Para correos no registrados se simulan
+  intentos y bloqueo en Redis, así la respuesta no revela si la cuenta existe.
+
+| Caso | HTTP | `code` |
+| --- | --- | --- |
+| Correo o contraseña vacíos | 400 | `LOGIN_MISSING_CREDENTIALS` |
+| Correo con formato inválido | 400 | `LOGIN_INVALID_EMAIL` |
+| Credenciales incorrectas | 401 | `LOGIN_INVALID_CREDENTIALS` |
+| Cuenta inactiva o dada de baja | 403 | `LOGIN_ACCOUNT_DISABLED` |
+| Cuenta bloqueada | 423 | `LOGIN_ACCOUNT_LOCKED` |
+| Sesión renovable inválida o vencida | 401 | `SESSION_EXPIRED` |
 
 ## Contrato de errores
 

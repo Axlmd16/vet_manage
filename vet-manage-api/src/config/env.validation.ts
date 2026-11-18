@@ -42,6 +42,10 @@ class EnvironmentVariables {
   JWT_EXPIRES_IN = '15m';
 
   @IsOptional()
+  @Matches(/^\d+[smhd]$/, { message: 'SESSION_EXPIRES_IN debe tener formato como 8h, 12h o 7d' })
+  SESSION_EXPIRES_IN = '12h';
+
+  @IsOptional()
   @IsIn(['create-only', 'strict'])
   RBAC_SYNC_MODE = 'create-only';
 
