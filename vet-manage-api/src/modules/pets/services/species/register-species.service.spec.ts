@@ -5,14 +5,16 @@ import { ApiException } from '../../../../common/errors/api-exception.js';
 
 describe('RegisterSpeciesService', () => {
   let service: RegisterSpeciesService;
-  let repository: SpeciesRepository;
+  const findByName = vi.fn();
+  const findById = vi.fn();
+  const create = vi.fn();
 
   beforeEach(() => {
-    repository = {
-      findByName: vi.fn(),
-      findById: vi.fn(),
-      create: vi.fn(),
-      list: vi.fn(),
+    vi.clearAllMocks();
+    const repository = {
+      findByName,
+      findById,
+      create,
     } as unknown as SpeciesRepository;
 
     service = new RegisterSpeciesService(repository);
@@ -28,16 +30,16 @@ describe('RegisterSpeciesService', () => {
       updatedAt: new Date(),
     };
 
-    vi.mocked(repository.findByName).mockResolvedValue(null);
-    vi.mocked(repository.create).mockResolvedValue(mockCreated);
+    findByName.mockResolvedValue(null);
+    create.mockResolvedValue(mockCreated);
 
     const result = await service.execute({
       name: 'Canino',
       description: 'Perros domésticos y salvajes',
     });
 
-    expect(repository.findByName).toHaveBeenCalledWith('Canino');
-    expect(repository.create).toHaveBeenCalledWith({
+    expect(findByName).toHaveBeenCalledWith('Canino');
+    expect(create).toHaveBeenCalledWith({
       name: 'Canino',
       description: 'Perros domésticos y salvajes',
     });
@@ -55,14 +57,14 @@ describe('RegisterSpeciesService', () => {
       updatedAt: new Date(),
     };
 
-    vi.mocked(repository.findByName).mockResolvedValue(null);
-    vi.mocked(repository.create).mockResolvedValue(mockCreated);
+    findByName.mockResolvedValue(null);
+    create.mockResolvedValue(mockCreated);
 
     const result = await service.execute({
       name: 'Felino',
     });
 
-    expect(repository.create).toHaveBeenCalledWith({
+    expect(create).toHaveBeenCalledWith({
       name: 'Felino',
       description: undefined,
     });
@@ -97,7 +99,7 @@ describe('RegisterSpeciesService', () => {
       updatedAt: new Date(),
     };
 
-    vi.mocked(repository.findByName).mockResolvedValue(existing);
+    findByName.mockResolvedValue(existing);
 
     await expect(
       service.execute({

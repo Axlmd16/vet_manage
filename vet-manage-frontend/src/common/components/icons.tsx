@@ -100,3 +100,7 @@ export const InfoIcon = (props: IconProps) => (
 export const CheckIcon = (props: IconProps) => (
   <Icon {...props}><path d="m5.5 12.5 4.2 4.2L18.5 7.5" /></Icon>
 );
+
+export const PlusIcon = (props: IconProps) => (
+  <Icon {...props}><path d="M12 5v14M5 12h14" /></Icon>
+);

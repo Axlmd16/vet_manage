@@ -8,12 +8,17 @@ import { GlobalExceptionFilter } from '../../src/common/errors/global-exception.
 import { PetsModule } from '../../src/modules/pets/pets.module.js';
 import { SpeciesRepository } from '../../src/modules/pets/repositories/species.repository.js';
 import { PrismaService } from '../../src/infrastructure/database/prisma/prisma.service.js';
-import { JwtAuthGuard } from '../../src/modules/identity/guards/jwt-auth.guard.js';
-import { PermissionsGuard } from '../../src/modules/identity/guards/permissions.guard.js';
+import { AccessService } from '../../src/modules/identity/services/access.service.js';
+import { TokenService } from '../../src/modules/identity/services/token.service.js';
 
 describe('SpeciesController (e2e)', () => {
   let app: INestApplication;
   let mockSpeciesDb: any[] = [];
+  const tokens = { verify: vi.fn(async () => 'user-1') };
+  const access = {
+    findActiveUser: vi.fn(async () => ({ id: 'user-1' })),
+    getPermissionKeys: vi.fn(async () => new Set(['species:create', 'species:read'])),
+  };
 
   const mockSpeciesRepo = {
     findByName: vi.fn(async (name: string) => {
@@ -34,10 +39,10 @@ describe('SpeciesController (e2e)', () => {
       mockSpeciesDb.push(created);
       return created;
     }),
-    list: vi.fn(async () => mockSpeciesDb),
   };
 
   beforeAll(async () => {
+    process.env.NODE_ENV = 'test';
     process.env.DATABASE_URL = process.env.DATABASE_URL || 'postgresql://user:pass@localhost:5432/vet_manage';
     process.env.JWT_SECRET = process.env.JWT_SECRET || 'secret-for-testing-only-at-least-32-chars-long';
     const moduleRef = await Test.createTestingModule({
@@ -50,10 +55,10 @@ describe('SpeciesController (e2e)', () => {
       .useValue({})
       .overrideProvider(SpeciesRepository)
       .useValue(mockSpeciesRepo)
-      .overrideGuard(JwtAuthGuard)
-      .useValue({ canActivate: () => true })
-      .overrideGuard(PermissionsGuard)
-      .useValue({ canActivate: () => true })
+      .overrideProvider(TokenService)
+      .useValue(tokens)
+      .overrideProvider(AccessService)
+      .useValue(access)
       .compile();
 
     app = moduleRef.createNestApplication();
@@ -77,6 +82,7 @@ describe('SpeciesController (e2e)', () => {
   it('POST /pets/species - registra una nueva especie con éxito (201)', async () => {
     const res = await request(app.getHttpServer())
       .post('/pets/species')
+      .set('Authorization', 'Bearer test-token')
       .send({
         name: 'Canino',
         description: 'Perros domésticos',
@@ -92,6 +98,7 @@ describe('SpeciesController (e2e)', () => {
   it('POST /pets/species - registra una nueva especie sin descripción (201)', async () => {
     const res = await request(app.getHttpServer())
       .post('/pets/species')
+      .set('Authorization', 'Bearer test-token')
       .send({
         name: 'Felino',
       })
@@ -105,6 +112,7 @@ describe('SpeciesController (e2e)', () => {
   it('POST /pets/species - rechaza solicitud con nombre vacío (400)', async () => {
     const res = await request(app.getHttpServer())
       .post('/pets/species')
+      .set('Authorization', 'Bearer test-token')
       .send({
         name: '',
       })
@@ -116,6 +124,7 @@ describe('SpeciesController (e2e)', () => {
   it('POST /pets/species - rechaza duplicados con error de conflicto (409)', async () => {
     const res = await request(app.getHttpServer())
       .post('/pets/species')
+      .set('Authorization', 'Bearer test-token')
       .send({
         name: 'Canino',
       })
@@ -125,13 +134,37 @@ describe('SpeciesController (e2e)', () => {
     expect(res.body.message).toContain('Ya existe una especie registrada con el nombre "Canino"');
   });
 
-  it('GET /pets/species - lista las especies registradas', async () => {
+  it('POST /pets/species - rechaza duplicados sin distinguir mayúsculas (409)', async () => {
     const res = await request(app.getHttpServer())
-      .get('/pets/species')
-      .expect(200);
+      .post('/pets/species')
+      .set('Authorization', 'Bearer test-token')
+      .send({
+        name: 'canino',
+      })
+      .expect(409);
 
-    expect(res.body.success).toBe(true);
-    expect(Array.isArray(res.body.data)).toBe(true);
-    expect(res.body.data.length).toBeGreaterThanOrEqual(2);
+    expect(res.body.success).toBe(false);
+    expect(res.body.message).toContain('Ya existe una especie registrada con el nombre "canino"');
+  });
+
+  it('POST /pets/species - rechaza la solicitud sin autenticación (401)', async () => {
+    const res = await request(app.getHttpServer())
+      .post('/pets/species')
+      .send({ name: 'Equino' })
+      .expect(401);
+
+    expect(res.body.success).toBe(false);
+  });
+
+  it('POST /pets/species - rechaza al usuario sin el permiso requerido (403)', async () => {
+    access.getPermissionKeys.mockResolvedValueOnce(new Set());
+
+    const res = await request(app.getHttpServer())
+      .post('/pets/species')
+      .set('Authorization', 'Bearer test-token')
+      .send({ name: 'Equino' })
+      .expect(403);
+
+    expect(res.body.success).toBe(false);
   });
 });

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { validateSpeciesDraft } from '../schemas/species';
 import type { RegisterSpeciesDraft } from '../types';
 
 interface SpeciesFormProps {
@@ -14,19 +15,16 @@ export function SpeciesForm({ onSubmit, onCancel, isLoading = false }: SpeciesFo
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const trimmedName = name.trim();
+    const validation = validateSpeciesDraft({ name, description });
 
-    if (!trimmedName) {
-      setError('El nombre de la especie es obligatorio');
+    if (!validation.valid) {
+      setError(validation.error);
       return;
     }
 
     setError(null);
     try {
-      await onSubmit({
-        name: trimmedName,
-        description: description.trim() ? description.trim() : undefined,
-      });
+      await onSubmit(validation.value);
       setName('');
       setDescription('');
     } catch (cause) {
@@ -74,7 +72,7 @@ export function SpeciesForm({ onSubmit, onCancel, isLoading = false }: SpeciesFo
 
       <div className="species-form__actions">
         <button type="button" className="button button--ghost" onClick={handleReset} disabled={isLoading}>
-          Limpiar
+          Cancelar
         </button>
         <button type="submit" className="button button--primary" disabled={isLoading}>
           {isLoading ? 'Guardando...' : 'Guardar especie'}

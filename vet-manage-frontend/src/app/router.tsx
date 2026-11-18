@@ -24,8 +24,6 @@ export function AppRouter() {
           <Route index element={<DashboardPage />} />
           <Route path="pets" element={<ComingSoonPage />} />
           <Route path="catalogs" element={<CatalogsPage />} />
-          <Route path="pets/species" element={<Navigate to="/catalogs" replace />} />
-          <Route path="pets/species/new" element={<Navigate to="/catalogs" replace />} />
           <Route path="clients" element={<ComingSoonPage />} />
           <Route path="appointments" element={<ComingSoonPage />} />
           <Route path="inventory/products" element={<ProductsPage />} />

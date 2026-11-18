@@ -1,40 +1,34 @@
 import { useEffect, useState } from 'react';
-import { speciesApi } from '../services/species.service';
+import { PawIcon, PlusIcon } from '../../../common/components/icons';
+import { useToast } from '../../../common/components/toast-context';
 import { SpeciesForm } from '../components/species-form';
-import type { Species, RegisterSpeciesDraft } from '../types';
+import { speciesApi } from '../services/species.service';
+import type { RegisterSpeciesDraft } from '../types';
 
 export function SpeciesPage() {
-  const [speciesList, setSpeciesList] = useState<Species[]>([]);
+  const [isModalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [loadError, setLoadError] = useState<string | null>(null);
-  const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+  const { showToast } = useToast();
 
   useEffect(() => {
-    let isMounted = true;
-    speciesApi
-      .listSpecies()
-      .then((data) => {
-        if (isMounted) setSpeciesList(data);
-      })
-      .catch((cause) => {
-        if (isMounted) setLoadError(cause instanceof Error ? cause.message : 'No se pudieron cargar las especies');
-      });
+    if (!isModalOpen) return;
 
-    return () => {
-      isMounted = false;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && !loading) setModalOpen(false);
     };
-  }, []);
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isModalOpen, loading]);
 
   const handleRegister = async (draft: RegisterSpeciesDraft) => {
     setLoading(true);
     try {
-      const newSpecies = await speciesApi.registerSpecies(draft);
-      setSpeciesList((prev) => [...prev, newSpecies].sort((a, b) => a.name.localeCompare(b.name)));
-      setNotification({ message: 'Especie registrada exitosamente', type: 'success' });
-      setTimeout(() => setNotification(null), 4000);
+      await speciesApi.registerSpecies(draft);
+      showToast('Especie registrada exitosamente', 'success');
+      setModalOpen(false);
     } catch (cause) {
-      const message = cause instanceof Error ? cause.message : 'Error al registrar especie';
-      setNotification({ message, type: 'error' });
+      showToast(cause instanceof Error ? cause.message : 'Error al registrar especie', 'error');
       throw cause;
     } finally {
       setLoading(false);
@@ -42,68 +36,53 @@ export function SpeciesPage() {
   };
 
   return (
-    <div className="species-layout">
-      <section className="catalog-card species-form-card">
-        <div className="species-form-card__heading">
-          <span className="eyebrow">Nuevo registro</span>
-          <h3>Registrar especie</h3>
-          <p>Completa los datos para agregarla al catálogo.</p>
+    <div>
+      <div className="species-toolbar">
+        <button type="button" className="button button--primary" onClick={() => setModalOpen(true)}>
+          <PlusIcon size={16} />
+          Nueva especie
+        </button>
+      </div>
+
+      <div className="catalog-empty" role="status">
+        <span className="catalog-empty__icon">
+          <PawIcon size={22} />
+        </span>
+        <strong>El listado de especies estará disponible próximamente</strong>
+        <p>Desde aquí se podrán consultar las especies registradas.</p>
+      </div>
+
+      {isModalOpen && (
+        <div
+          className="modal-overlay"
+          role="presentation"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget && !loading) setModalOpen(false);
+          }}
+        >
+          <div className="modal-card" role="dialog" aria-modal="true" aria-labelledby="species-modal-title">
+            <div className="modal-card__heading">
+              <div>
+                <span className="eyebrow">Catálogo</span>
+                <h3 id="species-modal-title">Nueva especie</h3>
+                <p>Completa los datos para agregarla al catálogo.</p>
+              </div>
+              <button
+                type="button"
+                className="modal-card__close"
+                aria-label="Cerrar"
+                onClick={() => setModalOpen(false)}
+                disabled={loading}
+              >
+                ×
+              </button>
+            </div>
+            <div className="modal-card__body">
+              <SpeciesForm onSubmit={handleRegister} onCancel={() => setModalOpen(false)} isLoading={loading} />
+            </div>
+          </div>
         </div>
-        <SpeciesForm onSubmit={handleRegister} onCancel={() => setNotification(null)} isLoading={loading} />
-      </section>
-
-      <section className="catalog-card species-list-card">
-        <div className="catalog-card__heading">
-          <div>
-            <h3>Especies registradas</h3>
-            <p>Especies disponibles para clasificar a los pacientes.</p>
-          </div>
-          <span className="count-pill">{speciesList.length}</span>
-        </div>
-
-        {notification && (
-          <div className={`inline-notice inline-notice--${notification.type}`}>{notification.message}</div>
-        )}
-
-        {loadError ? (
-          <div className="empty-state">
-            <strong>No se pudo cargar el catálogo</strong>
-            <span>{loadError}</span>
-          </div>
-        ) : speciesList.length === 0 ? (
-          <div className="empty-state">
-            <strong>Aún no hay especies registradas</strong>
-            <span>Usa el formulario para agregar la primera especie.</span>
-          </div>
-        ) : (
-          <div className="product-table-wrap">
-            <table className="product-table">
-              <thead>
-                <tr>
-                  <th>Nombre</th>
-                  <th>Descripción</th>
-                  <th>Estado</th>
-                </tr>
-              </thead>
-              <tbody>
-                {speciesList.map((species) => (
-                  <tr key={species.id}>
-                    <td>
-                      <strong>{species.name}</strong>
-                    </td>
-                    <td>{species.description || '—'}</td>
-                    <td>
-                      <span className={`status-badge ${species.isActive ? 'status-badge--active' : 'status-badge--inactive'}`}>
-                        {species.isActive ? 'Activa' : 'Inactiva'}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </section>
+      )}
     </div>
   );
 }

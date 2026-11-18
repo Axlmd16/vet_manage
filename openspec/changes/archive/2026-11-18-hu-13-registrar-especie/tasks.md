@@ -16,11 +16,12 @@
 
 ## 3. Frontend - Módulo de Mascotas (`pets`)
 
-- [x] 3.1 Crear la estructura de carpetas en `vet-manage-frontend/src/modules/pets/` (`pages/`, `components/`, `services/`, `types/`, `schemas/`, `routes.tsx`).
-- [x] 3.2 Implementar tipos y esquemas de validación (Zod o validación estándar) para el registro de especies.
+- [x] 3.1 Crear la estructura de carpetas en `vet-manage-frontend/src/modules/pets/` (`pages/`, `components/`, `services/`, `types/`, `schemas/`).
+- [x] 3.2 Implementar tipos y el esquema de validación estándar en `schemas/species.ts` para el registro de especies.
 - [x] 3.3 Implementar el servicio API `species.service.ts` para comunicarse con `POST /api/v1/pets/species`.
 - [x] 3.4 Implementar el componente/página del formulario de registro de especie con campos para nombre (obligatorio), descripción (opcional), botón Cancelar y botón Guardar con feedback visual de éxito/error.
-- [x] 3.5 Registrar las rutas del módulo en `pets/routes.tsx` e integrarlas en `vet-manage-frontend/src/app/router.tsx`.
+- [x] 3.5 Integrar la pantalla de especies como pestaña dentro de `/catalogs` en `vet-manage-frontend/src/modules/catalogs/pages/catalogs-page.tsx`.
+- [x] 3.6 Agregar pruebas unitarias del formulario en `vet-manage-frontend/src/modules/pets/components/species-form.test.tsx` (validación de nombre, normalización del envío y cancelación).
 
 ## 4. Verificación integral
 

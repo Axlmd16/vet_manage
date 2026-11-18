@@ -32,10 +32,4 @@ export class SpeciesRepository {
       },
     });
   }
-
-  async list(): Promise<Species[]> {
-    return this.prisma.species.findMany({
-      orderBy: { name: 'asc' },
-    });
-  }
 }

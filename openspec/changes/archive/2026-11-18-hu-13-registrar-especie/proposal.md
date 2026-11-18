@@ -17,7 +17,7 @@ Actualmente el sistema no dispone del catálogo de especies animales en el Módu
   - Creación del módulo `src/modules/pets/`.
   - Componente y página para el formulario de registro de especie con validación (`name` obligatorio, `description` opcional, acción cancelar y confirmación).
   - Servicio frontend de API para invocar el endpoint de registro de especies.
-  - Registro de rutas en `pets/routes.tsx` e integración en el router principal.
+  - Integración de la pantalla de especies como pestaña dentro de `/catalogs`.
 
 ## Capabilities
 
@@ -30,5 +30,5 @@ Actualmente el sistema no dispone del catálogo de especies animales en el Módu
 
 - **Base de datos**: Nueva tabla `Species` / migración Prisma para el modelo de datos de catálogo de mascotas.
 - **APIs**: Nuevo endpoint `POST /api/v1/pets/species`.
-- **Frontend**: Nuevas páginas/componentes en `src/modules/pets/` y adición de rutas en `app/router.tsx`.
+- **Frontend**: Nuevas páginas/componentes en `src/modules/pets/`, integrados en la pantalla de catálogos (`/catalogs`).
 - **Permisos**: Utiliza el permiso existente `species:create` asignado al rol Veterinario y Administrador en `clinical.permissions.ts`.
