@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 
 const navigation = [
@@ -8,6 +9,7 @@ const navigation = [
 ];
 
 export function AppShell() {
+  const [inventoryOpen, setInventoryOpen] = useState(true);
   return (
     <div className="app-shell">
       <aside className="sidebar">
@@ -30,6 +32,10 @@ export function AppShell() {
               {item.label}
             </NavLink>
           ))}
+          <div className="nav-group">
+            <button className="nav-group__trigger" type="button" aria-expanded={inventoryOpen} onClick={() => setInventoryOpen((open) => !open)}><span>Inventario</span><span className={`nav-chevron ${inventoryOpen ? 'nav-chevron--open' : ''}`}>⌄</span></button>
+            {inventoryOpen && <div className="nav-group__items"><NavLink className={({ isActive }) => (isActive ? 'nav-link nav-link--child nav-link--active' : 'nav-link nav-link--child')} to="/inventory/products">Productos</NavLink><NavLink className={({ isActive }) => (isActive ? 'nav-link nav-link--child nav-link--active' : 'nav-link nav-link--child')} to="/inventory/categories">Categorías</NavLink><NavLink className={({ isActive }) => (isActive ? 'nav-link nav-link--child nav-link--active' : 'nav-link nav-link--child')} to="/inventory/brands">Marcas</NavLink></div>}
+          </div>
         </nav>
 
         <div className="sidebar-footer">

@@ -5,6 +5,10 @@ import { GlobalExceptionFilter } from './common/errors/global-exception.filter.j
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors({
+    origin: process.env.CORS_ORIGIN?.split(',').map((origin) => origin.trim()) ?? true,
+    credentials: true,
+  });
   app.setGlobalPrefix(process.env.API_PREFIX ?? 'api/v1');
   app.useGlobalFilters(new GlobalExceptionFilter());
   app.useGlobalPipes(

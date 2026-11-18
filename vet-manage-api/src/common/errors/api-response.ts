@@ -8,6 +8,10 @@ export type ApiResponse<T> = {
   traceId?: string;
 };
 
+export function success<T>(data: T, message = 'Operación realizada correctamente', statusCode = 200): ApiResponse<T> {
+  return { statusCode, success: true, message, data };
+}
+
 export function failure(
   message: string,
   statusCode: number,
