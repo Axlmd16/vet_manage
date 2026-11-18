@@ -19,16 +19,16 @@
 
 ## 4. Frontend: pantalla de razas
 
-- [ ] 4.1 Agregar los tipos `Breed`, `RegisterBreedDraft` y `SpeciesOption` en `src/modules/pets/types.ts` y crear `schemas/breed.ts` con `validateBreedDraft` (nombre y especie obligatorios, descripción vacía omitida).
-- [ ] 4.2 Agregar `listActiveSpecies()` en `services/species.service.ts` y crear `services/breed.service.ts` con `registerBreed()`.
-- [ ] 4.3 Crear `components/breed-form.tsx`: nombre, selector de especies activas, descripción, «Cancelar» y «Guardar»; aviso y «Guardar» deshabilitado cuando no hay especies activas.
-- [ ] 4.4 Crear `pages/breeds-page.tsx` con el botón «Nueva raza», el modal (cierre con Escape y clic fuera), la carga de especies activas al abrir y un toast de éxito o error; ante un 409 por especie inactiva, recargar las especies.
-- [ ] 4.5 Reemplazar el `ComingSoonCatalog` de la pestaña `breeds` en `modules/catalogs/pages/catalogs-page.tsx` por `BreedsPage`. Verificar abriendo `/catalogs` → «Razas».
-- [ ] 4.6 Agregar `components/breed-form.test.tsx`: error sin nombre, error sin especie, solo especies activas en el selector, envío normalizado y cancelación sin envío. Verificar con `npm run test` en el frontend.
+- [x] 4.1 Agregar los tipos `Breed`, `RegisterBreedDraft` y `SpeciesOption` en `src/modules/pets/types.ts` y crear `schemas/breed.ts` con `validateBreedDraft` (nombre y especie obligatorios, descripción vacía omitida).
+- [x] 4.2 Agregar `listActiveSpecies()` en `services/species.service.ts` y crear `services/breed.service.ts` con `registerBreed()`.
+- [x] 4.3 Crear `components/breed-form.tsx`: nombre, selector de especies activas, descripción, «Cancelar» y «Guardar»; aviso y «Guardar» deshabilitado cuando no hay especies activas.
+- [x] 4.4 Crear `pages/breeds-page.tsx` con el botón «Nueva raza», el modal (cierre con Escape y clic fuera), la carga de especies activas al abrir y un toast de éxito o error; ante un 409 por especie inactiva, recargar las especies.
+- [x] 4.5 Reemplazar el `ComingSoonCatalog` de la pestaña `breeds` en `modules/catalogs/pages/catalogs-page.tsx` por `BreedsPage`. Verificar abriendo `/catalogs` → «Razas».
+- [x] 4.6 Agregar `components/breed-form.test.tsx`: error sin nombre, error sin especie, solo especies activas en el selector, envío normalizado y cancelación sin envío. Verificar con `npm run test` en el frontend.
 
 ## 5. Verificación integral
 
-- [ ] 5.1 Ejecutar `npm run build`, `npm run lint` y `npm run test` en `vet-manage-api` y `vet-manage-frontend` sin errores.
+- [x] 5.1 Ejecutar `npm run build`, `npm run lint` y `npm run test` en `vet-manage-api` y `vet-manage-frontend` sin errores.
 - [ ] 5.2 Recorrer en la app (`make up-seed`) los 6 escenarios de aceptación de HU-17 con el usuario Veterinario y confirmar que la Recepcionista recibe 403 al registrar.
 
 ## Workflow follow-up

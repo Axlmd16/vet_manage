@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { BreedsPage } from '../../pets/pages/breeds-page';
 import { SpeciesPage } from '../../pets/pages/species-page';
 
 type CatalogTab = 'species' | 'breeds' | 'procedures';
@@ -57,12 +58,7 @@ export function CatalogsPage() {
         aria-labelledby={`catalog-tab-${activeTab}`}
       >
         {activeTab === 'species' && <SpeciesPage />}
-        {activeTab === 'breeds' && (
-          <ComingSoonCatalog
-            title="Catálogo de razas"
-            description="Aquí se agruparán las razas por especie para registrar pacientes con mayor precisión."
-          />
-        )}
+        {activeTab === 'breeds' && <BreedsPage />}
         {activeTab === 'procedures' && (
           <ComingSoonCatalog
             title="Tipos de procedimiento clínico"
