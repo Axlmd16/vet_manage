@@ -1,68 +1,53 @@
-enum AuthProvider {
-  LOCAL
-  GOOGLE
-  BOTH
-}
-
 enum RoleCategory {
   SYSTEM
   STAFF
   CLIENT
 }
 
-generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+// Estado de un registro: activo, inactivo o dado de baja.
+enum RecordStatus {
+  ACTIVE
+  INACTIVE
+  DEACTIVATED
 }
 
-datasource db {
-  provider = "postgresql"
+model Person {
+  id             String   @id @default(uuid()) @db.Uuid
+  identification String   @unique @db.VarChar(10)
+  firstName      String   @map("first_name") @db.VarChar(100)
+  lastName       String   @map("last_name") @db.VarChar(100)
+  email          String   @unique @db.VarChar(255)
+  phone          String?  @db.VarChar(20)
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  user User?
+
+  @@index([lastName, firstName])
+  @@map("persons")
 }
 
 model User {
   id                 String       @id @default(uuid()) @db.Uuid
-  email              String       @unique @db.VarChar(255)
-  name               String       @db.VarChar(100)
+  personId           String       @unique @map("person_id") @db.Uuid
   password           String?      @db.VarChar(255)
-  provider           AuthProvider @default(LOCAL)
-  googleId           String?      @unique @map("google_id") @db.VarChar(100)
-  isActive           Boolean      @default(false) @map("is_active")
+  status             RecordStatus @default(ACTIVE)
+  deactivatedAt      DateTime?    @map("deactivated_at")
+  deactivationReason String?      @map("deactivation_reason") @db.Text
   isLocked           Boolean      @default(false) @map("is_locked")
   lockedAt           DateTime?    @map("locked_at")
-  emailVerifiedAt    DateTime?    @map("email_verified_at")
   mustChangePassword Boolean      @default(false) @map("must_change_password")
   createdAt          DateTime     @default(now()) @map("created_at")
   updatedAt          DateTime     @updatedAt @map("updated_at")
 
-  profile           UserProfile?
+  person            Person        @relation(fields: [personId], references: [id], onDelete: Restrict)
   sessions          UserSession[]
   userRoles         UserRole[]
   createdRoles      Role[]        @relation("RoleCreatedBy")
   assignedUserRoles UserRole[]    @relation("UserRoleAssignedBy")
 
-  @@index([email])
-  @@index([name])
+  @@index([status])
   @@map("users")
-}
-
-model UserProfile {
-  id             String    @id @db.Uuid
-  firstName      String?   @map("first_name") @db.VarChar(100)
-  lastName       String?   @map("last_name") @db.VarChar(100)
-  phone          String?   @db.VarChar(20)
-  identification String?   @unique @db.VarChar(20)
-  avatarUrl      String?   @map("avatar_url") @db.Text
-  birthDate      DateTime? @map("birth_date") @db.Date
-  address        String?   @db.Text
-  postalCode     String?   @map("postal_code") @db.VarChar(20)
-  observations   String?   @db.Text
-  sex            String?   @db.VarChar(20)
-  createdAt      DateTime  @default(now()) @map("created_at")
-  updatedAt      DateTime  @updatedAt @map("updated_at")
-
-  user User @relation(fields: [id], references: [id], onDelete: Cascade)
-
-  @@map("user_profiles")
 }
 
 model UserSession {
