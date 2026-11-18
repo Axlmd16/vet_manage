@@ -88,9 +88,11 @@ class EnvironmentVariables {
   @IsString()
   SMTP_PASSWORD?: string;
 
+  // Remitente: "correo@dominio" o "Nombre <correo@dominio>".
   @IsOptional()
-  @IsString()
-  @IsNotEmpty()
+  @Matches(/^(?:[^<>@\r\n]+<[^\s<>@]+@[^\s<>@]+\.[^\s<>@]+>|[^\s<>@]+@[^\s<>@]+\.[^\s<>@]+)$/, {
+    message: 'MAIL_FROM debe ser una dirección como correo@dominio o Nombre <correo@dominio>',
+  })
   MAIL_FROM = 'VetManage <no-reply@vetmanage.local>';
 
   @IsOptional()
