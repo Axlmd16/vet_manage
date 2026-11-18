@@ -1,6 +1,11 @@
 type RoleName =
-  | 'manager' | 'veterinarian' | 'veterinary_technician' | 'receptionist'
-  | 'cashier' | 'warehouse_keeper' | 'client';
+  | 'manager'
+  | 'veterinarian'
+  | 'veterinary_technician'
+  | 'receptionist'
+  | 'cashier'
+  | 'warehouse_keeper'
+  | 'client';
 
 type DemoUser = {
   identification: string;
@@ -14,17 +19,42 @@ type DemoUser = {
 };
 
 type IdentitySeedClient = {
-  role: { findMany(args: { where: { name: { in: string[] } }; select: { id: true; name: true } }): Promise<{ id: string; name: string }[]> };
-  $transaction<T>(callback: (transaction: IdentitySeedTransaction) => Promise<T>): Promise<T>;
+  role: {
+    findMany(args: {
+      where: { name: { in: string[] } };
+      select: { id: true; name: true };
+    }): Promise<{ id: string; name: string }[]>;
+  };
+  $transaction<T>(
+    callback: (transaction: IdentitySeedTransaction) => Promise<T>,
+  ): Promise<T>;
 };
 
 type IdentitySeedTransaction = {
-  person: { upsert(args: { where: { identification: string }; update: Record<string, unknown>; create: Record<string, unknown> }): Promise<{ id: string }> };
-  user: { upsert(args: { where: { personId: string }; update: Record<string, unknown>; create: Record<string, unknown> }): Promise<{ id: string }> };
+  person: {
+    upsert(args: {
+      where: { identification: string };
+      update: Record<string, unknown>;
+      create: Record<string, unknown>;
+    }): Promise<{ id: string }>;
+  };
+  user: {
+    upsert(args: {
+      where: { personId: string };
+      update: Record<string, unknown>;
+      create: Record<string, unknown>;
+    }): Promise<{ id: string }>;
+  };
   userRole: {
-    deleteMany(args: { where: { userId: string; roleId: { notIn: string[] } } }): Promise<unknown>;
-    findFirst(args: { where: { userId: string; roleId: string } }): Promise<{ id: string } | null>;
-    create(args: { data: { userId: string; roleId: string } }): Promise<unknown>;
+    deleteMany(args: {
+      where: { userId: string; roleId: { notIn: string[] } };
+    }): Promise<unknown>;
+    findFirst(args: {
+      where: { userId: string; roleId: string };
+    }): Promise<{ id: string } | null>;
+    create(args: {
+      data: { userId: string; roleId: string };
+    }): Promise<unknown>;
   };
 };
 
@@ -34,20 +64,96 @@ export const DEMO_PASSWORD = 'Vet12345';
 // No incluye al Administrador: lo crea la API al arrancar con las variables ADMIN_*.
 export const IDENTITY_DEMO: { users: readonly DemoUser[] } = {
   users: [
-    { identification: '1700000101', firstName: 'Marcelo', lastName: 'Paredes', email: 'gerente@vetmanage.local', phone: '0991000101', roles: ['manager'] },
-    { identification: '1700000102', firstName: 'Valentina', lastName: 'Ruiz', email: 'veterinario@vetmanage.local', phone: '0991000102', roles: ['veterinarian'] },
-    { identification: '1700000103', firstName: 'Diego', lastName: 'Reyes', email: 'veterinario2@vetmanage.local', phone: '0991000103', roles: ['veterinarian'] },
-    { identification: '1700000104', firstName: 'Camila', lastName: 'Andrade', email: 'tecnico@vetmanage.local', phone: '0991000104', roles: ['veterinary_technician'] },
-    { identification: '1700000105', firstName: 'Lucía', lastName: 'Mendoza', email: 'recepcion@vetmanage.local', phone: '0991000105', roles: ['receptionist'] },
-    { identification: '1700000106', firstName: 'Andrés', lastName: 'Vera', email: 'cajero@vetmanage.local', phone: '0991000106', roles: ['cashier'] },
-    { identification: '1700000107', firstName: 'Pablo', lastName: 'Cedeño', email: 'bodeguero@vetmanage.local', phone: '0991000107', roles: ['warehouse_keeper'] },
-    { identification: '1700000108', firstName: 'Sofía', lastName: 'Herrera', email: 'cliente@vetmanage.local', phone: '0991000108', roles: ['client'] },
+    {
+      identification: '1700000101',
+      firstName: 'Marcelo',
+      lastName: 'Paredes',
+      email: 'gerente@vetmanage.local',
+      phone: '0991000101',
+      roles: ['manager'],
+    },
+    {
+      identification: '1700000102',
+      firstName: 'Valentina',
+      lastName: 'Ruiz',
+      email: 'veterinario@vetmanage.local',
+      phone: '0991000102',
+      roles: ['veterinarian'],
+    },
+    {
+      identification: '1700000103',
+      firstName: 'Diego',
+      lastName: 'Reyes',
+      email: 'veterinario2@vetmanage.local',
+      phone: '0991000103',
+      roles: ['veterinarian'],
+    },
+    {
+      identification: '1700000104',
+      firstName: 'Camila',
+      lastName: 'Andrade',
+      email: 'tecnico@vetmanage.local',
+      phone: '0991000104',
+      roles: ['veterinary_technician'],
+    },
+    {
+      identification: '1700000105',
+      firstName: 'Lucía',
+      lastName: 'Mendoza',
+      email: 'recepcion@vetmanage.local',
+      phone: '0991000105',
+      roles: ['receptionist'],
+    },
+    {
+      identification: '1700000106',
+      firstName: 'Andrés',
+      lastName: 'Vera',
+      email: 'cajero@vetmanage.local',
+      phone: '0991000106',
+      roles: ['cashier'],
+    },
+    {
+      identification: '1700000107',
+      firstName: 'Pablo',
+      lastName: 'Cedeño',
+      email: 'bodeguero@vetmanage.local',
+      phone: '0991000107',
+      roles: ['warehouse_keeper'],
+    },
+    {
+      identification: '1700000108',
+      firstName: 'Sofía',
+      lastName: 'Herrera',
+      email: 'cliente@vetmanage.local',
+      phone: '0991000108',
+      roles: ['client'],
+    },
     // Usuario con varios roles.
-    { identification: '1700000109', firstName: 'Jorge', lastName: 'Solís', email: 'gerente.veterinario@vetmanage.local', roles: ['manager', 'veterinarian'] },
+    {
+      identification: '1700000109',
+      firstName: 'Jorge',
+      lastName: 'Solís',
+      email: 'gerente.veterinario@vetmanage.local',
+      roles: ['manager', 'veterinarian'],
+    },
     // Cuenta inactiva: no puede iniciar sesión.
-    { identification: '1700000110', firstName: 'Rafael', lastName: 'Cruz', email: 'inactivo@vetmanage.local', roles: ['receptionist'], status: 'INACTIVE' },
+    {
+      identification: '1700000110',
+      firstName: 'Rafael',
+      lastName: 'Cruz',
+      email: 'inactivo@vetmanage.local',
+      roles: ['receptionist'],
+      status: 'INACTIVE',
+    },
     // Contraseña temporal: el sistema debe pedir el cambio en el primer ingreso.
-    { identification: '1700000111', firstName: 'Elena', lastName: 'Torres', email: 'temporal@vetmanage.local', roles: ['receptionist'], mustChangePassword: true },
+    {
+      identification: '1700000111',
+      firstName: 'Elena',
+      lastName: 'Torres',
+      email: 'temporal@vetmanage.local',
+      roles: ['receptionist'],
+      mustChangePassword: true,
+    },
   ],
 };
 
@@ -61,22 +167,45 @@ type SeedOptions = {
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // Los roles los crea la API al arrancar; se espera a que existan antes de asignarlos.
-async function loadRoles(prisma: IdentitySeedClient, names: string[], timeoutMs: number, pollMs: number) {
+async function loadRoles(
+  prisma: IdentitySeedClient,
+  names: string[],
+  timeoutMs: number,
+  pollMs: number,
+) {
   const deadline = Date.now() + timeoutMs;
   for (;;) {
-    const roles = await prisma.role.findMany({ where: { name: { in: names } }, select: { id: true, name: true } });
-    const missing = names.filter((name) => !roles.some((role) => role.name === name));
-    if (missing.length === 0) return new Map(roles.map((role) => [role.name, role.id]));
+    const roles = await prisma.role.findMany({
+      where: { name: { in: names } },
+      select: { id: true, name: true },
+    });
+    const missing = names.filter(
+      (name) => !roles.some((role) => role.name === name),
+    );
+    if (missing.length === 0)
+      return new Map(roles.map((role) => [role.name, role.id]));
     if (Date.now() >= deadline) {
-      throw new Error(`Faltan roles en la base (${missing.join(', ')}). Inicie la API una vez para crearlos y repita el seed.`);
+      throw new Error(
+        `Faltan roles en la base (${missing.join(', ')}). Inicie la API una vez para crearlos y repita el seed.`,
+      );
     }
     await sleep(pollMs);
   }
 }
 
-export async function seedIdentity(prisma: IdentitySeedClient, options: SeedOptions) {
-  const roleNames = [...new Set(IDENTITY_DEMO.users.flatMap((user) => user.roles))];
-  const roleIds = await loadRoles(prisma, roleNames, options.rolesTimeoutMs ?? 60_000, options.pollMs ?? 2_000);
+export async function seedIdentity(
+  prisma: IdentitySeedClient,
+  options: SeedOptions,
+) {
+  const roleNames = [
+    ...new Set(IDENTITY_DEMO.users.flatMap((user) => user.roles)),
+  ];
+  const roleIds = await loadRoles(
+    prisma,
+    roleNames,
+    options.rolesTimeoutMs ?? 60_000,
+    options.pollMs ?? 2_000,
+  );
   const password = await options.hashPassword(DEMO_PASSWORD);
 
   return prisma.$transaction(async (tx) => {
@@ -84,8 +213,19 @@ export async function seedIdentity(prisma: IdentitySeedClient, options: SeedOpti
     for (const demo of IDENTITY_DEMO.users) {
       const person = await tx.person.upsert({
         where: { identification: demo.identification },
-        update: { firstName: demo.firstName, lastName: demo.lastName, email: demo.email, phone: demo.phone ?? null },
-        create: { identification: demo.identification, firstName: demo.firstName, lastName: demo.lastName, email: demo.email, phone: demo.phone ?? null },
+        update: {
+          firstName: demo.firstName,
+          lastName: demo.lastName,
+          email: demo.email,
+          phone: demo.phone ?? null,
+        },
+        create: {
+          identification: demo.identification,
+          firstName: demo.firstName,
+          lastName: demo.lastName,
+          email: demo.email,
+          phone: demo.phone ?? null,
+        },
       });
 
       // Repetir el seed restaura la cuenta: contraseña, estado y bloqueo.
@@ -104,9 +244,13 @@ export async function seedIdentity(prisma: IdentitySeedClient, options: SeedOpti
       });
 
       const wanted = demo.roles.map((name) => roleIds.get(name) as string);
-      await tx.userRole.deleteMany({ where: { userId: user.id, roleId: { notIn: wanted } } });
+      await tx.userRole.deleteMany({
+        where: { userId: user.id, roleId: { notIn: wanted } },
+      });
       for (const roleId of wanted) {
-        if (!(await tx.userRole.findFirst({ where: { userId: user.id, roleId } }))) {
+        if (
+          !(await tx.userRole.findFirst({ where: { userId: user.id, roleId } }))
+        ) {
           await tx.userRole.create({ data: { userId: user.id, roleId } });
         }
         assignments++;
