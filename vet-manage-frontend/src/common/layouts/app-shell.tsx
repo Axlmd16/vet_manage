@@ -53,7 +53,7 @@ export function AppShell() {
             <span title={roles}>{roles || 'Sin roles asignados'}</span>
           </div>
         </div>
-        <button className="button button--ghost button--small logout-button" type="button" onClick={logout}>
+        <button className="button button--ghost button--small logout-button" type="button" onClick={() => void logout()}>
           Cerrar sesión
         </button>
       </aside>

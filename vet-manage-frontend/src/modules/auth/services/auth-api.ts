@@ -5,6 +5,9 @@ export const authApi = {
   login(credentials: LoginCredentials) {
     return postJson<LoginResult, LoginCredentials>('/auth/login', credentials);
   },
+  logout() {
+    return postJson<null, Record<string, never>>('/auth/logout', {});
+  },
   me() {
     return getJson<SessionProfile>('/auth/me');
   },

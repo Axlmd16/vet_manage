@@ -4,46 +4,54 @@ import { sessionToken } from '../../infrastructure/api/session-token';
 import { AuthContext } from './auth-context';
 import type { AuthContextValue, AuthStatus } from './auth-context';
 import { authApi } from './services/auth-api';
-import type { LoginCredentials, SessionProfile } from './types';
+import type { LoginCredentials, LoginResult, SessionProfile } from './types';
 
-// Mantiene la sesión del usuario y la recupera al recargar si hay un token guardado.
+function toProfile({ mustChangePassword, user }: LoginResult): SessionProfile {
+  return { mustChangePassword, user };
+}
+
+// Mantiene la sesión del usuario y la recupera al recargar con el refresh token de la cookie.
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<SessionProfile | null>(null);
-  const [status, setStatus] = useState<AuthStatus>(() => (sessionToken.get() ? 'loading' : 'anonymous'));
+  const [status, setStatus] = useState<AuthStatus>('loading');
 
   const endSession = useCallback(() => {
     setSession(null);
     setStatus('anonymous');
   }, []);
 
+  const startSession = useCallback((result: LoginResult) => {
+    sessionToken.set(result.accessToken);
+    setSession(toProfile(result));
+    setStatus('authenticated');
+  }, []);
+
   useEffect(() => sessionToken.onExpired(endSession), [endSession]);
 
+  // Cada renovación trae los roles y permisos vigentes.
+  useEffect(() => sessionToken.onRefreshed((result) => {
+    setSession(toProfile(result as LoginResult));
+    setStatus('authenticated');
+  }), []);
+
   useEffect(() => {
-    if (!sessionToken.get()) return;
     let cancelled = false;
-    authApi.me()
-      .then((profile) => {
-        if (cancelled) return;
-        setSession(profile);
-        setStatus('authenticated');
-      })
-      .catch(() => {
-        if (!cancelled) endSession();
-      });
+    void sessionToken.refresh().then((result) => {
+      if (!cancelled && !result) endSession();
+    });
     return () => {
       cancelled = true;
     };
   }, [endSession]);
 
   const login = useCallback(async (credentials: LoginCredentials) => {
-    const { accessToken, ...profile } = await authApi.login(credentials);
-    sessionToken.set(accessToken);
-    setSession(profile);
-    setStatus('authenticated');
-    return profile;
-  }, []);
+    const result = await authApi.login(credentials);
+    startSession(result);
+    return toProfile(result);
+  }, [startSession]);
 
-  const logout = useCallback(() => {
+  const logout = useCallback(async () => {
+    await authApi.logout().catch(() => undefined);
     sessionToken.clear();
     endSession();
   }, [endSession]);

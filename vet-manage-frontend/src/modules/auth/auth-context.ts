@@ -7,7 +7,7 @@ export type AuthContextValue = {
   status: AuthStatus;
   session: SessionProfile | null;
   login: (credentials: LoginCredentials) => Promise<SessionProfile>;
-  logout: () => void;
+  logout: () => Promise<void>;
   hasPermission: (permission: string) => boolean;
 };
 

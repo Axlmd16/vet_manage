@@ -22,10 +22,11 @@ export class ApiError extends Error {
   }
 }
 
-async function requestJson<T>(path: string, options: RequestInit = {}): Promise<T> {
+async function requestJson<T>(path: string, options: RequestInit = {}, retried = false): Promise<T> {
   const token = sessionToken.get();
   const response = await fetch(`${env.apiUrl}${path}`, {
     ...options,
+    credentials: 'include',
     headers: {
       Accept: 'application/json',
       ...(options.body ? { 'Content-Type': 'application/json' } : {}),
@@ -34,10 +35,15 @@ async function requestJson<T>(path: string, options: RequestInit = {}): Promise<
     },
   });
 
+  // Con el token de acceso vencido se renueva la sesión y se repite la petición una vez.
+  if (response.status === 401 && token && !retried) {
+    if (await sessionToken.refresh()) return requestJson<T>(path, options, true);
+    sessionToken.expire();
+  }
+
   const body: unknown = await response.json().catch(() => null);
 
   if (!response.ok) {
-    if (response.status === 401 && token) sessionToken.expire();
 
     if (isApiResponse(body)) {
       throw new ApiError(body.message, response.status, body);

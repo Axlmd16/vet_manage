@@ -1,40 +1,71 @@
-const STORAGE_KEY = 'vetmanage.accessToken';
+import { env } from '../../config/env';
+import { isApiResponse } from './api-response';
 
-type Listener = () => void;
-const expiredListeners = new Set<Listener>();
+// El token de acceso vive solo en memoria; el refresh token está en una cookie httpOnly.
+let accessToken: string | null = null;
+let pendingRefresh: Promise<unknown | null> | null = null;
 
-// Token de acceso de la sesión actual guardado en el navegador.
+const expiredListeners = new Set<() => void>();
+const refreshedListeners = new Set<(session: unknown) => void>();
+
+async function requestRefresh(): Promise<unknown | null> {
+  const response = await fetch(`${env.apiUrl}/auth/refresh`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: { Accept: 'application/json' },
+  }).catch(() => null);
+  if (!response?.ok) return null;
+
+  const body: unknown = await response.json().catch(() => null);
+  const data = isApiResponse<{ accessToken?: string }>(body) ? body.data : undefined;
+  if (!data?.accessToken) return null;
+
+  accessToken = data.accessToken;
+  return data;
+}
+
+// Varias pestañas comparten la cookie; el lock evita que renueven a la vez con el mismo token.
+function refreshWithLock(): Promise<unknown | null> {
+  if (typeof navigator !== 'undefined' && navigator.locks) {
+    return navigator.locks.request('vetmanage-session-refresh', requestRefresh);
+  }
+  return requestRefresh();
+}
+
 export const sessionToken = {
-  get(): string | null {
-    try {
-      return localStorage.getItem(STORAGE_KEY);
-    } catch {
-      return null;
-    }
-  },
+  get: () => accessToken,
   set(token: string) {
-    try {
-      localStorage.setItem(STORAGE_KEY, token);
-    } catch {
-      // Sin almacenamiento la sesión dura hasta recargar la página.
-    }
+    accessToken = token;
   },
   clear() {
-    try {
-      localStorage.removeItem(STORAGE_KEY);
-    } catch {
-      // Nada que limpiar.
-    }
+    accessToken = null;
   },
-  // Avisa cuando la API rechaza el token guardado.
-  onExpired(listener: Listener) {
+  // Pide un nuevo token de acceso; las llamadas simultáneas comparten la misma petición.
+  refresh(): Promise<unknown | null> {
+    pendingRefresh ??= refreshWithLock()
+      .then((session) => {
+        if (session) refreshedListeners.forEach((listener) => listener(session));
+        return session;
+      })
+      .finally(() => {
+        pendingRefresh = null;
+      });
+    return pendingRefresh;
+  },
+  onExpired(listener: () => void) {
     expiredListeners.add(listener);
     return () => {
       expiredListeners.delete(listener);
     };
   },
+  onRefreshed(listener: (session: unknown) => void) {
+    refreshedListeners.add(listener);
+    return () => {
+      refreshedListeners.delete(listener);
+    };
+  },
   expire() {
-    this.clear();
+    accessToken = null;
     expiredListeners.forEach((listener) => listener());
   },
 };
