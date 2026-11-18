@@ -3,6 +3,7 @@ import { PrismaPg } from '@prisma/adapter-pg';
 import { hashPassword } from '../src/common/security/password-hash.ts';
 import { DEMO_PASSWORD, seedIdentity } from './identity.seed.ts';
 import { seedInventory } from './inventory.seed.ts';
+import { seedBreeds } from './breeds.seed.ts';
 import { seedSpecies } from './species.seed.ts';
 
 const connectionString = process.env.DATABASE_URL;
@@ -20,6 +21,9 @@ try {
 
   const species = await seedSpecies(prisma);
   console.log(`Species seed completado: ${species.species} especies de ejemplo.`);
+
+  const breeds = await seedBreeds(prisma);
+  console.log(`Breeds seed completado: ${breeds.breeds} razas de ejemplo.`);
 } finally {
   await prisma.$disconnect();
 }

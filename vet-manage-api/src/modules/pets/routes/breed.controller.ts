@@ -1,0 +1,21 @@
+import { Body, Controller, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
+import { success } from '../../../common/errors/api-response.js';
+import { JwtAuthGuard } from '../../identity/guards/jwt-auth.guard.js';
+import { PermissionsGuard } from '../../identity/guards/permissions.guard.js';
+import { RequirePermissions } from '../../identity/decorators/require-permissions.decorator.js';
+import { RegisterBreedDto } from '../dtos/breeds/register-breed.dto.js';
+import { RegisterBreedService } from '../services/breeds/register-breed.service.js';
+
+@Controller('pets')
+export class BreedController {
+  constructor(private readonly registerBreedService: RegisterBreedService) {}
+
+  @Post('breeds')
+  @HttpCode(HttpStatus.CREATED)
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @RequirePermissions('breeds:create')
+  async registerBreed(@Body() dto: RegisterBreedDto) {
+    const created = await this.registerBreedService.execute(dto);
+    return success(created, 'Raza registrada exitosamente', 201);
+  }
+}
