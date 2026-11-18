@@ -82,6 +82,7 @@ describe('Inicio de sesión (e2e)', () => {
 
   afterAll(async () => {
     if (!prisma) return;
+    await prisma.userSession.deleteMany({ where: { user: { personId: { in: ids.persons } } } });
     await prisma.user.deleteMany({ where: { personId: { in: ids.persons } } });
     await prisma.person.deleteMany({ where: { id: { in: ids.persons } } });
     await prisma.role.deleteMany({ where: { id: { in: ids.roles } } });
@@ -139,14 +140,21 @@ describe('Inicio de sesión (e2e)', () => {
     }
   });
 
-  it('responde igual con contraseña incorrecta y correo no registrado', async () => {
+  it('rechaza un correo con formato inválido', async () => {
+    const { body } = await login({ email: 'correo-invalido', password: PASSWORD }).expect(400);
+
+    expect(body.message).toBe('Ingrese un correo electrónico válido');
+  });
+
+  it('responde igual con contraseña incorrecta y correo no registrado, indicando los intentos restantes', async () => {
     const user = await createUser();
 
     const wrong = await login({ email: user.email, password: 'Otra1234' }).expect(401);
-    const unknown = await login({ email: 'nadie@vetmanage.test', password: PASSWORD }).expect(401);
+    const unknown = await login({ email: `nadie.${Date.now()}@vetmanage.test`, password: PASSWORD }).expect(401);
 
-    expect(wrong.body.message).toBe('Correo o contraseña incorrectos');
-    expect(unknown.body.message).toBe('Correo o contraseña incorrectos');
+    const expected = 'Correo o contraseña incorrectos. Le quedan 4 intentos antes de que la cuenta se bloquee';
+    expect(wrong.body.message).toBe(expected);
+    expect(unknown.body.message).toBe(expected);
   });
 
   it('bloquea la cuenta al quinto intento fallido y niega el acceso durante el bloqueo', async () => {
@@ -214,5 +222,76 @@ describe('Inicio de sesión (e2e)', () => {
 
     expect(me.body.data.user).toEqual(body.data.user);
     await request(app.getHttpServer()).get('/auth/me').expect(401);
+  });
+
+  it('guarda el refresh token en una cookie httpOnly y no lo devuelve en el cuerpo', async () => {
+    const user = await createUser();
+
+    const response = await login({ email: user.email, password: PASSWORD }).expect(200);
+
+    const cookie = String(response.headers['set-cookie']);
+    expect(cookie).toMatch(/vetmanage_refresh=[^;]+;/);
+    expect(cookie).toMatch(/HttpOnly/i);
+    expect(cookie).toMatch(/Path=\/auth/);
+    expect(response.body.data.refreshToken).toBeUndefined();
+  });
+
+  it('renueva la sesión rotando el refresh token', async () => {
+    const user = await createUser();
+    const agent = request.agent(app.getHttpServer());
+    await agent.post('/auth/login').send({ email: user.email, password: PASSWORD }).expect(200);
+    const firstSession = await prisma.userSession.findFirstOrThrow({ where: { userId: user.id } });
+
+    const refreshed = await agent.post('/auth/refresh').expect(200);
+
+    expect(refreshed.body.data.accessToken).toEqual(expect.any(String));
+    expect(refreshed.body.data.user.id).toBe(user.id);
+    const sessions = await prisma.userSession.findMany({ where: { userId: user.id }, orderBy: { createdAt: 'asc' } });
+    expect(sessions).toHaveLength(2);
+    expect(sessions[0]).toMatchObject({ id: firstSession.id, revokedAt: expect.any(Date) });
+    expect(sessions[1].revokedAt).toBeNull();
+    await request(app.getHttpServer())
+      .get('/auth/me')
+      .set('Authorization', `Bearer ${refreshed.body.data.accessToken}`)
+      .expect(200);
+  });
+
+  it('no acepta un refresh token ya usado', async () => {
+    const user = await createUser();
+    const response = await login({ email: user.email, password: PASSWORD }).expect(200);
+    const cookie = String(response.headers['set-cookie']).split(';')[0];
+
+    await request(app.getHttpServer()).post('/auth/refresh').set('Cookie', cookie).expect(200);
+    const reused = await request(app.getHttpServer()).post('/auth/refresh').set('Cookie', cookie).expect(401);
+
+    expect(reused.body.message).toBe('La sesión expiró. Inicie sesión nuevamente');
+  });
+
+  it('no renueva sin cookie, con la sesión vencida o con la cuenta desactivada', async () => {
+    await request(app.getHttpServer()).post('/auth/refresh').expect(401);
+
+    const expired = await createUser();
+    const agentExpired = request.agent(app.getHttpServer());
+    await agentExpired.post('/auth/login').send({ email: expired.email, password: PASSWORD }).expect(200);
+    await prisma.userSession.updateMany({ where: { userId: expired.id }, data: { expiresAt: new Date(Date.now() - 1000) } });
+    await agentExpired.post('/auth/refresh').expect(401);
+
+    const disabled = await createUser();
+    const agentDisabled = request.agent(app.getHttpServer());
+    await agentDisabled.post('/auth/login').send({ email: disabled.email, password: PASSWORD }).expect(200);
+    await prisma.user.update({ where: { id: disabled.id }, data: { status: 'INACTIVE' } });
+    await agentDisabled.post('/auth/refresh').expect(401);
+  });
+
+  it('cierra la sesión revocando el refresh token', async () => {
+    const user = await createUser();
+    const agent = request.agent(app.getHttpServer());
+    await agent.post('/auth/login').send({ email: user.email, password: PASSWORD }).expect(200);
+
+    await agent.post('/auth/logout').expect(200);
+
+    const session = await prisma.userSession.findFirstOrThrow({ where: { userId: user.id } });
+    expect(session.revokedAt).toEqual(expect.any(Date));
+    await agent.post('/auth/refresh').expect(401);
   });
 });

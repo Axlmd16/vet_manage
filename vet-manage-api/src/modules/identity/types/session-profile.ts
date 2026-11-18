@@ -13,3 +13,6 @@ export type SessionUser = {
 export type SessionProfile = { mustChangePassword: boolean; user: SessionUser };
 
 export type LoginResult = SessionProfile & { accessToken: string };
+
+// Resultado interno de abrir o renovar una sesión; el refresh token viaja solo en la cookie.
+export type AuthSession = LoginResult & { refreshToken: string; refreshExpiresAt: Date };
