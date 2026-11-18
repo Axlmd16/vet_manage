@@ -3,6 +3,7 @@ import { PrismaPg } from '@prisma/adapter-pg';
 import { hashPassword } from '../src/common/security/password-hash.ts';
 import { DEMO_PASSWORD, seedIdentity } from './identity.seed.ts';
 import { seedInventory } from './inventory.seed.ts';
+import { seedSpecies } from './species.seed.ts';
 
 const connectionString = process.env.DATABASE_URL;
 if (!connectionString) throw new Error('DATABASE_URL is required to run the seed');
@@ -16,6 +17,9 @@ try {
 
   const result = await seedInventory(prisma);
   console.log(`Inventory seed completado: ${result.categories} categorías, ${result.brands} marcas, ${result.products} productos.`);
+
+  const species = await seedSpecies(prisma);
+  console.log(`Species seed completado: ${species.species} especies de ejemplo.`);
 } finally {
   await prisma.$disconnect();
 }
