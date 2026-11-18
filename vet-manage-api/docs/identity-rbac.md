@@ -63,6 +63,38 @@ La API no arranca si falta alguna o es inválida. `docker-compose.yml` las
 provee con valores de desarrollo; en producción deben definirse con valores
 propios.
 
+## Usuarios de demostración
+
+`seed/identity.seed.ts` crea 11 cuentas de ejemplo para probar cada rol. Se
+cargan junto con el seed de Inventory:
+
+```sh
+make up-seed          # o make up-podman-seed
+# con la API ya levantada:
+docker compose exec api npm run seed
+```
+
+Todas usan la contraseña `Vet12345`. El Administrador no forma parte del seed:
+lo crea la API al arrancar con las variables `ADMIN_*`.
+
+| Correo | Rol | Caso |
+| --- | --- | --- |
+| `gerente@vetmanage.local` | Gerente | |
+| `veterinario@vetmanage.local`, `veterinario2@vetmanage.local` | Veterinario | |
+| `tecnico@vetmanage.local` | Técnico Veterinario | |
+| `recepcion@vetmanage.local` | Recepcionista | |
+| `cajero@vetmanage.local` | Cajero | |
+| `bodeguero@vetmanage.local` | Bodeguero | |
+| `cliente@vetmanage.local` | Cliente | |
+| `gerente.veterinario@vetmanage.local` | Gerente y Veterinario | Varios roles |
+| `inactivo@vetmanage.local` | Recepcionista | Cuenta inactiva: no inicia sesión |
+| `temporal@vetmanage.local` | Recepcionista | Contraseña temporal (`mustChangePassword`) |
+
+El seed espera hasta 60 segundos a que la API cree los roles del sistema. Es
+idempotente: personas y cuentas se actualizan por cédula, y al repetirlo
+restaura la contraseña, el estado y el bloqueo de estas cuentas, útil después de
+probar el bloqueo por intentos fallidos.
+
 ## Proteger una ruta
 
 El módulo que protege rutas debe importar `IdentityModule`.
