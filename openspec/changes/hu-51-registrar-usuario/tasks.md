@@ -44,3 +44,11 @@
 
 - [x] 6.1 Crear `email-layout.ts` y `credentials-email.ts` en `src/infrastructure/mail/templates` con versión HTML y texto, valores escapados y pruebas
 - [x] 6.2 Usar la plantilla en el registro, con los roles y el enlace al inicio de sesión tomado de la variable `APP_URL`
+
+## 7. Ajustes tras la verificación
+
+- [x] 7.1 Validar `MAIL_FROM` como dirección de remitente y probar la validación del entorno
+- [x] 7.2 Simplificar el manejo de la cuenta en `UserRegistrationService` y probar que la contraseña temporal no se registra en los logs
+- [x] 7.3 Probar el 403 con el rol Recepcionista real del catálogo
+- [x] 7.4 Agregar pruebas al frontend con vitest y extraer las reglas del formulario a `form-rules.ts`
+

@@ -73,7 +73,7 @@ Variables nuevas (opcionales, con valores de desarrollo):
 | `SMTP_PORT` | `51025` | entero ≥ 1 |
 | `SMTP_SECURE` | `false` | booleano |
 | `SMTP_USER` / `SMTP_PASSWORD` | vacías | texto |
-| `MAIL_FROM` | `VetManage <no-reply@vetmanage.local>` | texto |
+| `MAIL_FROM` | `VetManage <no-reply@vetmanage.local>` | `correo@dominio` o `Nombre <correo@dominio>` |
 
 Servicio `mailpit` (`axllent/mailpit`) en `docker-compose.yml` escuchando en puertos no predeterminados dentro y fuera del contenedor, como el resto de servicios: SMTP `51025` (`MP_SMTP_BIND_ADDR`) e interfaz web `58025` (`MP_UI_BIND_ADDR`), publicados con `MAIL_SMTP_PORT` y `MAIL_UI_PORT`. La API lo alcanza como `mailpit:51025` y depende de él. Los correos se ven en `http://localhost:58025`. Se agregan las variables a `.env.example`. No cambian los comandos de arranque: `docker compose up` sigue levantando todo y la API instala la dependencia nueva con su imagen.
 
@@ -83,6 +83,7 @@ Servicio `mailpit` (`axllent/mailpit`) en `docker-compose.yml` escuchando en pue
 ### Frontend
 - Módulo `src/modules/users`: `services/users-api.ts` (`register`, `assignableRoles`), `types.ts`, `pages/users-page.tsx` (título, botón "Nuevo usuario" y un espacio reservado para el listado de HU-52) y `pages/user-register-page.tsx` con su CSS.
 - Distribución: las dos pantallas ocupan el ancho disponible (hasta 1480 px). El formulario va en dos tarjetas: "Datos personales" (cédula, teléfono, nombres, apellidos y correo con iconos en cada campo, más una nota sobre la contraseña temporal) y "Roles" (tarjetas con icono por rol, marca de selección y contador); en pantallas angostas se apilan.
+- Las reglas del formulario (validación previa, traducción de los errores de la API a campos resaltados y el aviso tras registrar) viven en `modules/users/form-rules.ts`, sin dependencias de React, para probarlas con vitest, que se agrega al frontend (`npm test`).
 - Rutas: `/users` exige `users:read` y `/users/new` exige `users:create`, con el componente `RequirePermission` de `modules/auth/components`, que muestra "No tiene permisos para realizar esta acción" si falta el permiso. El botón "Nuevo usuario" solo se muestra con `users:create`.
 - El formulario valida antes de enviar (obligatorios, cédula, correo, teléfono), resalta los campos de `errors` de la API y los duplicados según el `code` (`USER_IDENTIFICATION_TAKEN` → cédula, `USER_EMAIL_TAKEN` → correo) y comunica todo con los toasts existentes. Al registrar vuelve a `/users`; el `ToastProvider` está sobre el router, así que el aviso sobrevive a la navegación. Ante un rechazo de la API se queda en el formulario con los datos escritos.
 - Toasts: se agrega el tipo `warning` (correo no enviado) y la región de toasts pasa de arriba a abajo a la derecha, con lo que también cambia de lugar en Inventario.
