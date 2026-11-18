@@ -5,24 +5,11 @@ import {
   CalendarIcon, CheckIcon, IdCardIcon, InfoIcon, MailIcon, PackageIcon, PawIcon, PhoneIcon, ShieldIcon, UserIcon, UsersIcon, WalletIcon,
 } from '../../../common/components/icons';
 import { useToast } from '../../../common/components/toast-context';
-import { ApiError } from '../../../infrastructure/api/http-client';
-import { isValidIdentification } from '../../../common/validation/identification';
+import { describeApiError, MISSING_FIELDS, registrationOutcome, validateRegistration } from '../form-rules';
+import type { FieldErrors, FieldName, Form } from '../form-rules';
 import { usersApi } from '../services/users-api';
 import type { AssignableRole } from '../types';
 import './user-register-page.css';
-
-const MISSING_FIELDS = 'Complete los campos obligatorios';
-const INVALID_IDENTIFICATION = 'La cédula debe tener 10 dígitos válidos';
-const INVALID_EMAIL = 'Ingrese un correo electrónico válido';
-const INVALID_PHONE = 'Ingrese un teléfono válido';
-const MAIL_FAILED = 'Usuario registrado, pero no se pudo enviar el correo. Verifique la dirección y reenvíe las credenciales';
-const REGISTERED = 'Usuario registrado correctamente';
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-const PHONE_PATTERN = /^\+?\d{7,15}$/;
-
-type Field = 'identification' | 'firstName' | 'lastName' | 'email' | 'phone' | 'roles';
-type FieldErrors = Partial<Record<Field, string>>;
-type Form = { identification: string; firstName: string; lastName: string; email: string; phone: string; roles: string[] };
 
 const ROLE_ICONS: Record<string, typeof ShieldIcon> = {
   administrator: ShieldIcon,
@@ -35,47 +22,6 @@ const ROLE_ICONS: Record<string, typeof ShieldIcon> = {
 };
 
 const emptyForm: Form = { identification: '', firstName: '', lastName: '', email: '', phone: '', roles: [] };
-
-// Errores por campo antes de llamar a la API; vacío significa que el formulario puede enviarse.
-function validate(form: Form): { errors: FieldErrors; missing: boolean } {
-  const errors: FieldErrors = {};
-  let missing = false;
-  const required: [Field, string][] = [
-    ['identification', form.identification.trim()],
-    ['firstName', form.firstName.trim()],
-    ['lastName', form.lastName.trim()],
-    ['email', form.email.trim()],
-    ['roles', form.roles.length > 0 ? 'x' : ''],
-  ];
-  for (const [field, value] of required) {
-    if (!value) {
-      errors[field] = MISSING_FIELDS;
-      missing = true;
-    }
-  }
-  if (!errors.identification && !isValidIdentification(form.identification.trim())) errors.identification = INVALID_IDENTIFICATION;
-  if (!errors.email && !EMAIL_PATTERN.test(form.email.trim())) errors.email = INVALID_EMAIL;
-  if (form.phone.trim() && !PHONE_PATTERN.test(form.phone.trim())) errors.phone = INVALID_PHONE;
-  return { errors, missing };
-}
-
-// Traduce el rechazo de la API a un aviso y a los campos que se resaltan.
-function fromApiError(cause: unknown): { message: string; errors: FieldErrors } {
-  if (!(cause instanceof ApiError)) {
-    return { message: 'No se pudo conectar con el servidor. Intente nuevamente.', errors: {} };
-  }
-  const errors: FieldErrors = {};
-  if (cause.code === 'USER_IDENTIFICATION_TAKEN') errors.identification = cause.message;
-  else if (cause.code === 'USER_EMAIL_TAKEN') errors.email = cause.message;
-  else if (cause.code === 'USER_INVALID_ROLES') errors.roles = cause.message;
-  else {
-    const fields: Field[] = ['identification', 'firstName', 'lastName', 'email', 'phone', 'roles'];
-    for (const field of cause.errors) {
-      if ((fields as string[]).includes(field)) errors[field as Field] = cause.message;
-    }
-  }
-  return { message: cause.message, errors };
-}
 
 export function UserRegisterPage() {
   const [form, setForm] = useState<Form>(emptyForm);
@@ -94,7 +40,7 @@ export function UserRegisterPage() {
     return () => { active = false; };
   }, []);
 
-  function update(field: Exclude<Field, 'roles'>, value: string) {
+  function update(field: Exclude<FieldName, 'roles'>, value: string) {
     setForm((current) => ({ ...current, [field]: value }));
     setErrors((current) => ({ ...current, [field]: undefined }));
   }
@@ -111,7 +57,7 @@ export function UserRegisterPage() {
     event.preventDefault();
     if (saving) return;
 
-    const { errors: found, missing } = validate(form);
+    const { errors: found, missing } = validateRegistration(form);
     if (Object.keys(found).length > 0) {
       setErrors(found);
       showToast(missing ? MISSING_FIELDS : 'Revise los datos ingresados.', 'error');
@@ -129,12 +75,11 @@ export function UserRegisterPage() {
         phone: form.phone.trim() || undefined,
         roles: form.roles,
       });
-      const reused = user.existingPerson ? ' La persona ya existía: se agregaron los roles a su cuenta.' : '';
-      if (user.passwordAssigned && !user.credentialsSent) showToast(MAIL_FAILED, 'warning');
-      else showToast(`${REGISTERED}.${reused}`, 'success');
+      const outcome = registrationOutcome(user);
+      showToast(outcome.message, outcome.type);
       navigate('/users');
     } catch (cause) {
-      const failure = fromApiError(cause);
+      const failure = describeApiError(cause);
       setErrors(failure.errors);
       showToast(failure.message, 'error');
       setSaving(false);
