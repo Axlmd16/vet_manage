@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../infrastructure/database/prisma/prisma.service.js';
 import type { AuthenticatedUser } from '../types/authenticated-request.js';
+import type { SessionProfile, SessionRole } from '../types/session-profile.js';
 
 @Injectable()
 export class AccessService {
@@ -37,5 +38,38 @@ export class AccessService {
     });
 
     return new Set(permissions.map((permission) => `${permission.module}:${permission.action}`));
+  }
+
+  // Roles activos y vigentes del usuario.
+  async getActiveRoles(userId: string): Promise<SessionRole[]> {
+    const now = new Date();
+    return this.prisma.role.findMany({
+      where: {
+        isActive: true,
+        userRoles: { some: { userId, OR: [{ expiresAt: null }, { expiresAt: { gt: now } }] } },
+      },
+      select: { name: true, displayName: true },
+      orderBy: { displayName: 'asc' },
+    });
+  }
+
+  // Datos del usuario con sus roles y permisos vigentes; null si no existe.
+  async getSessionProfile(userId: string): Promise<SessionProfile | null> {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        mustChangePassword: true,
+        person: { select: { firstName: true, lastName: true, email: true } },
+      },
+    });
+    if (!user) return null;
+
+    const [roles, permissions] = await Promise.all([this.getActiveRoles(userId), this.getPermissionKeys(userId)]);
+
+    return {
+      mustChangePassword: user.mustChangePassword,
+      user: { id: user.id, ...user.person, roles, permissions: [...permissions].sort() },
+    };
   }
 }
