@@ -20,12 +20,20 @@ export class InventoryService {
     return this.createCatalogItem('category', input);
   }
 
+  updateCategory(id: string, input: CreateCatalogItemDto) {
+    return this.updateCatalogItem('category', id, input);
+  }
+
   listBrands() {
     return this.prisma.brand.findMany({ where: { isActive: true }, orderBy: { name: 'asc' } });
   }
 
   createBrand(input: CreateCatalogItemDto) {
     return this.createCatalogItem('brand', input);
+  }
+
+  updateBrand(id: string, input: CreateCatalogItemDto) {
+    return this.updateCatalogItem('brand', id, input);
   }
 
   async listProducts(search?: string) {
@@ -45,6 +53,20 @@ export class InventoryService {
     });
 
     return products.map((product) => this.serializeProduct(product));
+  }
+
+  async getProduct(id: string) {
+    try {
+      const product = await this.prisma.product.findFirst({
+        where: { id, isActive: true },
+        include: { category: true, brand: true },
+      });
+      if (!product) throw ApiException.notFound('Producto no encontrado');
+      return this.serializeProduct(product);
+    } catch (error) {
+      if (this.isNotFoundError(error)) throw ApiException.notFound('Producto no encontrado');
+      throw error;
+    }
   }
 
   async createProduct(input: CreateProductDto) {
@@ -90,6 +112,48 @@ export class InventoryService {
     }
   }
 
+  async updateProduct(id: string, input: CreateProductDto) {
+    const validation = validateProductInput(input);
+    if (!validation.valid) {
+      throw ApiException.badRequest('Revisa los campos del producto', Object.values(validation.errors));
+    }
+
+    try {
+      const product = await this.prisma.$transaction(async (tx) => {
+        const categoryId = await this.resolveCatalogReference(tx, 'category', input.category);
+        const brandId = await this.resolveCatalogReference(tx, 'brand', input.brand);
+
+        return tx.product.update({
+          where: { id },
+          data: {
+            code: input.code.trim(),
+            name: input.name.trim(),
+            description: input.description?.trim() || null,
+            unitPrice: new Prisma.Decimal(input.unitPrice),
+            categoryId,
+            brandId,
+          },
+          include: { category: true, brand: true },
+        });
+      });
+
+      return this.serializeProduct(product);
+    } catch (error) {
+      if (this.isNotFoundError(error)) throw ApiException.notFound('Producto no encontrado');
+      if (this.isUniqueConstraintError(error, ['products_code_key', 'code'])) {
+        throw ApiException.conflict('El código del producto ya está registrado');
+      }
+      if (this.isUniqueConstraintError(error, ['categories_name_key', 'name'])) {
+        throw ApiException.conflict('La categoría ya está registrada');
+      }
+      if (this.isUniqueConstraintError(error, ['brands_name_key', 'name'])) {
+        throw ApiException.conflict('La marca ya está registrada');
+      }
+      this.logger.error('No se pudo actualizar el producto', error);
+      throw error;
+    }
+  }
+
   private async createCatalogItem(type: 'category' | 'brand', input: CreateCatalogItemDto) {
     try {
       const data = { name: input.name.trim(), description: input.description?.trim() || null };
@@ -101,6 +165,38 @@ export class InventoryService {
         throw ApiException.conflict(`${type === 'category' ? 'La categoría' : 'La marca'} ya está registrada`);
       }
 
+      throw error;
+    }
+  }
+
+  private async updateCatalogItem(type: 'category' | 'brand', id: string, input: CreateCatalogItemDto) {
+    const name = input.name.trim();
+    if (!name) {
+      throw ApiException.badRequest(`El nombre de la ${type === 'category' ? 'categoría' : 'marca'} es obligatorio`);
+    }
+
+    let existing;
+    try {
+      existing = type === 'category'
+        ? await this.prisma.category.findUnique({ where: { id } })
+        : await this.prisma.brand.findUnique({ where: { id } });
+    } catch (error) {
+      if (this.isNotFoundError(error)) throw ApiException.notFound(`${type === 'category' ? 'Categoría' : 'Marca'} no encontrada`);
+      throw error;
+    }
+    if (!existing || !existing.isActive) {
+      throw ApiException.notFound(`${type === 'category' ? 'Categoría' : 'Marca'} no encontrada`);
+    }
+
+    try {
+      const data = { name, description: input.description?.trim() || null };
+      return type === 'category'
+        ? await this.prisma.category.update({ where: { id }, data })
+        : await this.prisma.brand.update({ where: { id }, data });
+    } catch (error) {
+      if (this.isUniqueConstraintError(error, [`${type === 'category' ? 'categories' : 'brands'}_name_key`, 'name'])) {
+        throw ApiException.conflict(`${type === 'category' ? 'La categoría' : 'La marca'} ya está registrada`);
+      }
       throw error;
     }
   }
@@ -131,6 +227,7 @@ export class InventoryService {
     const knownError = error as {
       code?: unknown;
       originalCode?: unknown;
+      message?: unknown;
       constraint?: unknown;
       meta?: { target?: unknown; driverAdapterError?: { cause?: { originalCode?: unknown; constraint?: unknown } } };
       cause?: unknown;
@@ -149,6 +246,23 @@ export class InventoryService {
       ? String(constraintTarget.index)
       : Array.isArray(constraintTarget) ? constraintTarget.join('_') : typeof constraintTarget === 'string' ? constraintTarget : '';
     return targets.some((target) => targetText === target || targetText.includes(target));
+  }
+
+  private isNotFoundError(error: unknown) {
+    if (!error || typeof error !== 'object') return false;
+    const knownError = error as {
+      code?: unknown;
+      originalCode?: unknown;
+      message?: unknown;
+      cause?: { code?: unknown; originalCode?: unknown };
+      meta?: { driverAdapterError?: { cause?: { originalCode?: unknown } } };
+    };
+    const errorText = typeof knownError.message === 'string' ? knownError.message.toLowerCase() : '';
+    return [knownError.code, knownError.originalCode, knownError.cause?.code,
+      knownError.cause?.originalCode, knownError.meta?.driverAdapterError?.cause?.originalCode]
+      .some((code) => code === 'P2025' || code === 'P2023')
+      || errorText.includes('invalid input syntax for type uuid')
+      || errorText.includes('invalid value for argument');
   }
 
   private serializeProduct(product: {

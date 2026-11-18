@@ -19,6 +19,7 @@ export function AppRouter() {
         <Route path="appointments" element={<ComingSoonPage />} />
         <Route path="inventory/products" element={<ProductsPage />} />
         <Route path="inventory/products/new" element={<ProductFormPage />} />
+        <Route path="inventory/products/:id/edit" element={<ProductFormPage />} />
         <Route path="inventory/categories" element={<CatalogPage type="category" />} />
         <Route path="inventory/brands" element={<CatalogPage type="brand" />} />
         <Route path="*" element={<Navigate to="/" replace />} />
