@@ -163,7 +163,8 @@ describe('Control de acceso (e2e)', () => {
     const withPermission = await createUser({ roles: [role] });
     const without = await createUser();
 
-    await get('protected', await tokens.issue(without)).expect(403);
+    const denied = await get('protected', await tokens.issue(without)).expect(403);
+    expect(denied.body.message).toBe('No tiene permisos para realizar esta acción');
     await get('protected', await tokens.issue(withPermission)).expect(200);
   });
 

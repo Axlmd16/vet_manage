@@ -51,6 +51,16 @@ services:
       timeout: 5s
       retries: 10
 
+  mailpit:
+    image: axllent/mailpit:latest
+    restart: unless-stopped
+    environment:
+      MP_SMTP_BIND_ADDR: 0.0.0.0:51025
+      MP_UI_BIND_ADDR: 0.0.0.0:58025
+    ports:
+      - '${MAIL_SMTP_PORT:-51025}:51025'
+      - '${MAIL_UI_PORT:-58025}:58025'
+
   api:
     build:
       context: ./vet-manage-api
@@ -65,6 +75,13 @@ services:
       DATABASE_URL: postgresql://${POSTGRES_USER:-vetmanage}:${POSTGRES_PASSWORD:-vetmanage_dev_password}@postgres:55432/${POSTGRES_DB:-vet_manage}?schema=public
       REDIS_URL: redis://redis:56379
       RABBITMQ_URL: amqp://${RABBITMQ_USER:-vetmanage}:${RABBITMQ_PASSWORD:-vetmanage_dev_password}@rabbitmq:55672
+      APP_URL: ${APP_URL:-http://localhost:5174}
+      SMTP_HOST: ${SMTP_HOST:-mailpit}
+      SMTP_PORT: ${SMTP_PORT:-51025}
+      SMTP_SECURE: ${SMTP_SECURE:-false}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      MAIL_FROM: ${MAIL_FROM:-VetManage <no-reply@vetmanage.local>}
       RBAC_SYNC_MODE: ${RBAC_SYNC_MODE:-strict}
       JWT_SECRET: ${JWT_SECRET:-vetmanage-dev-jwt-secret-change-me-0123456789}
       JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-15m}
@@ -79,7 +96,9 @@ services:
       TSC_WATCHFILE: DynamicPolling
       TSC_WATCHDIRECTORY: DynamicPriorityPolling
       TSC_NONPOLLING_WATCHER: 'false'
-    command: ['sh', '-c', 'npx prisma migrate deploy && npx prisma generate && npm run start:dev']
+    # El volumen de node_modules permite hot reload. npm ci lo mantiene sincronizado
+    # cuando se agregan o actualizan dependencias en package-lock.json.
+    command: ['sh', '-c', 'npm ci --no-audit --no-fund && npx prisma migrate deploy && npx prisma generate && npm run start:dev']
     volumes:
       - ./vet-manage-api:/app
       - api_node_modules:/app/node_modules
@@ -93,6 +112,8 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
+      mailpit:
+        condition: service_started
 
   frontend:
     build:

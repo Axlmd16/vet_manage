@@ -1,5 +1,6 @@
-import { Type, plainToInstance } from 'class-transformer';
+import { Transform, Type, plainToInstance } from 'class-transformer';
 import {
+  IsBoolean,
   IsEmail,
   IsIn,
   IsInt,
@@ -11,9 +12,24 @@ import {
   MaxLength,
   Min,
   MinLength,
+  Validate,
+  ValidatorConstraint,
+  type ValidatorConstraintInterface,
   validateSync,
 } from 'class-validator';
+import { isValidIdentification } from '../common/validation/identification.js';
 import { PASSWORD_PATTERN, PASSWORD_POLICY_MESSAGE } from '../common/security/password-policy.js';
+
+@ValidatorConstraint({ name: 'identification' })
+class IdentificationConstraint implements ValidatorConstraintInterface {
+  validate(value: unknown) {
+    return typeof value === 'string' && isValidIdentification(value);
+  }
+
+  defaultMessage() {
+    return 'ADMIN_IDENTIFICATION debe ser una cédula ecuatoriana válida de 10 dígitos';
+  }
+}
 
 class EnvironmentVariables {
   @IsOptional()
@@ -46,6 +62,40 @@ class EnvironmentVariables {
   SESSION_EXPIRES_IN = '12h';
 
   @IsOptional()
+  @IsUrl({ protocols: ['http', 'https'], require_tld: false })
+  APP_URL = 'http://localhost:5174';
+
+  @IsOptional()
+  @IsString()
+  SMTP_HOST = 'mailpit';
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  SMTP_PORT = 51025;
+
+  @IsOptional()
+  @Transform(({ value }) => (value === 'true' ? true : value === 'false' ? false : value))
+  @IsBoolean()
+  SMTP_SECURE = false;
+
+  @IsOptional()
+  @IsString()
+  SMTP_USER?: string;
+
+  @IsOptional()
+  @IsString()
+  SMTP_PASSWORD?: string;
+
+  // Remitente: "correo@dominio" o "Nombre <correo@dominio>".
+  @IsOptional()
+  @Matches(/^(?:[^<>@\r\n]+<[^\s<>@]+@[^\s<>@]+\.[^\s<>@]+>|[^\s<>@]+@[^\s<>@]+\.[^\s<>@]+)$/, {
+    message: 'MAIL_FROM debe ser una dirección como correo@dominio o Nombre <correo@dominio>',
+  })
+  MAIL_FROM = 'VetManage <no-reply@vetmanage.local>';
+
+  @IsOptional()
   @IsIn(['create-only', 'strict'])
   RBAC_SYNC_MODE = 'create-only';
 
@@ -56,7 +106,7 @@ class EnvironmentVariables {
   @Matches(PASSWORD_PATTERN, { message: PASSWORD_POLICY_MESSAGE })
   ADMIN_PASSWORD!: string;
 
-  @Matches(/^\d{10}$/, { message: 'ADMIN_IDENTIFICATION debe tener 10 dígitos' })
+  @Validate(IdentificationConstraint)
   ADMIN_IDENTIFICATION!: string;
 
   @IsString()

@@ -72,3 +72,31 @@ export const LogoutIcon = (props: IconProps) => (
 export const MailIcon = (props: IconProps) => (
   <Icon {...props}><rect x="3" y="5" width="18" height="14" rx="3" /><path d="m4 7 8 6 8-6" /></Icon>
 );
+
+export const IdCardIcon = (props: IconProps) => (
+  <Icon {...props}><rect x="3" y="5" width="18" height="14" rx="2.5" /><circle cx="8.5" cy="11" r="2" /><path d="M5.5 16c.5-1.6 1.7-2.4 3-2.4s2.5.8 3 2.4M14.5 10h4M14.5 13.5h3" /></Icon>
+);
+
+export const UserIcon = (props: IconProps) => (
+  <Icon {...props}><circle cx="12" cy="8" r="3.8" /><path d="M4.5 20c0-3.6 3.4-6 7.5-6s7.5 2.4 7.5 6" /></Icon>
+);
+
+export const PhoneIcon = (props: IconProps) => (
+  <Icon {...props}><path d="M6.5 3.5h3l1.5 4-2 1.3a11 11 0 0 0 5.2 5.2l1.3-2 4 1.5v3a2 2 0 0 1-2.2 2A15.5 15.5 0 0 1 4.5 5.7 2 2 0 0 1 6.5 3.5Z" /></Icon>
+);
+
+export const ShieldIcon = (props: IconProps) => (
+  <Icon {...props}><path d="M12 3.5 5 6v5.5c0 4.2 2.8 7.3 7 9 4.2-1.7 7-4.8 7-9V6l-7-2.5Z" /><path d="m9 12 2.2 2.2L15.5 10" /></Icon>
+);
+
+export const WalletIcon = (props: IconProps) => (
+  <Icon {...props}><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18v3" /><rect x="3.5" y="8" width="17" height="11.5" rx="2.5" /><path d="M16 13.8h2.5" /></Icon>
+);
+
+export const InfoIcon = (props: IconProps) => (
+  <Icon {...props}><circle cx="12" cy="12" r="8.5" /><path d="M12 11v5M12 8h.01" /></Icon>
+);
+
+export const CheckIcon = (props: IconProps) => (
+  <Icon {...props}><path d="m5.5 12.5 4.2 4.2L18.5 7.5" /></Icon>
+);

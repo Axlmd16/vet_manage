@@ -23,7 +23,7 @@ export class PermissionsGuard implements CanActivate {
     if (!user) throw ApiException.unauthorized();
 
     const granted = await this.access.getPermissionKeys(user.id);
-    if (!required.every((key) => granted.has(key))) throw ApiException.forbidden();
+    if (!required.every((key) => granted.has(key))) throw ApiException.forbidden('No tiene permisos para realizar esta acción');
 
     return true;
   }

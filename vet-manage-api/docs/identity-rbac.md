@@ -56,8 +56,13 @@ persona ya existe por cédula, se reutiliza.
 | `RBAC_SYNC_MODE` | no | `create-only` (por defecto) o `strict`. Ver arriba. |
 | `ADMIN_EMAIL` | sí | Correo del Administrador inicial. |
 | `ADMIN_PASSWORD` | sí | Mínimo 8 caracteres con mayúscula, minúscula y número. |
-| `ADMIN_IDENTIFICATION` | sí | Cédula de 10 dígitos. |
+| `ADMIN_IDENTIFICATION` | sí | Cédula ecuatoriana válida de 10 dígitos. |
 | `ADMIN_FIRST_NAME`, `ADMIN_LAST_NAME` | sí | Nombres y apellidos. |
+| `APP_URL` | no | Dirección pública del frontend (`http://localhost:5174` por defecto); se usa en el enlace "Iniciar sesión" de los correos. En producción debe apuntar al frontend real. |
+| `SMTP_HOST`, `SMTP_PORT` | no | Servidor SMTP (`mailpit` y `51025` por defecto). |
+| `SMTP_SECURE` | no | `true` para TLS directo (`false` por defecto). |
+| `SMTP_USER`, `SMTP_PASSWORD` | no | Credenciales SMTP; sin usuario no se autentica. |
+| `MAIL_FROM` | no | Remitente (`VetManage <no-reply@vetmanage.local>` por defecto). |
 
 La API no arranca si falta alguna o es inválida. `docker-compose.yml` las
 provee con valores de desarrollo; en producción deben definirse con valores
@@ -91,9 +96,45 @@ lo crea la API al arrancar con las variables `ADMIN_*`.
 | `temporal@vetmanage.local` | Recepcionista | Contraseña temporal (`mustChangePassword`) |
 
 El seed espera hasta 60 segundos a que la API cree los roles del sistema. Es
-idempotente: personas y cuentas se actualizan por cédula, y al repetirlo
+idempotente: personas y cuentas se actualizan por correo (la cédula se corrige si cambió), y al repetirlo
 restaura la contraseña, el estado y el bloqueo de estas cuentas, útil después de
 probar el bloqueo por intentos fallidos.
+
+## Registro de usuarios
+
+`POST /users` registra a un usuario del personal y exige el permiso
+`users:create`. Recibe `identification`, `firstName`, `lastName`, `email`,
+`phone` (opcional) y `roles` (nombres de rol del personal). `GET
+/users/assignable-roles` devuelve los roles que se pueden asignar.
+
+- La persona se identifica por la cédula, que se valida con el algoritmo de la
+  cédula ecuatoriana (`src/common/validation/identification.ts`); sirve de
+  ejemplo `1700000001`. Si ya existe y no tiene roles del personal (por ejemplo
+  una cliente), se reutiliza: se conservan sus datos y se agregan los roles a su
+  cuenta, sin tocar su contraseña ni enviar correo.
+- La cuenta nueva queda `ACTIVE` con una contraseña temporal de 12 caracteres y
+  `mustChangePassword`. Solo se guarda su hash.
+- Las credenciales se envían por correo después de guardar, con una plantilla
+  (`src/infrastructure/mail/templates`) que incluye los roles y un botón al
+  inicio de sesión (`APP_URL`). Si el envío falla,
+  la cuenta queda creada y la respuesta trae `credentialsSent: false` y el
+  mensaje para reenviarlas.
+
+| Caso | HTTP | `code` |
+| --- | --- | --- |
+| Campos obligatorios vacíos o sin rol | 400 | `USER_MISSING_FIELDS` |
+| Cédula inválida | 400 | `USER_INVALID_IDENTIFICATION` |
+| Correo, teléfono o nombre inválidos | 400 | `USER_INVALID_EMAIL`, `USER_INVALID_PHONE`, `USER_INVALID_NAME` |
+| Rol inexistente, inactivo o que no es del personal | 400 | `USER_INVALID_ROLES` |
+| Cédula de un usuario del personal ya registrada | 409 | `USER_IDENTIFICATION_TAKEN` |
+| Correo de otra persona | 409 | `USER_EMAIL_TAKEN` |
+| Sin permiso | 403 | — |
+
+### Correo en desarrollo
+
+`docker compose up` levanta Mailpit: el SMTP escucha en el puerto `51025` y los
+correos enviados se ven en <http://localhost:58025> (`MAIL_UI_PORT`).
+`MailService` (`src/infrastructure/mail`) es reutilizable por otros módulos.
 
 ## Proteger una ruta
 
@@ -150,7 +191,7 @@ Las excepciones usan este envelope:
 {
   "statusCode": 403,
   "success": false,
-  "message": "Acceso denegado",
+  "message": "No tiene permisos para realizar esta acción",
   "errors": [],
   "code": "FORBIDDEN",
   "traceId": "..."
