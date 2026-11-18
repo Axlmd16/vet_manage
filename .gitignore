@@ -1,1 +1,9 @@
 .env
+
+# OpenSpec & Agent skills / workflows
+.agent/
+.claude/skills/
+.claude/commands/opsx/
+opsx/
+*SKILL.md
+*skill.md
