@@ -61,6 +61,7 @@ services:
       NODE_ENV: ${NODE_ENV:-development}
       PORT: 3080
       API_PREFIX: api/v1
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:5174}
       DATABASE_URL: postgresql://${POSTGRES_USER:-vetmanage}:${POSTGRES_PASSWORD:-vetmanage_dev_password}@postgres:55432/${POSTGRES_DB:-vet_manage}?schema=public
       REDIS_URL: redis://redis:56379
       RABBITMQ_URL: amqp://${RABBITMQ_USER:-vetmanage}:${RABBITMQ_PASSWORD:-vetmanage_dev_password}@rabbitmq:55672

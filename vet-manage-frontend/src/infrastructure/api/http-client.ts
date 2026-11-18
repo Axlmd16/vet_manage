@@ -21,9 +21,14 @@ export class ApiError extends Error {
   }
 }
 
-export async function getJson<T>(path: string): Promise<T> {
+async function requestJson<T>(path: string, options: RequestInit = {}): Promise<T> {
   const response = await fetch(`${env.apiUrl}${path}`, {
-    headers: { Accept: 'application/json' },
+    ...options,
+    headers: {
+      Accept: 'application/json',
+      ...(options.body ? { 'Content-Type': 'application/json' } : {}),
+      ...options.headers,
+    },
   });
 
   const body: unknown = await response.json();
@@ -43,4 +48,12 @@ export async function getJson<T>(path: string): Promise<T> {
   }
 
   return body as T;
+}
+
+export function getJson<T>(path: string): Promise<T> {
+  return requestJson<T>(path);
+}
+
+export function postJson<TResponse, TBody>(path: string, body: TBody): Promise<TResponse> {
+  return requestJson<TResponse>(path, { method: 'POST', body: JSON.stringify(body) });
 }

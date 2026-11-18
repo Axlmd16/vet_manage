@@ -6,6 +6,7 @@ import configuration from './config/configuration.js';
 import { validateEnvironment } from './config/env.validation.js';
 import { HealthModule } from './health/health.module.js';
 import { IdentityModule } from './modules/identity/identity.module.js';
+import { InventoryModule } from './modules/inventory/inventory.module.js';
 import { PrismaModule } from './infrastructure/database/prisma/prisma.module.js';
 import { RabbitmqModule } from './infrastructure/rabbitmq/rabbitmq.module.js';
 import { RedisModule } from './infrastructure/redis/redis.module.js';
@@ -23,6 +24,7 @@ import { RedisModule } from './infrastructure/redis/redis.module.js';
     RabbitmqModule,
     HealthModule,
     IdentityModule,
+    InventoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
