@@ -57,3 +57,7 @@ export function getJson<T>(path: string): Promise<T> {
 export function postJson<TResponse, TBody>(path: string, body: TBody): Promise<TResponse> {
   return requestJson<TResponse>(path, { method: 'POST', body: JSON.stringify(body) });
 }
+
+export function patchJson<TResponse, TBody>(path: string, body: TBody): Promise<TResponse> {
+  return requestJson<TResponse>(path, { method: 'PATCH', body: JSON.stringify(body) });
+}

@@ -3,13 +3,21 @@ SHELL := /bin/sh
 DOCKER_COMPOSE ?= docker compose
 PODMAN_COMPOSE ?= podman compose
 
-.PHONY: up up-podman down down-podman restart restart-podman logs logs-podman ps ps-podman build build-frontend test lint
+.PHONY: up up-podman up-seed up-podman-seed down down-podman restart restart-podman logs logs-podman ps ps-podman build build-frontend test lint
 
 up:
 	$(DOCKER_COMPOSE) up --build -d
 
 up-podman:
 	$(PODMAN_COMPOSE) up --build -d
+
+up-seed:
+	$(DOCKER_COMPOSE) up --build -d
+	$(DOCKER_COMPOSE) run --rm --no-deps api sh -c 'npx prisma migrate deploy && npx prisma generate && npm run seed'
+
+up-podman-seed:
+	$(PODMAN_COMPOSE) up --build -d
+	$(PODMAN_COMPOSE) run --rm --no-deps api sh -c 'npx prisma migrate deploy && npx prisma generate && npm run seed'
 
 down:
 	$(DOCKER_COMPOSE) down

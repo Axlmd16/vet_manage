@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { success } from '../../common/errors/api-response.js';
 import { CreateCatalogItemDto } from './dtos/create-catalog-item.dto.js';
 import { CreateProductDto } from './dtos/create-product.dto.js';
@@ -18,6 +18,11 @@ export class InventoryController {
     return success(await this.inventoryService.createCategory(input), 'Categoría creada correctamente', 201);
   }
 
+  @Patch('categories/:id')
+  async updateCategory(@Param('id') id: string, @Body() input: CreateCatalogItemDto) {
+    return success(await this.inventoryService.updateCategory(id, input), 'Categoría actualizada correctamente');
+  }
+
   @Get('brands')
   async listBrands() {
     return success(await this.inventoryService.listBrands());
@@ -28,13 +33,28 @@ export class InventoryController {
     return success(await this.inventoryService.createBrand(input), 'Marca creada correctamente', 201);
   }
 
+  @Patch('brands/:id')
+  async updateBrand(@Param('id') id: string, @Body() input: CreateCatalogItemDto) {
+    return success(await this.inventoryService.updateBrand(id, input), 'Marca actualizada correctamente');
+  }
+
   @Get('products')
   async listProducts(@Query('search') search?: string) {
     return success(await this.inventoryService.listProducts(search));
   }
 
+  @Get('products/:id')
+  async getProduct(@Param('id') id: string) {
+    return success(await this.inventoryService.getProduct(id));
+  }
+
   @Post('products')
   async createProduct(@Body() input: CreateProductDto) {
     return success(await this.inventoryService.createProduct(input), 'Producto registrado correctamente', 201);
+  }
+
+  @Patch('products/:id')
+  async updateProduct(@Param('id') id: string, @Body() input: CreateProductDto) {
+    return success(await this.inventoryService.updateProduct(id, input), 'Producto actualizado correctamente');
   }
 }
