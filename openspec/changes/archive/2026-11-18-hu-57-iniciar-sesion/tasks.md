@@ -28,7 +28,8 @@
 - [x] 4.4 Agregar `POST /auth/refresh` y `POST /auth/logout` con la cookie `httpOnly`
 - [x] 4.5 Guardar el token de acceso en memoria, renovar la sesión ante un 401 y al recargar
 - [x] 4.6 Rediseñar la pantalla de inicio de sesión
-- [x] 4.7 Pruebas unitarias y e2e de intentos restantes, correo inválido, renovación, reutilización y cierre de sesión
+- [x] 4.7 Pruebas unitarias y e2e de intentos restantes, correo inválido, renovación, reutilización, cierre de sesión y bloqueo simulado de correos no registrados
+- [x] 4.8 Rediseñar el menú lateral con iconos, secciones y tarjeta de usuario con panel de opciones
 
 ## 5. Verificación
 
