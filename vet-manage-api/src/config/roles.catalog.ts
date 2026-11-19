@@ -118,7 +118,7 @@ export const ROLES: readonly RoleDefinition[] = [
     displayName: 'Bodeguero',
     description: 'Gestiona inventario. Sus permisos se definen en el módulo de inventario.',
     category: 'STAFF',
-    permissions: [],
+    permissions: ['inventory:read', 'inventory:register-entry'],
   },
   {
     name: 'client',

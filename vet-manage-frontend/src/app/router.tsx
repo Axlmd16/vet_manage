@@ -7,6 +7,7 @@ import { CatalogsPage } from '../modules/catalogs/pages/catalogs-page';
 import { ClientRegisterPage } from '../modules/clients/pages/client-register-page';
 import { ClientsPage } from '../modules/clients/pages/clients-page';
 import { DashboardPage } from '../modules/dashboard/pages/dashboard-page';
+import { BatchEntryPage } from '../modules/inventory/pages/batch-entry-page';
 import { PetsPage } from '../modules/pets/pages/pets-page';
 import { CatalogPage } from '../modules/inventory/pages/catalog-page';
 import { ProductFormPage } from '../modules/inventory/pages/product-form-page';
@@ -35,6 +36,7 @@ export function AppRouter() {
           <Route path="inventory/products/:id/edit" element={<ProductFormPage />} />
           <Route path="inventory/categories" element={<CatalogPage type="category" />} />
           <Route path="inventory/brands" element={<CatalogPage type="brand" />} />
+          <Route path="inventory/batches/new" element={<RequirePermission permission="inventory:register-entry"><BatchEntryPage /></RequirePermission>} />
           <Route path="users" element={<RequirePermission permission="users:read"><UsersPage /></RequirePermission>} />
           <Route path="users/new" element={<RequirePermission permission="users:create"><UserRegisterPage /></RequirePermission>} />
           <Route path="*" element={<Navigate to="/" replace />} />
