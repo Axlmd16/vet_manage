@@ -5,6 +5,7 @@ import { RequirePermission } from '../modules/auth/components/require-permission
 import { LoginPage } from '../modules/auth/pages/login-page';
 import { CatalogsPage } from '../modules/catalogs/pages/catalogs-page';
 import { DashboardPage } from '../modules/dashboard/pages/dashboard-page';
+import { BatchEntryPage } from '../modules/inventory/pages/batch-entry-page';
 import { CatalogPage } from '../modules/inventory/pages/catalog-page';
 import { ProductFormPage } from '../modules/inventory/pages/product-form-page';
 import { ProductsPage } from '../modules/inventory/pages/products-page';
@@ -31,6 +32,7 @@ export function AppRouter() {
           <Route path="inventory/products/:id/edit" element={<ProductFormPage />} />
           <Route path="inventory/categories" element={<CatalogPage type="category" />} />
           <Route path="inventory/brands" element={<CatalogPage type="brand" />} />
+          <Route path="inventory/batches/new" element={<RequirePermission permission="inventory:register-entry"><BatchEntryPage /></RequirePermission>} />
           <Route path="users" element={<RequirePermission permission="users:read"><UsersPage /></RequirePermission>} />
           <Route path="users/new" element={<RequirePermission permission="users:create"><UserRegisterPage /></RequirePermission>} />
           <Route path="*" element={<Navigate to="/" replace />} />
