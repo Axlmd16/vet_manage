@@ -25,6 +25,7 @@ const mainNavigation: NavItem[] = [
   { label: 'Resumen', to: '/', icon: HomeIcon },
   { label: 'Agenda', to: '/appointments', icon: CalendarIcon },
   { label: 'Pacientes', to: '/pets', icon: PawIcon, permission: 'pets:read' },
+  { label: 'Catálogos', to: '/catalogs', icon: FolderIcon },
   { label: 'Clientes', to: '/clients', icon: UsersIcon, permission: 'clients:read' },
 ];
 

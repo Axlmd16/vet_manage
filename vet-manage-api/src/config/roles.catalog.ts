@@ -47,6 +47,8 @@ export const ROLES: readonly RoleDefinition[] = [
       'users:create', 'users:read', 'users:update', 'users:assign-roles',
       'users:change-status', 'users:deactivate',
       'roles:manage-permissions', 'audit:read', 'audit:export',
+      ...catalogManagement('species'),
+      ...catalogManagement('breeds'),
     ],
   },
   {
