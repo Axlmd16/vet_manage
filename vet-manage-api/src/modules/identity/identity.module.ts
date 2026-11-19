@@ -18,6 +18,7 @@ import { TokenService } from './services/token.service.js';
 import { UserQueryRepository } from './repositories/user-query.repository.js';
 import { UserQueryService } from './services/user-query.service.js';
 import { UserRegistrationService } from './services/user-registration.service.js';
+import { UserRoleAssignmentService } from './services/user-role-assignment.service.js';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { UserRegistrationService } from './services/user-registration.service.js
     UserRegistrationService,
     UserQueryRepository,
     UserQueryService,
+    UserRoleAssignmentService,
     JwtAuthGuard,
     PermissionsGuard,
   ],

@@ -10,6 +10,7 @@ import { ProductFormPage } from '../modules/inventory/pages/product-form-page';
 import { ProductsPage } from '../modules/inventory/pages/products-page';
 import { UsersPage } from '../modules/users/pages/users-page';
 import { UserRegisterPage } from '../modules/users/pages/user-register-page';
+import { UserRoleAssignmentPage } from '../modules/users/pages/user-role-assignment-page';
 
 function ComingSoonPage() {
   return <section className="empty-page"><span className="eyebrow">Módulo en preparación</span><h2>Esta sección será implementada por el equipo</h2><p>La arquitectura y el hot reload ya están listos para comenzar.</p></section>;
@@ -33,6 +34,7 @@ export function AppRouter() {
           <Route path="inventory/brands" element={<CatalogPage type="brand" />} />
           <Route path="users" element={<RequirePermission permission="users:read"><UsersPage /></RequirePermission>} />
           <Route path="users/new" element={<RequirePermission permission="users:create"><UserRegisterPage /></RequirePermission>} />
+          <Route path="users/:id/roles" element={<RequirePermission permission="users:assign-roles"><UserRoleAssignmentPage /></RequirePermission>} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Route>
