@@ -29,7 +29,7 @@
 ## 5. Verificación integral
 
 - [x] 5.1 Ejecutar `npm run build`, `npm run lint` y `npm run test` en `vet-manage-api` y `vet-manage-frontend` sin errores.
-- [ ] 5.2 Recorrer en la app (`make up-seed`) los 6 escenarios de aceptación de HU-17 con el usuario Veterinario y confirmar que la Recepcionista recibe 403 al registrar.
+- [x] 5.2 Recorrer en la app (`make up-seed`) los 6 escenarios de aceptación de HU-17 con el usuario Veterinario y confirmar que la Recepcionista recibe 403 al registrar.
 
 ## Workflow follow-up
 

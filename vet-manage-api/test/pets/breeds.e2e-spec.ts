@@ -105,6 +105,10 @@ describe('BreedController (e2e)', () => {
     expect(res.body.data.name).toBe('Labrador');
   });
 
+  it('POST /pets/breeds rejects a description over 500 characters (400)', async () => {
+    await post({ name: 'Labrador', speciesId: ACTIVE, description: 'x'.repeat(501) }).expect(400);
+  });
+
   it('POST /pets/breeds rejects a missing name (400)', async () => {
     const res = await post({ name: '', speciesId: ACTIVE }).expect(400);
 

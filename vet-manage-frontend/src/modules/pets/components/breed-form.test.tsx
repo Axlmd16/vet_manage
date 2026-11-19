@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { BreedForm } from './breed-form';
@@ -80,5 +80,18 @@ describe('BreedForm', () => {
     expect(onCancel).toHaveBeenCalledTimes(1);
     expect(onSubmit).not.toHaveBeenCalled();
     expect(nameInput).toHaveValue('');
+  });
+
+  it('rechaza una descripción de más de 500 caracteres', async () => {
+    const onSubmit = vi.fn();
+    render(<BreedForm species={species} onSubmit={onSubmit} onCancel={vi.fn()} />);
+
+    await userEvent.type(screen.getByLabelText(/nombre de la raza/i), 'Labrador');
+    await userEvent.selectOptions(screen.getByLabelText(/especie/i), 'sp-1');
+    fireEvent.change(screen.getByLabelText(/descripción/i), { target: { value: 'x'.repeat(501) } });
+    await userEvent.click(screen.getByRole('button', { name: /guardar raza/i }));
+
+    expect(screen.getByText('La descripción no puede exceder los 500 caracteres')).toBeInTheDocument();
+    expect(onSubmit).not.toHaveBeenCalled();
   });
 });

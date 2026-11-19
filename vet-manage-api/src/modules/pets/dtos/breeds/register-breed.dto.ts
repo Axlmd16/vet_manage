@@ -12,5 +12,6 @@ export class RegisterBreedDto {
 
   @IsOptional()
   @IsString({ message: 'La descripción debe ser una cadena de texto' })
+  @MaxLength(500, { message: 'La descripción no puede exceder los 500 caracteres' })
   description?: string;
 }

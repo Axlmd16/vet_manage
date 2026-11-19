@@ -6,7 +6,9 @@ type BreedFormInput = {
   description: string;
 };
 
-export type BreedFieldErrors = { name?: string; speciesId?: string };
+export const BREED_DESCRIPTION_MAX = 500;
+
+export type BreedFieldErrors = { name?: string; speciesId?: string; description?: string };
 
 type BreedValidation =
   | { valid: true; value: RegisterBreedDraft; errors: null }
@@ -19,7 +21,11 @@ export function validateBreedDraft(input: BreedFormInput): BreedValidation {
   if (!name) errors.name = 'El nombre de la raza es obligatorio';
   if (!input.speciesId) errors.speciesId = 'Debes asociar la raza a una especie';
 
-  if (errors.name || errors.speciesId) {
+  if (input.description.trim().length > BREED_DESCRIPTION_MAX) {
+    errors.description = `La descripción no puede exceder los ${BREED_DESCRIPTION_MAX} caracteres`;
+  }
+
+  if (errors.name || errors.speciesId || errors.description) {
     return { valid: false, value: null, errors };
   }
 

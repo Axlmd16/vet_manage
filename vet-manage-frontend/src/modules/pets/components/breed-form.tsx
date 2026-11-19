@@ -99,10 +99,15 @@ export function BreedForm({ species, speciesLoading = false, onSubmit, onCancel,
           id="breed-description"
           rows={4}
           value={description}
-          onChange={(event) => setDescription(event.target.value)}
+          onChange={(event) => {
+            setDescription(event.target.value);
+            setErrors((current) => ({ ...current, description: undefined }));
+          }}
           disabled={isLoading}
           placeholder="Observaciones o características de la raza..."
+          aria-invalid={Boolean(errors.description)}
         />
+        {errors.description && <small className="field-error">{errors.description}</small>}
       </label>
 
       {submitError && <small className="field-error" role="alert">{submitError}</small>}

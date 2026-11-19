@@ -15,6 +15,10 @@ El sistema SHALL permitir a un usuario autenticado con el permiso `breeds:create
 - **WHEN** el usuario envía un nombre válido y una especie activa, omitiendo la descripción o enviándola vacía
 - **THEN** el sistema registra la raza con descripción nula y responde HTTP 201
 
+#### Scenario: Descripción demasiado larga
+- **WHEN** el usuario envía una descripción de más de 500 caracteres
+- **THEN** el sistema responde HTTP 400 indicando que la descripción no puede exceder los 500 caracteres y no guarda nada
+
 #### Scenario: Nombre con espacios sobrantes
 - **WHEN** el usuario envía el nombre "  Labrador  "
 - **THEN** el sistema guarda el nombre recortado "Labrador"
