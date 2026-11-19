@@ -5,7 +5,23 @@ model Species {
   isActive    Boolean  @default(true) @map("is_active")
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
+  breeds      Breed[]
 
   @@index([isActive])
   @@map("species")
+}
+
+model Breed {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String   @db.VarChar(100)
+  description String?  @db.Text
+  isActive    Boolean  @default(true) @map("is_active")
+  speciesId   String   @map("species_id") @db.Uuid
+  species     Species  @relation(fields: [speciesId], references: [id], onDelete: Restrict)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@unique([speciesId, name])
+  @@index([speciesId, isActive])
+  @@map("breeds")
 }
