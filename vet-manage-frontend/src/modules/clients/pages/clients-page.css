@@ -1,0 +1,5 @@
+.clients-page { max-width: 1480px; margin: 0 auto; }
+
+.clients-list-placeholder { display: grid; justify-items: center; gap: 8px; padding: 90px 20px; border: 1px dashed #dce3e9; border-radius: 15px; background: #fff; color: #8a96a3; font-size: 12px; text-align: center; }
+.clients-list-placeholder__icon { display: grid; place-items: center; width: 52px; height: 52px; margin-bottom: 6px; border-radius: 15px; color: #416fe7; background: #edf2ff; }
+.clients-list-placeholder strong { color: #26323d; font-size: 15px; }

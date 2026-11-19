@@ -6,7 +6,7 @@ import { isValidIdentification } from '../../../common/validation/identification
 import { PrismaService } from '../../../infrastructure/database/prisma/prisma.service.js';
 import { MailService } from '../../../infrastructure/mail/mail.service.js';
 import { renderCredentialsEmail } from '../../../infrastructure/mail/templates/credentials-email.js';
-import type { ClientRegistrationDto, ClientResponseDto } from '../dtos/client-registration.dto.js';
+import type { ClientRegistrationDto } from '../dtos/client-registration.dto.js';
 import { PasswordHasher } from './password-hasher.service.js';
 import { generateTemporaryPassword } from './temporary-password.js';
 
@@ -18,7 +18,7 @@ export const CLIENT_MESSAGES = {
   invalidEmail: 'Ingrese un correo electrónico válido',
   invalidPhone: 'Ingrese un teléfono válido',
   invalidName: 'Los nombres y apellidos no pueden superar 100 caracteres',
-  invalidRoles: 'Seleccione roles válidos del personal',
+  missingClientRole: 'No se encontró el rol de cliente activo',
   invalidAddress: 'Dirección no válida',
   identificationTaken: 'Número de cédula ya registrado',
   emailTaken: 'El correo ya se encuentra registrado',
@@ -28,6 +28,7 @@ const PHONE_PATTERN = /^\+?\d{7,15}$/;
 const NAME_MAX = 100;
 const EMAIL_MAX = 255;
 const ADDRESS_MAX = 255;
+const CLIENT_ROLE_NAME = 'client';
 
 export type RegisteredClient = {
   id: string;
@@ -54,10 +55,9 @@ type ValidInput = {
   email: string;
   phone: string | null;
   address: string | null;
-  roleNames: string[];
 };
 
-type StaffRole = { id: string; name: string; displayName: string };
+type RoleRef = { id: string; name: string; displayName: string };
 
 @Injectable()
 export class ClientRegistrationService {
@@ -70,10 +70,10 @@ export class ClientRegistrationService {
     private readonly config: ConfigService,
   ) {}
 
-  // Roles activos del personal que se pueden asignar al registrar un cliente.
+  // El registro de clientes siempre asigna el rol de la categoría CLIENT.
   listAssignableRoles() {
     return this.prisma.role.findMany({
-      where: { isActive: true, category: 'STAFF' },
+      where: { isActive: true, category: 'CLIENT' },
       select: { name: true, displayName: true, description: true },
       orderBy: { displayName: 'asc' },
     });
@@ -81,27 +81,27 @@ export class ClientRegistrationService {
 
   async register(input: ClientRegistrationDto, assignedById: string): Promise<ClientRegistrationResult> {
     const data = this.validate(input);
-    const roles = await this.findStaffRoles(data.roleNames);
+    const role = await this.findClientRole();
 
     const temporaryPassword = generateTemporaryPassword();
     const passwordHash = await this.hasher.hash(temporaryPassword);
 
     let outcome: Awaited<ReturnType<ClientRegistrationService['persist']>>;
     try {
-      outcome = await this.prisma.$transaction((tx) => this.persist(tx, data, roles, passwordHash, assignedById));
+      outcome = await this.prisma.$transaction((tx) => this.persist(tx, data, role, passwordHash, assignedById));
     } catch (error) {
       throw this.translateConflict(error);
     }
 
-    const { person, user, passwordAssigned, existingPerson } = outcome;
+    const { person, user, client, passwordAssigned, existingPerson } = outcome;
     const credentialsSent = passwordAssigned
-      ? await this.sendCredentials(person, roles, user.id, temporaryPassword)
+      ? await this.sendCredentials(person, [role], user.id, temporaryPassword)
       : false;
 
     return {
       message: passwordAssigned && !credentialsSent ? CLIENT_MESSAGES.mailFailed : CLIENT_MESSAGES.registered,
       client: {
-        id: user.id,
+        id: client.id,
         personId: person.id,
         identification: person.identification,
         firstName: person.firstName,
@@ -109,8 +109,8 @@ export class ClientRegistrationService {
         email: person.email,
         phone: person.phone,
         address: person.address,
-        status: user.status,
-        roles: roles.map(({ name, displayName }) => ({ name, displayName })),
+        status: client.status,
+        roles: [{ name: role.name, displayName: role.displayName }],
         existingPerson,
         passwordAssigned,
         credentialsSent,
@@ -118,19 +118,19 @@ export class ClientRegistrationService {
     };
   }
 
-  private async findStaffRoles(names: string[]): Promise<StaffRole[]> {
-    const roles = await this.prisma.role.findMany({
-      where: { name: { in: names }, isActive: true, category: 'STAFF' },
+  private async findClientRole(): Promise<RoleRef> {
+    const role = await this.prisma.role.findFirst({
+      where: { name: CLIENT_ROLE_NAME, isActive: true, category: 'CLIENT' },
       select: { id: true, name: true, displayName: true },
     });
-    if (roles.length !== names.length) throw new ApiException(CLIENT_MESSAGES.invalidRoles, 400, [], 'CLIENT_INVALID_ROLES');
-    return roles;
+    if (!role) throw new ApiException(CLIENT_MESSAGES.missingClientRole, 500, [], 'CLIENT_ROLE_MISSING');
+    return role;
   }
 
   private async persist(
     tx: Parameters<Parameters<PrismaService['$transaction']>[0]>[0],
     data: ValidInput,
-    roles: StaffRole[],
+    role: RoleRef,
     passwordHash: string,
     assignedById: string,
   ) {
@@ -184,15 +184,21 @@ export class ClientRegistrationService {
       passwordAssigned = false;
     }
 
-    await this.assignRoles(tx, user.id, roles, assignedById, now);
+    await this.assignRoles(tx, user.id, [role], assignedById, now);
 
-    return { person, user, passwordAssigned, existingPerson: Boolean(found) };
+    const client = await tx.client.upsert({
+      where: { personId: person.id },
+      create: { personId: person.id, status: 'ACTIVE' },
+      update: {},
+    });
+
+    return { person, user, client, passwordAssigned, existingPerson: Boolean(found) };
   }
 
   private async assignRoles(
     tx: Parameters<Parameters<PrismaService['$transaction']>[0]>[0],
     userId: string,
-    roles: StaffRole[],
+    roles: RoleRef[],
     assignedById: string,
     now: Date,
   ) {
@@ -214,7 +220,7 @@ export class ClientRegistrationService {
 
   private async sendCredentials(
     person: { firstName: string; lastName: string; email: string },
-    roles: StaffRole[],
+    roles: RoleRef[],
     userId: string,
     password: string,
   ): Promise<boolean> {
@@ -241,14 +247,12 @@ export class ClientRegistrationService {
     const email = input.email?.trim().toLowerCase() ?? '';
     const phone = input.phone?.trim() || null;
     const address = input.address?.trim() || null;
-    const roleNames = [...new Set((input.roles ?? []).map((name) => name.trim()).filter(Boolean))];
 
     const missing = [
       !identification && 'identification',
       !firstName && 'firstName',
       !lastName && 'lastName',
       !email && 'email',
-      roleNames.length === 0 && 'roles',
     ].filter((field): field is string => Boolean(field));
     if (missing.length > 0) throw new ApiException(CLIENT_MESSAGES.missing, 400, missing, 'CLIENT_MISSING_FIELDS');
 
@@ -268,7 +272,7 @@ export class ClientRegistrationService {
       throw new ApiException(CLIENT_MESSAGES.invalidName, 400, ['firstName', 'lastName'], 'CLIENT_INVALID_NAME');
     }
 
-    return { identification, firstName, lastName, email, phone, address, roleNames };
+    return { identification, firstName, lastName, email, phone, address };
   }
 
   private translateConflict(error: unknown): unknown {

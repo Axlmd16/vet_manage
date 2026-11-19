@@ -2,7 +2,7 @@ import { Body, Controller, Get, HttpCode, Post, Req } from '@nestjs/common';
 import { ApiException } from '../../../common/errors/api-exception.js';
 import { success } from '../../../common/errors/api-response.js';
 import { RequirePermissions } from '../decorators/require-permissions.decorator.js';
-import type { ClientRegistrationDto } from '../dtos/client-registration.dto.js';
+import { ClientRegistrationDto } from '../dtos/client-registration.dto.js';
 import { ClientRegistrationService } from '../services/client-registration.service.js';
 import type { AuthenticatedRequest } from '../types/authenticated-request.js';
 

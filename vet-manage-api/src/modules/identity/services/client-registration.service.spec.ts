@@ -4,12 +4,7 @@ import { ApiException } from '../../../common/errors/api-exception.js';
 import { isValidPassword } from '../../../common/security/password-policy.js';
 import { ClientRegistrationService, CLIENT_MESSAGES } from './client-registration.service.js';
 
-const ROLES = [
-  { id: 'r-vet', name: 'veterinarian', displayName: 'Veterinario' },
-  { id: 'r-manager', name: 'manager', displayName: 'Gerente' },
-  { id: 'r-admin', name: 'administrator', displayName: 'Administrador' },
-  { id: 'r-cashier', name: 'cashier', displayName: 'Cajero' },
-];
+const CLIENT_ROLE = { id: 'r-client', name: 'client', displayName: 'Cliente' };
 
 const valid = {
   identification: '1710034065',
@@ -18,7 +13,6 @@ const valid = {
   email: 'MLopez@Vetmanage.com ',
   phone: '0991234567',
   address: 'Av. Principal 123',
-  roles: ['veterinarian'],
 };
 
 function build() {
@@ -26,6 +20,13 @@ function build() {
     person: { findUnique: vi.fn(), findFirst: vi.fn(), create: vi.fn() },
     user: { create: vi.fn(), update: vi.fn() },
     userRole: { findMany: vi.fn(async () => []), create: vi.fn(async () => ({})), update: vi.fn(async () => ({})) },
+    client: {
+      upsert: vi.fn(async ({ where }: { where: { personId: string } }) => ({
+        id: 'c1',
+        personId: where.personId,
+        status: 'ACTIVE',
+      })),
+    },
   };
   tx.person.findUnique.mockResolvedValue(null);
   tx.person.findFirst.mockResolvedValue(null);
@@ -34,8 +35,8 @@ function build() {
 
   const prisma = {
     role: {
-      findMany: vi.fn(async ({ where }: { where: { name?: { in: string[] } } }) =>
-        where.name ? ROLES.filter((role) => where.name!.in.includes(role.name) && role.name !== 'client') : ROLES),
+      findFirst: vi.fn(async () => CLIENT_ROLE),
+      findMany: vi.fn(async () => [CLIENT_ROLE]),
     },
     $transaction: vi.fn((callback: (transaction: typeof tx) => unknown) => callback(tx)),
   };
@@ -62,8 +63,8 @@ describe('ClientRegistrationService', () => {
     ctx = build();
   });
 
-  describe('registro exitoso de cliente (escenario 1)', () => {
-    it('crea persona, cuenta activa con contraseña temporal y rol, y envía las credenciales', async () => {
+  describe('registro exitoso de cliente', () => {
+    it('crea persona, cuenta, registro Client y rol client, y envía las credenciales', async () => {
       const { message, client } = await ctx.service.register(valid, 'admin-1');
 
       expect(message).toBe(CLIENT_MESSAGES.registered);
@@ -79,20 +80,27 @@ describe('ClientRegistrationService', () => {
       });
       const created = ctx.tx.user.create.mock.calls[0][0].data;
       expect(created).toMatchObject({ personId: 'p1', mustChangePassword: true });
-      expect(ctx.tx.userRole.create).toHaveBeenCalledWith({ data: { userId: 'u1', roleId: 'r-vet', assignedById: 'admin-1' } });
+      expect(ctx.tx.userRole.create).toHaveBeenCalledWith({ data: { userId: 'u1', roleId: 'r-client', assignedById: 'admin-1' } });
+      expect(ctx.tx.client.upsert).toHaveBeenCalledWith({
+        where: { personId: 'p1' },
+        create: { personId: 'p1', status: 'ACTIVE' },
+        update: {},
+      });
       expect(client).toMatchObject({
+        id: 'c1',
+        personId: 'p1',
         status: 'ACTIVE',
         existingPerson: false,
         passwordAssigned: true,
         credentialsSent: true,
         address: 'Av. Principal 123',
-        roles: [{ name: 'veterinarian', displayName: 'Veterinario' }],
+        roles: [{ name: 'client', displayName: 'Cliente' }],
       });
       expect(client).not.toHaveProperty('password');
 
       const sent = (ctx.mail.send.mock.calls[0] as unknown as [{ to: string; subject: string; text: string; html: string }])[0];
       expect(sent.subject).toBe('Su cuenta de VetManage está lista');
-      expect(sent.text).toContain('Roles: Veterinario');
+      expect(sent.text).toContain('Roles: Cliente');
       expect(sent.html).toContain('href="http://localhost:5174/login"');
       const password = sent.text.match(/Contraseña temporal: (\S+)/)![1];
       expect(isValidPassword(password)).toBe(true);
@@ -110,16 +118,16 @@ describe('ClientRegistrationService', () => {
       await ctx.service.register({ ...valid, address: '  ' }, 'admin-1');
       expect(ctx.tx.person.create.mock.calls[0][0].data.address).toBeNull();
     });
+
+    it('ignora roles heredados y asigna siempre el rol client', async () => {
+      await ctx.service.register({ ...valid, roles: ['veterinarian', 'manager'] }, 'admin-1');
+
+      expect(ctx.tx.userRole.create).toHaveBeenCalledTimes(1);
+      expect(ctx.tx.userRole.create).toHaveBeenCalledWith({ data: { userId: 'u1', roleId: 'r-client', assignedById: 'admin-1' } });
+    });
   });
 
-  it('asigna varios roles a una sola cuenta (escenario 2)', async () => {
-    await ctx.service.register({ ...valid, roles: ['manager', 'administrator', 'manager'] }, 'admin-1');
-
-    expect(ctx.tx.user.create).toHaveBeenCalledTimes(1);
-    expect(ctx.tx.userRole.create).toHaveBeenCalledTimes(2);
-  });
-
-  describe('persona existente (escenario 3)', () => {
+  describe('persona existente', () => {
     const client = (overrides: Record<string, unknown> = {}) => ({
       id: 'p9',
       identification: valid.identification,
@@ -132,15 +140,23 @@ describe('ClientRegistrationService', () => {
       ...overrides,
     });
 
-    it('reutiliza a la persona, conserva la contraseña y no envía correo', async () => {
+    it('reutiliza la persona, conserva la contraseña y no envía correo', async () => {
       ctx.tx.person.findUnique.mockResolvedValue(client());
+      ctx.tx.userRole.findMany.mockResolvedValue([
+        { id: 'ur9', roleId: 'r-client', expiresAt: null },
+      ] as never);
 
-      const { message, client: result } = await ctx.service.register({ ...valid, roles: ['cashier'] }, 'admin-1');
+      const { message, client: result } = await ctx.service.register(valid, 'admin-1');
 
       expect(ctx.tx.person.create).not.toHaveBeenCalled();
       expect(ctx.tx.user.create).not.toHaveBeenCalled();
       expect(ctx.tx.user.update).not.toHaveBeenCalled();
-      expect(ctx.tx.userRole.create).toHaveBeenCalledWith({ data: { userId: 'u9', roleId: 'r-cashier', assignedById: 'admin-1' } });
+      expect(ctx.tx.userRole.create).not.toHaveBeenCalled();
+      expect(ctx.tx.client.upsert).toHaveBeenCalledWith({
+        where: { personId: 'p9' },
+        create: { personId: 'p9', status: 'ACTIVE' },
+        update: {},
+      });
       expect(ctx.mail.send).not.toHaveBeenCalled();
       expect(message).toBe(CLIENT_MESSAGES.registered);
       expect(result).toMatchObject({ existingPerson: true, passwordAssigned: false, credentialsSent: false, email: 'ana@cliente.com' });
@@ -149,43 +165,46 @@ describe('ClientRegistrationService', () => {
     it('crea la cuenta y envía las credenciales al correo guardado cuando la persona no tiene cuenta', async () => {
       ctx.tx.person.findUnique.mockResolvedValue(client({ user: null }));
 
-      await ctx.service.register({ ...valid, roles: ['cashier'] }, 'admin-1');
+      await ctx.service.register(valid, 'admin-1');
 
       expect(ctx.tx.user.create).toHaveBeenCalledWith(expect.objectContaining({ data: expect.objectContaining({ personId: 'p9', mustChangePassword: true }) }));
       expect((ctx.mail.send.mock.calls[0] as unknown as [{ to: string }])[0].to).toBe('ana@cliente.com');
+      expect(ctx.tx.client.upsert).toHaveBeenCalledWith({
+        where: { personId: 'p9' },
+        create: { personId: 'p9', status: 'ACTIVE' },
+        update: {},
+      });
     });
 
     it('asigna una contraseña temporal a una cuenta sin contraseña', async () => {
       ctx.tx.person.findUnique.mockResolvedValue(client({ user: { id: 'u9', password: null, status: 'ACTIVE', userRoles: [] } }));
       ctx.tx.user.update.mockImplementation(async ({ data }) => ({ id: 'u9', status: 'ACTIVE', ...data, userRoles: [] }));
 
-      await ctx.service.register({ ...valid, roles: ['cashier'] }, 'admin-1');
+      await ctx.service.register(valid, 'admin-1');
 
       expect(ctx.tx.user.update).toHaveBeenCalledWith(expect.objectContaining({ where: { id: 'u9' }, data: expect.objectContaining({ mustChangePassword: true }) }));
       expect(ctx.mail.send).toHaveBeenCalledTimes(1);
     });
 
-    it('renueva un rol vencido y no duplica uno vigente', async () => {
+    it('renueva el rol client vencido y no duplica uno vigente', async () => {
       ctx.tx.person.findUnique.mockResolvedValue(client());
       ctx.tx.userRole.findMany.mockResolvedValue([
-        { id: 'ur1', roleId: 'r-cashier', expiresAt: new Date(Date.now() - 1000) },
-        { id: 'ur2', roleId: 'r-vet', expiresAt: null },
+        { id: 'ur1', roleId: 'r-client', expiresAt: new Date(Date.now() - 1000) },
       ] as never);
 
-      await ctx.service.register({ ...valid, roles: ['cashier', 'veterinarian'] }, 'admin-1');
+      await ctx.service.register(valid, 'admin-1');
 
       expect(ctx.tx.userRole.update).toHaveBeenCalledWith({ where: { id: 'ur1' }, data: { expiresAt: null, assignedById: 'admin-1' } });
       expect(ctx.tx.userRole.create).not.toHaveBeenCalled();
     });
   });
 
-  describe('campos obligatorios (escenario 4)', () => {
+  describe('campos obligatorios', () => {
     it.each([
       ['email', { email: '  ' }],
       ['identification', { identification: undefined }],
       ['firstName', { firstName: '' }],
       ['lastName', { lastName: undefined }],
-      ['roles', { roles: [] }],
     ])('rechaza si falta %s', async (field, override) => {
       const error = await rejection(ctx.service.register({ ...valid, ...override }, 'admin-1'));
 
@@ -196,11 +215,11 @@ describe('ClientRegistrationService', () => {
 
     it('lista todos los campos faltantes', async () => {
       const error = await rejection(ctx.service.register({}, 'admin-1'));
-      expect(error.errors).toEqual(['identification', 'firstName', 'lastName', 'email', 'roles']);
+      expect(error.errors).toEqual(['identification', 'firstName', 'lastName', 'email']);
     });
   });
 
-  it('rechaza la cédula del cliente ya registrada (escenario 5)', async () => {
+  it('rechaza la cédula del cliente ya registrada', async () => {
     ctx.tx.person.findUnique.mockResolvedValue({
       id: 'p2', identification: valid.identification,
       user: { id: 'u2', password: 'h', userRoles: [{ role: { category: 'STAFF' } }] },
@@ -210,15 +229,16 @@ describe('ClientRegistrationService', () => {
 
     expect(error).toMatchObject({ statusCode: 409, message: 'Número de cédula ya registrado', code: 'CLIENT_IDENTIFICATION_TAKEN' });
     expect(ctx.tx.userRole.create).not.toHaveBeenCalled();
+    expect(ctx.tx.client.upsert).not.toHaveBeenCalled();
   });
 
-  it('rechaza la cédula con formato inválido (escenario 6)', async () => {
+  it('rechaza la cédula con formato inválido', async () => {
     const error = await rejection(ctx.service.register({ ...valid, identification: '11045' }, 'admin-1'));
 
     expect(error).toMatchObject({ statusCode: 400, message: 'La cédula debe tener 10 dígitos válidos', code: 'CLIENT_INVALID_IDENTIFICATION' });
   });
 
-  it('rechaza el correo ya registrado (escenario 7)', async () => {
+  it('rechaza el correo ya registrado', async () => {
     ctx.tx.person.findFirst.mockResolvedValue({ id: 'otra' });
 
     const error = await rejection(ctx.service.register({ ...valid, email: 'MLopez@vetmanage.com' }, 'admin-1'));
@@ -241,7 +261,7 @@ describe('ClientRegistrationService', () => {
     warn.mockRestore();
   });
 
-  it('mantiene la cuenta si falla el envío del correo (escenario 8)', async () => {
+  it('mantiene la cuenta si falla el envío del correo', async () => {
     ctx.mail.send.mockRejectedValue(new Error('SMTP caído'));
 
     const { message, client } = await ctx.service.register(valid, 'admin-1');
@@ -249,6 +269,7 @@ describe('ClientRegistrationService', () => {
     expect(message).toBe(CLIENT_MESSAGES.mailFailed);
     expect(client).toMatchObject({ passwordAssigned: true, credentialsSent: false });
     expect(ctx.tx.user.create).toHaveBeenCalledTimes(1);
+    expect(ctx.tx.client.upsert).toHaveBeenCalledTimes(1);
   });
 
   describe('formatos', () => {
@@ -263,24 +284,34 @@ describe('ClientRegistrationService', () => {
     });
   });
 
-  describe('roles', () => {
-    it.each([['client'], ['inexistente']])('rechaza el rol %s', async (role) => {
-      const error = await rejection(ctx.service.register({ ...valid, roles: ['veterinarian', role] }, 'admin-1'));
-
-      expect(error).toMatchObject({ statusCode: 400, message: 'Seleccione roles válidos del personal', code: 'CLIENT_INVALID_ROLES' });
-    });
-
-    it('busca solo roles activos del personal', async () => {
+  describe('rol client', () => {
+    it('busca el rol activo de la categoría CLIENT', async () => {
       await ctx.service.register(valid, 'admin-1');
 
-      expect(ctx.prisma.role.findMany).toHaveBeenCalledWith(expect.objectContaining({ where: { name: { in: ['veterinarian'] }, isActive: true, category: 'STAFF' } }));
+      expect(ctx.prisma.role.findFirst).toHaveBeenCalledWith({
+        where: { name: 'client', isActive: true, category: 'CLIENT' },
+        select: { id: true, name: true, displayName: true },
+      });
+    });
+
+    it('falla con error 500 si no existe el rol client activo', async () => {
+      ctx.prisma.role.findFirst.mockResolvedValue(null);
+
+      const error = await rejection(ctx.service.register(valid, 'admin-1'));
+
+      expect(error).toMatchObject({
+        statusCode: 500,
+        message: 'No se encontró el rol de cliente activo',
+        code: 'CLIENT_ROLE_MISSING',
+      });
+      expect(ctx.prisma.$transaction).not.toHaveBeenCalled();
     });
 
     it('lista los roles asignables ordenados', async () => {
       await ctx.service.listAssignableRoles();
 
       expect(ctx.prisma.role.findMany).toHaveBeenCalledWith({
-        where: { isActive: true, category: 'STAFF' },
+        where: { isActive: true, category: 'CLIENT' },
         select: { name: true, displayName: true, description: true },
         orderBy: { displayName: 'asc' },
       });

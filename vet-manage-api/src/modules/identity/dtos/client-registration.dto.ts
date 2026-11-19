@@ -21,6 +21,7 @@ export class ClientRegistrationDto {
   @IsString()
   address?: string;
 
+  // Se acepta por compatibilidad con clientes existentes; el servicio asigna siempre el rol `client`.
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
