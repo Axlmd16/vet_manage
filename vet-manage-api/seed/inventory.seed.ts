@@ -4,7 +4,7 @@ type InventorySeedClient = {
 
 type InventorySeedTransaction = {
   category: { upsert(args: { where: { name: string }; update: Record<string, unknown>; create: Record<string, unknown> }): Promise<{ id: string }> };
-  brand: { upsert(args: { where: { name: string }; update: Record<string, unknown>; create: Record<string, unknown> }): Promise<{ id: string }> };
+  marca: { upsert(args: { where: { name: string }; update: Record<string, unknown>; create: Record<string, unknown> }): Promise<{ id: string }> };
   product: { upsert(args: { where: { code: string }; update: Record<string, unknown>; create: Record<string, unknown> }): Promise<{ id: string }> };
 };
 
@@ -106,7 +106,7 @@ export async function seedInventory(prisma: InventorySeedClient) {
 
     const brands = new Map<string, string>();
     for (const definition of INVENTORY_DEMO.brands) {
-      const brand = await tx.brand.upsert({
+      const brand = await tx.marca.upsert({
         where: { name: definition.name },
         update: { description: definition.description, isActive: true },
         create: { ...definition, isActive: true },
