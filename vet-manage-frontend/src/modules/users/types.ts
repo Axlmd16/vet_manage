@@ -47,3 +47,11 @@ export type UserPage = {
   page: number;
   pageSize: number;
 };
+
+export type RoleRef = { name: string; displayName: string };
+
+export type UserRoleAssignment = {
+  user: { id: string; status: UserStatus | string; fullName: string };
+  currentRoles: RoleRef[];
+  availableRoles: RoleRef[];
+};

@@ -6,6 +6,7 @@ import { usersApi } from './users-api';
 vi.mock('../../../infrastructure/api/http-client', () => ({
   getJson: vi.fn(),
   postJson: vi.fn(),
+  putJson: vi.fn(),
 }));
 
 const emptyPage: UserPage = { items: [], total: 0, page: 1, pageSize: 20 };
@@ -40,5 +41,29 @@ describe('usersApi.list', () => {
     await usersApi.list();
 
     expect(getJson).toHaveBeenCalledWith('/users');
+  });
+});
+
+describe('usersApi role assignment', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('consulta la asignación de roles del usuario', async () => {
+    const { getJson } = await import('../../../infrastructure/api/http-client');
+    vi.mocked(getJson).mockResolvedValue({ user: { id: 'u1', status: 'ACTIVE', fullName: 'Ana Admin' }, currentRoles: [], availableRoles: [] });
+
+    await usersApi.getRoleAssignment('u1');
+
+    expect(getJson).toHaveBeenCalledWith('/users/u1/role-assignment');
+  });
+
+  it('guarda la asignación de roles con PUT', async () => {
+    const { putJson } = await import('../../../infrastructure/api/http-client');
+    vi.mocked(putJson).mockResolvedValue({ user: { id: 'u1', status: 'ACTIVE', fullName: 'Ana Admin' }, currentRoles: [], availableRoles: [] });
+
+    await usersApi.updateRoleAssignment('u1', ['receptionist', 'cashier']);
+
+    expect(putJson).toHaveBeenCalledWith('/users/u1/role-assignment', { roles: ['receptionist', 'cashier'] });
   });
 });

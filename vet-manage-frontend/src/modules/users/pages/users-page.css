@@ -22,3 +22,7 @@
   .users-filter-actions { flex-direction: column; }
   .users-pagination { align-items: flex-start; flex-direction: column; }
 }
+
+.users-actions-cell { white-space: nowrap; }
+.role-current-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.role-current-item { margin: 0; }

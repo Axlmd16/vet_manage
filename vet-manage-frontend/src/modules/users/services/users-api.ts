@@ -1,5 +1,12 @@
-import { getJson, postJson } from '../../../infrastructure/api/http-client';
-import type { AssignableRole, RegisteredUser, RegisterUserInput, UserPage, UserQuery } from '../types';
+import { getJson, postJson, putJson } from '../../../infrastructure/api/http-client';
+import type {
+  AssignableRole,
+  RegisteredUser,
+  RegisterUserInput,
+  UserPage,
+  UserQuery,
+  UserRoleAssignment,
+} from '../types';
 
 export const usersApi = {
   assignableRoles() {
@@ -24,5 +31,11 @@ export const usersApi = {
   },
   register(input: RegisterUserInput) {
     return postJson<RegisteredUser, RegisterUserInput>('/users', input);
+  },
+  getRoleAssignment(userId: string) {
+    return getJson<UserRoleAssignment>(`/users/${userId}/role-assignment`);
+  },
+  updateRoleAssignment(userId: string, roles: string[]) {
+    return putJson<UserRoleAssignment, { roles: string[] }>(`/users/${userId}/role-assignment`, { roles });
   },
 };
