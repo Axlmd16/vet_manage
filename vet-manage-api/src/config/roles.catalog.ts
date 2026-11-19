@@ -1,4 +1,4 @@
-import type { PermissionKey } from './permissions.catalog.js';
+import { PERMISSIONS, type PermissionKey } from './permissions.catalog.js';
 
 export type RoleDefinition = {
   name: string;
@@ -36,8 +36,16 @@ const clinicalFiles: PermissionKey[] = [
   'clinical-files:create', 'clinical-files:read', 'clinical-files:update', 'clinical-files:remove',
 ];
 
-// Permisos iniciales de cada rol. El Administrador puede modificarlos desde el sistema.
+// Permisos iniciales de cada rol. El superadmin es una cuenta interna para pruebas.
 export const ROLES: readonly RoleDefinition[] = [
+  {
+    name: 'superadmin',
+    displayName: 'Superadministrador (pruebas)',
+    description: 'Cuenta interna de pruebas con todos los permisos del sistema.',
+    category: 'SYSTEM',
+    visible: false,
+    permissions: PERMISSIONS.map(({ key }) => key),
+  },
   {
     name: 'administrator',
     displayName: 'Administrador',

@@ -20,8 +20,9 @@ describe('Catálogos de permisos y roles', () => {
     for (const key of keys) expect(key).toMatch(/^[a-z-]+:[a-z-]+$/);
   });
 
-  it('declara los 8 roles del sistema sin super administrador', () => {
+  it('declara el superadmin de pruebas y los roles operativos', () => {
     expect(ROLES.map((role) => role.name)).toEqual([
+      'superadmin', 'administrator', 'manager', 'veterinarian', 'veterinary_technician',
       'administrator', 'manager', 'veterinarian', 'veterinary_technician',
       'receptionist', 'cashier', 'warehouse_keeper', 'client',
     ]);
@@ -42,6 +43,13 @@ describe('Catálogos de permisos y roles', () => {
     expect(admin.has('roles:manage-permissions')).toBe(true);
     expect(admin.has('audit:export')).toBe(true);
     expect([...admin].some((key) => key.startsWith('clients:') || key.startsWith('pets:'))).toBe(false);
+  });
+
+  it('el superadmin tiene todos los permisos y no es visible para administración normal', () => {
+    const superadmin = ROLES.find((role) => role.name === 'superadmin');
+
+    expect(superadmin?.visible).toBe(false);
+    expect(keysOf('superadmin')).toEqual(new Set(PERMISSIONS.map((permission) => permission.key)));
   });
 
   it('el Recepcionista no puede dar de baja clientes ni pacientes', () => {
