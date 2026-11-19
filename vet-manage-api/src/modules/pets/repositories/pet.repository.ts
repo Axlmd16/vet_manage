@@ -26,7 +26,7 @@ export class PetRepository {
 
   // El código (PAC-NNNNNN) y el estado ACTIVE los asigna la base de datos.
   create(data: NewPet) {
-    return this.prisma.pet.create({ data, include: petWithCatalog });
+    return this.prisma.patient.create({ data, include: petWithCatalog });
   }
 }
 
