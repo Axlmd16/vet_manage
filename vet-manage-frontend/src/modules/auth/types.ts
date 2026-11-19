@@ -1,0 +1,16 @@
+export type SessionRole = { name: string; displayName: string };
+
+export type SessionUser = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  roles: SessionRole[];
+  permissions: string[];
+};
+
+export type SessionProfile = { mustChangePassword: boolean; user: SessionUser };
+
+export type LoginResult = SessionProfile & { accessToken: string };
+
+export type LoginCredentials = { email: string; password: string };

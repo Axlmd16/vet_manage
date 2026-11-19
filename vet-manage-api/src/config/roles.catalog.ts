@@ -1,0 +1,130 @@
+import type { PermissionKey } from './permissions.catalog.js';
+
+export type RoleDefinition = {
+  name: string;
+  displayName: string;
+  description: string;
+  category: 'SYSTEM' | 'STAFF' | 'CLIENT';
+  visible?: boolean;
+  permissions: readonly PermissionKey[];
+};
+
+const crud = (module: string) => [
+  `${module}:create`, `${module}:read`, `${module}:update`,
+] as PermissionKey[];
+
+const clientsAndPetsFull: PermissionKey[] = [
+  ...crud('clients'), 'clients:deactivate', 'clients:inactivate', 'clients:activate',
+  ...crud('pets'), 'pets:deactivate', 'pets:inactivate', 'pets:activate',
+];
+
+const catalogManagement = (module: 'species' | 'breeds'): PermissionKey[] => [
+  `${module}:create`, `${module}:read`, `${module}:update`, `${module}:change-status`,
+];
+
+const preventiveCare: PermissionKey[] = [
+  'vaccinations:create', 'vaccinations:update', 'vaccinations:read', 'vaccinations:void',
+  'deworming:create', 'deworming:update', 'deworming:read', 'deworming:void',
+];
+
+const procedureCatalog: PermissionKey[] = [
+  'procedure-types:create', 'procedure-types:read', 'procedure-types:inactivate',
+  'procedures:create', 'procedures:read', 'procedures:deactivate',
+];
+
+const clinicalFiles: PermissionKey[] = [
+  'clinical-files:create', 'clinical-files:read', 'clinical-files:update', 'clinical-files:remove',
+];
+
+// Permisos iniciales de cada rol. El Administrador puede modificarlos desde el sistema.
+export const ROLES: readonly RoleDefinition[] = [
+  {
+    name: 'administrator',
+    displayName: 'Administrador',
+    description: 'Gestiona usuarios, roles, permisos y auditoría.',
+    category: 'STAFF',
+    permissions: [
+      'users:create', 'users:read', 'users:update', 'users:assign-roles',
+      'users:change-status', 'users:deactivate',
+      'roles:manage-permissions', 'audit:read', 'audit:export',
+      ...catalogManagement('species'),
+      ...catalogManagement('breeds'),
+    ],
+  },
+  {
+    name: 'manager',
+    displayName: 'Gerente',
+    description: 'Gestiona clientes, pacientes y catálogos de procedimientos.',
+    category: 'STAFF',
+    permissions: [
+      ...clientsAndPetsFull,
+      'species:read', 'breeds:read',
+      ...procedureCatalog,
+    ],
+  },
+  {
+    name: 'veterinarian',
+    displayName: 'Veterinario',
+    description: 'Atiende pacientes y gestiona su historia clínica.',
+    category: 'STAFF',
+    permissions: [
+      ...clientsAndPetsFull.filter((key) => key !== 'pets:create' && key !== 'pets:inactivate' && key !== 'pets:activate'),
+      ...catalogManagement('species'),
+      ...catalogManagement('breeds'),
+      'medical-history:create', 'medical-history:read',
+      'consultations:create', 'consultations:correct', 'diagnoses:create',
+      'prescriptions:manage', 'prescriptions:read', 'prescriptions:export',
+      ...preventiveCare,
+      ...procedureCatalog,
+      'procedure-reports:create', 'procedure-reports:correct',
+      'supplies-used:create', 'supplies-used:remove',
+      ...clinicalFiles,
+    ],
+  },
+  {
+    name: 'veterinary_technician',
+    displayName: 'Técnico Veterinario',
+    description: 'Apoya la atención: vacunación, desparasitación, informes y archivos.',
+    category: 'STAFF',
+    permissions: [
+      'clients:read', 'pets:read', 'species:read', 'breeds:read',
+      'medical-history:read',
+      ...preventiveCare,
+      'procedure-types:read', 'procedures:read', 'procedure-reports:create',
+      'supplies-used:create',
+      ...clinicalFiles,
+    ],
+  },
+  {
+    name: 'receptionist',
+    displayName: 'Recepcionista',
+    description: 'Registra y consulta clientes y pacientes.',
+    category: 'STAFF',
+    permissions: [
+      'clients:create', 'clients:read', 'clients:update', 'clients:inactivate', 'clients:activate',
+      'pets:create', 'pets:read', 'pets:update', 'pets:inactivate', 'pets:activate',
+      'species:read', 'breeds:read',
+    ],
+  },
+  {
+    name: 'cashier',
+    displayName: 'Cajero',
+    description: 'Gestiona cobros. Sus permisos se definen en el módulo de ventas.',
+    category: 'STAFF',
+    permissions: [],
+  },
+  {
+    name: 'warehouse_keeper',
+    displayName: 'Bodeguero',
+    description: 'Gestiona inventario. Sus permisos se definen en el módulo de inventario.',
+    category: 'STAFF',
+    permissions: [],
+  },
+  {
+    name: 'client',
+    displayName: 'Cliente',
+    description: 'Propietario de pacientes con cuenta en el sistema.',
+    category: 'CLIENT',
+    permissions: [],
+  },
+];

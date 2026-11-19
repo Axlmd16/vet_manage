@@ -1,0 +1,76 @@
+import { PERMISSIONS } from './permissions.catalog.js';
+import { PERMISSION_CATALOGS } from './permissions.catalog.js';
+import { ROLES } from './roles.catalog.js';
+
+const keysOf = (roleName: string) =>
+  new Set<string>(ROLES.find((role) => role.name === roleName)?.permissions ?? []);
+
+describe('Catálogos de permisos y roles', () => {
+  it('mantiene catálogos separados por módulo y los agrega en una colección plana', () => {
+    expect(PERMISSION_CATALOGS).toHaveLength(3);
+    expect(PERMISSION_CATALOGS.every((catalog) => catalog.length > 0)).toBe(true);
+    expect(PERMISSIONS.length).toBe(PERMISSION_CATALOGS.reduce((total, catalog) => total + catalog.length, 0));
+    expect(PERMISSIONS.some((permission) => permission.key === 'inventory:manage-products')).toBe(true);
+  });
+
+  it('no repite claves de permisos y todas siguen el formato modulo:accion', () => {
+    const keys = PERMISSIONS.map((permission) => permission.key);
+
+    expect(new Set(keys).size).toBe(keys.length);
+    for (const key of keys) expect(key).toMatch(/^[a-z-]+:[a-z-]+$/);
+  });
+
+  it('declara los 8 roles del sistema sin super administrador', () => {
+    expect(ROLES.map((role) => role.name)).toEqual([
+      'administrator', 'manager', 'veterinarian', 'veterinary_technician',
+      'receptionist', 'cashier', 'warehouse_keeper', 'client',
+    ]);
+  });
+
+  it('solo asigna permisos declarados en el catálogo', () => {
+    const declared = new Set<string>(PERMISSIONS.map((permission) => permission.key));
+
+    for (const role of ROLES) {
+      for (const key of role.permissions) expect(declared.has(key), `${role.name}: ${key}`).toBe(true);
+    }
+  });
+
+  it('el Administrador gestiona usuarios y auditoría pero no clientes ni pacientes', () => {
+    const admin = keysOf('administrator');
+
+    expect(admin.has('users:create')).toBe(true);
+    expect(admin.has('roles:manage-permissions')).toBe(true);
+    expect(admin.has('audit:export')).toBe(true);
+    expect([...admin].some((key) => key.startsWith('clients:') || key.startsWith('pets:'))).toBe(false);
+  });
+
+  it('el Recepcionista no puede dar de baja clientes ni pacientes', () => {
+    const receptionist = keysOf('receptionist');
+
+    expect(receptionist.has('clients:create')).toBe(true);
+    expect(receptionist.has('clients:inactivate')).toBe(true);
+    expect(receptionist.has('clients:deactivate')).toBe(false);
+    expect(receptionist.has('pets:deactivate')).toBe(false);
+  });
+
+  it('el Veterinario actualiza y da de baja pacientes pero no los registra', () => {
+    const veterinarian = keysOf('veterinarian');
+
+    expect(veterinarian.has('pets:update')).toBe(true);
+    expect(veterinarian.has('pets:deactivate')).toBe(true);
+    expect(veterinarian.has('pets:create')).toBe(false);
+  });
+
+  it('el Técnico Veterinario registra informes pero no los corrige', () => {
+    const technician = keysOf('veterinary_technician');
+
+    expect(technician.has('procedure-reports:create')).toBe(true);
+    expect(technician.has('procedure-reports:correct')).toBe(false);
+    expect(technician.has('clients:read')).toBe(true);
+    expect(technician.has('clients:create')).toBe(false);
+  });
+
+  it('Cajero, Bodeguero y Cliente no tienen permisos en este módulo', () => {
+    for (const name of ['cashier', 'warehouse_keeper', 'client']) expect(keysOf(name).size).toBe(0);
+  });
+});
