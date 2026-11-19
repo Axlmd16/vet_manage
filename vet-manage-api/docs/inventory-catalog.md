@@ -73,3 +73,15 @@ make up-seed
 El seed usa `upsert` por nombre de categoría/marca y por código de producto,
 por lo que puede ejecutarse varias veces sin duplicar registros. El comando
 `make up-podman` continúa levantando la aplicación sin cargar datos demo.
+
+## Flujo HU-02 · Entrada de lote
+
+`Inventario > Entrada de lotes` registra un lote (producto, código, fecha de
+caducidad y cantidad inicial) y suma la cantidad a `products.stock`.
+
+- `POST /api/v1/inventory/batches` — requiere `inventory:register-entry`
+  (rol Bodeguero).
+- Cuerpo: `{ "productId", "code", "expirationDate": "YYYY-MM-DD", "initialQuantity" }`.
+- La cantidad debe ser un entero mayor que cero. Los datos inválidos responden
+  `400` sin crear el lote ni modificar existencias; producto inexistente `404`.
+- El lote y el incremento de stock se guardan en una sola transacción.

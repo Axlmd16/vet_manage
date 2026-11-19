@@ -10,7 +10,7 @@ function createPrismaMock() {
       findFirst: vi.fn().mockResolvedValue({ id: 'category-1', name: 'Alimentos' }),
       update: vi.fn().mockResolvedValue({ id: 'category-1', name: 'Nutrición', description: 'Nueva' }),
     },
-    brand: {
+    marca: {
       upsert: vi.fn().mockResolvedValue({ id: 'brand-1' }),
       findFirst: vi.fn().mockResolvedValue({ id: 'brand-1', name: 'Dog Chow' }),
       update: vi.fn().mockResolvedValue({ id: 'brand-1', name: 'Royal Canin', description: null }),
@@ -36,7 +36,7 @@ function createPrismaMock() {
         findUnique: vi.fn().mockResolvedValue({ id: 'category-1', name: 'Alimentos', isActive: true }),
         update: vi.fn().mockResolvedValue({ id: 'category-1', name: 'Nutrición', description: 'Nueva' }),
       },
-      brand: {
+      marca: {
         findUnique: vi.fn().mockResolvedValue({ id: 'brand-1', name: 'Dog Chow', isActive: true }),
         update: vi.fn().mockResolvedValue({ id: 'brand-1', name: 'Royal Canin', description: null }),
       },
@@ -63,7 +63,7 @@ describe('InventoryService', () => {
 
     expect(result.unitPrice).toBe('25.5');
     expect(tx.category.upsert).toHaveBeenCalledWith(expect.objectContaining({ where: { name: 'Alimentos' } }));
-    expect(tx.brand.upsert).toHaveBeenCalledWith(expect.objectContaining({ where: { name: 'Dog Chow' } }));
+    expect(tx.marca.upsert).toHaveBeenCalledWith(expect.objectContaining({ where: { name: 'Dog Chow' } }));
   });
 
   it('translates a duplicate product code into a conflict', async () => {
@@ -99,7 +99,7 @@ describe('InventoryService', () => {
 
   it('translates a duplicate brand name into a conflict', async () => {
     const { prisma } = createPrismaMock();
-    prisma.brand.update.mockRejectedValue({ code: 'P2002', meta: { target: ['name'] } });
+    prisma.marca.update.mockRejectedValue({ code: 'P2002', meta: { target: ['name'] } });
     const service = new InventoryService(prisma as never);
 
     await expect(service.updateBrand('brand-1', { name: 'Royal Canin' })).rejects.toMatchObject({
@@ -182,5 +182,62 @@ describe('InventoryService', () => {
       code: 'PR-001', name: 'Producto', unitPrice: 20,
       category: { id: 'category-1' }, brand: { id: 'brand-1' },
     })).rejects.toMatchObject({ statusCode: 404, message: 'Producto no encontrado' });
+  });
+
+  describe('registerBatchEntry (HU-02)', () => {
+    const PRODUCT_ID = '123e4567-e89b-12d3-a456-426614174000';
+    const entry = { productId: PRODUCT_ID, code: 'L-2026-001', expirationDate: '2027-10-23', initialQuantity: 50 };
+
+    function createBatchMock() {
+      const tx = {
+        product: {
+          findFirst: vi.fn().mockResolvedValue({ id: PRODUCT_ID }),
+          update: vi.fn().mockResolvedValue({ id: PRODUCT_ID, code: 'PR-001', name: 'Alimento para perro', stock: 50 }),
+        },
+        batch: {
+          create: vi.fn().mockImplementation(({ data }) => Promise.resolve({ id: 'batch-1', ...data })),
+        },
+      };
+      return { tx, prisma: { $transaction: vi.fn((callback) => callback(tx)) } };
+    }
+
+    it('registers the batch and increments the product stock in one transaction', async () => {
+      const { prisma, tx } = createBatchMock();
+      const service = new InventoryService(prisma as never);
+
+      const result = await service.registerBatchEntry(entry);
+
+      expect(tx.batch.create).toHaveBeenCalledWith({
+        data: { productId: PRODUCT_ID, code: 'L-2026-001', expirationDate: new Date(Date.UTC(2027, 9, 23)), initialQuantity: 50 },
+      });
+      expect(tx.product.update).toHaveBeenCalledWith(expect.objectContaining({
+        where: { id: PRODUCT_ID },
+        data: { stock: { increment: 50 } },
+      }));
+      expect(result.batch).toMatchObject({ code: 'L-2026-001', expirationDate: '2027-10-23', initialQuantity: 50 });
+      expect(result.product.stock).toBe(50);
+    });
+
+    it('rejects invalid data without opening a transaction', async () => {
+      const { prisma } = createBatchMock();
+      const service = new InventoryService(prisma as never);
+
+      await expect(service.registerBatchEntry({ ...entry, initialQuantity: 0 }))
+        .rejects.toMatchObject({ statusCode: 400, message: 'La cantidad inicial debe ser mayor que cero' });
+      await expect(service.registerBatchEntry({}))
+        .rejects.toMatchObject({ statusCode: 400, message: 'Revisa los datos de la entrada de lote' });
+      expect(prisma.$transaction).not.toHaveBeenCalled();
+    });
+
+    it('does not create the batch nor touch stock when the product does not exist', async () => {
+      const { prisma, tx } = createBatchMock();
+      tx.product.findFirst.mockResolvedValue(null);
+      const service = new InventoryService(prisma as never);
+
+      await expect(service.registerBatchEntry(entry))
+        .rejects.toMatchObject({ statusCode: 404, message: 'El producto seleccionado no existe' });
+      expect(tx.batch.create).not.toHaveBeenCalled();
+      expect(tx.product.update).not.toHaveBeenCalled();
+    });
   });
 });

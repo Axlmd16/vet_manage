@@ -1,5 +1,5 @@
 import { getJson, patchJson, postJson } from '../../../infrastructure/api/http-client';
-import type { CatalogItem, Product, ProductDraft } from '../types';
+import type { BatchEntryDraft, BatchEntryResult, CatalogItem, Product, ProductDraft } from '../types';
 
 export const inventoryApi = {
   listProducts(search = '') {
@@ -35,5 +35,8 @@ export const inventoryApi = {
   },
   updateBrand(id: string, input: { name: string; description?: string }) {
     return patchJson<CatalogItem, { name: string; description?: string }>(`/inventory/brands/${id}`, input);
+  },
+  registerBatchEntry(draft: BatchEntryDraft) {
+    return postJson<BatchEntryResult, BatchEntryDraft>('/inventory/batches', draft);
   },
 };
