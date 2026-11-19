@@ -109,3 +109,13 @@ describe('ClientsService', () => {
     expect(result).toMatchObject({ items: [], total: 0, totalPages: 0 });
   });
 });
+
+describe('ClientsService.findById', () => {
+  it('delega en el repositorio y devuelve null si el cliente no existe', async () => {
+    const findById = vi.fn(async () => null);
+    const service = new ClientsService({ findById } as never);
+
+    await expect(service.findById('missing')).resolves.toBeNull();
+    expect(findById).toHaveBeenCalledWith('missing');
+  });
+});

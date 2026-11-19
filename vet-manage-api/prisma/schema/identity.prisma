@@ -39,6 +39,7 @@ model Client {
   updatedAt DateTime     @updatedAt @map("updated_at")
 
   person Person @relation(fields: [personId], references: [id], onDelete: Restrict)
+  pets   Pet[]
 
   @@index([status])
   @@map("clients")

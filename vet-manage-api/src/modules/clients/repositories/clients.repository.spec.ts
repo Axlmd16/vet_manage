@@ -94,3 +94,13 @@ describe('ClientsRepository', () => {
     expect(result).toEqual({ clients: [], total: 0 });
   });
 });
+
+describe('ClientsRepository.findById', () => {
+  it('devuelve solo el id y el estado del cliente', async () => {
+    const findUnique = vi.fn(async () => ({ id: 'c1', status: 'DEACTIVATED' }));
+    const repository = new ClientsRepository({ client: { findUnique } } as never);
+
+    await expect(repository.findById('c1')).resolves.toEqual({ id: 'c1', status: 'DEACTIVATED' });
+    expect(findUnique).toHaveBeenCalledWith({ where: { id: 'c1' }, select: { id: true, status: true } });
+  });
+});

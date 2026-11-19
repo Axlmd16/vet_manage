@@ -83,4 +83,9 @@ export class ClientsRepository {
 
     return { clients, total };
   }
+
+  // Datos mínimos para que otros dominios validen al cliente (HU-07).
+  findById(id: string): Promise<{ id: string; status: ClientStatus } | null> {
+    return this.prisma.client.findUnique({ where: { id }, select: { id: true, status: true } });
+  }
 }

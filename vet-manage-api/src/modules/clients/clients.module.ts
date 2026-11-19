@@ -9,5 +9,6 @@ import { ClientsService } from './services/clients.service.js';
   imports: [PrismaModule, IdentityModule],
   controllers: [ClientsController],
   providers: [ClientsRepository, ClientsService],
+  exports: [ClientsService],
 })
 export class ClientsModule {}

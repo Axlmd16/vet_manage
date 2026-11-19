@@ -68,7 +68,7 @@ export const ROLES: readonly RoleDefinition[] = [
     description: 'Atiende pacientes y gestiona su historia clínica.',
     category: 'STAFF',
     permissions: [
-      ...clientsAndPetsFull.filter((key) => key !== 'pets:create' && key !== 'pets:inactivate' && key !== 'pets:activate'),
+      ...clientsAndPetsFull.filter((key) => key !== 'pets:inactivate' && key !== 'pets:activate'),
       ...catalogManagement('species'),
       ...catalogManagement('breeds'),
       'medical-history:create', 'medical-history:read',

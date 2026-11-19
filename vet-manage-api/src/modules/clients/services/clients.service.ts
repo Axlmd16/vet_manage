@@ -26,6 +26,11 @@ export class ClientsService {
     };
   }
 
+  // Usado por pets para validar el dueño sin consultar la tabla de clientes.
+  findById(id: string) {
+    return this.repository.findById(id);
+  }
+
   private toResponse(client: ClientWithPerson): ClientResponseDto {
     const roles = new Map<string, ClientRole>();
     for (const assignment of client.person.user?.userRoles ?? []) {

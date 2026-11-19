@@ -13,6 +13,19 @@ export class BreedRepository {
     });
   }
 
+  async findById(id: string): Promise<Breed | null> {
+    return this.prisma.breed.findUnique({ where: { id } });
+  }
+
+  // Razas activas de una especie, para el selector del registro de pacientes.
+  async findActiveBySpecies(speciesId: string): Promise<Pick<Breed, 'id' | 'name'>[]> {
+    return this.prisma.breed.findMany({
+      where: { speciesId, isActive: true },
+      select: { id: true, name: true },
+      orderBy: { name: 'asc' },
+    });
+  }
+
   // Toda raza nueva se crea activa
   async create(data: { name: string; speciesId: string; description?: string | null }): Promise<Breed> {
     return this.prisma.breed.create({
