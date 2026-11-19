@@ -3,3 +3,6 @@ sprint-1/reports/playwright-html/
 sprint-1/reports/test-results/
 sprint-1/staging/backups/*.dump
 !sprint-1/staging/backups/.gitkeep
+
+# Archivos temporales de Office al abrir los entregables
+~$*
