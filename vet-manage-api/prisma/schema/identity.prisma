@@ -22,10 +22,26 @@ model Person {
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
 
-  user User?
+  user   User?
+  client Client?
 
   @@index([lastName, firstName])
   @@map("persons")
+}
+
+// Cliente del consultorio. La información de contacto vive en Person;
+// este modelo conserva el estado propio del cliente.
+model Client {
+  id        String       @id @default(uuid()) @db.Uuid
+  personId  String       @unique @map("person_id") @db.Uuid
+  status    RecordStatus @default(ACTIVE)
+  createdAt DateTime     @default(now()) @map("created_at")
+  updatedAt DateTime     @updatedAt @map("updated_at")
+
+  person Person @relation(fields: [personId], references: [id], onDelete: Restrict)
+
+  @@index([status])
+  @@map("clients")
 }
 
 model User {
