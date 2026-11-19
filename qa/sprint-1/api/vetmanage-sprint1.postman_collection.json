@@ -1,0 +1,1293 @@
+{
+  "info": {
+    "name": "VetManage – QA Sprint 1 (HU-51, HU-54, HU-57, HU-01, HU-07, HU-13)",
+    "description": "Regresión de API del Sprint 1. Ejecutar con Newman contra Staging restaurado desde la semilla QA. Generado por build-collection.mjs.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "00 · Preparación (tokens e IDs de la semilla)",
+      "item": [
+        {
+          "name": "Login Administrador",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('adminToken', pm.response.json().data.accessToken);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"qa.admin@vetmanage.test\",\n  \"password\": \"{{password}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Login Recepcionista",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('recepToken', pm.response.json().data.accessToken);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"qa.recepcion@vetmanage.test\",\n  \"password\": \"{{password}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Login Veterinario",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('vetToken', pm.response.json().data.accessToken);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"qa.veterinario@vetmanage.test\",\n  \"password\": \"{{password}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Buscar a Carlos Pérez",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('carlosId', pm.response.json().data.items[0].id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users?q=1105013336",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "1105013336"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Buscar a Pedro Castillo (cliente)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('pedroId', pm.response.json().data.items[0].id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{recepToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/clients?search=1105017030",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "clients"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "1105017030"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Especies activas",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('caninoId', pm.response.json().data.find((s) => s.name === 'Canino').id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{recepToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/pets/species/active",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pets",
+                "species",
+                "active"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Razas de Canino",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('labradorId', pm.response.json().data.find((b) => b.name === 'Labrador Retriever').id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{recepToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/pets/species/{{caninoId}}/breeds",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pets",
+                "species",
+                "{{caninoId}}",
+                "breeds"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "HU-57 · Iniciar sesión",
+      "item": [
+        {
+          "name": "CP-57-01 Login correcto",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Entrega accessToken', () => pm.expect(pm.response.json().data.accessToken).to.be.a('string'));",
+                  "pm.test('Responde en menos de 2 s', () => pm.expect(pm.response.responseTime).to.be.below(2000));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"qa.gerente@vetmanage.test\",\n  \"password\": \"{{password}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "CP-57-03 Contraseña incorrecta",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 401', () => pm.response.to.have.status(401));",
+                  "pm.test('Mensaje genérico', () => pm.expect(pm.response.json().message).to.match(/^Correo o contraseña incorrectos/));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"qa.gerente@vetmanage.test\",\n  \"password\": \"Mala1234\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "CP-57-04 Campos vacíos",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 400', () => pm.response.to.have.status(400));",
+                  "pm.test('Mensaje: Ingrese su correo y contraseña', () => pm.expect(pm.response.json().message).to.eql('Ingrese su correo y contraseña'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"\",\n  \"password\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "CP-57-08 Cuenta inactiva",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 403', () => pm.response.to.have.status(403));",
+                  "pm.test('Mensaje: Su cuenta se encuentra desactivada. Contacte al administrador', () => pm.expect(pm.response.json().message).to.eql('Su cuenta se encuentra desactivada. Contacte al administrador'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"qa.inactivo@vetmanage.test\",\n  \"password\": \"{{password}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "HU-51 · Registrar usuario",
+      "item": [
+        {
+          "name": "CP-51-01 Registrar Veterinario",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 201', () => pm.response.to.have.status(201));",
+                  "pm.test('Mensaje: Usuario registrado correctamente', () => pm.expect(pm.response.json().message).to.eql('Usuario registrado correctamente'));",
+                  "pm.test('Cuenta ACTIVE', () => pm.expect(pm.response.json().data.status).to.eql('ACTIVE'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identification\": \"1105018517\",\n  \"firstName\": \"Pablo\",\n  \"lastName\": \"Andrade\",\n  \"email\": \"pablo.andrade@vetmanage.test\",\n  \"phone\": \"0991234567\",\n  \"roles\": [\n    \"veterinarian\"\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users"
+              ]
+            }
+          }
+        },
+        {
+          "name": "CP-51-07 Cédula del personal repetida",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 409', () => pm.response.to.have.status(409));",
+                  "pm.test('Mensaje: Número de cédula ya registrado', () => pm.expect(pm.response.json().message).to.eql('Número de cédula ya registrado'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identification\": \"1105010746\",\n  \"firstName\": \"X\",\n  \"lastName\": \"Y\",\n  \"email\": \"repetida@vetmanage.test\",\n  \"roles\": [\n    \"cashier\"\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users"
+              ]
+            }
+          }
+        },
+        {
+          "name": "CP-51-11 Correo repetido",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 409', () => pm.response.to.have.status(409));",
+                  "pm.test('Mensaje: El correo ya se encuentra registrado', () => pm.expect(pm.response.json().message).to.eql('El correo ya se encuentra registrado'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identification\": \"1105019259\",\n  \"firstName\": \"X\",\n  \"lastName\": \"Y\",\n  \"email\": \"mlopez@vetmanage.com\",\n  \"roles\": [\n    \"cashier\"\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users"
+              ]
+            }
+          }
+        },
+        {
+          "name": "CP-51-14 Recepcionista sin permiso",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 403', () => pm.response.to.have.status(403));",
+                  "pm.test('Mensaje: No tiene permisos para realizar esta acción', () => pm.expect(pm.response.json().message).to.eql('No tiene permisos para realizar esta acción'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{recepToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identification\": \"1105019259\",\n  \"firstName\": \"X\",\n  \"lastName\": \"Y\",\n  \"email\": \"x@vetmanage.test\",\n  \"roles\": [\n    \"cashier\"\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "HU-54 · Asignar y quitar roles",
+      "item": [
+        {
+          "name": "CP-54-07 Roles disponibles sin el ya asignado",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Recepcionista no es opción', () => pm.expect(pm.response.json().data.availableRoles.map((r) => r.name)).to.not.include('receptionist'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/{{carlosId}}/role-assignment",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "{{carlosId}}",
+                "role-assignment"
+              ]
+            }
+          }
+        },
+        {
+          "name": "CP-54-01 Asignar Cajero",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Mensaje: Roles actualizados correctamente', () => pm.expect(pm.response.json().message).to.eql('Roles actualizados correctamente'));",
+                  "pm.test('Queda con 2 roles', () => pm.expect(pm.response.json().data.currentRoles.length).to.eql(2));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roles\": [\n    \"receptionist\",\n    \"cashier\"\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/{{carlosId}}/role-assignment",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "{{carlosId}}",
+                "role-assignment"
+              ]
+            }
+          }
+        },
+        {
+          "name": "CP-54-04 Quitar todos los roles",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 400', () => pm.response.to.have.status(400));",
+                  "pm.test('Mensaje: El usuario debe tener al menos un rol', () => pm.expect(pm.response.json().message).to.eql('El usuario debe tener al menos un rol'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roles\": []\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/{{carlosId}}/role-assignment",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "{{carlosId}}",
+                "role-assignment"
+              ]
+            }
+          }
+        },
+        {
+          "name": "CP-54-09 Veterinario sin permiso",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 403', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vetToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roles\": [\n    \"cashier\"\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/{{carlosId}}/role-assignment",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "{{carlosId}}",
+                "role-assignment"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "HU-01 · Registrar cliente",
+      "item": [
+        {
+          "name": "CP-01-01 Registrar cliente válido",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 201', () => pm.response.to.have.status(201));",
+                  "pm.test('Mensaje: Cliente registrado exitosamente', () => pm.expect(pm.response.json().message).to.eql('Cliente registrado exitosamente'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{recepToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identification\": \"1105019994\",\n  \"firstName\": \"Mateo\",\n  \"lastName\": \"Cueva\",\n  \"email\": \"mateo.cueva@correo.test\",\n  \"phone\": \"0987654321\",\n  \"address\": \"Av. Orillas del Zamora\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/clients",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "clients"
+              ]
+            }
+          }
+        },
+        {
+          "name": "CP-01-06 Cédula de cliente existente",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 409', () => pm.response.to.have.status(409));",
+                  "pm.test('Mensaje: Número de cédula ya registrado', () => pm.expect(pm.response.json().message).to.eql('Número de cédula ya registrado'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{recepToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identification\": \"1105017030\",\n  \"firstName\": \"Otro\",\n  \"lastName\": \"Cliente\",\n  \"email\": \"otro.pedro@correo.test\",\n  \"phone\": \"0987654321\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/clients",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "clients"
+              ]
+            }
+          }
+        },
+        {
+          "name": "CP-01-07 Cédula alfanumérica",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 400', () => pm.response.to.have.status(400));",
+                  "pm.test('Mensaje: Número de cédula no válido', () => pm.expect(pm.response.json().message).to.eql('Número de cédula no válido'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{recepToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identification\": \"11050A0001\",\n  \"firstName\": \"X\",\n  \"lastName\": \"Y\",\n  \"email\": \"x@correo.test\",\n  \"phone\": \"0987654321\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/clients",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "clients"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Login Cajero",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('cashierToken', pm.response.json().data.accessToken);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"qa.cajero@vetmanage.test\",\n  \"password\": \"{{password}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "CP-01-14 Cajero sin permiso",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 403', () => pm.response.to.have.status(403));",
+                  "pm.test('Mensaje: No tiene permisos para realizar esta acción', () => pm.expect(pm.response.json().message).to.eql('No tiene permisos para realizar esta acción'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cashierToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identification\": \"1105032872\",\n  \"firstName\": \"X\",\n  \"lastName\": \"Y\",\n  \"email\": \"denegado@correo.test\",\n  \"phone\": \"0987654321\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/clients",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "clients"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "HU-07 · Registrar paciente",
+      "item": [
+        {
+          "name": "CP-07-01 Registrar paciente válido",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 201', () => pm.response.to.have.status(201));",
+                  "pm.test('Mensaje: Paciente registrado exitosamente', () => pm.expect(pm.response.json().message).to.eql('Paciente registrado exitosamente'));",
+                  "pm.test('Código PAC-######', () => pm.expect(pm.response.json().data.code).to.match(/^PAC-\\d{6}$/));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{recepToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Newman\",\n  \"speciesId\": \"{{caninoId}}\",\n  \"breedId\": \"{{labradorId}}\",\n  \"sex\": \"FEMALE\",\n  \"birthDate\": \"05-06-2023\",\n  \"weightKg\": 7.5,\n  \"heightCm\": 35,\n  \"reproductiveStatus\": \"STERILIZED\",\n  \"color\": \"Blanco\",\n  \"clientId\": \"{{pedroId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/pets",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pets"
+              ]
+            }
+          }
+        },
+        {
+          "name": "CP-07-04 Sin cliente",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 400', () => pm.response.to.have.status(400));",
+                  "pm.test('Mensaje: Debe seleccionar un cliente registrado', () => pm.expect(pm.response.json().message).to.eql('Debe seleccionar un cliente registrado'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{recepToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Newman\",\n  \"speciesId\": \"{{caninoId}}\",\n  \"breedId\": \"{{labradorId}}\",\n  \"sex\": \"FEMALE\",\n  \"birthDate\": \"05-06-2023\",\n  \"weightKg\": 7.5,\n  \"heightCm\": 35,\n  \"reproductiveStatus\": \"STERILIZED\",\n  \"color\": \"Blanco\",\n  \"clientId\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/pets",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pets"
+              ]
+            }
+          }
+        },
+        {
+          "name": "CP-07-12 Peso cero",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 400', () => pm.response.to.have.status(400));",
+                  "pm.test('Mensaje: El peso y la talla deben ser valores numéricos mayores que cero', () => pm.expect(pm.response.json().message).to.eql('El peso y la talla deben ser valores numéricos mayores que cero'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{recepToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Newman\",\n  \"speciesId\": \"{{caninoId}}\",\n  \"breedId\": \"{{labradorId}}\",\n  \"sex\": \"FEMALE\",\n  \"birthDate\": \"05-06-2023\",\n  \"weightKg\": 0,\n  \"heightCm\": 35,\n  \"reproductiveStatus\": \"STERILIZED\",\n  \"color\": \"Blanco\",\n  \"clientId\": \"{{pedroId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/pets",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pets"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "HU-13 · Registrar especie",
+      "item": [
+        {
+          "name": "CP-13-01 Registrar especie",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 201', () => pm.response.to.have.status(201));",
+                  "pm.test('Mensaje: Especie registrada exitosamente', () => pm.expect(pm.response.json().message).to.eql('Especie registrada exitosamente'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vetToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Quelonio\",\n  \"description\": \"Tortugas\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/pets/species",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pets",
+                "species"
+              ]
+            }
+          }
+        },
+        {
+          "name": "CP-13-02 Nombre vacío",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 400', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vetToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/pets/species",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pets",
+                "species"
+              ]
+            }
+          }
+        },
+        {
+          "name": "CP-13-08 Recepcionista sin permiso",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 403', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{recepToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Anfibio\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/pets/species",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pets",
+                "species"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "adminToken",
+      "value": ""
+    },
+    {
+      "key": "recepToken",
+      "value": ""
+    },
+    {
+      "key": "vetToken",
+      "value": ""
+    },
+    {
+      "key": "cashierToken",
+      "value": ""
+    },
+    {
+      "key": "carlosId",
+      "value": ""
+    },
+    {
+      "key": "pedroId",
+      "value": ""
+    },
+    {
+      "key": "caninoId",
+      "value": ""
+    },
+    {
+      "key": "labradorId",
+      "value": ""
+    }
+  ]
+}

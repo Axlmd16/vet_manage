@@ -1,0 +1,77 @@
+# Pipeline QA – Sprint 1 (Módulo 1). Plan de pruebas, CE-03 y sección 4.2:
+# las pruebas de regresión se ejecutan solas en GitHub Actions con cada cambio.
+name: QA Sprint 1
+
+on:
+  push:
+    branches: [development, 'test/**']
+  pull_request:
+    branches: [development, main]
+  workflow_dispatch:
+
+jobs:
+  unit:
+    name: Unitarias (Vitest ≈60 %)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: vet-manage-api
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: vet-manage-api/package-lock.json
+      - run: npm ci
+      - run: npx prisma generate
+      - run: npm run test:qa:unit
+      - name: Unitarias del frontend (reglas de formularios)
+        if: always()
+        working-directory: vet-manage-frontend
+        run: npm ci && npm run test:qa
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: unit-y-cobertura
+          path: |
+            qa/sprint-1/reports/unit
+            qa/sprint-1/reports/unit-frontend
+            qa/sprint-1/reports/coverage
+
+  api-e2e:
+    name: Integración API (Supertest + Newman ≈25 %) y E2E (Playwright + Cucumber ≈10 %)
+    runs-on: ubuntu-latest
+    needs: unit
+    if: always()
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Desplegar Staging
+        run: bash qa/sprint-1/staging/scripts/deploy-staging.sh
+      - name: Cargar semilla y respaldo (pg_dump)
+        run: bash qa/sprint-1/staging/scripts/seed-staging.sh
+      - name: Instalar herramientas
+        run: |
+          (cd vet-manage-api && npm ci && npx prisma generate)
+          (cd vet-manage-frontend && npm ci)
+          (cd qa && npm ci && npx playwright install --with-deps chromium)
+      - name: Validar CE-01 a CE-03
+        run: bash qa/sprint-1/staging/scripts/validate-ce.sh
+        continue-on-error: true
+      - name: Integración API (Supertest y Newman)
+        run: bash qa/sprint-1/run-unit-api.sh
+        continue-on-error: true
+      - name: E2E (Playwright y Cucumber.js)
+        run: bash qa/sprint-1/run-e2e.sh
+        continue-on-error: true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reportes-qa-sprint-1
+          path: qa/sprint-1/reports
+      - name: Bajar Staging
+        if: always()
+        run: docker compose -f qa/sprint-1/staging/docker-compose.staging.yml down -v

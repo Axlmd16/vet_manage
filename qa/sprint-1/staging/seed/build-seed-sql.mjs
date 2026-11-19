@@ -61,9 +61,10 @@ ON CONFLICT (identification) DO NOTHING;`);
   out(`INSERT INTO clients (id, person_id, status, created_at, updated_at)
 SELECT gen_random_uuid(), p.id, '${client.status}', NOW(), NOW() FROM persons p WHERE p.identification = ${q(client.identification)}
 ON CONFLICT (person_id) DO NOTHING;`);
-  if (client.withLogin) {
+  {
+    // Igual que HU-01: todo cliente tiene una cuenta con el rol Cliente (el listado de clientes depende de ella).
     out(`INSERT INTO users (id, person_id, password, status, must_change_password, created_at, updated_at)
-SELECT gen_random_uuid(), p.id, ${q(hash)}, 'ACTIVE', FALSE, NOW(), NOW() FROM persons p WHERE p.identification = ${q(client.identification)}
+SELECT gen_random_uuid(), p.id, ${q(hash)}, 'ACTIVE', TRUE, NOW(), NOW() FROM persons p WHERE p.identification = ${q(client.identification)}
 ON CONFLICT (person_id) DO NOTHING;`);
     out(`INSERT INTO user_roles (id, user_id, role_id, created_at, updated_at)
 SELECT gen_random_uuid(), u.id, r.id, NOW(), NOW()
