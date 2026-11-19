@@ -32,4 +32,12 @@ export class SpeciesRepository {
       },
     });
   }
+
+  async findActive(): Promise<Pick<Species, 'id' | 'name'>[]> {
+    return this.prisma.species.findMany({
+      where: { isActive: true },
+      select: { id: true, name: true },
+      orderBy: { name: 'asc' },
+    });
+  }
 }
