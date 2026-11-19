@@ -16,6 +16,8 @@ import { PasswordHasher } from './services/password-hasher.service.js';
 import { RbacCatalogSynchronizer } from './services/rbac-catalog-synchronizer.service.js';
 import { SessionService } from './services/session.service.js';
 import { TokenService } from './services/token.service.js';
+import { UserQueryRepository } from './repositories/user-query.repository.js';
+import { UserQueryService } from './services/user-query.service.js';
 import { UserRegistrationService } from './services/user-registration.service.js';
 import { ClientRegistrationService } from './services/client-registration.service.js';
 
@@ -40,6 +42,8 @@ import { ClientRegistrationService } from './services/client-registration.servic
     SessionService,
     UserRegistrationService,
     ClientRegistrationService,
+    UserQueryRepository,
+    UserQueryService,
     JwtAuthGuard,
     PermissionsGuard,
   ],
