@@ -25,7 +25,7 @@ export class InventoryService {
   }
 
   listBrands() {
-    return this.prisma.brand.findMany({ where: { isActive: true }, orderBy: { name: 'asc' } });
+    return this.prisma.marca.findMany({ where: { isActive: true }, orderBy: { name: 'asc' } });
   }
 
   createBrand(input: CreateCatalogItemDto) {
@@ -159,7 +159,7 @@ export class InventoryService {
       const data = { name: input.name.trim(), description: input.description?.trim() || null };
       return type === 'category'
         ? await this.prisma.category.create({ data })
-        : await this.prisma.brand.create({ data });
+        : await this.prisma.marca.create({ data });
     } catch (error) {
       if (this.isUniqueConstraintError(error, [`${type === 'category' ? 'categories' : 'brands'}_name_key`, 'name'])) {
         throw ApiException.conflict(`${type === 'category' ? 'La categoría' : 'La marca'} ya está registrada`);
@@ -179,7 +179,7 @@ export class InventoryService {
     try {
       existing = type === 'category'
         ? await this.prisma.category.findUnique({ where: { id } })
-        : await this.prisma.brand.findUnique({ where: { id } });
+        : await this.prisma.marca.findUnique({ where: { id } });
     } catch (error) {
       if (this.isNotFoundError(error)) throw ApiException.notFound(`${type === 'category' ? 'Categoría' : 'Marca'} no encontrada`);
       throw error;
@@ -192,7 +192,7 @@ export class InventoryService {
       const data = { name, description: input.description?.trim() || null };
       return type === 'category'
         ? await this.prisma.category.update({ where: { id }, data })
-        : await this.prisma.brand.update({ where: { id }, data });
+        : await this.prisma.marca.update({ where: { id }, data });
     } catch (error) {
       if (this.isUniqueConstraintError(error, [`${type === 'category' ? 'categories' : 'brands'}_name_key`, 'name'])) {
         throw ApiException.conflict(`${type === 'category' ? 'La categoría' : 'La marca'} ya está registrada`);
@@ -209,7 +209,7 @@ export class InventoryService {
     if (reference.id) {
       const item = type === 'category'
         ? await tx.category.findFirst({ where: { id: reference.id, isActive: true } })
-        : await tx.brand.findFirst({ where: { id: reference.id, isActive: true } });
+        : await tx.marca.findFirst({ where: { id: reference.id, isActive: true } });
       if (!item) throw ApiException.badRequest(`La ${type === 'category' ? 'categoría' : 'marca'} seleccionada no existe`);
       return item.id;
     }
@@ -218,7 +218,7 @@ export class InventoryService {
     if (!name) throw ApiException.badRequest(`La ${type === 'category' ? 'categoría' : 'marca'} es obligatoria`);
     const item = type === 'category'
       ? await tx.category.upsert({ where: { name }, update: { isActive: true }, create: { name } })
-      : await tx.brand.upsert({ where: { name }, update: { isActive: true }, create: { name } });
+      : await tx.marca.upsert({ where: { name }, update: { isActive: true }, create: { name } });
     return item.id;
   }
 
