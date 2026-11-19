@@ -1,0 +1,45 @@
+{
+  "$comment": "Datos semilla QA del Sprint 1. Fuente única: la usan build-seed-sql.mjs (genera qa-seed.sql) y la documentación. Las cédulas cumplen el dígito verificador módulo 10.",
+  "password": "QaVet2026",
+  "users": [
+    { "key": "admin", "identification": "1105010001", "firstName": "Andrea", "lastName": "Administradora QA", "email": "qa.admin@vetmanage.test", "phone": "0991100001", "roles": ["administrator"], "purpose": "Rol 1/8 Administrador: registra usuarios (HU-51) y asigna roles (HU-54)." },
+    { "key": "manager", "identification": "1105010373", "firstName": "Gabriel", "lastName": "Gerente QA", "email": "qa.gerente@vetmanage.test", "phone": "0991100002", "roles": ["manager"], "purpose": "Rol 2/8 Gerente: registra clientes (HU-01) y pacientes (HU-07)." },
+    { "key": "veterinarian", "identification": "1105010746", "firstName": "Valeria", "lastName": "Veterinaria QA", "email": "qa.veterinario@vetmanage.test", "phone": "0991100003", "roles": ["veterinarian"], "purpose": "Rol 3/8 Veterinario: registra especies (HU-13), clientes (HU-01); sin permiso para roles (HU-54 Esc. 8)." },
+    { "key": "technician", "identification": "1105011116", "firstName": "Tomás", "lastName": "Técnico QA", "email": "qa.tecnico@vetmanage.test", "phone": "0991100004", "roles": ["veterinary_technician"], "purpose": "Rol 4/8 Técnico Veterinario: solo consulta clientes/pacientes; pruebas negativas de permisos." },
+    { "key": "receptionist", "identification": "1105011488", "firstName": "Rebeca", "lastName": "Recepcionista QA", "email": "qa.recepcion@vetmanage.test", "phone": "0991100005", "roles": ["receptionist"], "purpose": "Rol 5/8 Recepcionista: registra clientes y pacientes; sin permiso para registrar usuarios (HU-51 Esc. 9)." },
+    { "key": "cashier", "identification": "1105011850", "firstName": "Camilo", "lastName": "Cajero QA", "email": "qa.cajero@vetmanage.test", "phone": "0991100006", "roles": ["cashier"], "purpose": "Rol 6/8 Cajero: sin permisos del Módulo 1; pruebas de confidencialidad (PNF-01)." },
+    { "key": "warehouse", "identification": "1105012221", "firstName": "Bruno", "lastName": "Bodeguero QA", "email": "qa.bodeguero@vetmanage.test", "phone": "0991100007", "roles": ["warehouse_keeper"], "purpose": "Rol 7/8 Bodeguero: sin permisos del Módulo 1; pruebas de confidencialidad (PNF-01)." },
+    { "key": "clientUser", "identification": "1105012593", "firstName": "Clara", "lastName": "Cliente QA", "email": "qa.cliente@vetmanage.test", "phone": "0991100008", "roles": ["client"], "client": "ACTIVE", "purpose": "Rol 8/8 Cliente: inicia sesión pero no accede a funciones del personal." },
+    { "key": "multiRole", "identification": "1105012965", "firstName": "Jorge", "lastName": "Solís", "email": "qa.multirol@vetmanage.test", "phone": "0991100009", "roles": ["manager", "administrator"], "purpose": "HU-57 Esc. 2 (varios roles) y segundo Administrador activo para HU-54." },
+    { "key": "carlos", "identification": "1105013336", "firstName": "Carlos", "lastName": "Pérez", "email": "qa.cperez@vetmanage.test", "phone": "0991100010", "roles": ["receptionist"], "purpose": "HU-54 Esc. 1-4 y 6: asignar, quitar y cambiar roles." },
+    { "key": "luis", "identification": "1105013708", "firstName": "Luis", "lastName": "Ríos", "email": "qa.lrios@vetmanage.test", "phone": "0991100011", "roles": ["receptionist"], "status": "DEACTIVATED", "purpose": "HU-54 Esc. 7 (usuario dado de baja) y HU-57 Esc. 8." },
+    { "key": "inactive", "identification": "1105014078", "firstName": "Irene", "lastName": "Inactiva QA", "email": "qa.inactivo@vetmanage.test", "phone": "0991100012", "roles": ["receptionist"], "status": "INACTIVE", "purpose": "HU-57 Esc. 8 (cuenta inactiva)." },
+    { "key": "temporary", "identification": "1105014441", "firstName": "Teresa", "lastName": "Temporal QA", "email": "qa.temporal@vetmanage.test", "phone": "0991100013", "roles": ["receptionist"], "mustChangePassword": true, "purpose": "HU-57 Esc. 9 (primer ingreso con contraseña temporal)." },
+    { "key": "lockout", "identification": "1105014813", "firstName": "Bernardo", "lastName": "Bloqueo QA", "email": "qa.bloqueo@vetmanage.test", "phone": "0991100014", "roles": ["veterinarian"], "purpose": "HU-57 Esc. 5-6: bloqueo al 5.º intento (E2E)." },
+    { "key": "counter", "identification": "1105015182", "firstName": "Cecilia", "lastName": "Contador QA", "email": "qa.contador@vetmanage.test", "phone": "0991100015", "roles": ["veterinarian"], "purpose": "HU-57 Esc. 7: reinicio del contador de intentos." },
+    { "key": "lockoutApi", "identification": "1105015554", "firstName": "Bianca", "lastName": "Bloqueo API QA", "email": "qa.bloqueo.api@vetmanage.test", "phone": "0991100016", "roles": ["veterinarian"], "purpose": "HU-57 Esc. 5-6 en la suite de integración (independiente del E2E)." },
+    { "key": "maria", "identification": "1105015927", "firstName": "María", "lastName": "López", "email": "mlopez@vetmanage.com", "phone": "0991100017", "roles": ["receptionist"], "purpose": "HU-51 Esc. 7: correo ya registrado." },
+    { "key": "roleTarget", "identification": "1105016297", "firstName": "Diego", "lastName": "Rotación QA", "email": "qa.rotacion@vetmanage.test", "phone": "0991100018", "roles": ["receptionist"], "purpose": "PNF-04 / R-12: quitarle el rol con sesión abierta y verificar bloqueo inmediato." }
+  ],
+  "clients": [
+    { "key": "ana", "identification": "1105016669", "firstName": "Ana", "lastName": "Ruiz", "email": "ana.ruiz@correo.test", "phone": "0987000001", "address": "Av. Universitaria y 10 de Agosto, Loja", "status": "ACTIVE", "withLogin": true, "purpose": "HU-51 Esc. 3: ya es Cliente; se la registra como Cajero sin duplicar la persona." },
+    { "key": "pedro", "identification": "1105017030", "firstName": "Pedro", "lastName": "Castillo", "email": "pedro.castillo@correo.test", "phone": "0987000002", "address": "Calle Sucre 12-34, Loja", "status": "ACTIVE", "purpose": "Dueño de Firulais y Luna; cliente por defecto para HU-07." },
+    { "key": "lucia", "identification": "1105017402", "firstName": "Lucía", "lastName": "Ordóñez", "email": "lucia.ordonez@correo.test", "phone": "0987000003", "address": null, "status": "ACTIVE", "purpose": "Cliente sin dirección (campo opcional)." },
+    { "key": "rosa", "identification": "1105017774", "firstName": "Rosa", "lastName": "Jaramillo", "email": "rosa.jaramillo@correo.test", "phone": "0987000004", "address": "Barrio El Valle, Loja", "status": "INACTIVE", "purpose": "HU-07: cliente inactivo no disponible (R-08)." },
+    { "key": "hugo", "identification": "1105018145", "firstName": "Hugo", "lastName": "Vivanco", "email": "hugo.vivanco@correo.test", "phone": "0987000005", "address": "Av. Cuxibamba, Loja", "status": "DEACTIVATED", "purpose": "HU-07 Esc. 5: cliente dado de baja." }
+  ],
+  "species": [
+    { "key": "ferret", "name": "Hurón", "description": "Especie inactiva para pruebas negativas.", "isActive": false, "purpose": "HU-07: especie inactiva no disponible." }
+  ],
+  "pets": [
+    { "key": "firulais", "name": "Firulais", "species": "Canino", "breed": "Labrador Retriever", "sex": "MALE", "birthDate": "2021-03-15", "weightKg": 28.5, "heightCm": 60, "reproductiveStatus": "STERILIZED", "color": "Dorado", "client": "pedro" },
+    { "key": "luna", "name": "Luna", "species": "Felino", "breed": "Persa", "sex": "FEMALE", "birthDate": "2023-05-20", "weightKg": 3.8, "heightCm": 23, "reproductiveStatus": "STERILIZED", "color": "Blanco", "client": "pedro" },
+    { "key": "michi", "name": "Michi", "species": "Felino", "breed": "Siamés", "sex": "FEMALE", "birthDate": "2022-08-01", "weightKg": 4.2, "heightCm": 25, "reproductiveStatus": "NOT_STERILIZED", "color": null, "client": "lucia" },
+    { "key": "rocky", "name": "Rocky", "species": "Canino", "breed": "Mestizo", "sex": "MALE", "birthDate": "2019-01-10", "weightKg": 12, "heightCm": 45, "reproductiveStatus": "UNKNOWN", "color": "Negro", "client": "ana" },
+    { "key": "toby", "name": "Toby", "species": "Canino", "breed": "Pastor Alemán", "sex": "MALE", "birthDate": "2018-11-02", "weightKg": 32, "heightCm": 63, "reproductiveStatus": "NOT_STERILIZED", "color": "Negro y fuego", "client": "rosa" }
+  ],
+  "reservedIdentifications": {
+    "$comment": "Cédulas válidas que NO existen en la semilla; las usan las pruebas para crear registros nuevos.",
+    "values": ["1105018517", "1105018889", "1105019259", "1105019622", "1105019994", "1105020364", "1105020737"]
+  }
+}

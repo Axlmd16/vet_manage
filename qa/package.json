@@ -1,0 +1,24 @@
+{
+  "name": "vet-manage-qa",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Suite de pruebas QA de VetManage (Módulo 1): matrices, staging, Newman y E2E con Playwright + Cucumber.js.",
+  "type": "module",
+  "scripts": {
+    "matrices": "node sprint-1/tools/build-matrices.mjs",
+    "seed:sql": "node sprint-1/staging/seed/build-seed-sql.mjs",
+    "api:newman": "newman run sprint-1/api/vetmanage-sprint1.postman_collection.json -e sprint-1/api/staging.postman_environment.json -r cli,htmlextra,junit --reporter-htmlextra-export sprint-1/reports/newman/newman-report.html --reporter-junit-export sprint-1/reports/newman/newman-junit.xml",
+    "e2e:playwright": "playwright test -c sprint-1/e2e/playwright.config.ts",
+    "e2e:cucumber": "cucumber-js -c sprint-1/e2e/cucumber.cjs",
+    "e2e": "npm run e2e:playwright && npm run e2e:cucumber"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^11.3.0",
+    "@playwright/test": "^1.52.0",
+    "exceljs": "^4.4.0",
+    "newman": "^6.2.1",
+    "newman-reporter-htmlextra": "^1.23.1",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
+  }
+}
