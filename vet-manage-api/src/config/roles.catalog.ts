@@ -55,6 +55,7 @@ export const ROLES: readonly RoleDefinition[] = [
       'users:create', 'users:read', 'users:update', 'users:assign-roles',
       'users:change-status', 'users:deactivate',
       'roles:manage-permissions', 'audit:read', 'audit:export',
+      'inventory:read',
       ...catalogManagement('species'),
       ...catalogManagement('breeds'),
     ],
@@ -67,6 +68,7 @@ export const ROLES: readonly RoleDefinition[] = [
     permissions: [
       ...clientsAndPetsFull,
       'species:read', 'breeds:read',
+      'inventory:read',
       ...procedureCatalog,
     ],
   },
@@ -79,6 +81,7 @@ export const ROLES: readonly RoleDefinition[] = [
       ...clientsAndPetsFull.filter((key) => key !== 'pets:create' && key !== 'pets:inactivate' && key !== 'pets:activate'),
       ...catalogManagement('species'),
       ...catalogManagement('breeds'),
+      'inventory:read',
       'medical-history:create', 'medical-history:read',
       'consultations:create', 'consultations:correct', 'diagnoses:create',
       'prescriptions:manage', 'prescriptions:read', 'prescriptions:export',
@@ -119,7 +122,7 @@ export const ROLES: readonly RoleDefinition[] = [
     displayName: 'Cajero',
     description: 'Gestiona cobros. Sus permisos se definen en el módulo de ventas.',
     category: 'STAFF',
-    permissions: [],
+    permissions: ['inventory:read'],
   },
   {
     name: 'warehouse_keeper',
