@@ -1,9 +1,10 @@
 import { Body, Controller, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { success } from '../../common/errors/api-response.js';
+import { RequirePermissions } from '../identity/decorators/require-permissions.decorator.js';
 import { CreateCatalogItemDto } from './dtos/create-catalog-item.dto.js';
 import { CreateProductDto } from './dtos/create-product.dto.js';
+import { ListProductsQueryDto } from './dtos/list-products-query.dto.js';
 import { RegisterBatchEntryDto } from './dtos/register-batch-entry.dto.js';
-import { RequirePermissions } from '../identity/decorators/require-permissions.decorator.js';
 import { InventoryService } from './services/inventory.service.js';
 
 @Controller('inventory')
@@ -11,6 +12,7 @@ export class InventoryController {
   constructor(private readonly inventoryService: InventoryService) {}
 
   @Get('categories')
+  @RequirePermissions('inventory:read')
   async listCategories() {
     return success(await this.inventoryService.listCategories());
   }
@@ -26,6 +28,7 @@ export class InventoryController {
   }
 
   @Get('brands')
+  @RequirePermissions('inventory:read')
   async listBrands() {
     return success(await this.inventoryService.listBrands());
   }
@@ -41,8 +44,10 @@ export class InventoryController {
   }
 
   @Get('products')
-  async listProducts(@Query('search') search?: string) {
-    return success(await this.inventoryService.listProducts(search));
+  @RequirePermissions('inventory:read')
+  async listProducts(@Query() filtros: ListProductsQueryDto) {
+    const productos = await this.inventoryService.listProducts(filtros);
+    return success(productos, productos.length === 0 ? 'No se encontraron productos' : undefined);
   }
 
   @Get('products/:id')

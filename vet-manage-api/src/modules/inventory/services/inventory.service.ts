@@ -7,7 +7,18 @@ import { CatalogReferenceDto } from '../dtos/catalog-reference.dto.js';
 import { CreateProductDto } from '../dtos/create-product.dto.js';
 import { RegisterBatchEntryDto } from '../dtos/register-batch-entry.dto.js';
 import { validateBatchEntryInput } from './batch-entry-input.service.js';
+import type { ListProductsQueryDto } from '../dtos/list-products-query.dto.js';
 import { validateProductInput } from './product-input.service.js';
+
+function contieneLiteral(valor: string) {
+  // Escapa los comodines de LIKE para buscar el texto literal en PostgreSQL.
+  return { contains: valor.replace(/[\\%_]/g, '\\$&'), mode: 'insensitive' as const };
+}
+
+function filtroPrecio(valor: string) {
+  const precio = new Prisma.Decimal(valor);
+  return valor.includes('.') ? precio : { gte: precio, lt: precio.plus(1) };
+}
 
 @Injectable()
 export class InventoryService {
@@ -38,23 +49,59 @@ export class InventoryService {
     return this.updateCatalogItem('brand', id, input);
   }
 
-  async listProducts(search?: string) {
-    const normalizedSearch = search?.trim();
-    const products = await this.prisma.product.findMany({
-      where: {
-        isActive: true,
-        ...(normalizedSearch ? {
-          OR: [
-            { code: { contains: normalizedSearch, mode: 'insensitive' } },
-            { name: { contains: normalizedSearch, mode: 'insensitive' } },
-          ],
-        } : {}),
-      },
+  async listProducts({
+    search,
+    name,
+    categoryId,
+    brandId,
+    brandName,
+    batchCode,
+    unitPrice,
+  }: ListProductsQueryDto = {}) {
+    const busquedaNormalizada = search?.trim();
+    const nombreNormalizado = name?.trim();
+    const marcaNormalizada = brandName?.trim();
+    const loteNormalizado = batchCode?.trim();
+    const filtros: Prisma.ProductWhereInput = { isActive: true };
+
+    if (busquedaNormalizada) {
+      const texto = contieneLiteral(busquedaNormalizada);
+      filtros.OR = [
+        { code: texto },
+        { name: texto },
+        { category: { name: texto } },
+        { brand: { name: texto } },
+        { batches: { some: { code: { equals: busquedaNormalizada, mode: 'insensitive' } } } },
+      ];
+      if (/^\d{1,10}(?:\.\d{1,2})?$/.test(busquedaNormalizada)) {
+        filtros.OR.push({ unitPrice: filtroPrecio(busquedaNormalizada) });
+      }
+    }
+    if (nombreNormalizado) {
+      filtros.name = contieneLiteral(nombreNormalizado);
+    }
+    if (categoryId !== undefined) {
+      filtros.categoryId = categoryId;
+    }
+    if (brandId !== undefined) {
+      filtros.brandId = brandId;
+    }
+    if (marcaNormalizada) {
+      filtros.brand = { name: contieneLiteral(marcaNormalizada) };
+    }
+    if (loteNormalizado) {
+      filtros.batches = { some: { code: { equals: loteNormalizado, mode: 'insensitive' } } };
+    }
+    if (unitPrice !== undefined) {
+      filtros.unitPrice = filtroPrecio(unitPrice);
+    }
+
+    const productos = await this.prisma.product.findMany({
+      where: filtros,
       include: { category: true, brand: true },
       orderBy: { createdAt: 'desc' },
     });
-
-    return products.map((product) => this.serializeProduct(product));
+    return productos.map((producto) => this.serializeProduct(producto));
   }
 
   async getProduct(id: string) {
