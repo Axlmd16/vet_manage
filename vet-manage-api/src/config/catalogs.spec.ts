@@ -70,7 +70,11 @@ describe('Catálogos de permisos y roles', () => {
     expect(technician.has('clients:create')).toBe(false);
   });
 
-  it('Cajero, Bodeguero y Cliente no tienen permisos en este módulo', () => {
-    for (const name of ['cashier', 'warehouse_keeper', 'client']) expect(keysOf(name).size).toBe(0);
+  it('Cajero y Cliente no tienen permisos en este módulo', () => {
+    for (const name of ['cashier', 'client']) expect(keysOf(name).size).toBe(0);
+  });
+
+  it('el Bodeguero consulta inventario y registra entradas de lote (HU-02)', () => {
+    expect([...keysOf('warehouse_keeper')].sort()).toEqual(['inventory:read', 'inventory:register-entry']);
   });
 });

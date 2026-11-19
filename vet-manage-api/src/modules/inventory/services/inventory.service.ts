@@ -5,6 +5,8 @@ import { PrismaService } from '../../../infrastructure/database/prisma/prisma.se
 import { CreateCatalogItemDto } from '../dtos/create-catalog-item.dto.js';
 import { CatalogReferenceDto } from '../dtos/catalog-reference.dto.js';
 import { CreateProductDto } from '../dtos/create-product.dto.js';
+import { RegisterBatchEntryDto } from '../dtos/register-batch-entry.dto.js';
+import { validateBatchEntryInput } from './batch-entry-input.service.js';
 import { validateProductInput } from './product-input.service.js';
 
 @Injectable()
@@ -152,6 +154,39 @@ export class InventoryService {
       this.logger.error('No se pudo actualizar el producto', error);
       throw error;
     }
+  }
+
+  // HU-02: registra el lote y suma su cantidad al stock en una sola transacción.
+  // Si algo falla, no se crea el lote ni cambian las existencias.
+  async registerBatchEntry(input: RegisterBatchEntryDto) {
+    const validation = validateBatchEntryInput(input);
+    if (!validation.valid) {
+      const messages = Object.values(validation.errors);
+      throw ApiException.badRequest(
+        messages.length === 1 ? messages[0] : 'Revisa los datos de la entrada de lote',
+        messages,
+      );
+    }
+
+    const { productId, code, expirationDate, initialQuantity } = validation.value;
+    return this.prisma.$transaction(async (tx) => {
+      const product = await tx.product.findFirst({ where: { id: productId, isActive: true }, select: { id: true } });
+      if (!product) throw ApiException.notFound('El producto seleccionado no existe');
+
+      const batch = await tx.batch.create({
+        data: { productId, code, expirationDate, initialQuantity },
+      });
+      const updated = await tx.product.update({
+        where: { id: productId },
+        data: { stock: { increment: initialQuantity } },
+        select: { id: true, code: true, name: true, stock: true },
+      });
+
+      return {
+        batch: { ...batch, expirationDate: batch.expirationDate.toISOString().slice(0, 10) },
+        product: updated,
+      };
+    });
   }
 
   private async createCatalogItem(type: 'category' | 'brand', input: CreateCatalogItemDto) {
