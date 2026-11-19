@@ -6,6 +6,7 @@ model Species {
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
   breeds      Breed[]
+  pets        Pet[]
 
   @@index([isActive])
   @@map("species")
@@ -20,8 +21,48 @@ model Breed {
   species     Species  @relation(fields: [speciesId], references: [id], onDelete: Restrict)
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
+  pets        Pet[]
 
   @@unique([speciesId, name])
   @@index([speciesId, isActive])
   @@map("breeds")
+}
+
+// Sexo del paciente.
+enum PetSex {
+  MALE
+  FEMALE
+}
+
+// Estado reproductivo del paciente.
+enum ReproductiveStatus {
+  STERILIZED
+  NOT_STERILIZED
+  UNKNOWN
+}
+
+model Pet {
+  id                 String             @id @default(uuid()) @db.Uuid
+  // Código legible generado por la secuencia pet_code_seq (PAC-000001).
+  code               String             @unique @default(dbgenerated("('PAC-'::text || lpad((nextval('pet_code_seq'::regclass))::text, 6, '0'::text))")) @db.VarChar(12)
+  name               String             @db.VarChar(100)
+  sex                PetSex
+  birthDate          DateTime           @map("birth_date") @db.Date
+  weightKg           Decimal            @map("weight_kg") @db.Decimal(6, 2)
+  heightCm           Decimal            @map("height_cm") @db.Decimal(6, 2)
+  reproductiveStatus ReproductiveStatus @map("reproductive_status")
+  color              String?            @db.VarChar(50)
+  status             RecordStatus       @default(ACTIVE)
+  clientId           String             @map("client_id") @db.Uuid
+  client             Client             @relation(fields: [clientId], references: [id], onDelete: Restrict)
+  speciesId          String             @map("species_id") @db.Uuid
+  species            Species            @relation(fields: [speciesId], references: [id], onDelete: Restrict)
+  breedId            String             @map("breed_id") @db.Uuid
+  breed              Breed              @relation(fields: [breedId], references: [id], onDelete: Restrict)
+  createdAt          DateTime           @default(now()) @map("created_at")
+  updatedAt          DateTime           @updatedAt @map("updated_at")
+
+  @@index([clientId])
+  @@index([status])
+  @@map("pets")
 }

@@ -20,3 +20,30 @@ export type RegisteredUser = {
   passwordAssigned: boolean;
   credentialsSent: boolean;
 };
+
+export type UserStatus = 'ACTIVE' | 'INACTIVE' | 'DEACTIVATED';
+
+export type UserListItem = {
+  id: string;
+  identification: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  roles: { name: string; displayName: string }[];
+  status: UserStatus;
+};
+
+export type UserQuery = {
+  q?: string;
+  role?: string;
+  status?: UserStatus;
+  page?: number;
+  pageSize?: number;
+};
+
+export type UserPage = {
+  items: UserListItem[];
+  total: number;
+  page: number;
+  pageSize: number;
+};

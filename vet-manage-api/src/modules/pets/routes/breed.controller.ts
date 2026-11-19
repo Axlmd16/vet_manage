@@ -1,14 +1,18 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, ParseUUIDPipe, Post, UseGuards } from '@nestjs/common';
 import { success } from '../../../common/errors/api-response.js';
 import { JwtAuthGuard } from '../../identity/guards/jwt-auth.guard.js';
 import { PermissionsGuard } from '../../identity/guards/permissions.guard.js';
 import { RequirePermissions } from '../../identity/decorators/require-permissions.decorator.js';
 import { RegisterBreedDto } from '../dtos/breeds/register-breed.dto.js';
+import { ListActiveBreedsService } from '../services/breeds/list-active-breeds.service.js';
 import { RegisterBreedService } from '../services/breeds/register-breed.service.js';
 
 @Controller('pets')
 export class BreedController {
-  constructor(private readonly registerBreedService: RegisterBreedService) {}
+  constructor(
+    private readonly registerBreedService: RegisterBreedService,
+    private readonly listActiveBreedsService: ListActiveBreedsService,
+  ) {}
 
   @Post('breeds')
   @HttpCode(HttpStatus.CREATED)
@@ -18,5 +22,13 @@ export class BreedController {
   async registerBreed(@Body() dto: RegisterBreedDto) {
     const created = await this.registerBreedService.execute(dto);
     return success(created, 'Raza registrada exitosamente', 201);
+  }
+
+  // Razas activas de una especie para el selector de pacientes (HU-07).
+  @Get('species/:speciesId/breeds')
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @RequirePermissions('breeds:read')
+  async listActiveBreeds(@Param('speciesId', new ParseUUIDPipe()) speciesId: string) {
+    return success(await this.listActiveBreedsService.execute(speciesId), 'Razas activas');
   }
 }

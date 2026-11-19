@@ -53,12 +53,13 @@ describe('Catálogos de permisos y roles', () => {
     expect(receptionist.has('pets:deactivate')).toBe(false);
   });
 
-  it('el Veterinario actualiza y da de baja pacientes pero no los registra', () => {
+  it('el Veterinario registra, actualiza y da de baja pacientes', () => {
     const veterinarian = keysOf('veterinarian');
 
+    expect(veterinarian.has('pets:create')).toBe(true);
     expect(veterinarian.has('pets:update')).toBe(true);
     expect(veterinarian.has('pets:deactivate')).toBe(true);
-    expect(veterinarian.has('pets:create')).toBe(false);
+    expect(veterinarian.has('pets:inactivate')).toBe(false);
   });
 
   it('el Técnico Veterinario registra informes pero no los corrige', () => {
