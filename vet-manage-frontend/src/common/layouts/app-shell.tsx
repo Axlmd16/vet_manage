@@ -33,6 +33,7 @@ const inventoryNavigation: NavItem[] = [
   { label: 'Productos', to: '/inventory/products', icon: PackageIcon },
   { label: 'Categorías', to: '/inventory/categories', icon: FolderIcon },
   { label: 'Marcas', to: '/inventory/brands', icon: TagIcon },
+  { label: 'Entrada de lotes', to: '/inventory/batches/new', icon: BoxIcon, permission: 'inventory:register-entry' },
 ];
 
 const administrationNavigation: NavItem[] = [
