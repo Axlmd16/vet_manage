@@ -5,6 +5,7 @@ import { MailModule } from '../../infrastructure/mail/mail.module.js';
 import { RedisModule } from '../../infrastructure/redis/redis.module.js';
 import { UsersController } from './users.controller.js';
 import { AuthController } from './auth.controller.js';
+import { ClientRegistrationController } from './routes/clients.controller.js';
 import { JwtAuthGuard } from './guards/jwt-auth.guard.js';
 import { PermissionsGuard } from './guards/permissions.guard.js';
 import { AccessService } from './services/access.service.js';
@@ -16,6 +17,7 @@ import { RbacCatalogSynchronizer } from './services/rbac-catalog-synchronizer.se
 import { SessionService } from './services/session.service.js';
 import { TokenService } from './services/token.service.js';
 import { UserRegistrationService } from './services/user-registration.service.js';
+import { ClientRegistrationService } from './services/client-registration.service.js';
 
 @Module({
   imports: [
@@ -26,7 +28,7 @@ import { UserRegistrationService } from './services/user-registration.service.js
       useFactory: (config: ConfigService) => ({ secret: config.getOrThrow<string>('auth.jwtSecret') }),
     }),
   ],
-  controllers: [AuthController, UsersController],
+  controllers: [AuthController, UsersController, ClientRegistrationController],
   providers: [
     RbacCatalogSynchronizer,
     InitialAdminService,
@@ -37,6 +39,7 @@ import { UserRegistrationService } from './services/user-registration.service.js
     AuthService,
     SessionService,
     UserRegistrationService,
+    ClientRegistrationService,
     JwtAuthGuard,
     PermissionsGuard,
   ],
@@ -48,6 +51,7 @@ import { UserRegistrationService } from './services/user-registration.service.js
     AccessService,
     JwtAuthGuard,
     PermissionsGuard,
+    ClientRegistrationService,
   ],
 })
 export class IdentityModule {}
