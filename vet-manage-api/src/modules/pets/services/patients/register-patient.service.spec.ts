@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { ApiException } from '../../../../common/errors/api-exception.js';
-import { PET_MESSAGES, RegisterPetService } from './register-pet.service.js';
+import { PATIENT_MESSAGES, RegisterPatientService } from './register-patient.service.js';
 
 const CLIENT_ID = '11111111-1111-4111-8111-111111111111';
 const SPECIES_ID = '22222222-2222-4222-8222-222222222222';
@@ -11,7 +11,7 @@ const validInput = () => ({
   name: '  Firulais  ',
   speciesId: SPECIES_ID,
   breedId: BREED_ID,
-  sex: 'MALE',
+  gender: 'MALE',
   birthDate: '10-05-2024',
   weightKg: 12.5,
   heightCm: '45.3',
@@ -22,7 +22,7 @@ const validInput = () => ({
 
 function build() {
   const create = vi.fn(async (data: Record<string, unknown>) => ({
-    id: 'pet-1',
+    id: 'patient-1',
     code: 'PAC-000001',
     status: 'ACTIVE',
     createdAt: new Date('2026-11-19T12:00:00.000Z'),
@@ -34,7 +34,7 @@ function build() {
   const findSpecies = vi.fn(async () => ({ id: SPECIES_ID, name: 'Canino', isActive: true }));
   const findBreed = vi.fn(async () => ({ id: BREED_ID, name: 'Labrador', isActive: true, speciesId: SPECIES_ID }));
 
-  const service = new RegisterPetService(
+  const service = new RegisterPatientService(
     { create } as never,
     { findById: findSpecies } as never,
     { findById: findBreed } as never,
@@ -51,7 +51,7 @@ async function expectError(promise: Promise<unknown>, message: string, status: n
   if (fields) expect((error as ApiException).errors).toEqual(fields);
 }
 
-describe('RegisterPetService', () => {
+describe('RegisterPatientService', () => {
   let ctx: ReturnType<typeof build>;
 
   beforeEach(() => {
@@ -66,11 +66,11 @@ describe('RegisterPetService', () => {
 
   describe('Escenario 1: registro exitoso', () => {
     it('guarda los datos normalizados y devuelve el paciente con su código', async () => {
-      const pet = await ctx.service.execute(validInput());
+      const patient = await ctx.service.execute(validInput());
 
       expect(ctx.create).toHaveBeenCalledWith({
         name: 'Firulais',
-        sex: 'MALE',
+        gender: 'MALE',
         birthDate: new Date(Date.UTC(2024, 4, 10)),
         weightKg: 12.5,
         heightCm: 45.3,
@@ -80,7 +80,7 @@ describe('RegisterPetService', () => {
         speciesId: SPECIES_ID,
         breedId: BREED_ID,
       });
-      expect(pet).toMatchObject({
+      expect(patient).toMatchObject({
         code: 'PAC-000001',
         status: 'ACTIVE',
         birthDate: '10-05-2024',
@@ -101,8 +101,8 @@ describe('RegisterPetService', () => {
   describe('Escenario 2: campos obligatorios', () => {
     it('lista todos los campos faltantes', async () => {
       await expectError(
-        ctx.service.execute({ clientId: CLIENT_ID, name: '   ', sex: 'MALE' }),
-        PET_MESSAGES.missing,
+        ctx.service.execute({ clientId: CLIENT_ID, name: '   ', gender: 'MALE' }),
+        PATIENT_MESSAGES.missing,
         400,
         ['name', 'speciesId', 'breedId', 'birthDate', 'weightKg', 'heightCm', 'reproductiveStatus'],
       );
@@ -110,41 +110,41 @@ describe('RegisterPetService', () => {
     });
 
     it('rechaza un sexo fuera de las opciones', async () => {
-      await expectError(ctx.service.execute({ ...validInput(), sex: 'OTHER' }), PET_MESSAGES.invalidSex, 400, ['sex']);
+      await expectError(ctx.service.execute({ ...validInput(), gender: 'OTHER' }), PATIENT_MESSAGES.invalidGender, 400, ['gender']);
     });
 
     it('rechaza un estado reproductivo fuera de las opciones', async () => {
       await expectError(
         ctx.service.execute({ ...validInput(), reproductiveStatus: 'MAYBE' }),
-        PET_MESSAGES.invalidReproductiveStatus,
+        PATIENT_MESSAGES.invalidReproductiveStatus,
         400,
         ['reproductiveStatus'],
       );
     });
 
     it('rechaza identificadores sin formato UUID', async () => {
-      await expectError(ctx.service.execute({ ...validInput(), breedId: 'abc' }), PET_MESSAGES.invalidId, 400, ['breedId']);
+      await expectError(ctx.service.execute({ ...validInput(), breedId: 'abc' }), PATIENT_MESSAGES.invalidId, 400, ['breedId']);
     });
   });
 
   describe('Escenario 3: color opcional', () => {
     it.each([undefined, '', '   ', null])('guarda el color como null cuando es %j', async (color) => {
-      const pet = await ctx.service.execute({ ...validInput(), color });
+      const patient = await ctx.service.execute({ ...validInput(), color });
 
       expect(ctx.create.mock.calls[0][0]).toMatchObject({ color: null });
-      expect(pet.color).toBeNull();
+      expect(patient.color).toBeNull();
     });
   });
 
   describe('Escenario 4: cliente obligatorio', () => {
     it('exige seleccionar un cliente antes que cualquier otro campo', async () => {
-      await expectError(ctx.service.execute({}), PET_MESSAGES.clientRequired, 400, ['clientId']);
+      await expectError(ctx.service.execute({}), PATIENT_MESSAGES.clientRequired, 400, ['clientId']);
     });
 
     it('responde 404 si el cliente no existe', async () => {
       ctx.findClient.mockResolvedValueOnce(null as never);
 
-      await expectError(ctx.service.execute(validInput()), PET_MESSAGES.clientRequired, 404, ['clientId']);
+      await expectError(ctx.service.execute(validInput()), PATIENT_MESSAGES.clientRequired, 404, ['clientId']);
       expect(ctx.create).not.toHaveBeenCalled();
     });
   });
@@ -153,7 +153,7 @@ describe('RegisterPetService', () => {
     it.each(['DEACTIVATED', 'INACTIVE'])('responde 409 si el cliente está %s', async (status) => {
       ctx.findClient.mockResolvedValueOnce({ id: CLIENT_ID, status });
 
-      await expectError(ctx.service.execute(validInput()), PET_MESSAGES.clientUnavailable, 409, ['clientId']);
+      await expectError(ctx.service.execute(validInput()), PATIENT_MESSAGES.clientUnavailable, 409, ['clientId']);
       expect(ctx.create).not.toHaveBeenCalled();
     });
   });
@@ -162,7 +162,7 @@ describe('RegisterPetService', () => {
     it.each(['2024-05-10', '31-02-2024', '20-11-2026'])('rechaza %s', async (birthDate) => {
       await expectError(
         ctx.service.execute({ ...validInput(), birthDate }),
-        PET_MESSAGES.invalidBirthDate,
+        PATIENT_MESSAGES.invalidBirthDate,
         400,
         ['birthDate'],
       );
@@ -182,7 +182,7 @@ describe('RegisterPetService', () => {
     ])('rechaza %j', async (override, fields) => {
       await expectError(
         ctx.service.execute({ ...validInput(), ...override }),
-        PET_MESSAGES.invalidMeasures,
+        PATIENT_MESSAGES.invalidMeasures,
         400,
         fields,
       );
@@ -191,7 +191,7 @@ describe('RegisterPetService', () => {
     it('rechaza valores que no caben en la columna', async () => {
       await expectError(
         ctx.service.execute({ ...validInput(), weightKg: 10000 }),
-        PET_MESSAGES.measureTooLarge,
+        PATIENT_MESSAGES.measureTooLarge,
         400,
         ['weightKg'],
       );
@@ -201,27 +201,27 @@ describe('RegisterPetService', () => {
   describe('especie y raza', () => {
     it('responde 404 si la especie no existe', async () => {
       ctx.findSpecies.mockResolvedValueOnce(null as never);
-      await expectError(ctx.service.execute(validInput()), PET_MESSAGES.speciesNotFound, 404);
+      await expectError(ctx.service.execute(validInput()), PATIENT_MESSAGES.speciesNotFound, 404);
     });
 
     it('responde 409 si la especie está inactiva', async () => {
       ctx.findSpecies.mockResolvedValueOnce({ id: SPECIES_ID, name: 'Canino', isActive: false });
-      await expectError(ctx.service.execute(validInput()), PET_MESSAGES.speciesInactive, 409);
+      await expectError(ctx.service.execute(validInput()), PATIENT_MESSAGES.speciesInactive, 409);
     });
 
     it('responde 404 si la raza no existe', async () => {
       ctx.findBreed.mockResolvedValueOnce(null as never);
-      await expectError(ctx.service.execute(validInput()), PET_MESSAGES.breedNotFound, 404);
+      await expectError(ctx.service.execute(validInput()), PATIENT_MESSAGES.breedNotFound, 404);
     });
 
     it('responde 400 si la raza es de otra especie', async () => {
       ctx.findBreed.mockResolvedValueOnce({ id: BREED_ID, name: 'Siamés', isActive: true, speciesId: OTHER_SPECIES_ID });
-      await expectError(ctx.service.execute(validInput()), PET_MESSAGES.breedMismatch, 400, ['breedId']);
+      await expectError(ctx.service.execute(validInput()), PATIENT_MESSAGES.breedMismatch, 400, ['breedId']);
     });
 
     it('responde 409 si la raza está inactiva', async () => {
       ctx.findBreed.mockResolvedValueOnce({ id: BREED_ID, name: 'Labrador', isActive: false, speciesId: SPECIES_ID });
-      await expectError(ctx.service.execute(validInput()), PET_MESSAGES.breedInactive, 409);
+      await expectError(ctx.service.execute(validInput()), PATIENT_MESSAGES.breedInactive, 409);
     });
   });
 

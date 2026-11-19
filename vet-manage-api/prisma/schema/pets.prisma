@@ -28,8 +28,8 @@ model Breed {
   @@map("breeds")
 }
 
-// Sexo del paciente.
-enum PetSex {
+// Género del paciente (Genero en el diagrama de clases).
+enum Gender {
   MALE
   FEMALE
 }
@@ -41,13 +41,13 @@ enum ReproductiveStatus {
   UNKNOWN
 }
 
-// Clase Paciente del diagrama de clases del Módulo 1; la tabla conserva el nombre pets.
+// Clase Paciente del diagrama de clases del Módulo 1.
 model Patient {
   id                 String             @id @default(uuid()) @db.Uuid
-  // Código legible generado por la secuencia pet_code_seq (PAC-000001).
-  code               String             @unique @default(dbgenerated("('PAC-'::text || lpad((nextval('pet_code_seq'::regclass))::text, 6, '0'::text))")) @db.VarChar(12)
+  // codigoIdentificador del diagrama: lo genera la secuencia patient_code_seq (PAC-000001).
+  code               String             @unique @default(dbgenerated("('PAC-'::text || lpad((nextval('patient_code_seq'::regclass))::text, 6, '0'::text))")) @db.VarChar(12)
   name               String             @db.VarChar(100)
-  sex                PetSex
+  gender             Gender
   birthDate          DateTime           @map("birth_date") @db.Date
   weightKg           Decimal            @map("weight_kg") @db.Decimal(6, 2)
   heightCm           Decimal            @map("height_cm") @db.Decimal(6, 2)
@@ -65,5 +65,5 @@ model Patient {
 
   @@index([clientId])
   @@index([status])
-  @@map("pets")
+  @@map("patients")
 }

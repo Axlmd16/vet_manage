@@ -1,11 +1,11 @@
 import { getJson, postJson } from '../../../infrastructure/api/http-client';
-import type { ClientOption, RegisteredPet, RegisterPetDraft } from '../types';
+import type { ClientOption, RegisteredPatient, RegisterPatientDraft } from '../types';
 
 type ClientPage = { items: ClientOption[] };
 
-export const petApi = {
-  registerPet(draft: RegisterPetDraft) {
-    return postJson<RegisteredPet, RegisterPetDraft>('/pets', draft);
+export const patientApi = {
+  registerPatient(draft: RegisterPatientDraft) {
+    return postJson<RegisteredPatient, RegisterPatientDraft>('/pets', draft);
   },
   // Usa el listado del dominio de clientes (HU-01) filtrando solo los activos.
   async searchActiveClients(search: string) {

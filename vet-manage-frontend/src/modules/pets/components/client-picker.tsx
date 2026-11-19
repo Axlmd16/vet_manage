@@ -77,7 +77,7 @@ export function ClientPicker({ value, onChange, search, error, disabled = false 
   return (
     <div className="field client-picker">
       <label htmlFor={inputId}>Cliente <b>*</b></label>
-      <div className="pet-field__control">
+      <div className="patient-field__control">
         <SearchIcon size={16} />
         <input
           id={inputId}
