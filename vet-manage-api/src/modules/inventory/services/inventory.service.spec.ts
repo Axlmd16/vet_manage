@@ -10,7 +10,7 @@ function createPrismaMock() {
       findFirst: vi.fn().mockResolvedValue({ id: 'category-1', name: 'Alimentos' }),
       update: vi.fn().mockResolvedValue({ id: 'category-1', name: 'Nutrición', description: 'Nueva' }),
     },
-    brand: {
+    marca: {
       upsert: vi.fn().mockResolvedValue({ id: 'brand-1' }),
       findFirst: vi.fn().mockResolvedValue({ id: 'brand-1', name: 'Dog Chow' }),
       update: vi.fn().mockResolvedValue({ id: 'brand-1', name: 'Royal Canin', description: null }),
@@ -36,7 +36,7 @@ function createPrismaMock() {
         findUnique: vi.fn().mockResolvedValue({ id: 'category-1', name: 'Alimentos', isActive: true }),
         update: vi.fn().mockResolvedValue({ id: 'category-1', name: 'Nutrición', description: 'Nueva' }),
       },
-      brand: {
+      marca: {
         findUnique: vi.fn().mockResolvedValue({ id: 'brand-1', name: 'Dog Chow', isActive: true }),
         update: vi.fn().mockResolvedValue({ id: 'brand-1', name: 'Royal Canin', description: null }),
       },
@@ -63,7 +63,7 @@ describe('InventoryService', () => {
 
     expect(result.unitPrice).toBe('25.5');
     expect(tx.category.upsert).toHaveBeenCalledWith(expect.objectContaining({ where: { name: 'Alimentos' } }));
-    expect(tx.brand.upsert).toHaveBeenCalledWith(expect.objectContaining({ where: { name: 'Dog Chow' } }));
+    expect(tx.marca.upsert).toHaveBeenCalledWith(expect.objectContaining({ where: { name: 'Dog Chow' } }));
   });
 
   it('translates a duplicate product code into a conflict', async () => {
@@ -99,7 +99,7 @@ describe('InventoryService', () => {
 
   it('translates a duplicate brand name into a conflict', async () => {
     const { prisma } = createPrismaMock();
-    prisma.brand.update.mockRejectedValue({ code: 'P2002', meta: { target: ['name'] } });
+    prisma.marca.update.mockRejectedValue({ code: 'P2002', meta: { target: ['name'] } });
     const service = new InventoryService(prisma as never);
 
     await expect(service.updateBrand('brand-1', { name: 'Royal Canin' })).rejects.toMatchObject({

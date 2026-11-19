@@ -4,7 +4,7 @@ import { INVENTORY_DEMO, seedInventory } from './inventory.seed.js';
 function createPrismaMock() {
   const tx = {
     category: { upsert: vi.fn(async ({ create }: { create: { name: string } }) => ({ id: `category-${create.name}` })) },
-    brand: { upsert: vi.fn(async ({ create }: { create: { name: string } }) => ({ id: `brand-${create.name}` })) },
+    marca: { upsert: vi.fn(async ({ create }: { create: { name: string } }) => ({ id: `brand-${create.name}` })) },
     product: { upsert: vi.fn(async ({ create }: { create: { code: string } }) => ({ id: `product-${create.code}` })) },
   };
   return { tx, prisma: { $transaction: vi.fn((callback: (transaction: typeof tx) => unknown) => callback(tx)) } };
@@ -25,7 +25,7 @@ describe('Inventory demo seed', () => {
 
     expect(prisma.$transaction).toHaveBeenCalledTimes(1);
     expect(tx.category.upsert).toHaveBeenCalledTimes(INVENTORY_DEMO.categories.length);
-    expect(tx.brand.upsert).toHaveBeenCalledTimes(INVENTORY_DEMO.brands.length);
+    expect(tx.marca.upsert).toHaveBeenCalledTimes(INVENTORY_DEMO.brands.length);
     expect(tx.product.upsert).toHaveBeenCalledTimes(INVENTORY_DEMO.products.length);
     expect(tx.product.upsert).toHaveBeenCalledWith(expect.objectContaining({
       where: { code: INVENTORY_DEMO.products[0].code },
