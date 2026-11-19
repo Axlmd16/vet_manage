@@ -14,6 +14,7 @@ type BreedValidation =
   | { valid: true; value: RegisterBreedDraft; errors: null }
   | { valid: false; value: null; errors: BreedFieldErrors };
 
+// Valida el formulario y devuelve el borrador limpio o los errores por campo
 export function validateBreedDraft(input: BreedFormInput): BreedValidation {
   const name = input.name.trim();
   const errors: BreedFieldErrors = {};

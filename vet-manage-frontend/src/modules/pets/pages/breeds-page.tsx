@@ -25,12 +25,14 @@ export function BreedsPage() {
     }
   }, [showToast]);
 
+  // Recarga las especies cada vez que se abre el modal
   const openModal = () => {
     setModalOpen(true);
     void loadSpecies();
   };
 
   useEffect(() => {
+    // Permite cerrar el modal con Escape salvo mientras se guarda
     if (!isModalOpen) return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -49,6 +51,7 @@ export function BreedsPage() {
       setModalOpen(false);
     } catch (cause) {
       showToast(cause instanceof Error ? cause.message : 'Error al registrar raza', 'error');
+      // Refresca las especies por si alguna fue desactivada, y relanza para que el form muestre el error
       void loadSpecies();
       throw cause;
     } finally {

@@ -13,6 +13,7 @@ export class BreedController {
   @Post('breeds')
   @HttpCode(HttpStatus.CREATED)
   @UseGuards(JwtAuthGuard, PermissionsGuard)
+  // Solo usuarios con permiso breeds:create pueden registrar razas
   @RequirePermissions('breeds:create')
   async registerBreed(@Body() dto: RegisterBreedDto) {
     const created = await this.registerBreedService.execute(dto);

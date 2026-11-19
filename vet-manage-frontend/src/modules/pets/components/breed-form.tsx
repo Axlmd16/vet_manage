@@ -17,6 +17,7 @@ export function BreedForm({ species, speciesLoading = false, onSubmit, onCancel,
   const [errors, setErrors] = useState<BreedFieldErrors>({});
   const [submitError, setSubmitError] = useState<string | null>(null);
 
+  // Sin especies activas no se puede crear una raza
   const noSpecies = !speciesLoading && species.length === 0;
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -28,6 +29,7 @@ export function BreedForm({ species, speciesLoading = false, onSubmit, onCancel,
       return;
     }
 
+    // Limpia el formulario solo si el registro fue exitoso
     setErrors({});
     setSubmitError(null);
     try {
