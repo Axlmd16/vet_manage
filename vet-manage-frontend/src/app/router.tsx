@@ -27,7 +27,7 @@ export function AppRouter() {
           <Route path="catalogs" element={<CatalogsPage />} />
           <Route path="clients" element={<ComingSoonPage />} />
           <Route path="appointments" element={<ComingSoonPage />} />
-          <Route path="inventory/products" element={<ProductsPage />} />
+          <Route path="inventory/products" element={<RequirePermission permission="inventory:read"><ProductsPage /></RequirePermission>} />
           <Route path="inventory/products/new" element={<ProductFormPage />} />
           <Route path="inventory/products/:id/edit" element={<ProductFormPage />} />
           <Route path="inventory/categories" element={<CatalogPage type="category" />} />

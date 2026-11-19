@@ -1,10 +1,16 @@
 import { getJson, patchJson, postJson } from '../../../infrastructure/api/http-client';
-import type { BatchEntryDraft, BatchEntryResult, CatalogItem, Product, ProductDraft } from '../types';
+import type { BatchEntryDraft, BatchEntryResult, CatalogItem, Product, ProductDraft, ProductSearchFilters } from '../types';
 
 export const inventoryApi = {
-  listProducts(search = '') {
-    const query = search.trim() ? `?search=${encodeURIComponent(search.trim())}` : '';
-    return getJson<Product[]>(`/inventory/products${query}`);
+  listProducts(search = '', filters: ProductSearchFilters = {}) {
+    const query = new URLSearchParams();
+    const normalizedSearch = search.trim();
+    if (normalizedSearch) query.set('search', normalizedSearch);
+    if (filters.categoryId) query.set('categoryId', filters.categoryId);
+    if (filters.brandId) query.set('brandId', filters.brandId);
+    if (filters.batchCode?.trim()) query.set('batchCode', filters.batchCode.trim());
+    const suffix = query.size > 0 ? `?${query.toString()}` : '';
+    return getJson<Product[]>(`/inventory/products${suffix}`);
   },
   getProduct(id: string) {
     return getJson<Product>(`/inventory/products/${id}`);

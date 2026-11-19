@@ -4,6 +4,12 @@ export type CatalogItem = {
   description?: string | null;
 };
 
+export type ProductSearchFilters = {
+  categoryId?: string;
+  brandId?: string;
+  batchCode?: string;
+};
+
 export type Product = {
   id: string;
   code: string;
