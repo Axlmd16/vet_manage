@@ -2,6 +2,7 @@
 
 .users-filters { display: grid; grid-template-columns: minmax(220px, 2fr) minmax(160px, 1fr) minmax(160px, 1fr) auto; gap: 12px; align-items: end; margin-bottom: 18px; }
 .users-filter > span { color: #596674; }
+.users-filter-actions { display: flex; gap: 8px; align-items: end; }
 .users-search-button { min-height: 42px; }
 .users-table td { vertical-align: middle; }
 .users-table .code-pill { white-space: nowrap; }
@@ -12,10 +13,12 @@
 @media (max-width: 900px) {
   .users-filters { grid-template-columns: 1fr 1fr; }
   .users-filter--search { grid-column: 1 / -1; }
-  .users-search-button { width: 100%; }
+  .users-filter-actions { grid-column: 1 / -1; }
+  .users-filter-actions .button { width: 100%; }
 }
 
 @media (max-width: 640px) {
   .users-filters { grid-template-columns: 1fr; }
+  .users-filter-actions { flex-direction: column; }
   .users-pagination { align-items: flex-start; flex-direction: column; }
 }

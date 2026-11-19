@@ -143,6 +143,54 @@ describe('UsersPage', () => {
     expect(screen.queryByRole('table')).not.toBeInTheDocument();
   });
 
+  it('recarga el listado sin búsqueda al borrar todo el campo', async () => {
+    renderPage();
+    await screen.findByText('Ana Aguilar');
+
+    await userEvent.type(screen.getByLabelText('Buscar usuarios'), 'Pérez');
+    await userEvent.click(screen.getByRole('button', { name: 'Buscar' }));
+    await userEvent.selectOptions(screen.getByLabelText('Filtrar por rol'), 'veterinarian');
+
+    await waitFor(() => {
+      expect(usersApi.list).toHaveBeenLastCalledWith({
+        q: 'Pérez',
+        role: 'veterinarian',
+        page: 1,
+        pageSize: 20,
+      });
+    });
+
+    await userEvent.clear(screen.getByLabelText('Buscar usuarios'));
+
+    await waitFor(() => {
+      expect(usersApi.list).toHaveBeenLastCalledWith({
+        role: 'veterinarian',
+        page: 1,
+        pageSize: 20,
+      });
+    });
+  });
+
+  it('restablece búsqueda y filtros con Limpiar búsqueda', async () => {
+    renderPage();
+    await screen.findByText('Ana Aguilar');
+
+    const searchInput = screen.getByLabelText('Buscar usuarios');
+    await userEvent.type(searchInput, 'Pérez');
+    await userEvent.click(screen.getByRole('button', { name: 'Buscar' }));
+    await userEvent.selectOptions(screen.getByLabelText('Filtrar por rol'), 'veterinarian');
+    await userEvent.selectOptions(screen.getByLabelText('Filtrar por estado'), 'INACTIVE');
+
+    await userEvent.click(screen.getByRole('button', { name: 'Limpiar búsqueda' }));
+
+    expect(searchInput).toHaveValue('');
+    expect(screen.getByLabelText('Filtrar por rol')).toHaveValue('');
+    expect(screen.getByLabelText('Filtrar por estado')).toHaveValue('');
+    await waitFor(() => {
+      expect(usersApi.list).toHaveBeenLastCalledWith({ page: 1, pageSize: 20 });
+    });
+  });
+
   it('niega la vista a un usuario sin users:read', () => {
     renderPage({ hasPermission: () => false });
 

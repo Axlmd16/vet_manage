@@ -77,6 +77,13 @@ export function UsersPage() {
     applyFilters({ q: search.trim() || undefined });
   }
 
+  function clearSearch() {
+    setSearch('');
+    setLoading(true);
+    setError(null);
+    setQuery({ page: 1, pageSize: 20 });
+  }
+
   return (
     <section className="users-page">
       <div className="page-heading">
@@ -96,7 +103,13 @@ export function UsersPage() {
           <input
             aria-label="Buscar usuarios"
             value={search}
-            onChange={(event) => setSearch(event.target.value)}
+            onChange={(event) => {
+              const value = event.target.value;
+              setSearch(value);
+              if (value === '' && query.q) {
+                applyFilters({ q: undefined });
+              }
+            }}
             placeholder="Cédula o nombre"
           />
         </label>
@@ -126,7 +139,10 @@ export function UsersPage() {
             <option value="DEACTIVATED">De baja</option>
           </select>
         </label>
-        <button className="button button--secondary users-search-button" type="submit">Buscar</button>
+        <div className="users-filter-actions">
+          <button className="button button--secondary users-search-button" type="submit">Buscar</button>
+          <button className="button button--ghost" type="button" onClick={clearSearch}>Limpiar búsqueda</button>
+        </div>
       </form>
 
       <div className="catalog-card">
