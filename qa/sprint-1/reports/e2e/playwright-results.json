@@ -1,0 +1,1213 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\VetManage\\vet_manage\\qa\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "-c",
+      "sprint-1/e2e/playwright.config.ts"
+    ],
+    "configFile": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\playwright.config.ts",
+    "rootDir": "C:/VetManage/vet_manage/qa/sprint-1/e2e/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\global-setup.ts",
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/VetManage/vet_manage/qa/sprint-1/reports/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "C:/VetManage/vet_manage/qa/sprint-1/e2e/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "chromium",
+        "testDir": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests",
+        "snapshotDir": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "http://localhost:5184",
+          "locale": "es-EC",
+          "timezoneId": "America/Guayaquil",
+          "screenshot": "on",
+          "trace": "retain-on-failure",
+          "video": "retain-on-failure",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/159.0.8154.6 Safari/537.36",
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "screen": {
+            "width": 1920,
+            "height": 1080
+          },
+          "deviceScaleFactor": 1,
+          "isMobile": false,
+          "hasTouch": false,
+          "defaultBrowserType": "chromium"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "chromium"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "html",
+        {
+          "outputFolder": "../reports/playwright-html",
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "../reports/e2e/playwright-results.json"
+        }
+      ],
+      [
+        "junit",
+        {
+          "outputFile": "../reports/e2e/playwright-junit.xml"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.65.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "01-login.spec.ts",
+      "file": "01-login.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "HU-57 Iniciar sesión (E2E)",
+          "file": "01-login.spec.ts",
+          "line": 5,
+          "column": 6,
+          "specs": [
+            {
+              "title": "CP-57-01 el Veterinario inicia sesión y ve la pantalla principal con sus funciones",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1040,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-19T22:47:58.608Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\01-login-HU-57-Iniciar-ses-5b3e8-principal-con-sus-funciones-chromium\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "29ac412fd126331721f5-44d88eb644fc835948a2",
+              "file": "01-login.spec.ts",
+              "line": 6,
+              "column": 3
+            },
+            {
+              "title": "CP-57-03 contraseña incorrecta muestra un mensaje genérico",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 809,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-19T22:47:59.829Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\01-login-HU-57-Iniciar-ses-45706-muestra-un-mensaje-genérico-chromium\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "29ac412fd126331721f5-8e5a4b968d84204906cc",
+              "file": "01-login.spec.ts",
+              "line": 13,
+              "column": 3
+            },
+            {
+              "title": "CP-57-04 campos vacíos muestran \"Ingrese su correo y contraseña\" sin llamar a la API",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 755,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-19T22:48:00.655Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\01-login-HU-57-Iniciar-ses-8a098-traseña-sin-llamar-a-la-API-chromium\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "29ac412fd126331721f5-43e1784c042f5e2518ca",
+              "file": "01-login.spec.ts",
+              "line": 19,
+              "column": 3
+            },
+            {
+              "title": "CP-57-05/06 bloquea la cuenta al 5.º intento fallido y la mantiene bloqueada con la contraseña correcta",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2260,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-19T22:48:01.424Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\01-login-HU-57-Iniciar-ses-f846c--con-la-contraseña-correcta-chromium\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "29ac412fd126331721f5-0c3f48dd116fbadc320b",
+              "file": "01-login.spec.ts",
+              "line": 28,
+              "column": 3
+            },
+            {
+              "title": "CP-57-09 el primer ingreso con contraseña temporal lleva al cambio obligatorio de contraseña",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 9058,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: /cambi(ar|o de) contraseña/i })\nExpected: visible\nTimeout: 8000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: /cambi(ar|o de) contraseña/i }) with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /cambi(ar|o de) contraseña/i })\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: /cambi(ar|o de) contraseña/i })\nExpected: visible\nTimeout: 8000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: /cambi(ar|o de) contraseña/i }) with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /cambi(ar|o de) contraseña/i })\u001b[22m\n\n    at C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\01-login.spec.ts:46:85",
+                        "location": {
+                          "file": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\01-login.spec.ts",
+                          "column": 85,
+                          "line": 46
+                        },
+                        "snippet": " \u001b[90m 44 |\u001b[39m   test(\u001b[32m'CP-57-09 el primer ingreso con contraseña temporal lleva al cambio obligatorio de contraseña'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 45 |\u001b[39m     \u001b[36mawait\u001b[39m fillLogin(page\u001b[33m,\u001b[39m \u001b[33mUSERS\u001b[39m\u001b[33m.\u001b[39mtemporary\u001b[33m,\u001b[39m \u001b[33mPASSWORD\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 46 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/cambi(ar|o de) contraseña/i\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                                     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 47 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 48 |\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 49 |\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\01-login.spec.ts",
+                            "column": 85,
+                            "line": 46
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: /cambi(ar|o de) contraseña/i })\nExpected: visible\nTimeout: 8000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: /cambi(ar|o de) contraseña/i }) with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /cambi(ar|o de) contraseña/i })\u001b[22m\n\n\n  44 |   test('CP-57-09 el primer ingreso con contraseña temporal lleva al cambio obligatorio de contraseña', async ({ page }) => {\n  45 |     await fillLogin(page, USERS.temporary, PASSWORD);\n> 46 |     await expect(page.getByRole('heading', { name: /cambi(ar|o de) contraseña/i })).toBeVisible();\n     |                                                                                     ^\n  47 |   });\n  48 | });\n  49 |\n    at C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\01-login.spec.ts:46:85"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-19T22:48:03.700Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\01-login-HU-57-Iniciar-ses-c622c-o-obligatorio-de-contraseña-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\01-login-HU-57-Iniciar-ses-c622c-o-obligatorio-de-contraseña-chromium\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\01-login-HU-57-Iniciar-ses-c622c-o-obligatorio-de-contraseña-chromium\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\01-login-HU-57-Iniciar-ses-c622c-o-obligatorio-de-contraseña-chromium\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\01-login.spec.ts",
+                        "column": 85,
+                        "line": 46
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "29ac412fd126331721f5-cc870d65c4aa3efc311a",
+              "file": "01-login.spec.ts",
+              "line": 44,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "02-users-roles-audit.spec.ts",
+      "file": "02-users-roles-audit.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "HU-51 Registrar usuario (E2E)",
+          "file": "02-users-roles-audit.spec.ts",
+          "line": 8,
+          "column": 6,
+          "specs": [
+            {
+              "title": "CP-51-01 el Administrador registra un Veterinario y se envían las credenciales",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1431,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-19T22:48:13.448Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\02-users-roles-audit-HU-51-ae2de--se-envían-las-credenciales-chromium\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "448446efe5f95ef7c4f1-96e0e64a6f2fd8ba6c67",
+              "file": "02-users-roles-audit.spec.ts",
+              "line": 9,
+              "column": 3
+            },
+            {
+              "title": "CP-51-05 resalta el correo vacío con \"Complete los campos obligatorios\"",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1011,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-19T22:48:15.024Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\02-users-roles-audit-HU-51-48aa2-te-los-campos-obligatorios--chromium\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "448446efe5f95ef7c4f1-18bcf6535fedb81bb9c0",
+              "file": "02-users-roles-audit.spec.ts",
+              "line": 26,
+              "column": 3
+            },
+            {
+              "title": "CP-51-14 el Recepcionista no puede abrir el registro de personal",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 696,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-19T22:48:16.054Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\02-users-roles-audit-HU-51-bfc0f-rir-el-registro-de-personal-chromium\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "448446efe5f95ef7c4f1-d930ee07192d55157ca6",
+              "file": "02-users-roles-audit.spec.ts",
+              "line": 40,
+              "column": 3
+            }
+          ]
+        },
+        {
+          "title": "HU-54 Asignar y quitar roles (E2E)",
+          "file": "02-users-roles-audit.spec.ts",
+          "line": 48,
+          "column": 6,
+          "specs": [
+            {
+              "title": "CP-54-07 el rol ya asignado (Recepcionista) no aparece para asignar",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 762,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-19T22:48:16.760Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\02-users-roles-audit-HU-54-cc0bb-sta-no-aparece-para-asignar-chromium\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "448446efe5f95ef7c4f1-7c0fa22b16de6917923b",
+              "file": "02-users-roles-audit.spec.ts",
+              "line": 57,
+              "column": 3
+            },
+            {
+              "title": "CP-54-01 asigna Cajero a Carlos Pérez y él ve ambos roles al iniciar sesión",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1200,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-19T22:48:17.618Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\02-users-roles-audit-HU-54-a39a9-bos-roles-al-iniciar-sesión-chromium\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "448446efe5f95ef7c4f1-9b4621d54f8f1f27ae80",
+              "file": "02-users-roles-audit.spec.ts",
+              "line": 65,
+              "column": 3
+            },
+            {
+              "title": "CP-54-04 impide dejar al usuario sin roles",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 949,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-19T22:48:18.830Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\02-users-roles-audit-HU-54-a309a--dejar-al-usuario-sin-roles-chromium\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "448446efe5f95ef7c4f1-9bcf55369967ce8f776b",
+              "file": "02-users-roles-audit.spec.ts",
+              "line": 79,
+              "column": 3
+            }
+          ]
+        },
+        {
+          "title": "Auditoría de acciones sensibles (E2E · OC-04 / PNF-05)",
+          "file": "02-users-roles-audit.spec.ts",
+          "line": 92,
+          "column": 6,
+          "specs": [
+            {
+              "title": "CP-51-18 / CP-54-14 el Administrador consulta en la auditoría el registro de usuarios y el cambio de roles",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 9085,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('link', { name: /Auditor[ií]a/ })\nExpected: visible\nTimeout: 8000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('link', { name: /Auditor[ií]a/ }) with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('link', { name: /Auditor[ií]a/ })\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('link', { name: /Auditor[ií]a/ })\nExpected: visible\nTimeout: 8000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('link', { name: /Auditor[ií]a/ }) with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('link', { name: /Auditor[ií]a/ })\u001b[22m\n\n    at C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\02-users-roles-audit.spec.ts:96:68",
+                        "location": {
+                          "file": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\02-users-roles-audit.spec.ts",
+                          "column": 68,
+                          "line": 96
+                        },
+                        "snippet": " \u001b[90m 94 |\u001b[39m     \u001b[36mawait\u001b[39m login(page\u001b[33m,\u001b[39m \u001b[33mUSERS\u001b[39m\u001b[33m.\u001b[39madmin)\u001b[33m;\u001b[39m\n \u001b[90m 95 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mscreenshot({ path\u001b[33m:\u001b[39m evidence(\u001b[32m'CP-54-14-menu-sin-auditoria'\u001b[39m)\u001b[33m,\u001b[39m fullPage\u001b[33m:\u001b[39m \u001b[36mtrue\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'link'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/Auditor[ií]a/\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\02-users-roles-audit.spec.ts",
+                            "column": 68,
+                            "line": 96
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('link', { name: /Auditor[ií]a/ })\nExpected: visible\nTimeout: 8000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('link', { name: /Auditor[ií]a/ }) with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('link', { name: /Auditor[ií]a/ })\u001b[22m\n\n\n  94 |     await login(page, USERS.admin);\n  95 |     await page.screenshot({ path: evidence('CP-54-14-menu-sin-auditoria'), fullPage: true });\n> 96 |     await expect(page.getByRole('link', { name: /Auditor[ií]a/ })).toBeVisible();\n     |                                                                    ^\n  97 |   });\n  98 | });\n  99 |\n    at C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\02-users-roles-audit.spec.ts:96:68"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-19T22:48:19.790Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\02-users-roles-audit-Audit-d72b2-uarios-y-el-cambio-de-roles-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\02-users-roles-audit-Audit-d72b2-uarios-y-el-cambio-de-roles-chromium\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\02-users-roles-audit-Audit-d72b2-uarios-y-el-cambio-de-roles-chromium\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\02-users-roles-audit-Audit-d72b2-uarios-y-el-cambio-de-roles-chromium\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\02-users-roles-audit.spec.ts",
+                        "column": 68,
+                        "line": 96
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "448446efe5f95ef7c4f1-ce2f9042da9aed846eb4",
+              "file": "02-users-roles-audit.spec.ts",
+              "line": 93,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "03-clients-pets-species.spec.ts",
+      "file": "03-clients-pets-species.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "HU-01 Registrar cliente (E2E)",
+          "file": "03-clients-pets-species.spec.ts",
+          "line": 11,
+          "column": 6,
+          "specs": [
+            {
+              "title": "CP-01-01 la Recepcionista registra un cliente y ve \"Cliente registrado exitosamente\"",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 9338,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.toast-region')\nExpected substring: \u001b[32m\"Cliente registrado exitosamente\"\u001b[39m\nReceived string:    \u001b[31m\"\"\u001b[39m\nTimeout: 8000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.toast-region') with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for locator('.toast-region')\u001b[22m\n\u001b[2m    13 × locator resolved to <div aria-live=\"polite\" aria-atomic=\"false\" class=\"toast-region\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"✓ListoCliente registrado correctamente.×\"\u001b[22m\n\u001b[2m    6 × locator resolved to <div aria-live=\"polite\" aria-atomic=\"false\" class=\"toast-region\"></div>\u001b[22m\n\u001b[2m      - unexpected value \"\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.toast-region')\nExpected substring: \u001b[32m\"Cliente registrado exitosamente\"\u001b[39m\nReceived string:    \u001b[31m\"\"\u001b[39m\nTimeout: 8000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.toast-region') with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for locator('.toast-region')\u001b[22m\n\u001b[2m    13 × locator resolved to <div aria-live=\"polite\" aria-atomic=\"false\" class=\"toast-region\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"✓ListoCliente registrado correctamente.×\"\u001b[22m\n\u001b[2m    6 × locator resolved to <div aria-live=\"polite\" aria-atomic=\"false\" class=\"toast-region\"></div>\u001b[22m\n\u001b[2m      - unexpected value \"\"\u001b[22m\n\n    at C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\03-clients-pets-species.spec.ts:25:31",
+                        "location": {
+                          "file": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\03-clients-pets-species.spec.ts",
+                          "column": 31,
+                          "line": 25
+                        },
+                        "snippet": " \u001b[90m 23 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveURL(\u001b[35m/\\/clients$/\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 24 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mscreenshot({ path\u001b[33m:\u001b[39m evidence(\u001b[32m'CP-01-01-cliente-registrado'\u001b[39m)\u001b[33m,\u001b[39m fullPage\u001b[33m:\u001b[39m \u001b[36mtrue\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 25 |\u001b[39m     \u001b[36mawait\u001b[39m expect(toast(page))\u001b[33m.\u001b[39mtoContainText(\u001b[32m'Cliente registrado exitosamente'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                               \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 26 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 27 |\u001b[39m\n \u001b[90m 28 |\u001b[39m   test(\u001b[32m'CP-01-04 los obligatorios vacíos muestran \"Por favor, complete todos los campos obligatorios\"'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\03-clients-pets-species.spec.ts",
+                            "column": 31,
+                            "line": 25
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.toast-region')\nExpected substring: \u001b[32m\"Cliente registrado exitosamente\"\u001b[39m\nReceived string:    \u001b[31m\"\"\u001b[39m\nTimeout: 8000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.toast-region') with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for locator('.toast-region')\u001b[22m\n\u001b[2m    13 × locator resolved to <div aria-live=\"polite\" aria-atomic=\"false\" class=\"toast-region\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"✓ListoCliente registrado correctamente.×\"\u001b[22m\n\u001b[2m    6 × locator resolved to <div aria-live=\"polite\" aria-atomic=\"false\" class=\"toast-region\"></div>\u001b[22m\n\u001b[2m      - unexpected value \"\"\u001b[22m\n\n\n  23 |     await expect(page).toHaveURL(/\\/clients$/);\n  24 |     await page.screenshot({ path: evidence('CP-01-01-cliente-registrado'), fullPage: true });\n> 25 |     await expect(toast(page)).toContainText('Cliente registrado exitosamente');\n     |                               ^\n  26 |   });\n  27 |\n  28 |   test('CP-01-04 los obligatorios vacíos muestran \"Por favor, complete todos los campos obligatorios\"', async ({ page }) => {\n    at C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\03-clients-pets-species.spec.ts:25:31"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-19T22:48:29.556Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-88c95-te-registrado-exitosamente--chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-88c95-te-registrado-exitosamente--chromium\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-88c95-te-registrado-exitosamente--chromium\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-88c95-te-registrado-exitosamente--chromium\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\03-clients-pets-species.spec.ts",
+                        "column": 31,
+                        "line": 25
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "90d4febafa75c59d2ecb-dfd1dc0c6a0c3cf8db08",
+              "file": "03-clients-pets-species.spec.ts",
+              "line": 12,
+              "column": 3
+            },
+            {
+              "title": "CP-01-04 los obligatorios vacíos muestran \"Por favor, complete todos los campos obligatorios\"",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 9356,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Por favor, complete todos los campos obligatorios').first()\nExpected: visible\nTimeout: 8000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Por favor, complete todos los campos obligatorios').first() with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Por favor, complete todos los campos obligatorios').first()\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Por favor, complete todos los campos obligatorios').first()\nExpected: visible\nTimeout: 8000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Por favor, complete todos los campos obligatorios').first() with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Por favor, complete todos los campos obligatorios').first()\u001b[22m\n\n    at C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\03-clients-pets-species.spec.ts:34:95",
+                        "location": {
+                          "file": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\03-clients-pets-species.spec.ts",
+                          "column": 95,
+                          "line": 34
+                        },
+                        "snippet": " \u001b[90m 32 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByLabel(\u001b[32m'Cédula'\u001b[39m))\u001b[33m.\u001b[39mtoHaveAttribute(\u001b[32m'aria-invalid'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'true'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 33 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mscreenshot({ path\u001b[33m:\u001b[39m evidence(\u001b[32m'CP-01-04-obligatorios'\u001b[39m)\u001b[33m,\u001b[39m fullPage\u001b[33m:\u001b[39m \u001b[36mtrue\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 34 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[32m'Por favor, complete todos los campos obligatorios'\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                                               \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 35 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 36 |\u001b[39m\n \u001b[90m 37 |\u001b[39m   test(\u001b[32m'CP-01-14 el Cajero no puede registrar clientes'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\03-clients-pets-species.spec.ts",
+                            "column": 95,
+                            "line": 34
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Por favor, complete todos los campos obligatorios').first()\nExpected: visible\nTimeout: 8000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Por favor, complete todos los campos obligatorios').first() with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Por favor, complete todos los campos obligatorios').first()\u001b[22m\n\n\n  32 |     await expect(page.getByLabel('Cédula')).toHaveAttribute('aria-invalid', 'true');\n  33 |     await page.screenshot({ path: evidence('CP-01-04-obligatorios'), fullPage: true });\n> 34 |     await expect(page.getByText('Por favor, complete todos los campos obligatorios').first()).toBeVisible();\n     |                                                                                               ^\n  35 |   });\n  36 |\n  37 |   test('CP-01-14 el Cajero no puede registrar clientes', async ({ page }) => {\n    at C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\03-clients-pets-species.spec.ts:34:95"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-19T22:48:39.808Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-69641-os-los-campos-obligatorios--chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-69641-os-los-campos-obligatorios--chromium\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-69641-os-los-campos-obligatorios--chromium\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-69641-os-los-campos-obligatorios--chromium\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\03-clients-pets-species.spec.ts",
+                        "column": 95,
+                        "line": 34
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "90d4febafa75c59d2ecb-2e104a68b431f4b6f232",
+              "file": "03-clients-pets-species.spec.ts",
+              "line": 28,
+              "column": 3
+            },
+            {
+              "title": "CP-01-14 el Cajero no puede registrar clientes",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 674,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-19T22:48:49.986Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-8da0b-no-puede-registrar-clientes-chromium\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "90d4febafa75c59d2ecb-ddf9698d3df2de01d875",
+              "file": "03-clients-pets-species.spec.ts",
+              "line": 37,
+              "column": 3
+            }
+          ]
+        },
+        {
+          "title": "HU-07 Registrar paciente (E2E)",
+          "file": "03-clients-pets-species.spec.ts",
+          "line": 54,
+          "column": 6,
+          "specs": [
+            {
+              "title": "CP-07-01 / CP-07-16 registra un paciente asociado a Pedro Castillo, sin campo de código editable",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2025,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-19T22:48:50.792Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-93d99-in-campo-de-código-editable-chromium\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "90d4febafa75c59d2ecb-e32b6aa0ba58ee84e42a",
+              "file": "03-clients-pets-species.spec.ts",
+              "line": 55,
+              "column": 3
+            },
+            {
+              "title": "CP-07-04 sin cliente muestra \"Debe seleccionar un cliente registrado\"",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1217,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-19T22:48:52.829Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-0a2be-onar-un-cliente-registrado--chromium\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "90d4febafa75c59d2ecb-e2b3debc081c48077226",
+              "file": "03-clients-pets-species.spec.ts",
+              "line": 75,
+              "column": 3
+            },
+            {
+              "title": "CP-07-05 un cliente dado de baja (Hugo Vivanco) no aparece en el selector",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1797,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-19T22:48:54.061Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-af5df-o-no-aparece-en-el-selector-chromium\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "90d4febafa75c59d2ecb-0b53b87154eaa09f18a6",
+              "file": "03-clients-pets-species.spec.ts",
+              "line": 89,
+              "column": 3
+            }
+          ]
+        },
+        {
+          "title": "HU-13 Registrar especie (E2E)",
+          "file": "03-clients-pets-species.spec.ts",
+          "line": 101,
+          "column": 6,
+          "specs": [
+            {
+              "title": "CP-13-01 el Veterinario registra una especie",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1369,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-19T22:48:55.872Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-f34ec-inario-registra-una-especie-chromium\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "90d4febafa75c59d2ecb-5b3b550a1bde770592ae",
+              "file": "03-clients-pets-species.spec.ts",
+              "line": 102,
+              "column": 3
+            },
+            {
+              "title": "CP-13-02 sin nombre muestra que el nombre es obligatorio",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1081,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-19T22:48:57.253Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-ed0b0-ue-el-nombre-es-obligatorio-chromium\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "90d4febafa75c59d2ecb-b4bd6b829801f540321d",
+              "file": "03-clients-pets-species.spec.ts",
+              "line": 114,
+              "column": 3
+            },
+            {
+              "title": "CP-13-05 cancelar no guarda la especie",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1092,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-19T22:48:58.344Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-f6754-ncelar-no-guarda-la-especie-chromium\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "90d4febafa75c59d2ecb-d7bbfd6db5f3849aca9d",
+              "file": "03-clients-pets-species.spec.ts",
+              "line": 122,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-19T22:47:55.067Z",
+    "duration": 64510.758,
+    "expected": 17,
+    "skipped": 0,
+    "unexpected": 4,
+    "flaky": 0
+  }
+}

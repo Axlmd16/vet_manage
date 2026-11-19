@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuites name="vitest tests" tests="75" failures="12" errors="0" time="3.4819111">
-    <testsuite name="test/qa/api/clients-pets-species.qa-spec.ts" timestamp="2026-11-19T22:26:53.204Z" hostname="Christian" tests="40" failures="10" errors="0" skipped="0" time="1.3385528">
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-01 Registrar datos del cliente (API) &gt; CP-01-01 registra un cliente válido en estado Activo con el mensaje de la HU" time="0.0760388">
+<testsuites name="vitest tests" tests="75" failures="12" errors="0" time="3.0774791">
+    <testsuite name="test/qa/api/clients-pets-species.qa-spec.ts" timestamp="2026-11-19T22:45:12.631Z" hostname="Christian" tests="40" failures="10" errors="0" skipped="0" time="1.1882408">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-01 Registrar datos del cliente (API) &gt; CP-01-01 registra un cliente válido en estado Activo con el mensaje de la HU" time="0.0722724">
             <failure message="expected &apos;Cliente registrado correctamente&apos; to be &apos;Cliente registrado exitosamente&apos; // Object.is equality" type="AssertionError">
 AssertionError: expected &apos;Cliente registrado correctamente&apos; to be &apos;Cliente registrado exitosamente&apos; // Object.is equality
 
@@ -11,13 +11,13 @@ Received: &quot;Cliente registrado correctamente&quot;
  ❯ test/qa/api/clients-pets-species.qa-spec.ts:25:35
             </failure>
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-01 Registrar datos del cliente (API) &gt; CP-01-02 registra un cliente sin dirección" time="0.0737299">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-01 Registrar datos del cliente (API) &gt; CP-01-02 registra un cliente sin dirección" time="0.0756441">
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-01 Registrar datos del cliente (API) &gt; CP-01-03 el Veterinario también puede registrar clientes" time="0.12491">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-01 Registrar datos del cliente (API) &gt; CP-01-03 el Veterinario también puede registrar clientes" time="0.1100634">
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-01 Registrar datos del cliente (API) &gt; CP-01-03 el Gerente también puede registrar clientes" time="0.1169067">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-01 Registrar datos del cliente (API) &gt; CP-01-03 el Gerente también puede registrar clientes" time="0.1063725">
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-01 Registrar datos del cliente (API) &gt; CP-01-04 rechaza los obligatorios vacíos con el mensaje de la HU" time="0.0077462">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-01 Registrar datos del cliente (API) &gt; CP-01-04 rechaza los obligatorios vacíos con el mensaje de la HU" time="0.0083319">
             <failure message="expected &apos;Complete los campos obligatorios&apos; to be &apos;Por favor, complete todos los campos …&apos; // Object.is equality" type="AssertionError">
 AssertionError: expected &apos;Complete los campos obligatorios&apos; to be &apos;Por favor, complete todos los campos …&apos; // Object.is equality
 
@@ -27,7 +27,7 @@ Received: &quot;Complete los campos obligatorios&quot;
  ❯ test/qa/api/clients-pets-species.qa-spec.ts:48:35
             </failure>
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-01 Registrar datos del cliente (API) &gt; CP-01-05 rechaza el registro sin teléfono (obligatorio en la HU)" time="0.0613035">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-01 Registrar datos del cliente (API) &gt; CP-01-05 rechaza el registro sin teléfono (obligatorio en la HU)" time="0.0604806">
             <failure message="expected 201 to be 400 // Object.is equality" type="AssertionError">
 AssertionError: expected 201 to be 400 // Object.is equality
 
@@ -40,7 +40,7 @@ AssertionError: expected 201 to be 400 // Object.is equality
  ❯ test/qa/api/clients-pets-species.qa-spec.ts:54:29
             </failure>
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-01 Registrar datos del cliente (API) &gt; CP-01-06 rechaza una cédula que ya pertenece a un cliente (Pedro Castillo)" time="0.0539512">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-01 Registrar datos del cliente (API) &gt; CP-01-06 rechaza una cédula que ya pertenece a un cliente (Pedro Castillo)" time="0.0498765">
             <failure message="expected 201 to be 409 // Object.is equality" type="AssertionError">
 AssertionError: expected 201 to be 409 // Object.is equality
 
@@ -53,7 +53,7 @@ AssertionError: expected 201 to be 409 // Object.is equality
  ❯ test/qa/api/clients-pets-species.qa-spec.ts:60:29
             </failure>
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-01 Registrar datos del cliente (API) &gt; CP-01-07 rechaza una cédula alfanumérica con &quot;Número de cédula no válido&quot;" time="0.0097642">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-01 Registrar datos del cliente (API) &gt; CP-01-07 rechaza una cédula alfanumérica con &quot;Número de cédula no válido&quot;" time="0.0080068">
             <failure message="expected &apos;La cédula debe tener 10 dígitos válid…&apos; to be &apos;Número de cédula no válido&apos; // Object.is equality" type="AssertionError">
 AssertionError: expected &apos;La cédula debe tener 10 dígitos válid…&apos; to be &apos;Número de cédula no válido&apos; // Object.is equality
 
@@ -63,7 +63,7 @@ Received: &quot;La cédula debe tener 10 dígitos válidos&quot;
  ❯ test/qa/api/clients-pets-species.qa-spec.ts:67:35
             </failure>
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-01 Registrar datos del cliente (API) &gt; CP-01-09 rechaza un correo sin formato" time="0.0100031">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-01 Registrar datos del cliente (API) &gt; CP-01-09 rechaza un correo sin formato" time="0.0081434">
             <failure message="expected &apos;Ingrese un correo electrónico válido&apos; to be &apos;Por favor, ingrese un correo y número…&apos; // Object.is equality" type="AssertionError">
 AssertionError: expected &apos;Ingrese un correo electrónico válido&apos; to be &apos;Por favor, ingrese un correo y número…&apos; // Object.is equality
 
@@ -73,7 +73,7 @@ Received: &quot;Ingrese un correo electrónico válido&quot;
  ❯ test/qa/api/clients-pets-species.qa-spec.ts:73:35
             </failure>
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-01 Registrar datos del cliente (API) &gt; CP-01-10 rechaza un teléfono con letras" time="0.0084712">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-01 Registrar datos del cliente (API) &gt; CP-01-10 rechaza un teléfono con letras" time="0.007853">
             <failure message="expected &apos;Ingrese un teléfono válido&apos; to be &apos;Por favor, ingrese un correo y número…&apos; // Object.is equality" type="AssertionError">
 AssertionError: expected &apos;Ingrese un teléfono válido&apos; to be &apos;Por favor, ingrese un correo y número…&apos; // Object.is equality
 
@@ -83,7 +83,7 @@ Received: &quot;Ingrese un teléfono válido&quot;
  ❯ test/qa/api/clients-pets-species.qa-spec.ts:79:35
             </failure>
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-01 Registrar datos del cliente (API) &gt; CP-01-11 rechaza un teléfono de 9 dígitos (valor límite)" time="0.0629374">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-01 Registrar datos del cliente (API) &gt; CP-01-11 rechaza un teléfono de 9 dígitos (valor límite)" time="0.0560243">
             <failure message="expected 201 to be 400 // Object.is equality" type="AssertionError">
 AssertionError: expected 201 to be 400 // Object.is equality
 
@@ -96,7 +96,7 @@ AssertionError: expected 201 to be 400 // Object.is equality
  ❯ test/qa/api/clients-pets-species.qa-spec.ts:84:29
             </failure>
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-01 Registrar datos del cliente (API) &gt; CP-01-12 rechaza un teléfono con prefijo inválido" time="0.0622249">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-01 Registrar datos del cliente (API) &gt; CP-01-12 rechaza un teléfono con prefijo inválido" time="0.0633139">
             <failure message="expected 201 to be 400 // Object.is equality" type="AssertionError">
 AssertionError: expected 201 to be 400 // Object.is equality
 
@@ -109,61 +109,61 @@ AssertionError: expected 201 to be 400 // Object.is equality
  ❯ test/qa/api/clients-pets-species.qa-spec.ts:89:29
             </failure>
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-01 Registrar datos del cliente (API) &gt; CP-01-14 niega el registro al Cajero" time="0.0626264">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-01 Registrar datos del cliente (API) &gt; CP-01-14 niega el registro al Cajero" time="0.0551494">
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-01 Registrar datos del cliente (API) &gt; CP-01-14 niega el registro al Técnico Veterinario" time="0.0705734">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-01 Registrar datos del cliente (API) &gt; CP-01-14 niega el registro al Técnico Veterinario" time="0.0535094">
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-01 Registrar datos del cliente (API) &gt; CP-01-14 niega el registro al Administrador" time="0.0628746">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-01 Registrar datos del cliente (API) &gt; CP-01-14 niega el registro al Administrador" time="0.0540368">
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-01 registra un paciente Activo con código PAC-###### asociado a Pedro Castillo" time="0.0187269">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-01 registra un paciente Activo con código PAC-###### asociado a Pedro Castillo" time="0.017465">
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-02 rechaza los obligatorios vacíos" time="0.0104262">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-02 rechaza los obligatorios vacíos" time="0.0091106">
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-03 registra sin color" time="0.016673">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-03 registra sin color" time="0.0165524">
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-04 exige un cliente" time="0.0097141">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-04 exige un cliente" time="0.0082611">
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-05/06 rechaza un cliente dado de baja (Hugo Vivanco)" time="0.0127462">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-05/06 rechaza un cliente dado de baja (Hugo Vivanco)" time="0.0107006">
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-05/06 rechaza un cliente inactivo (Rosa Jaramillo)" time="0.0121073">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-05/06 rechaza un cliente inactivo (Rosa Jaramillo)" time="0.0109996">
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-07/08 rechaza una fecha inexistente" time="0.0128374">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-07/08 rechaza una fecha inexistente" time="0.0088436">
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-07/08 rechaza una fecha futura" time="0.0127541">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-07/08 rechaza una fecha futura" time="0.008347">
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-10 acepta la fecha de nacimiento de hoy (valor límite)" time="0.0353751">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-10 acepta la fecha de nacimiento de hoy (valor límite)" time="0.0294928">
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-12 rechaza peso cero (valor límite)" time="0.0135175">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-12 rechaza peso cero (valor límite)" time="0.0091177">
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-14 acepta el peso 0.01 (valor límite)" time="0.0182649">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-14 acepta el peso 0.01 (valor límite)" time="0.0158523">
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-14 acepta el peso 9999.99 (valor límite)" time="0.0166684">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-14 acepta el peso 9999.99 (valor límite)" time="0.0130564">
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-16 genera códigos únicos e ignora el código enviado" time="0.0350747">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-16 genera códigos únicos e ignora el código enviado" time="0.0258194">
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-17 rechaza una raza que no corresponde a la especie" time="0.0172263">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-17 rechaza una raza que no corresponde a la especie" time="0.0104253">
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-18 rechaza una especie inactiva (Hurón)" time="0.0142495">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-18 rechaza una especie inactiva (Hurón)" time="0.0126012">
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-19 niega el registro al Cajero" time="0.0069975">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-19 niega el registro al Cajero" time="0.0059446">
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-19 niega el registro al Técnico Veterinario" time="0.0076059">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-07 Registrar datos del paciente (API) &gt; CP-07-19 niega el registro al Técnico Veterinario" time="0.0060066">
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-13 Registrar especie (API) &gt; CP-13-01 registra una especie con descripción" time="0.0144285">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-13 Registrar especie (API) &gt; CP-13-01 registra una especie con descripción" time="0.010701">
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-13 Registrar especie (API) &gt; CP-13-02 rechaza el nombre vacío" time="0.010218">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-13 Registrar especie (API) &gt; CP-13-02 rechaza el nombre vacío" time="0.0093554">
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-13 Registrar especie (API) &gt; CP-13-04 registra sin descripción" time="0.0127118">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-13 Registrar especie (API) &gt; CP-13-04 registra sin descripción" time="0.0098723">
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-13 Registrar especie (API) &gt; CP-13-06 rechaza el nombre duplicado &quot;Canino&quot;" time="0.010975">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-13 Registrar especie (API) &gt; CP-13-06 rechaza el nombre duplicado &quot;Canino&quot;" time="0.0100292">
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-13 Registrar especie (API) &gt; CP-13-06 rechaza el nombre duplicado &quot;canino&quot;" time="0.0102814">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-13 Registrar especie (API) &gt; CP-13-06 rechaza el nombre duplicado &quot;canino&quot;" time="0.0095519">
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-13 Registrar especie (API) &gt; CP-13-07 acepta 100 caracteres y rechaza 101 (valor límite)" time="0.0226435">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-13 Registrar especie (API) &gt; CP-13-07 acepta 100 caracteres y rechaza 101 (valor límite)" time="0.0205209">
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-13 Registrar especie (API) &gt; CP-13-08 niega el registro al Recepcionista" time="0.0071088">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-13 Registrar especie (API) &gt; CP-13-08 niega el registro al Recepcionista" time="0.005843">
         </testcase>
-        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-13 Registrar especie (API) &gt; CP-13-09 niega el registro al Administrador (matriz de roles: solo Veterinario)" time="0.0128992">
+        <testcase classname="test/qa/api/clients-pets-species.qa-spec.ts" name="HU-13 Registrar especie (API) &gt; CP-13-09 niega el registro al Administrador (matriz de roles: solo Veterinario)" time="0.010496">
             <failure message="expected 201 to be 403 // Object.is equality" type="AssertionError">
 AssertionError: expected 201 to be 403 // Object.is equality
 
@@ -177,32 +177,32 @@ AssertionError: expected 201 to be 403 // Object.is equality
             </failure>
         </testcase>
     </testsuite>
-    <testsuite name="test/qa/api/identity.qa-spec.ts" timestamp="2026-11-19T22:26:53.267Z" hostname="Christian" tests="35" failures="2" errors="0" skipped="0" time="2.1433583">
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-51 Registrar usuario (API) &gt; CP-51-01 registra un usuario Veterinario, ACTIVE, con contraseña temporal y correo enviado" time="0.1444457">
+    <testsuite name="test/qa/api/identity.qa-spec.ts" timestamp="2026-11-19T22:45:12.647Z" hostname="Christian" tests="35" failures="2" errors="0" skipped="0" time="1.8892383">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-51 Registrar usuario (API) &gt; CP-51-01 registra un usuario Veterinario, ACTIVE, con contraseña temporal y correo enviado" time="0.1383189">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-51 Registrar usuario (API) &gt; CP-51-02 registra un usuario con Gerente y Administrador en una sola cuenta" time="0.0881285">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-51 Registrar usuario (API) &gt; CP-51-02 registra un usuario con Gerente y Administrador en una sola cuenta" time="0.0722956">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-51 Registrar usuario (API) &gt; CP-51-03 agrega Cajero a Ana Ruiz (ya Cliente) sin duplicar la persona" time="0.0662795">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-51 Registrar usuario (API) &gt; CP-51-03 agrega Cajero a Ana Ruiz (ya Cliente) sin duplicar la persona" time="0.0584637">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-51 Registrar usuario (API) &gt; CP-51-05 rechaza el correo vacío" time="0.0091769">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-51 Registrar usuario (API) &gt; CP-51-05 rechaza el correo vacío" time="0.0076619">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-51 Registrar usuario (API) &gt; CP-51-06 rechaza el registro sin roles" time="0.0080701">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-51 Registrar usuario (API) &gt; CP-51-06 rechaza el registro sin roles" time="0.0078732">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-51 Registrar usuario (API) &gt; CP-51-07 rechaza una cédula ya registrada en el personal" time="0.0527994">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-51 Registrar usuario (API) &gt; CP-51-07 rechaza una cédula ya registrada en el personal" time="0.0509975">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-51 Registrar usuario (API) &gt; CP-51-08 rechaza la cédula &quot;11045&quot;" time="0.0083916">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-51 Registrar usuario (API) &gt; CP-51-08 rechaza la cédula &quot;11045&quot;" time="0.0069696">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-51 Registrar usuario (API) &gt; CP-51-11 rechaza un correo ya registrado" time="0.0541886">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-51 Registrar usuario (API) &gt; CP-51-11 rechaza un correo ya registrado" time="0.046938">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-51 Registrar usuario (API) &gt; CP-51-12 rechaza el correo duplicado con otra combinación de mayúsculas (R-36)" time="0.0525956">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-51 Registrar usuario (API) &gt; CP-51-12 rechaza el correo duplicado con otra combinación de mayúsculas (R-36)" time="0.0484251">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-51 Registrar usuario (API) &gt; CP-51-14 niega el registro a un Recepcionista" time="0.0683088">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-51 Registrar usuario (API) &gt; CP-51-14 niega el registro a un Recepcionista" time="0.0582228">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-51 Registrar usuario (API) &gt; CP-51-15 rechaza la petición sin token y con token alterado" time="0.0110822">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-51 Registrar usuario (API) &gt; CP-51-15 rechaza la petición sin token y con token alterado" time="0.0090096">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-51 Registrar usuario (API) &gt; CP-51-17 rechaza asignar el rol Cliente al personal" time="0.0128341">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-51 Registrar usuario (API) &gt; CP-51-17 rechaza asignar el rol Cliente al personal" time="0.009532">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-51 Registrar usuario (API) &gt; CP-51-18 el registro del usuario queda en la auditoría (OC-04 / PNF-05)" time="0.0801214">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-51 Registrar usuario (API) &gt; CP-51-18 el registro del usuario queda en la auditoría (OC-04 / PNF-05)" time="0.066985">
             <failure message="No existe ninguna tabla de auditoría en la base de datos: expected [] to not deeply equal []" type="AssertionError">
 AssertionError: No existe ninguna tabla de auditoría en la base de datos: expected [] to not deeply equal []
 
@@ -211,29 +211,29 @@ Compared values have no visual difference.
  ❯ test/qa/api/identity.qa-spec.ts:114:84
             </failure>
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-54 Asignar y quitar roles (API) &gt; CP-54-07 el rol ya asignado no aparece como opción" time="0.0136264">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-54 Asignar y quitar roles (API) &gt; CP-54-07 el rol ya asignado no aparece como opción" time="0.0111806">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-54 Asignar y quitar roles (API) &gt; CP-54-01 asigna Cajero y Carlos ve ambos roles en su siguiente inicio de sesión" time="0.0808923">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-54 Asignar y quitar roles (API) &gt; CP-54-01 asigna Cajero y Carlos ve ambos roles en su siguiente inicio de sesión" time="0.0730493">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-54 Asignar y quitar roles (API) &gt; CP-54-02 quita Cajero y queda solo Recepcionista" time="0.0190967">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-54 Asignar y quitar roles (API) &gt; CP-54-02 quita Cajero y queda solo Recepcionista" time="0.0130634">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-54 Asignar y quitar roles (API) &gt; CP-54-03 cambia Recepcionista por Veterinario y obtiene sus permisos" time="0.0865825">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-54 Asignar y quitar roles (API) &gt; CP-54-03 cambia Recepcionista por Veterinario y obtiene sus permisos" time="0.0701001">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-54 Asignar y quitar roles (API) &gt; CP-54-04 impide quitar el único rol" time="0.0109628">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-54 Asignar y quitar roles (API) &gt; CP-54-04 impide quitar el único rol" time="0.0077778">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-54 Asignar y quitar roles (API) &gt; CP-54-06 permite quitar Administrador a Jorge Solís porque queda otro Administrador activo" time="0.0382757">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-54 Asignar y quitar roles (API) &gt; CP-54-06 permite quitar Administrador a Jorge Solís porque queda otro Administrador activo" time="0.0272835">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-54 Asignar y quitar roles (API) &gt; CP-54-08 impide modificar los roles de un usuario dado de baja (Luis Ríos)" time="0.0124663">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-54 Asignar y quitar roles (API) &gt; CP-54-08 impide modificar los roles de un usuario dado de baja (Luis Ríos)" time="0.0105039">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-54 Asignar y quitar roles (API) &gt; CP-54-09 niega el cambio de roles a un Veterinario" time="0.0752293">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-54 Asignar y quitar roles (API) &gt; CP-54-09 niega el cambio de roles a un Veterinario" time="0.0540404">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-54 Asignar y quitar roles (API) &gt; CP-54-10 rechaza un rol que no es del personal" time="0.014852">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-54 Asignar y quitar roles (API) &gt; CP-54-10 rechaza un rol que no es del personal" time="0.008912">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-54 Asignar y quitar roles (API) &gt; CP-54-11 responde 404 para un usuario inexistente" time="0.0106496">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-54 Asignar y quitar roles (API) &gt; CP-54-11 responde 404 para un usuario inexistente" time="0.0087129">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-54 Asignar y quitar roles (API) &gt; CP-54-13 al quitarle el rol con la sesión abierta, la siguiente acción se bloquea de inmediato (PNF-04 / R-12)" time="0.1530602">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-54 Asignar y quitar roles (API) &gt; CP-54-13 al quitarle el rol con la sesión abierta, la siguiente acción se bloquea de inmediato (PNF-04 / R-12)" time="0.1405008">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-54 Asignar y quitar roles (API) &gt; CP-54-14 el cambio de roles queda en la auditoría con valor anterior y nuevo (OC-04 / PNF-05)" time="0.0031248">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-54 Asignar y quitar roles (API) &gt; CP-54-14 el cambio de roles queda en la auditoría con valor anterior y nuevo (OC-04 / PNF-05)" time="0.0024057">
             <failure message="No existe ninguna tabla de auditoría en la base de datos: expected [] to not deeply equal []" type="AssertionError">
 AssertionError: No existe ninguna tabla de auditoría en la base de datos: expected [] to not deeply equal []
 
@@ -242,25 +242,25 @@ Compared values have no visual difference.
  ❯ test/qa/api/identity.qa-spec.ts:219:84
             </failure>
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-57 Iniciar sesión (API) &gt; CP-57-01 inicia sesión y entrega accessToken y cookie httpOnly de refresh" time="0.0589075">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-57 Iniciar sesión (API) &gt; CP-57-01 inicia sesión y entrega accessToken y cookie httpOnly de refresh" time="0.0491844">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-57 Iniciar sesión (API) &gt; CP-57-02 un usuario con Gerente y Administrador recibe los permisos de ambos" time="0.0570447">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-57 Iniciar sesión (API) &gt; CP-57-02 un usuario con Gerente y Administrador recibe los permisos de ambos" time="0.0472707">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-57 Iniciar sesión (API) &gt; CP-57-03 responde el mismo mensaje para contraseña incorrecta y correo no registrado" time="0.0975816">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-57 Iniciar sesión (API) &gt; CP-57-03 responde el mismo mensaje para contraseña incorrecta y correo no registrado" time="0.0822287">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-57 Iniciar sesión (API) &gt; CP-57-04 rechaza los campos vacíos" time="0.0049305">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-57 Iniciar sesión (API) &gt; CP-57-04 rechaza los campos vacíos" time="0.004144">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-57 Iniciar sesión (API) &gt; CP-57-05/06 bloquea al 5.º intento fallido y sigue bloqueada con la contraseña correcta" time="0.2769928">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-57 Iniciar sesión (API) &gt; CP-57-05/06 bloquea al 5.º intento fallido y sigue bloqueada con la contraseña correcta" time="0.2410711">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-57 Iniciar sesión (API) &gt; CP-57-07 reinicia el contador tras un inicio de sesión correcto" time="0.2085003">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-57 Iniciar sesión (API) &gt; CP-57-07 reinicia el contador tras un inicio de sesión correcto" time="0.2013251">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-57 Iniciar sesión (API) &gt; CP-57-08 niega el acceso a la cuenta inactiva" time="0.0446934">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-57 Iniciar sesión (API) &gt; CP-57-08 niega el acceso a la cuenta inactiva" time="0.044024">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-57 Iniciar sesión (API) &gt; CP-57-08 niega el acceso a la cuenta dada de baja" time="0.0459957">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-57 Iniciar sesión (API) &gt; CP-57-08 niega el acceso a la cuenta dada de baja" time="0.0436708">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-57 Iniciar sesión (API) &gt; CP-57-09 indica cambio obligatorio de contraseña en el primer ingreso" time="0.0513806">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-57 Iniciar sesión (API) &gt; CP-57-09 indica cambio obligatorio de contraseña en el primer ingreso" time="0.051581">
         </testcase>
-        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-57 Iniciar sesión (API) &gt; CP-57-10 /auth/me rechaza peticiones sin token o con token alterado" time="0.008581">
+        <testcase classname="test/qa/api/identity.qa-spec.ts" name="HU-57 Iniciar sesión (API) &gt; CP-57-10 /auth/me rechaza peticiones sin token o con token alterado" time="0.0082766">
         </testcase>
     </testsuite>
 </testsuites>

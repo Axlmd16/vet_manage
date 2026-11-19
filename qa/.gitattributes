@@ -1,0 +1,3 @@
+# Los scripts de Staging se ejecutan también en Linux (GitHub Actions): siempre con LF.
+*.sh text eol=lf
+*.conf text eol=lf

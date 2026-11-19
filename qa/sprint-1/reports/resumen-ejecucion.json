@@ -1,0 +1,782 @@
+{
+  "suites": {
+    "Unitarias API": {
+      "total": 110,
+      "passed": 98,
+      "failed": 12
+    },
+    "Unitarias frontend": {
+      "total": 42,
+      "passed": 32,
+      "failed": 10
+    },
+    "Integración Supertest": {
+      "total": 75,
+      "passed": 63,
+      "failed": 12
+    },
+    "Integración Newman": {
+      "total": 22,
+      "passed": 19,
+      "failed": 3
+    },
+    "E2E Playwright": {
+      "total": 21,
+      "passed": 17,
+      "failed": 4
+    },
+    "Aceptación Cucumber": {
+      "total": 9,
+      "passed": 8,
+      "failed": 1
+    }
+  },
+  "cases": {
+    "CP-01-01": {
+      "passed": 3,
+      "failed": 6,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend",
+        "Integración Supertest",
+        "Integración Newman",
+        "E2E Playwright",
+        "Aceptación Cucumber"
+      ]
+    },
+    "CP-01-02": {
+      "passed": 2,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Integración Supertest"
+      ]
+    },
+    "CP-01-03": {
+      "passed": 2,
+      "failed": 0,
+      "suites": [
+        "Integración Supertest"
+      ]
+    },
+    "CP-01-04": {
+      "passed": 0,
+      "failed": 4,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend",
+        "Integración Supertest",
+        "E2E Playwright"
+      ]
+    },
+    "CP-01-05": {
+      "passed": 0,
+      "failed": 3,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend",
+        "Integración Supertest"
+      ]
+    },
+    "CP-01-06": {
+      "passed": 1,
+      "failed": 3,
+      "suites": [
+        "Unitarias API",
+        "Integración Supertest",
+        "Integración Newman"
+      ]
+    },
+    "CP-01-07": {
+      "passed": 0,
+      "failed": 5,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend",
+        "Integración Supertest",
+        "Integración Newman"
+      ]
+    },
+    "CP-01-08": {
+      "passed": 0,
+      "failed": 4,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend"
+      ]
+    },
+    "CP-01-09": {
+      "passed": 0,
+      "failed": 3,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend",
+        "Integración Supertest"
+      ]
+    },
+    "CP-01-10": {
+      "passed": 0,
+      "failed": 6,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend",
+        "Integración Supertest"
+      ]
+    },
+    "CP-01-11": {
+      "passed": 0,
+      "failed": 7,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend",
+        "Integración Supertest"
+      ]
+    },
+    "CP-01-12": {
+      "passed": 0,
+      "failed": 6,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend",
+        "Integración Supertest"
+      ]
+    },
+    "CP-01-13": {
+      "passed": 2,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend"
+      ]
+    },
+    "CP-01-14": {
+      "passed": 5,
+      "failed": 0,
+      "suites": [
+        "Integración Supertest",
+        "Integración Newman",
+        "E2E Playwright"
+      ]
+    },
+    "CP-01-15": {
+      "passed": 3,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend"
+      ]
+    },
+    "CP-07-01": {
+      "passed": 7,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend",
+        "Integración Supertest",
+        "Integración Newman",
+        "E2E Playwright",
+        "Aceptación Cucumber"
+      ]
+    },
+    "CP-07-02": {
+      "passed": 3,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend",
+        "Integración Supertest"
+      ]
+    },
+    "CP-07-03": {
+      "passed": 3,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend",
+        "Integración Supertest"
+      ]
+    },
+    "CP-07-04": {
+      "passed": 6,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend",
+        "Integración Supertest",
+        "Integración Newman",
+        "E2E Playwright"
+      ]
+    },
+    "CP-07-05": {
+      "passed": 5,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Integración Supertest",
+        "E2E Playwright"
+      ]
+    },
+    "CP-07-06": {
+      "passed": 4,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Integración Supertest"
+      ]
+    },
+    "CP-07-07": {
+      "passed": 6,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend",
+        "Integración Supertest"
+      ]
+    },
+    "CP-07-08": {
+      "passed": 6,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend",
+        "Integración Supertest"
+      ]
+    },
+    "CP-07-09": {
+      "passed": 7,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend"
+      ]
+    },
+    "CP-07-10": {
+      "passed": 3,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend",
+        "Integración Supertest"
+      ]
+    },
+    "CP-07-11": {
+      "passed": 1,
+      "failed": 0,
+      "suites": [
+        "Unitarias API"
+      ]
+    },
+    "CP-07-12": {
+      "passed": 6,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend",
+        "Integración Supertest",
+        "Integración Newman"
+      ]
+    },
+    "CP-07-13": {
+      "passed": 5,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend"
+      ]
+    },
+    "CP-07-14": {
+      "passed": 5,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend",
+        "Integración Supertest"
+      ]
+    },
+    "CP-07-15": {
+      "passed": 1,
+      "failed": 0,
+      "suites": [
+        "Unitarias API"
+      ]
+    },
+    "CP-07-16": {
+      "passed": 3,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Integración Supertest",
+        "E2E Playwright"
+      ]
+    },
+    "CP-07-17": {
+      "passed": 2,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Integración Supertest"
+      ]
+    },
+    "CP-07-18": {
+      "passed": 2,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Integración Supertest"
+      ]
+    },
+    "CP-07-19": {
+      "passed": 2,
+      "failed": 0,
+      "suites": [
+        "Integración Supertest"
+      ]
+    },
+    "CP-07-20": {
+      "passed": 3,
+      "failed": 0,
+      "suites": [
+        "Unitarias API"
+      ]
+    },
+    "CP-13-01": {
+      "passed": 7,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend",
+        "Integración Supertest",
+        "Integración Newman",
+        "E2E Playwright",
+        "Aceptación Cucumber"
+      ]
+    },
+    "CP-13-02": {
+      "passed": 7,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend",
+        "Integración Supertest",
+        "Integración Newman",
+        "E2E Playwright"
+      ]
+    },
+    "CP-13-03": {
+      "passed": 3,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend"
+      ]
+    },
+    "CP-13-04": {
+      "passed": 3,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend",
+        "Integración Supertest"
+      ]
+    },
+    "CP-13-05": {
+      "passed": 2,
+      "failed": 0,
+      "suites": [
+        "E2E Playwright",
+        "Aceptación Cucumber"
+      ]
+    },
+    "CP-13-06": {
+      "passed": 5,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Integración Supertest"
+      ]
+    },
+    "CP-13-07": {
+      "passed": 2,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Integración Supertest"
+      ]
+    },
+    "CP-13-08": {
+      "passed": 2,
+      "failed": 0,
+      "suites": [
+        "Integración Supertest",
+        "Integración Newman"
+      ]
+    },
+    "CP-13-09": {
+      "passed": 0,
+      "failed": 1,
+      "suites": [
+        "Integración Supertest"
+      ]
+    },
+    "CP-51-01": {
+      "passed": 7,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend",
+        "Integración Supertest",
+        "Integración Newman",
+        "E2E Playwright",
+        "Aceptación Cucumber"
+      ]
+    },
+    "CP-51-02": {
+      "passed": 2,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Integración Supertest"
+      ]
+    },
+    "CP-51-03": {
+      "passed": 2,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Integración Supertest"
+      ]
+    },
+    "CP-51-04": {
+      "passed": 2,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend"
+      ]
+    },
+    "CP-51-05": {
+      "passed": 4,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend",
+        "Integración Supertest",
+        "E2E Playwright"
+      ]
+    },
+    "CP-51-06": {
+      "passed": 3,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend",
+        "Integración Supertest"
+      ]
+    },
+    "CP-51-07": {
+      "passed": 4,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend",
+        "Integración Supertest",
+        "Integración Newman"
+      ]
+    },
+    "CP-51-08": {
+      "passed": 6,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend",
+        "Integración Supertest"
+      ]
+    },
+    "CP-51-09": {
+      "passed": 6,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend"
+      ]
+    },
+    "CP-51-10": {
+      "passed": 6,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend"
+      ]
+    },
+    "CP-51-11": {
+      "passed": 3,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Integración Supertest",
+        "Integración Newman"
+      ]
+    },
+    "CP-51-12": {
+      "passed": 3,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Integración Supertest"
+      ]
+    },
+    "CP-51-13": {
+      "passed": 2,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Unitarias frontend"
+      ]
+    },
+    "CP-51-14": {
+      "passed": 4,
+      "failed": 0,
+      "suites": [
+        "Integración Supertest",
+        "Integración Newman",
+        "E2E Playwright",
+        "Aceptación Cucumber"
+      ]
+    },
+    "CP-51-15": {
+      "passed": 1,
+      "failed": 0,
+      "suites": [
+        "Integración Supertest"
+      ]
+    },
+    "CP-51-16": {
+      "passed": 2,
+      "failed": 0,
+      "suites": [
+        "Unitarias API"
+      ]
+    },
+    "CP-51-17": {
+      "passed": 3,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Integración Supertest"
+      ]
+    },
+    "CP-51-18": {
+      "passed": 0,
+      "failed": 2,
+      "suites": [
+        "Integración Supertest",
+        "E2E Playwright"
+      ]
+    },
+    "CP-54-01": {
+      "passed": 7,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Integración Supertest",
+        "Integración Newman",
+        "E2E Playwright",
+        "Aceptación Cucumber"
+      ]
+    },
+    "CP-54-02": {
+      "passed": 2,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Integración Supertest"
+      ]
+    },
+    "CP-54-03": {
+      "passed": 2,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Integración Supertest"
+      ]
+    },
+    "CP-54-04": {
+      "passed": 5,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Integración Supertest",
+        "Integración Newman",
+        "E2E Playwright"
+      ]
+    },
+    "CP-54-05": {
+      "passed": 1,
+      "failed": 0,
+      "suites": [
+        "Unitarias API"
+      ]
+    },
+    "CP-54-06": {
+      "passed": 2,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Integración Supertest"
+      ]
+    },
+    "CP-54-07": {
+      "passed": 4,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Integración Supertest",
+        "Integración Newman",
+        "E2E Playwright"
+      ]
+    },
+    "CP-54-08": {
+      "passed": 2,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Integración Supertest"
+      ]
+    },
+    "CP-54-09": {
+      "passed": 2,
+      "failed": 0,
+      "suites": [
+        "Integración Supertest",
+        "Integración Newman"
+      ]
+    },
+    "CP-54-10": {
+      "passed": 2,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Integración Supertest"
+      ]
+    },
+    "CP-54-11": {
+      "passed": 2,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Integración Supertest"
+      ]
+    },
+    "CP-54-12": {
+      "passed": 1,
+      "failed": 0,
+      "suites": [
+        "Unitarias API"
+      ]
+    },
+    "CP-54-13": {
+      "passed": 1,
+      "failed": 0,
+      "suites": [
+        "Integración Supertest"
+      ]
+    },
+    "CP-54-14": {
+      "passed": 0,
+      "failed": 2,
+      "suites": [
+        "Integración Supertest",
+        "E2E Playwright"
+      ]
+    },
+    "CP-57-01": {
+      "passed": 5,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Integración Supertest",
+        "Integración Newman",
+        "E2E Playwright",
+        "Aceptación Cucumber"
+      ]
+    },
+    "CP-57-02": {
+      "passed": 1,
+      "failed": 0,
+      "suites": [
+        "Integración Supertest"
+      ]
+    },
+    "CP-57-03": {
+      "passed": 5,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Integración Supertest",
+        "Integración Newman",
+        "E2E Playwright"
+      ]
+    },
+    "CP-57-04": {
+      "passed": 6,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Integración Supertest",
+        "Integración Newman",
+        "E2E Playwright"
+      ]
+    },
+    "CP-57-05": {
+      "passed": 6,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Integración Supertest",
+        "E2E Playwright",
+        "Aceptación Cucumber"
+      ]
+    },
+    "CP-57-06": {
+      "passed": 4,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Integración Supertest",
+        "E2E Playwright"
+      ]
+    },
+    "CP-57-07": {
+      "passed": 2,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Integración Supertest"
+      ]
+    },
+    "CP-57-08": {
+      "passed": 5,
+      "failed": 0,
+      "suites": [
+        "Unitarias API",
+        "Integración Supertest",
+        "Integración Newman"
+      ]
+    },
+    "CP-57-09": {
+      "passed": 1,
+      "failed": 1,
+      "suites": [
+        "Integración Supertest",
+        "E2E Playwright"
+      ]
+    },
+    "CP-57-10": {
+      "passed": 1,
+      "failed": 0,
+      "suites": [
+        "Integración Supertest"
+      ]
+    }
+  }
+}
