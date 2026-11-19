@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { ApiError } from '../../../infrastructure/api/http-client';
-import { PetForm } from './pet-form';
+import { PatientForm } from './patient-form';
 
 const species = [
   { id: 'sp-1', name: 'Canino' },
@@ -18,12 +18,12 @@ function setup(onSubmit = vi.fn(async () => undefined)) {
   const loadBreeds = vi.fn(async (speciesId: string) => breedsBySpecies[speciesId] ?? []);
   const searchClients = vi.fn(async () => [client]);
   render(
-    <PetForm species={species} loadBreeds={loadBreeds} searchClients={searchClients} onSubmit={onSubmit} onCancel={vi.fn()} />,
+    <PatientForm species={species} loadBreeds={loadBreeds} searchClients={searchClients} onSubmit={onSubmit} onCancel={vi.fn()} />,
   );
   return { onSubmit, loadBreeds, searchClients };
 }
 
-async function fillValidPet() {
+async function fillValidPatient() {
   await userEvent.type(screen.getByLabelText(/^nombre/i), 'Firulais');
   await userEvent.selectOptions(screen.getByLabelText(/especie/i), 'sp-1');
   await screen.findByRole('option', { name: 'Labrador' });
@@ -40,7 +40,7 @@ async function chooseClient() {
   await userEvent.click(await screen.findByRole('button', { name: /maría lópez/i }));
 }
 
-describe('PetForm', () => {
+describe('PatientForm', () => {
   it('no tiene ningún campo para el código identificador', () => {
     setup();
 
@@ -59,7 +59,7 @@ describe('PetForm', () => {
 
   it('exige seleccionar un cliente', async () => {
     const { onSubmit } = setup();
-    await fillValidPet();
+    await fillValidPatient();
 
     await userEvent.click(screen.getByRole('button', { name: 'Guardar' }));
 
@@ -83,7 +83,7 @@ describe('PetForm', () => {
 
   it('envía el borrador completo con el cliente elegido', async () => {
     const { onSubmit } = setup();
-    await fillValidPet();
+    await fillValidPatient();
     await chooseClient();
 
     await userEvent.click(screen.getByRole('button', { name: 'Guardar' }));
@@ -92,7 +92,7 @@ describe('PetForm', () => {
       name: 'Firulais',
       speciesId: 'sp-1',
       breedId: 'br-1',
-      sex: 'MALE',
+      gender: 'MALE',
       birthDate: '10-05-2024',
       weightKg: 12.5,
       heightCm: 45,
@@ -107,7 +107,7 @@ describe('PetForm', () => {
       throw new ApiError('El cliente seleccionado no está disponible', 409, { errors: ['clientId'] });
     });
     setup(onSubmit);
-    await fillValidPet();
+    await fillValidPatient();
     await chooseClient();
 
     await userEvent.click(screen.getByRole('button', { name: 'Guardar' }));

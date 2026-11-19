@@ -8,7 +8,7 @@ import { ClientRegisterPage } from '../modules/clients/pages/client-register-pag
 import { ClientsPage } from '../modules/clients/pages/clients-page';
 import { DashboardPage } from '../modules/dashboard/pages/dashboard-page';
 import { BatchEntryPage } from '../modules/inventory/pages/batch-entry-page';
-import { PetsPage } from '../modules/pets/pages/pets-page';
+import { PatientsPage } from '../modules/pets/pages/patients-page';
 import { CatalogPage } from '../modules/inventory/pages/catalog-page';
 import { ProductFormPage } from '../modules/inventory/pages/product-form-page';
 import { ProductsPage } from '../modules/inventory/pages/products-page';
@@ -27,7 +27,7 @@ export function AppRouter() {
       <Route element={<RequireAuth />}>
         <Route element={<AppShell />}>
           <Route index element={<DashboardPage />} />
-          <Route path="pets" element={<PetsPage />} />
+          <Route path="pets" element={<PatientsPage />} />
           <Route path="catalogs" element={<CatalogsPage />} />
           <Route path="clients" element={<RequirePermission permission="clients:read"><ClientsPage /></RequirePermission>} />
           <Route path="clients/new" element={<RequirePermission permission="clients:create"><ClientRegisterPage /></RequirePermission>} />

@@ -38,8 +38,8 @@ model Client {
   createdAt DateTime     @default(now()) @map("created_at")
   updatedAt DateTime     @updatedAt @map("updated_at")
 
-  person Person @relation(fields: [personId], references: [id], onDelete: Restrict)
-  pets   Pet[]
+  person   Person    @relation(fields: [personId], references: [id], onDelete: Restrict)
+  patients Patient[]
 
   @@index([status])
   @@map("clients")
