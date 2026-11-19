@@ -32,3 +32,52 @@ export interface RegisterBreedDraft {
   speciesId: string;
   description?: string;
 }
+
+export type PetSex = 'MALE' | 'FEMALE';
+export type ReproductiveStatus = 'STERILIZED' | 'NOT_STERILIZED' | 'UNKNOWN';
+
+export const PET_SEX_LABELS: Record<PetSex, string> = { MALE: 'Macho', FEMALE: 'Hembra' };
+export const REPRODUCTIVE_STATUS_LABELS: Record<ReproductiveStatus, string> = {
+  STERILIZED: 'Esterilizado',
+  NOT_STERILIZED: 'No esterilizado',
+  UNKNOWN: 'Desconocido',
+};
+
+// Lo que el formulario envía a POST /pets. El código no se envía: lo asigna el backend.
+export interface RegisterPetDraft {
+  name: string;
+  speciesId: string;
+  breedId: string;
+  sex: PetSex;
+  birthDate: string;
+  weightKg: number;
+  heightCm: number;
+  reproductiveStatus: ReproductiveStatus;
+  color?: string;
+  clientId: string;
+}
+
+export interface RegisteredPet {
+  id: string;
+  code: string;
+  name: string;
+  sex: PetSex;
+  birthDate: string;
+  weightKg: number;
+  heightCm: number;
+  reproductiveStatus: ReproductiveStatus;
+  color: string | null;
+  status: string;
+  clientId: string;
+  species: SpeciesOption;
+  breed: SpeciesOption;
+  createdAt: string;
+}
+
+// Cliente activo que se puede elegir como dueño del paciente.
+export interface ClientOption {
+  id: string;
+  identification: string;
+  firstName: string;
+  lastName: string;
+}
