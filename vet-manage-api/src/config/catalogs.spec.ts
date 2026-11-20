@@ -61,12 +61,13 @@ describe('Catálogos de permisos y roles', () => {
     expect(receptionist.has('pets:deactivate')).toBe(false);
   });
 
-  it('el Veterinario actualiza y da de baja pacientes pero no los registra', () => {
+  it('el Veterinario registra, actualiza y da de baja pacientes', () => {
     const veterinarian = keysOf('veterinarian');
 
+    expect(veterinarian.has('pets:create')).toBe(true);
     expect(veterinarian.has('pets:update')).toBe(true);
     expect(veterinarian.has('pets:deactivate')).toBe(true);
-    expect(veterinarian.has('pets:create')).toBe(false);
+    expect(veterinarian.has('pets:inactivate')).toBe(false);
   });
 
   it('el Técnico Veterinario registra informes pero no los corrige', () => {
@@ -78,8 +79,21 @@ describe('Catálogos de permisos y roles', () => {
     expect(technician.has('clients:create')).toBe(false);
   });
 
-  it('el Bodeguero consulta inventario y registra entradas de lote (HU-02)', () => {
-    expect([...keysOf('warehouse_keeper')].sort()).toEqual(['inventory:read', 'inventory:register-entry']);
+  it('Gerente y Bodeguero pueden gestionar el catálogo de inventario (HU-01)', () => {
+    const catalogPermissions = [
+      'inventory:manage-products', 'inventory:manage-categories', 'inventory:manage-brands',
+    ];
+
+    for (const role of ['manager', 'warehouse_keeper']) {
+      const permissions = keysOf(role);
+      expect(permissions.has('inventory:read'), role).toBe(true);
+      for (const permission of catalogPermissions) expect(permissions.has(permission), `${role}: ${permission}`).toBe(true);
+    }
+  });
+
+  it('el Bodeguero también registra entradas de lote (HU-02)', () => {
+    expect(keysOf('warehouse_keeper').has('inventory:register-entry')).toBe(true);
+    expect(keysOf('manager').has('inventory:register-entry')).toBe(false);
   });
 
   it('los actores de HU-12 pueden consultar alertas de inventario', () => {

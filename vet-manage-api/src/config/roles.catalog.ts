@@ -68,7 +68,7 @@ export const ROLES: readonly RoleDefinition[] = [
     permissions: [
       ...clientsAndPetsFull,
       'species:read', 'breeds:read',
-      'inventory:read',
+      'inventory:read', 'inventory:manage-products', 'inventory:manage-categories', 'inventory:manage-brands',
       ...procedureCatalog,
     ],
   },
@@ -78,7 +78,7 @@ export const ROLES: readonly RoleDefinition[] = [
     description: 'Atiende pacientes y gestiona su historia clínica.',
     category: 'STAFF',
     permissions: [
-      ...clientsAndPetsFull.filter((key) => key !== 'pets:create' && key !== 'pets:inactivate' && key !== 'pets:activate'),
+      ...clientsAndPetsFull.filter((key) => key !== 'pets:inactivate' && key !== 'pets:activate'),
       ...catalogManagement('species'),
       ...catalogManagement('breeds'),
       'inventory:read',
@@ -129,7 +129,7 @@ export const ROLES: readonly RoleDefinition[] = [
     displayName: 'Bodeguero',
     description: 'Gestiona inventario. Sus permisos se definen en el módulo de inventario.',
     category: 'STAFF',
-    permissions: ['inventory:read', 'inventory:register-entry'],
+    permissions: ['inventory:read', 'inventory:manage-products', 'inventory:manage-categories', 'inventory:manage-brands', 'inventory:register-entry'],
   },
   {
     name: 'client',

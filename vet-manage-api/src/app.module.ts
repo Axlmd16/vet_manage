@@ -5,6 +5,7 @@ import { AppService } from './app.service.js';
 import configuration from './config/configuration.js';
 import { validateEnvironment } from './config/env.validation.js';
 import { HealthModule } from './health/health.module.js';
+import { ClientsModule } from './modules/clients/clients.module.js';
 import { IdentityModule } from './modules/identity/identity.module.js';
 import { InventoryModule } from './modules/inventory/inventory.module.js';
 import { NotificationsModule } from './modules/notifications/notifications.module.js';
@@ -26,6 +27,7 @@ import { RedisModule } from './infrastructure/redis/redis.module.js';
     RabbitmqModule,
     HealthModule,
     IdentityModule,
+    ClientsModule,
     InventoryModule,
     NotificationsModule,
     PetsModule,
