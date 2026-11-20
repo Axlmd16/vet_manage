@@ -34,3 +34,23 @@ describe('inventoryApi VAT contract', () => {
     expect(patchJson).toHaveBeenCalledWith('/inventory/categories/category-1/vat', { vatRate: '12.50' });
   });
 });
+
+describe('inventoryApi.listProducts', () => {
+  beforeEach(() => vi.clearAllMocks());
+
+  it('construye una consulta con texto, categoría y marca sin perder caracteres', () => {
+    inventoryApi.listProducts(' Dog & Chow ', {
+      categoryId: 'category-1', brandId: 'brand-1', batchCode: ' L-2026-001 ',
+    });
+
+    expect(getJson).toHaveBeenCalledWith(
+      '/inventory/products?search=Dog+%26+Chow&categoryId=category-1&brandId=brand-1&batchCode=L-2026-001',
+    );
+  });
+
+  it('consulta el catálogo completo cuando se limpian los filtros', () => {
+    inventoryApi.listProducts(' ', { categoryId: '', brandId: '' });
+
+    expect(getJson).toHaveBeenCalledWith('/inventory/products');
+  });
+});

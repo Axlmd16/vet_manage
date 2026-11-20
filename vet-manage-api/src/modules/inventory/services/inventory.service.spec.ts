@@ -80,6 +80,7 @@ function createPrismaMock() {
         update: vi.fn().mockResolvedValue({ id: 'brand-1', name: 'Royal Canin', description: null }),
       },
       product: {
+        findMany: vi.fn().mockResolvedValue([]),
         findFirst: vi.fn().mockResolvedValue({
           id: 'product-1', code: 'PR-001', name: 'Producto', description: null,
           unitPrice: new Prisma.Decimal('25.50'), category: { id: 'category-1', name: 'Alimentos' },
@@ -94,6 +95,145 @@ function createPrismaMock() {
 }
 
 describe('InventoryService', () => {
+  describe('búsqueda de productos (HU-10)', () => {
+    it('lista los productos activos con el formato del catálogo cuando no hay filtros', async () => {
+      const { prisma } = createPrismaMock();
+      const product = { id: 'product-1', unitPrice: new Prisma.Decimal('25.50') };
+      prisma.product.findMany.mockResolvedValue([product]);
+      const service = new InventoryService(prisma as never);
+
+      await expect(service.listProducts()).resolves.toEqual([{ ...product, unitPrice: '25.5' }]);
+      expect(prisma.product.findMany).toHaveBeenCalledWith({
+        where: { isActive: true },
+        include: { category: true, brand: true },
+        orderBy: { createdAt: 'desc' },
+      });
+    });
+
+    it('admite la búsqueda existente por código o nombre de producto', async () => {
+      const { prisma } = createPrismaMock();
+      const service = new InventoryService(prisma as never);
+
+      await service.listProducts({ search: ' PR-001 ' });
+
+      expect(prisma.product.findMany).toHaveBeenCalledWith(expect.objectContaining({
+        where: {
+          isActive: true,
+          OR: [
+            { code: { contains: 'PR-001', mode: 'insensitive' } },
+            { name: { contains: 'PR-001', mode: 'insensitive' } },
+            { category: { name: { contains: 'PR-001', mode: 'insensitive' } } },
+            { brand: { name: { contains: 'PR-001', mode: 'insensitive' } } },
+            { batches: { some: { code: { equals: 'PR-001', mode: 'insensitive' } } } },
+          ],
+        },
+      }));
+    });
+
+    it.each(['L-2026-001', 'l-2026-001'])('busca el código completo del lote %s', async (batchCode) => {
+      const { prisma } = createPrismaMock();
+      const service = new InventoryService(prisma as never);
+
+      await service.listProducts({ batchCode: ' ' + batchCode + ' ' });
+
+      expect(prisma.product.findMany).toHaveBeenCalledWith(expect.objectContaining({
+        where: {
+          isActive: true,
+          batches: { some: { code: { equals: batchCode, mode: 'insensitive' } } },
+        },
+      }));
+    });
+
+    it.each(['Kong', 'KONG', 'kong'])('busca la marca %s sin distinguir mayúsculas', async (search) => {
+      const { prisma } = createPrismaMock();
+      const service = new InventoryService(prisma as never);
+
+      await service.listProducts({ search });
+
+      expect(prisma.product.findMany).toHaveBeenCalledWith(expect.objectContaining({
+        where: expect.objectContaining({
+          OR: expect.arrayContaining([
+            { brand: { name: { contains: search, mode: 'insensitive' } } },
+          ]),
+        }),
+      }));
+    });
+
+    it.each([
+      ['15', { gte: new Prisma.Decimal('15'), lt: new Prisma.Decimal('16') }],
+      ['15.30', new Prisma.Decimal('15.30')],
+    ])('busca el precio %s desde el campo general y desde el filtro de precio', async (precio, filtro) => {
+      const { prisma } = createPrismaMock();
+      const service = new InventoryService(prisma as never);
+
+      await service.listProducts({ search: precio });
+      expect(prisma.product.findMany).toHaveBeenLastCalledWith(expect.objectContaining({
+        where: expect.objectContaining({
+          OR: expect.arrayContaining([{ unitPrice: filtro }]),
+        }),
+      }));
+
+      await service.listProducts({ unitPrice: precio });
+      expect(prisma.product.findMany).toHaveBeenLastCalledWith(expect.objectContaining({
+        where: { isActive: true, unitPrice: filtro },
+      }));
+    });
+
+    it.each([
+      [{ name: ' Alimento ' }, { name: { contains: 'Alimento', mode: 'insensitive' } }],
+      [{ categoryId: 'category-1' }, { categoryId: 'category-1' }],
+      [{ brandId: 'brand-1' }, { brandId: 'brand-1' }],
+      [{ brandName: ' Chow ' }, { brand: { name: { contains: 'Chow', mode: 'insensitive' } } }],
+      [{ unitPrice: '25.50' }, { unitPrice: new Prisma.Decimal('25.50') }],
+    ])('filtra productos activos mediante %j', async (consulta, filtro) => {
+      const { prisma } = createPrismaMock();
+      const service = new InventoryService(prisma as never);
+
+      await service.listProducts(consulta);
+
+      expect(prisma.product.findMany).toHaveBeenCalledWith(expect.objectContaining({
+        where: { isActive: true, ...filtro },
+      }));
+    });
+
+    it('combina los criterios y devuelve una lista vacía cuando no hay coincidencias', async () => {
+      const { prisma } = createPrismaMock();
+      const service = new InventoryService(prisma as never);
+
+      await expect(service.listProducts({
+        name: 'Alimento',
+        categoryId: 'category-1',
+        brandId: 'brand-1',
+        brandName: 'Chow',
+        batchCode: 'L-2026-001',
+        unitPrice: '25.50',
+      })).resolves.toEqual([]);
+
+      expect(prisma.product.findMany).toHaveBeenCalledWith(expect.objectContaining({
+        where: {
+          isActive: true,
+          name: { contains: 'Alimento', mode: 'insensitive' },
+          categoryId: 'category-1',
+          brandId: 'brand-1',
+          brand: { name: { contains: 'Chow', mode: 'insensitive' } },
+          batches: { some: { code: { equals: 'L-2026-001', mode: 'insensitive' } } },
+          unitPrice: new Prisma.Decimal('25.50'),
+        },
+      }));
+    });
+
+    it('busca los caracteres comodín del nombre como texto literal', async () => {
+      const { prisma } = createPrismaMock();
+      const service = new InventoryService(prisma as never);
+
+      await service.listProducts({ name: 'A_50%\\B' });
+
+      expect(prisma.product.findMany).toHaveBeenCalledWith(expect.objectContaining({
+        where: { isActive: true, name: { contains: 'A\\_50\\%\\\\B', mode: 'insensitive' } },
+      }));
+    });
+  });
+
   it.each(['0', '0.01', '12.5', '99.99', '100'])('updates a category VAT rate of %s exactly', async (vatRate) => {
     const { prisma, category } = createCategoryVatPrismaMock([
       { id: 'category-1', name: 'Accesorios', isActive: true, vatRate: null },
