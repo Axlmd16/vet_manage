@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../infrastructure/database/prisma/prisma.service.js';
-import type { PetSex, ReproductiveStatus } from '../../../generated/prisma/client.js';
+import type { Gender, ReproductiveStatus } from '../../../generated/prisma/client.js';
 
-export type NewPet = {
+export type NewPatient = {
   name: string;
-  sex: PetSex;
+  gender: Gender;
   birthDate: Date;
   weightKg: number;
   heightCm: number;
@@ -15,19 +15,19 @@ export type NewPet = {
   breedId: string;
 };
 
-const petWithCatalog = {
+const patientWithCatalog = {
   species: { select: { id: true, name: true } },
   breed: { select: { id: true, name: true } },
 } as const;
 
 @Injectable()
-export class PetRepository {
+export class PatientRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   // El código (PAC-NNNNNN) y el estado ACTIVE los asigna la base de datos.
-  create(data: NewPet) {
-    return this.prisma.pet.create({ data, include: petWithCatalog });
+  create(data: NewPatient) {
+    return this.prisma.patient.create({ data, include: patientWithCatalog });
   }
 }
 
-export type CreatedPet = Awaited<ReturnType<PetRepository['create']>>;
+export type CreatedPatient = Awaited<ReturnType<PatientRepository['create']>>;

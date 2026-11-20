@@ -8,7 +8,7 @@ import { ClientRegisterPage } from '../modules/clients/pages/client-register-pag
 import { ClientsPage } from '../modules/clients/pages/clients-page';
 import { DashboardPage } from '../modules/dashboard/pages/dashboard-page';
 import { BatchEntryPage } from '../modules/inventory/pages/batch-entry-page';
-import { PetsPage } from '../modules/pets/pages/pets-page';
+import { PatientsPage } from '../modules/pets/pages/patients-page';
 import { CatalogPage } from '../modules/inventory/pages/catalog-page';
 import { ProductFormPage } from '../modules/inventory/pages/product-form-page';
 import { ProductsPage } from '../modules/inventory/pages/products-page';
@@ -27,16 +27,16 @@ export function AppRouter() {
       <Route element={<RequireAuth />}>
         <Route element={<AppShell />}>
           <Route index element={<DashboardPage />} />
-          <Route path="pets" element={<PetsPage />} />
+          <Route path="pets" element={<PatientsPage />} />
           <Route path="catalogs" element={<CatalogsPage />} />
           <Route path="clients" element={<RequirePermission permission="clients:read"><ClientsPage /></RequirePermission>} />
           <Route path="clients/new" element={<RequirePermission permission="clients:create"><ClientRegisterPage /></RequirePermission>} />
           <Route path="appointments" element={<ComingSoonPage />} />
-          <Route path="inventory/products" element={<ProductsPage />} />
-          <Route path="inventory/products/new" element={<ProductFormPage />} />
-          <Route path="inventory/products/:id/edit" element={<ProductFormPage />} />
-          <Route path="inventory/categories" element={<CatalogPage type="category" />} />
-          <Route path="inventory/brands" element={<CatalogPage type="brand" />} />
+          <Route path="inventory/products" element={<RequirePermission permission="inventory:read"><ProductsPage /></RequirePermission>} />
+          <Route path="inventory/products/new" element={<RequirePermission permission="inventory:manage-products"><ProductFormPage /></RequirePermission>} />
+          <Route path="inventory/products/:id/edit" element={<RequirePermission permission="inventory:manage-products"><ProductFormPage /></RequirePermission>} />
+          <Route path="inventory/categories" element={<RequirePermission permission="inventory:read"><CatalogPage type="category" /></RequirePermission>} />
+          <Route path="inventory/brands" element={<RequirePermission permission="inventory:read"><CatalogPage type="brand" /></RequirePermission>} />
           <Route path="inventory/batches/new" element={<RequirePermission permission="inventory:register-entry"><BatchEntryPage /></RequirePermission>} />
           <Route path="users" element={<RequirePermission permission="users:read"><UsersPage /></RequirePermission>} />
           <Route path="users/new" element={<RequirePermission permission="users:create"><UserRegisterPage /></RequirePermission>} />

@@ -2,14 +2,14 @@ import { useCallback, useEffect, useState } from 'react';
 import { PawIcon, PlusIcon } from '../../../common/components/icons';
 import { useToast } from '../../../common/components/toast-context';
 import { useAuth } from '../../auth/auth-context';
-import { PetForm } from '../components/pet-form';
+import { PatientForm } from '../components/patient-form';
 import { breedApi } from '../services/breed.service';
-import { petApi } from '../services/pet.service';
+import { patientApi } from '../services/patient.service';
 import { speciesApi } from '../services/species.service';
-import type { RegisterPetDraft, SpeciesOption } from '../types';
-import './pets.css';
+import type { RegisterPatientDraft, SpeciesOption } from '../types';
+import './patients.css';
 
-export function PetsPage() {
+export function PatientsPage() {
   const { hasPermission } = useAuth();
   const { showToast } = useToast();
   const [isModalOpen, setModalOpen] = useState(false);
@@ -32,7 +32,7 @@ export function PetsPage() {
   }, [showToast]);
 
   const loadBreeds = useCallback((speciesId: string) => breedApi.listActiveBreeds(speciesId), []);
-  const searchClients = useCallback((term: string) => petApi.searchActiveClients(term), []);
+  const searchClients = useCallback((term: string) => patientApi.searchActiveClients(term), []);
 
   const openModal = () => {
     setFormKey((key) => key + 1);
@@ -52,10 +52,10 @@ export function PetsPage() {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isModalOpen, closeModal]);
 
-  const handleRegister = async (draft: RegisterPetDraft) => {
+  const handleRegister = async (draft: RegisterPatientDraft) => {
     setSaving(true);
     try {
-      await petApi.registerPet(draft);
+      await patientApi.registerPatient(draft);
       showToast('Paciente registrado exitosamente', 'success');
       setModalOpen(false);
     } catch (cause) {
@@ -67,7 +67,7 @@ export function PetsPage() {
   };
 
   return (
-    <section className="pets-page">
+    <section className="patients-page">
       <div className="page-heading">
         <div>
           <span className="eyebrow">Pacientes</span>
@@ -82,8 +82,8 @@ export function PetsPage() {
         )}
       </div>
 
-      <div className="pets-placeholder">
-        <span className="pets-placeholder__icon"><PawIcon size={24} /></span>
+      <div className="patients-placeholder">
+        <span className="patients-placeholder__icon"><PawIcon size={24} /></span>
         <strong>El listado de pacientes estará disponible próximamente</strong>
         <span>Desde aquí se podrán consultar los pacientes registrados.</span>
       </div>
@@ -94,12 +94,12 @@ export function PetsPage() {
           role="presentation"
           onMouseDown={(event) => { if (event.target === event.currentTarget) closeModal(); }}
         >
-          <div className="modal-card pet-modal" role="dialog" aria-modal="true" aria-labelledby="pet-modal-title">
+          <div className="modal-card patient-modal" role="dialog" aria-modal="true" aria-labelledby="patient-modal-title">
             <div className="modal-card__heading">
-              <div className="pet-modal__title">
-                <span className="pet-modal__icon"><PawIcon size={20} /></span>
+              <div className="patient-modal__title">
+                <span className="patient-modal__icon"><PawIcon size={20} /></span>
                 <div>
-                  <h3 id="pet-modal-title">Datos del paciente</h3>
+                  <h3 id="patient-modal-title">Datos del paciente</h3>
                   <p>El código identificador se asigna automáticamente al guardar.</p>
                 </div>
               </div>
@@ -109,7 +109,7 @@ export function PetsPage() {
             </div>
 
             <div className="modal-card__body">
-              <PetForm
+              <PatientForm
                 key={formKey}
                 species={species}
                 speciesLoading={speciesLoading}
