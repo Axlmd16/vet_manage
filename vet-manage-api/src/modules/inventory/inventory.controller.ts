@@ -3,6 +3,7 @@ import { success } from '../../common/errors/api-response.js';
 import { CreateCatalogItemDto } from './dtos/create-catalog-item.dto.js';
 import { CreateProductDto } from './dtos/create-product.dto.js';
 import { RegisterBatchEntryDto } from './dtos/register-batch-entry.dto.js';
+import { UpdateBatchExpirationDto } from './dtos/update-batch-expiration.dto.js';
 import { RequirePermissions } from '../identity/decorators/require-permissions.decorator.js';
 import { InventoryService } from './services/inventory.service.js';
 
@@ -43,6 +44,21 @@ export class InventoryController {
   @Get('products')
   async listProducts(@Query('search') search?: string) {
     return success(await this.inventoryService.listProducts(search));
+  }
+
+  @Get('expiration-alerts')
+  @RequirePermissions('inventory:read')
+  async listExpirationAlerts() {
+    return success(await this.inventoryService.listExpirationAlerts());
+  }
+
+  @Patch('batches/:id/expiration-date')
+  @RequirePermissions('inventory:register-entry')
+  async updateBatchExpiration(@Param('id') id: string, @Body() input: UpdateBatchExpirationDto) {
+    return success(
+      await this.inventoryService.updateBatchExpiration(id, input.expirationDate),
+      'Fecha de caducidad actualizada correctamente',
+    );
   }
 
   @Get('products/:id')
