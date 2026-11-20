@@ -2,6 +2,7 @@ import { Logger } from '@nestjs/common';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ApiException } from '../../../common/errors/api-exception.js';
 import { isValidPassword } from '../../../common/security/password-policy.js';
+import type { ClientRegistrationDto } from '../dtos/client-registration.dto.js';
 import { ClientRegistrationService, CLIENT_MESSAGES } from './client-registration.service.js';
 
 const CLIENT_ROLE = { id: 'r-client', name: 'client', displayName: 'Cliente' };
@@ -35,7 +36,7 @@ function build() {
 
   const prisma = {
     role: {
-      findFirst: vi.fn(async () => CLIENT_ROLE),
+      findFirst: vi.fn(async (): Promise<typeof CLIENT_ROLE | null> => CLIENT_ROLE),
       findMany: vi.fn(async () => [CLIENT_ROLE]),
     },
     $transaction: vi.fn((callback: (transaction: typeof tx) => unknown) => callback(tx)),
@@ -207,7 +208,7 @@ describe('ClientRegistrationService', () => {
       ['firstName', { firstName: '' }],
       ['lastName', { lastName: undefined }],
     ])('rechaza si falta %s', async (field, override) => {
-      const error = await rejection(ctx.service.register({ ...valid, ...override }, 'admin-1'));
+      const error = await rejection(ctx.service.register({ ...valid, ...override } as ClientRegistrationDto, 'admin-1'));
 
       expect(error).toMatchObject({ statusCode: 400, message: 'Complete los campos obligatorios', code: 'CLIENT_MISSING_FIELDS', errors: [field] });
       expect(ctx.prisma.$transaction).not.toHaveBeenCalled();
@@ -215,7 +216,7 @@ describe('ClientRegistrationService', () => {
     });
 
     it('lista todos los campos faltantes', async () => {
-      const error = await rejection(ctx.service.register({}, 'admin-1'));
+      const error = await rejection(ctx.service.register({} as ClientRegistrationDto, 'admin-1'));
       expect(error.errors).toEqual(['identification', 'firstName', 'lastName', 'email']);
     });
   });
