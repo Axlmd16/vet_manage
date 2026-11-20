@@ -3,7 +3,11 @@ import type { FormEvent } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useToast } from '../../../common/components/toast-context';
 import { useAuth } from '../../auth/auth-context';
-import { supplierApiErrorMessage, supplierApiFieldErrors, validateSupplierDraft } from '../schemas/supplier';
+import {
+  supplierApiErrorMessage,
+  supplierApiFieldErrors,
+  validateSupplierDraft,
+} from '../schemas/supplier';
 import type { SupplierDraft, SupplierFieldErrors } from '../schemas/supplier';
 import { suppliersApi } from '../services/suppliers-api';
 import './suppliers-page.css';
@@ -49,6 +53,16 @@ export function SupplierFormPage() {
   function updateField(field: keyof SupplierDraft, value: string) {
     setDraft((current) => ({ ...current, [field]: value }));
     setFieldErrors((current) => ({ ...current, [field]: undefined }));
+    setFormError(null);
+  }
+
+  function updateRuc(value: string) {
+    const digits = value.replace(/\D/g, '').slice(0, 13);
+    setDraft((current) => ({ ...current, ruc: digits }));
+    setFieldErrors((current) => ({
+      ...current,
+      ruc: /\D/.test(value) ? 'El RUC solo admite dígitos numéricos.' : undefined,
+    }));
     setFormError(null);
   }
 
@@ -171,15 +185,23 @@ export function SupplierFormPage() {
                 type="text"
                 autoComplete="off"
                 spellCheck={false}
+                inputMode="numeric"
+                maxLength={13}
+                pattern="[0-9]{13}"
                 required
                 value={draft.ruc}
                 aria-required="true"
                 aria-invalid={Boolean(fieldErrors.ruc)}
-                aria-describedby={fieldErrors.ruc ? 'supplier-ruc-error' : undefined}
+                aria-describedby={fieldErrors.ruc ? 'supplier-ruc-hint supplier-ruc-error' : 'supplier-ruc-hint'}
                 disabled={saving}
-                onChange={(event) => updateField('ruc', event.target.value)}
+                onChange={(event) => updateRuc(event.target.value)}
               />
-              {fieldErrors.ruc && <small id="supplier-ruc-error" className="field-error">{fieldErrors.ruc}</small>}
+              <small id="supplier-ruc-hint">Ingrese exactamente 13 dígitos numéricos. Los ceros iniciales se conservan.</small>
+              {fieldErrors.ruc && (
+                <small id="supplier-ruc-error" className="field-error" role="status" aria-live="polite">
+                  {fieldErrors.ruc}
+                </small>
+              )}
             </label>
           </div>
         </section>

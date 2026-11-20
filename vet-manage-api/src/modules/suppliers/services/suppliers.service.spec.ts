@@ -78,6 +78,17 @@ describe('SuppliersService', () => {
     expect(ctx.repository.create).not.toHaveBeenCalled();
   });
 
+  it.each(['123456789012', '12345678901234', '123456789012A', '12345678901 3'])(
+    'rechaza RUC %s si no contiene exactamente 13 dígitos numéricos', async (ruc) => {
+      await expect(ctx.service.create({ businessName: 'Proveedor', ruc }))
+        .rejects.toMatchObject({
+          statusCode: 400,
+          message: 'El RUC debe contener exactamente 13 dígitos numéricos',
+        });
+      expect(ctx.repository.create).not.toHaveBeenCalled();
+    },
+  );
+
   it('rechaza un RUC que ya existe antes de intentar crear', async () => {
     await expect(ctx.service.create({ businessName: 'Duplicado', ruc: '0012345678001' }))
       .rejects.toMatchObject({ statusCode: 409, message: 'El RUC ya está registrado' });
@@ -129,6 +140,14 @@ describe('SuppliersService', () => {
   it('rechaza una actualización vacía y devuelve 404 si no existe', async () => {
     await expect(ctx.service.update(SUPPLIER_ID, {})).rejects.toMatchObject({ statusCode: 400 });
     await expect(ctx.service.update('missing', { businessName: 'Nuevo' })).rejects.toMatchObject({ statusCode: 404 });
+    expect(ctx.repository.update).not.toHaveBeenCalled();
+  });
+
+  it('rechaza un RUC de actualización que no tenga exactamente 13 dígitos numéricos', async () => {
+    await expect(ctx.service.update(SUPPLIER_ID, { ruc: '123456789012A' })).rejects.toMatchObject({
+      statusCode: 400,
+      message: 'El RUC debe contener exactamente 13 dígitos numéricos',
+    });
     expect(ctx.repository.update).not.toHaveBeenCalled();
   });
 

@@ -5,6 +5,7 @@ import type { ListSuppliersQueryDto } from '../dtos/list-suppliers-query.dto.js'
 import type { SupplierListResponseDto, SupplierResponseDto } from '../dtos/supplier-response.dto.js';
 import type { UpdateSupplierDto } from '../dtos/update-supplier.dto.js';
 import { SuppliersRepository } from '../repositories/suppliers.repository.js';
+import { SUPPLIER_RUC_FORMAT_MESSAGE, SUPPLIER_RUC_PATTERN } from '../ruc-validation.js';
 
 type SupplierWritableFields = { businessName?: string; ruc?: string };
 
@@ -14,7 +15,7 @@ export class SuppliersService {
 
   async create(input: CreateSupplierDto): Promise<SupplierResponseDto> {
     const businessName = this.requiredText(input.businessName, 'La razón social es obligatoria');
-    const ruc = this.requiredText(input.ruc, 'El RUC es obligatorio');
+    const ruc = this.requiredRuc(input.ruc, 'El RUC es obligatorio');
     if (await this.repository.findByRuc(ruc)) {
       throw ApiException.conflict('El RUC ya está registrado');
     }
@@ -63,7 +64,7 @@ export class SuppliersService {
       data.businessName = this.requiredText(input.businessName, 'La razón social no puede estar vacía');
     }
     if (input.ruc !== undefined) {
-      data.ruc = this.requiredText(input.ruc, 'El RUC no puede estar vacío');
+      data.ruc = this.requiredRuc(input.ruc, 'El RUC no puede estar vacío');
       const duplicate = await this.repository.findByRuc(data.ruc);
       if (duplicate && duplicate.id !== id) {
         throw ApiException.conflict('El RUC ya está registrado');
@@ -105,6 +106,12 @@ export class SuppliersService {
     }
     // Trim exterior whitespace only; in particular, do not parse or strip leading zeroes from the RUC.
     return value.trim();
+  }
+
+  private requiredRuc(value: unknown, message: string): string {
+    const ruc = this.requiredText(value, message);
+    if (!SUPPLIER_RUC_PATTERN.test(ruc)) throw ApiException.badRequest(SUPPLIER_RUC_FORMAT_MESSAGE);
+    return ruc;
   }
 
   private toResponse(supplier: {

@@ -124,7 +124,10 @@ describe('SuppliersController HTTP contract', () => {
   it.each([
     [{ businessName: '  ', ruc: '0012345678001' }],
     [{ businessName: 'Distribuidora Vet', ruc: '   ' }],
-  ])('rechaza razón social o RUC vacío antes de invocar el servicio (400)', async (body) => {
+    [{ businessName: 'Distribuidora Vet', ruc: '123456789012' }],
+    [{ businessName: 'Distribuidora Vet', ruc: '12345678901234' }],
+    [{ businessName: 'Distribuidora Vet', ruc: '123456789012A' }],
+  ])('rechaza razón social/RUC inválido antes de invocar el servicio (400)', async (body) => {
     await request(app.getHttpServer())
       .post('/suppliers')
       .set('Authorization', 'Bearer token')
@@ -147,6 +150,16 @@ describe('SuppliersController HTTP contract', () => {
       .expect(400);
 
     expect(service.create).not.toHaveBeenCalled();
+    expect(service.update).not.toHaveBeenCalled();
+  });
+
+  it('rechaza un RUC de actualización que no contenga exactamente 13 dígitos numéricos', async () => {
+    await request(app.getHttpServer())
+      .patch(`/suppliers/${SUPPLIER_ID}`)
+      .set('Authorization', 'Bearer token')
+      .send({ ruc: '123456789012A' })
+      .expect(400);
+
     expect(service.update).not.toHaveBeenCalled();
   });
 
