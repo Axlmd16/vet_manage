@@ -51,8 +51,8 @@ describe('ProductsPage', () => {
     vi.resetAllMocks();
     vi.mocked(inventoryApi.listProducts).mockResolvedValue([product]);
     vi.mocked(inventoryApi.listCategories).mockResolvedValue([
-      { id: 'category-1', name: 'Juguetes' },
-      { id: 'category-2', name: 'Alimentos' },
+      { id: 'category-1', name: 'Juguetes', vatRate: null },
+      { id: 'category-2', name: 'Alimentos', vatRate: null },
     ]);
     vi.mocked(inventoryApi.listBrands).mockResolvedValue([
       { id: 'brand-1', name: 'Kong' },

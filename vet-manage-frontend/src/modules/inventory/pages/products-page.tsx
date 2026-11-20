@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { inventoryApi } from '../services/inventory-api';
 import type { CatalogItem, Product } from '../types';
 import { useToast } from '../../../common/components/toast-context';
+import { useAuth } from '../../auth/auth-context';
 import './products-page.css';
 
 export function ProductsPage() {
@@ -18,6 +19,8 @@ export function ProductsPage() {
   const [query, setQuery] = useState({ search: '', categoryId: '', brandId: '', batchCode: '' });
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
   const { showToast } = useToast();
+  const { hasPermission } = useAuth();
+  const canManageProducts = hasPermission('inventory:manage-products');
 
   useEffect(() => {
     let cancelled = false;
@@ -63,9 +66,11 @@ export function ProductsPage() {
           <h2>Productos</h2>
           <p>Administra el catálogo que utilizarás en tus entradas de inventario.</p>
         </div>
-        <Link className="button button--primary" to="/inventory/products/new">
-          ＋ Nuevo producto
-        </Link>
+        {canManageProducts && (
+          <Link className="button button--primary" to="/inventory/products/new">
+            ＋ Nuevo producto
+          </Link>
+        )}
       </div>
       <form
         className="catalog-toolbar product-search-toolbar"
@@ -151,10 +156,12 @@ export function ProductsPage() {
             ) : (
               <>
                 <strong>No hay productos todavía</strong>
-                <span>Registra el primero para comenzar tu catálogo.</span>
-                <Link className="button button--primary" to="/inventory/products/new">
-                  Registrar producto
-                </Link>
+                <span>{canManageProducts ? 'Registra el primero para comenzar tu catálogo.' : 'No hay productos disponibles para consultar.'}</span>
+                {canManageProducts && (
+                  <Link className="button button--primary" to="/inventory/products/new">
+                    Registrar producto
+                  </Link>
+                )}
               </>
             )}
           </div>
@@ -170,7 +177,7 @@ export function ProductsPage() {
                   <th>Marca</th>
                   <th>Precio unitario</th>
                   <th>Existencias</th>
-                  <th>Acciones</th>
+                  {canManageProducts && <th>Acciones</th>}
                 </tr>
               </thead>
               <tbody>
@@ -185,14 +192,16 @@ export function ProductsPage() {
                     <td>{product.brand.name}</td>
                     <td className="price-cell">${Number(product.unitPrice).toFixed(2)}</td>
                     <td className="price-cell">{product.stock}</td>
-                    <td>
-                      <Link
-                        className="button button--ghost button--small"
-                        to={`/inventory/products/${product.id}/edit`}
-                      >
-                        Editar
-                      </Link>
-                    </td>
+                    {canManageProducts && (
+                      <td>
+                        <Link
+                          className="button button--ghost button--small"
+                          to={`/inventory/products/${product.id}/edit`}
+                        >
+                          Editar
+                        </Link>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>

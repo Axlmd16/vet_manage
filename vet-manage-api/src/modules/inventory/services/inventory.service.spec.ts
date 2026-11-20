@@ -3,6 +3,45 @@ import { Prisma } from '../../../generated/prisma/client.js';
 import { ApiException } from '../../../common/errors/api-exception.js';
 import { InventoryService } from './inventory.service.js';
 
+function createCategoryVatPrismaMock(initial: Array<{
+  id: string;
+  name: string;
+  isActive: boolean;
+  vatRate: string | null;
+}>) {
+  const categories = initial.map((category) => ({
+    ...category,
+    description: null,
+    createdAt: new Date('2026-01-01T00:00:00.000Z'),
+    updatedAt: new Date('2026-01-01T00:00:00.000Z'),
+    vatRate: category.vatRate === null ? null : new Prisma.Decimal(category.vatRate),
+  }));
+  const category = {
+    updateMany: vi.fn(async ({ where, data }: {
+      where: { id: string; isActive: boolean };
+      data: { vatRate: Prisma.Decimal };
+    }) => {
+      const target = categories.find((item) => item.id === where.id && item.isActive === where.isActive);
+      if (!target) return { count: 0 };
+      target.vatRate = data.vatRate;
+      return { count: 1 };
+    }),
+    findUnique: vi.fn(async ({ where }: { where: { id: string } }) =>
+      categories.find((item) => item.id === where.id) ?? null),
+    findMany: vi.fn(async () => categories.filter((item) => item.isActive)),
+  };
+  const transaction = { category };
+
+  return {
+    categories,
+    category,
+    prisma: {
+      category: { findMany: category.findMany },
+      $transaction: vi.fn((callback: (tx: typeof transaction) => Promise<unknown>) => callback(transaction)),
+    },
+  };
+}
+
 function createPrismaMock() {
   const tx = {
     category: {
@@ -48,6 +87,9 @@ function createPrismaMock() {
           brand: { id: 'brand-1', name: 'Dog Chow' }, createdAt: new Date('2026-01-01'),
         }),
       },
+    },
+    batch: {
+      findMany: vi.fn().mockResolvedValue([]),
     },
   };
 }
@@ -192,12 +234,90 @@ describe('InventoryService', () => {
     });
   });
 
+  it.each(['0', '0.01', '12.5', '99.99', '100'])('updates a category VAT rate of %s exactly', async (vatRate) => {
+    const { prisma, category } = createCategoryVatPrismaMock([
+      { id: 'category-1', name: 'Accesorios', isActive: true, vatRate: null },
+    ]);
+    const service = new InventoryService(prisma as never);
+
+    const result = await service.updateCategoryVat('category-1', vatRate);
+
+    expect(result.vatRate).toBe(new Prisma.Decimal(vatRate).toString());
+    expect(category.updateMany).toHaveBeenCalledWith({
+      where: { id: 'category-1', isActive: true },
+      data: { vatRate: expect.any(Prisma.Decimal) },
+    });
+    expect(category.updateMany.mock.calls[0][0].data.vatRate.toString()).toBe(vatRate);
+  });
+
+  it.each(['', null, 'texto', '-5', '100.01', '12.345', 12.5, undefined] as const)(
+    'rejects invalid VAT input %s without changing the stored rate',
+    async (vatRate) => {
+      const { prisma, categories } = createCategoryVatPrismaMock([
+        { id: 'category-1', name: 'Accesorios', isActive: true, vatRate: '15.25' },
+      ]);
+      const service = new InventoryService(prisma as never);
+
+      await expect(service.updateCategoryVat('category-1', vatRate)).rejects.toMatchObject({ statusCode: 400 });
+
+      expect(prisma.$transaction).not.toHaveBeenCalled();
+      expect(categories[0].vatRate?.toString()).toBe('15.25');
+    },
+  );
+
+  it.each([
+    { categories: [], id: 'missing' },
+    { categories: [{ id: 'category-1', name: 'Accesorios', isActive: false, vatRate: '15.25' }], id: 'category-1' },
+  ])('does not update a missing or inactive category', async ({ categories: initial, id }) => {
+    const { prisma, category, categories } = createCategoryVatPrismaMock(initial);
+    const service = new InventoryService(prisma as never);
+
+    await expect(service.updateCategoryVat(id, '20')).rejects.toMatchObject({ statusCode: 404 });
+
+    expect(category.updateMany).toHaveBeenCalledWith({
+      where: { id, isActive: true },
+      data: { vatRate: expect.any(Prisma.Decimal) },
+    });
+    if (categories.length === 0) {
+      expect(categories).toHaveLength(0);
+    } else {
+      expect(categories[0].vatRate?.toString()).toBe('15.25');
+    }
+  });
+
+  it('updates each category independently and returns unset VAT as null when listing categories', async () => {
+    const { prisma, categories } = createCategoryVatPrismaMock([
+      { id: 'category-1', name: 'Accesorios', isActive: true, vatRate: null },
+      { id: 'category-2', name: 'Alimentos', isActive: true, vatRate: '8.5' },
+    ]);
+    const service = new InventoryService(prisma as never);
+
+    await service.updateCategoryVat('category-1', '0.01');
+    await service.updateCategoryVat('category-2', '99.99');
+
+    expect(categories.map((category) => category.vatRate?.toString() ?? null)).toEqual(['0.01', '99.99']);
+    expect(await service.listCategories()).toMatchObject([
+      { id: 'category-1', vatRate: '0.01' },
+      { id: 'category-2', vatRate: '99.99' },
+    ]);
+    expect(prisma.category.findMany).toHaveBeenCalledWith({
+      where: { isActive: true },
+      orderBy: { name: 'asc' },
+    });
+
+    categories[1].vatRate = null;
+    await expect(service.listCategories()).resolves.toMatchObject([
+      { id: 'category-1', vatRate: '0.01' },
+      { id: 'category-2', vatRate: null },
+    ]);
+  });
+
   it('creates category and brand inline in the product transaction', async () => {
     const { prisma, tx } = createPrismaMock();
     const service = new InventoryService(prisma as never);
 
     const result = await service.createProduct({
-      code: 'PR-001', name: 'Producto', description: '', unitPrice: 25.5,
+      code: 'PR-001', name: 'Producto', description: 'Descripción del producto', unitPrice: 25.5,
       category: { name: 'Alimentos' }, brand: { name: 'Dog Chow' },
     });
 
@@ -216,7 +336,7 @@ describe('InventoryService', () => {
     const service = new InventoryService(prisma as never);
 
     await expect(service.createProduct({
-      code: 'PR-001', name: 'Producto', unitPrice: 25.5,
+      code: 'PR-001', name: 'Producto', description: 'Descripción del producto', unitPrice: 25.5,
       category: { name: 'Alimentos' }, brand: { name: 'Dog Chow' },
     })).rejects.toMatchObject({
       statusCode: 409,
@@ -291,14 +411,14 @@ describe('InventoryService', () => {
     const service = new InventoryService(prisma as never);
 
     const result = await service.updateProduct('product-1', {
-      code: 'PR-001', name: 'Producto actualizado', description: '', unitPrice: 30,
+      code: 'PR-001', name: 'Producto actualizado', description: 'Descripción actualizada', unitPrice: 30,
       category: { id: 'category-1' }, brand: { id: 'brand-1' },
     });
 
     expect(result.unitPrice).toBe('30');
     expect(tx.product.update).toHaveBeenCalledWith(expect.objectContaining({
       where: { id: 'product-1' },
-      data: expect.objectContaining({ code: 'PR-001', name: 'Producto actualizado', description: null }),
+      data: expect.objectContaining({ code: 'PR-001', name: 'Producto actualizado', description: 'Descripción actualizada' }),
     }));
   });
 
@@ -307,7 +427,18 @@ describe('InventoryService', () => {
     const service = new InventoryService(prisma as never);
 
     await expect(service.updateProduct('product-1', {
-      code: 'PR-001', name: 'Producto', unitPrice: 0,
+      code: 'PR-001', name: 'Producto', description: 'Descripción del producto', unitPrice: 0,
+      category: { id: 'category-1' }, brand: { id: 'brand-1' },
+    })).rejects.toMatchObject({ statusCode: 400, message: 'Revisa los campos del producto' });
+    expect(prisma.$transaction).not.toHaveBeenCalled();
+  });
+
+  it('rejects an empty description before creating a product', async () => {
+    const { prisma } = createPrismaMock();
+    const service = new InventoryService(prisma as never);
+
+    await expect(service.createProduct({
+      code: 'PR-001', name: 'Producto', description: ' ', unitPrice: 20,
       category: { id: 'category-1' }, brand: { id: 'brand-1' },
     })).rejects.toMatchObject({ statusCode: 400, message: 'Revisa los campos del producto' });
     expect(prisma.$transaction).not.toHaveBeenCalled();
@@ -319,9 +450,64 @@ describe('InventoryService', () => {
     const service = new InventoryService(prisma as never);
 
     await expect(service.updateProduct('missing', {
-      code: 'PR-001', name: 'Producto', unitPrice: 20,
+      code: 'PR-001', name: 'Producto', description: 'Descripción del producto', unitPrice: 20,
       category: { id: 'category-1' }, brand: { id: 'brand-1' },
     })).rejects.toMatchObject({ statusCode: 404, message: 'Producto no encontrado' });
+  });
+
+  it('queries current batches with positive availability and maps the current quantities into alerts', async () => {
+    const referenceDate = new Date('2026-11-19T12:00:00.000Z');
+    const batchFindMany = vi.fn().mockResolvedValue([{
+      id: 'lot-1',
+      code: 'L-2026-001',
+      expirationDate: new Date('2026-12-19T00:00:00.000Z'),
+      availableQuantity: 10,
+      product: { name: 'Alimento para perro' },
+    }]);
+    const service = new InventoryService({ batch: { findMany: batchFindMany } } as never);
+
+    await expect(service.listExpirationAlerts(referenceDate)).resolves.toMatchObject([{
+      lotId: 'lot-1',
+      productName: 'Alimento para perro',
+      lotCode: 'L-2026-001',
+      expirationDate: '2026-12-19',
+      availableQuantity: 10,
+      label: 'Próximo a caducar',
+    }]);
+    expect(batchFindMany).toHaveBeenCalledWith({
+      where: {
+        availableQuantity: { gt: 0 },
+        expirationDate: { lte: new Date('2026-12-19T00:00:00.000Z') },
+      },
+      include: { product: { select: { name: true } } },
+      orderBy: [{ expirationDate: 'asc' }, { code: 'asc' }],
+    });
+  });
+
+  it('updates a batch expiry as a date-only value', async () => {
+    const batchUpdate = vi.fn().mockResolvedValue({ id: 'lot-1', expirationDate: new Date('2027-01-03T00:00:00.000Z') });
+    const service = new InventoryService({ batch: { update: batchUpdate } } as never);
+
+    await expect(service.updateBatchExpiration('lot-1', '2027-01-03')).resolves.toEqual({
+      lotId: 'lot-1', expirationDate: '2027-01-03',
+    });
+    expect(batchUpdate).toHaveBeenCalledWith({
+      where: { id: 'lot-1' },
+      data: { expirationDate: new Date('2027-01-03T00:00:00.000Z') },
+      select: { id: true, expirationDate: true },
+    });
+  });
+
+  it('rejects invalid expiry dates and returns not found for a missing batch', async () => {
+    const batchUpdate = vi.fn().mockRejectedValue({ code: 'P2025' });
+    const service = new InventoryService({ batch: { update: batchUpdate } } as never);
+
+    await expect(service.updateBatchExpiration('lot-1', '2027-02-30'))
+      .rejects.toMatchObject({ statusCode: 400, message: 'La fecha de caducidad no es válida' });
+    expect(batchUpdate).not.toHaveBeenCalled();
+
+    await expect(service.updateBatchExpiration('missing', '2027-01-03'))
+      .rejects.toMatchObject({ statusCode: 404, message: 'Lote no encontrado' });
   });
 
   describe('registerBatchEntry (HU-02)', () => {
@@ -348,13 +534,21 @@ describe('InventoryService', () => {
       const result = await service.registerBatchEntry(entry);
 
       expect(tx.batch.create).toHaveBeenCalledWith({
-        data: { productId: PRODUCT_ID, code: 'L-2026-001', expirationDate: new Date(Date.UTC(2027, 9, 23)), initialQuantity: 50 },
+        data: {
+          productId: PRODUCT_ID,
+          code: 'L-2026-001',
+          expirationDate: new Date(Date.UTC(2027, 9, 23)),
+          initialQuantity: 50,
+          availableQuantity: 50,
+        },
       });
       expect(tx.product.update).toHaveBeenCalledWith(expect.objectContaining({
         where: { id: PRODUCT_ID },
         data: { stock: { increment: 50 } },
       }));
-      expect(result.batch).toMatchObject({ code: 'L-2026-001', expirationDate: '2027-10-23', initialQuantity: 50 });
+      expect(result.batch).toMatchObject({
+        code: 'L-2026-001', expirationDate: '2027-10-23', initialQuantity: 50, availableQuantity: 50,
+      });
       expect(result.product.stock).toBe(50);
     });
 

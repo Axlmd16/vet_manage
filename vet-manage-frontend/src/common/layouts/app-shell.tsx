@@ -3,6 +3,7 @@ import type { ComponentType } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import logo from '../../assets/logo.jpeg';
 import { useAuth } from '../../modules/auth/auth-context';
+import { NotificationsBell } from '../../modules/notifications/components/notifications-bell';
 import {
   BoxIcon,
   CalendarIcon,
@@ -20,7 +21,7 @@ import { UserMenu } from './user-menu';
 
 type NavItem = { label: string; to: string; icon: ComponentType<{ size?: number }>; permission?: string };
 
-// Cada sección se muestra si el usuario tiene su permiso de lectura; sin permiso, la ve cualquiera.
+// Cada sección se muestra únicamente si el usuario tiene su permiso de lectura.
 const mainNavigation: NavItem[] = [
   { label: 'Resumen', to: '/', icon: HomeIcon },
   { label: 'Agenda', to: '/appointments', icon: CalendarIcon },
@@ -30,9 +31,10 @@ const mainNavigation: NavItem[] = [
 ];
 
 const inventoryNavigation: NavItem[] = [
-  { label: 'Productos', to: '/inventory/products', icon: PackageIcon },
-  { label: 'Categorías', to: '/inventory/categories', icon: FolderIcon },
-  { label: 'Marcas', to: '/inventory/brands', icon: TagIcon },
+  { label: 'Productos', to: '/inventory/products', icon: PackageIcon, permission: 'inventory:read' },
+  { label: 'Proveedores', to: '/inventory/suppliers', icon: UsersIcon, permission: 'suppliers:read' },
+  { label: 'Categorías', to: '/inventory/categories', icon: FolderIcon, permission: 'inventory:read' },
+  { label: 'Marcas', to: '/inventory/brands', icon: TagIcon, permission: 'inventory:read' },
   { label: 'Entrada de lotes', to: '/inventory/batches/new', icon: BoxIcon, permission: 'inventory:register-entry' },
 ];
 
@@ -103,6 +105,7 @@ export function AppShell() {
           )}
         </nav>
 
+        <NotificationsBell />
         <UserMenu />
       </aside>
 
