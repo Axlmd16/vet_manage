@@ -87,6 +87,22 @@ describe('SupplierFormPage', () => {
     expect(suppliersApi.create).not.toHaveBeenCalled();
   });
 
+  it('filtra caracteres no numéricos y alerta si se intenta guardar un RUC corto', async () => {
+    renderSupplierForm();
+    const ruc = screen.getByLabelText(/^RUC/);
+
+    await userEvent.type(ruc, '12A');
+    expect(ruc).toHaveValue('12');
+    expect(screen.getByText('El RUC solo admite dígitos numéricos.')).toBeInTheDocument();
+
+    await userEvent.clear(ruc);
+    await userEvent.type(ruc, '123456789012');
+    await userEvent.click(screen.getByRole('button', { name: 'Registrar proveedor' }));
+
+    expect(await screen.findByText('El RUC debe contener exactamente 13 dígitos numéricos.')).toBeInTheDocument();
+    expect(suppliersApi.create).not.toHaveBeenCalled();
+  });
+
   it('registra sin convertir ni perder los ceros iniciales del RUC', async () => {
     const { showToast } = renderSupplierForm();
 

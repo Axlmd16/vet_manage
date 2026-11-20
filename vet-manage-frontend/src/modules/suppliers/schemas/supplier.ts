@@ -4,10 +4,13 @@ import type { SupplierInput } from '../types';
 export type SupplierDraft = { businessName: string; ruc: string };
 export type SupplierFieldErrors = Partial<Record<keyof SupplierInput, string>>;
 
+export const SUPPLIER_RUC_FORMAT_ERROR = 'El RUC debe contener exactamente 13 dígitos numéricos.';
+
 export function validateSupplierDraft(draft: SupplierDraft): SupplierFieldErrors {
   const errors: SupplierFieldErrors = {};
   if (!draft.businessName.trim()) errors.businessName = 'La razón social es obligatoria.';
   if (!draft.ruc.trim()) errors.ruc = 'El RUC es obligatorio.';
+  else if (!/^\d{13}$/.test(draft.ruc.trim())) errors.ruc = SUPPLIER_RUC_FORMAT_ERROR;
   return errors;
 }
 

@@ -1,20 +1,33 @@
 import { describe, expect, it } from 'vitest';
 import { ApiError } from '../../../infrastructure/api/http-client';
-import { buildSupplierInput, supplierApiErrorMessage, supplierApiFieldErrors, validateSupplierDraft } from './supplier';
+import {
+  buildSupplierInput,
+  supplierApiErrorMessage,
+  supplierApiFieldErrors,
+  SUPPLIER_RUC_FORMAT_ERROR,
+  validateSupplierDraft,
+} from './supplier';
 
 describe('supplier form rules', () => {
-  it('requires non-empty business name and RUC without imposing an RUC format', () => {
+  it('requires a business name and an RUC with exactly 13 numeric digits', () => {
     expect(validateSupplierDraft({ businessName: '  ', ruc: '  ' })).toEqual({
       businessName: 'La razón social es obligatoria.',
       ruc: 'El RUC es obligatorio.',
     });
-    expect(validateSupplierDraft({ businessName: 'Empresa', ruc: '00-ABC' })).toEqual({});
+    expect(validateSupplierDraft({ businessName: 'Empresa', ruc: '' })).toEqual({ ruc: 'El RUC es obligatorio.' });
+    expect(validateSupplierDraft({ businessName: 'Empresa', ruc: '0012345678001' })).toEqual({});
   });
 
-  it('trims outer whitespace but preserves the RUC as text including zeroes', () => {
-    expect(buildSupplierInput({ businessName: ' Empresa ', ruc: ' 000123 ' })).toEqual({
+  it.each(['123456789012', '12345678901234', '123456789012A', '12345678901 3']) (
+    'rejects RUC values that are not 13 numeric digits: %s', (ruc) => {
+      expect(validateSupplierDraft({ businessName: 'Empresa', ruc })).toEqual({ ruc: SUPPLIER_RUC_FORMAT_ERROR });
+    },
+  );
+
+  it('trims outer whitespace but preserves a 13-digit RUC as text including zeroes', () => {
+    expect(buildSupplierInput({ businessName: ' Empresa ', ruc: ' 0001234567890 ' })).toEqual({
       businessName: 'Empresa',
-      ruc: '000123',
+      ruc: '0001234567890',
     });
   });
 
