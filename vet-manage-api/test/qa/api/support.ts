@@ -103,7 +103,16 @@ export async function tokenFor(email: string, { fresh = false } = {}): Promise<s
 let pool: pg.Pool | undefined;
 export async function sql<T = Record<string, unknown>>(text: string, params: unknown[] = []): Promise<T[]> {
   pool ??= new pg.Pool({ connectionString: DATABASE_URL, max: 2 });
-  return (await pool.query(text, params)).rows as T[];
+  const rows = (await pool.query(text, params)).rows as T[];
+  // Evidencia: las verificaciones en base de datos también quedan grabadas con la prueba.
+  const name = expect.getState().currentTestName;
+  if (name) {
+    (calls[name] ??= []).push({
+      method: 'SQL', path: text.replace(/\s+/g, ' ').trim(), as: 'base de datos de Staging',
+      body: params.length ? params : null, status: rows.length, response: mask(rows),
+    });
+  }
+  return rows;
 }
 export async function closeDb() {
   await pool?.end();

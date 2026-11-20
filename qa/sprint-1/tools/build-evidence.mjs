@@ -114,7 +114,7 @@ const STATE = {
 };
 const testBadge = (s) => (s === 'passed' ? '<b class="ok">✔ Pasó</b>' : '<b class="ko">✘ Falló</b>');
 
-function card(c, ev) {
+function card(c, ev, alias) {
   const result = results[c.id] ?? 'Sin ejecutar';
   const source = summary.cases[c.id]?.source ?? (ev ? 'automatizada' : 'sin ejecutar');
   const [bg, fg] = STATE[result] ?? STATE['Sin ejecutar'];
@@ -140,7 +140,7 @@ function card(c, ev) {
   figure{margin:0 0 12px} figure img{max-width:100%;border:1px solid #D0D5DD;border-radius:4px} figcaption{color:#475467;font-size:12px}
   .foot{margin-top:14px;color:#667085;font-size:12px;border-top:1px solid #EAECF0;padding-top:8px}
   </style></head><body><div class="wrap">
-  <div class="head"><div><h1>${esc(c.id)} · ${esc(c.hu)}</h1><div class="sub">${esc(c.desc)}</div></div><span class="state">${esc(result)}</span></div>
+  <div class="head"><div><h1>${esc(alias ?? c.id)} · ${esc(c.hu)}${alias ? ` <small style="font-size:14px;color:#475467;font-weight:400">(matriz QA: ${esc(c.id)})</small>` : ""}</h1><div class="sub">${esc(c.desc)}</div></div><span class="state">${esc(result)}</span></div>
   <table class="meta">
     <tr><td class="k">Tipo de prueba</td><td>${esc(c.tipo)} · ${esc(c.ref ?? '')}</td><td class="k">Nivel</td><td>${esc(c.nivel)}</td></tr>
     <tr><td class="k">Precondiciones</td><td colspan="3">${esc(c.pre)}</td></tr>
@@ -149,7 +149,9 @@ function card(c, ev) {
     <tr><td class="k">Ejecución</td><td colspan="3">${source === 'manual' ? 'Manual (resultado registrado por el tester; ver evidencia adjunta)' : source === 'automatizada' ? `Automatizada · ${tests.length} prueba(s)` : 'Sin ejecutar'}</td></tr>
   </table>
   ${tests.length ? `<h2>Pruebas ejecutadas</h2>${tests.map((t) => `<div class="t">${testBadge(t.status)} &nbsp;<b>${esc(t.suite)}</b> — ${esc(t.title)}${t.file ? `<br><small>${esc(t.file)}</small>` : ''}${t.error ? `<pre class="err">${esc(t.error)}</pre>` : ''}</div>`).join('')}` : ''}
-  ${calls.length ? `<h2>Peticiones a la API (Staging)</h2>${calls.slice(0, 6).map((k) => `<div class="call"><div class="h">${esc(k.method)} ${esc(k.path)} &nbsp;<small>como: ${esc(k.as)}</small> &nbsp;→ <span class="code c${String(k.status)[0]}">HTTP ${k.status}</span> &nbsp;${esc(k.response?.message ?? '')}</div><div><small>Petición</small><pre>${esc(pretty(k.body, 600))}</pre></div><div><small>Respuesta</small><pre>${esc(pretty(k.response, 700))}</pre></div></div>`).join('')}${calls.length > 6 ? `<small>(+${calls.length - 6} peticiones más en qa/sprint-1/reports/api/calls.json)</small>` : ''}` : ''}
+  ${calls.length ? `<h2>Peticiones a la API y consultas a la base (Staging)</h2>${calls.slice(0, 7).map((k) => k.method === 'SQL'
+    ? `<div class="call"><div class="h">Consulta SQL &nbsp;<small>${esc(k.as)}</small> &nbsp;→ <span class="code">${k.status} fila(s)</span></div><div><small>Consulta</small><pre>${esc(k.path)}${k.body ? `\n-- parámetros: ${esc(JSON.stringify(k.body))}` : ''}</pre></div><div><small>Resultado</small><pre>${esc(pretty(k.response, 900))}</pre></div></div>`
+    : `<div class="call"><div class="h">${esc(k.method)} ${esc(k.path)} &nbsp;<small>como: ${esc(k.as)}</small> &nbsp;→ <span class="code c${String(k.status)[0]}">HTTP ${k.status}</span> &nbsp;${esc(k.response?.message ?? '')}</div><div><small>Petición</small><pre>${esc(pretty(k.body, 600))}</pre></div><div><small>Respuesta</small><pre>${esc(pretty(k.response, 700))}</pre></div></div>`).join('')}${calls.length > 7 ? `<small>(+${calls.length - 7} registros más en qa/sprint-1/reports/api/calls.json)</small>` : ''}` : ''}
   ${texts.length ? `<h2>Evidencia manual (salida de consola)</h2>${texts.map((t) => `<small>${esc(t.name)}</small><pre>${esc(t.content)}</pre>`).join('')}` : ''}
   ${images.length ? `<h2>Capturas de pantalla</h2>${images.map((i) => `<figure><img src="${pathToFileURL(i.path).href}"><figcaption>${esc(i.caption)}</figcaption></figure>`).join('')}` : ''}
   ${!tests.length && !calls.length && !images.length && !texts.length ? '<h2>Evidencia</h2><p>No hay evidencia registrada para este caso.</p>' : ''}
@@ -176,6 +178,19 @@ for (const c of CASES) {
   const kinds = [ev?.tests.length && 'pruebas', ev?.calls.length && 'API', ev?.images.length && 'capturas', ev?.texts.length && 'consola'].filter(Boolean);
   index.push(`| ${c.id} | ${c.hu} | ${results[c.id] ?? 'Sin ejecutar'} | ${kinds.join(', ') || '—'} | [${file}](${file}) |`);
 }
+// Copias con la nomenclatura de la hoja del equipo (CP-016 …), para ubicarlas en el reporte.
+const aliasFile = join(sprint, 'matrices', 'equivalencia-cp-equipo.json');
+const aliasIndex = [];
+for (const [alias, id] of Object.entries(json(aliasFile)?.map ?? {})) {
+  const c = CASES.find((k) => k.id === id);
+  if (!c) continue;
+  const html = join(tmpDir, `${alias}.html`);
+  writeFileSync(html, card(c, byCase.get(id), alias));
+  await page.goto(pathToFileURL(html).href);
+  await page.waitForLoadState('load');
+  await page.screenshot({ path: join(outDir, `${alias}.jpg`), fullPage: true, type: 'jpeg', quality: 80 });
+  aliasIndex.push(`| ${alias} | ${id} | ${c.hu} | ${esc(c.desc)} | ${results[id] ?? 'Sin ejecutar'} | [${alias}.jpg](${alias}.jpg) |`);
+}
 await browser.close();
 rmSync(tmpDir, { recursive: true, force: true });
 
@@ -184,9 +199,10 @@ writeFileSync(join(outDir, 'README.md'), [
   '',
   '> Generadas por `qa/sprint-1/tools/build-evidence.mjs` a partir de los reportes de ejecución. Cada imagen es la ficha del caso: datos, resultado, pruebas que lo cubren (con el error si falló), peticiones/respuestas de la API y capturas de pantalla.',
   '',
+  ...(aliasIndex.length ? ['## Según la hoja del equipo (Casos de Prueba por HU Módulo 1)', '', 'Equivalencia verificada en `qa/sprint-1/matrices/equivalencia-cp-equipo.json`.', '', '| ID equipo | ID matriz QA | HU | Caso | Resultado (retest 20/11) | Evidencia |', '| --- | --- | --- | --- | --- | --- |', ...aliasIndex, '', '## Según la matriz QA', ''] : []),
   '| Caso | HU | Resultado | Contiene | Evidencia |',
   '| --- | --- | --- | --- | --- |',
   ...index,
   '',
 ].join('\n'));
-console.log(`Evidencias generadas: ${index.length} en ${outDir}`);
+console.log(`Evidencias generadas: ${index.length} (matriz QA) + ${aliasIndex.length} (nomenclatura del equipo) en ${outDir}`);
