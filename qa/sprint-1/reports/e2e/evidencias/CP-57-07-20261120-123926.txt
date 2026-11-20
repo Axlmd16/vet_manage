@@ -1,0 +1,125 @@
+﻿**********************
+Inicio de la transcripción de Windows PowerShell
+Hora de inicio: 20261120123926
+Nombre de usuario: MSI-Estefania21\Estefania
+Usuario RunAs: MSI-Estefania21\Estefania
+Nombre de la configuración: 
+Máquina: MSI-ESTEFANIA21 (Microsoft Windows NT 10.0.26300.0)
+Aplicación host: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -noexit -command try { . "c:\Users\Estefania\AppData\Local\Programs\Microsoft VS Code\8a14f0cc1b\resources\app\out\vs\workbench\contrib\terminal\common\scripts\shellIntegration.ps1" } catch {}
+Id. de proceso: 18776
+PSVersion: 5.1.26100.9818
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9818
+BuildVersion: 10.0.26100.9818
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+La transcripción ha comenzado. El archivo de salida es .\sprint-1\reports\e2e\evidencias\CP-57-07-20261120-123926.txt
+]633;D;0]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+PS>bash sprint-1/staging/scripts/restore-staging.sh
+il = 'qa.contador@vetmanage.test';"
+
+Stop-Transcript[staging] Restaurando /qa-backups/qa-seed.dump con pg_restore --clean…
+[staging] Restauración completa en 1s (usuarios: 35, pacientes: 9).
+]633;D;0]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+PS>docker compose -f .\sprint-1\staging\docker-compose.staging.yml exec -T postgres psql -U vetmanage -d vet_manage_staging -p 56432 -c "SELECT p.email, u.failed_login_attempts, u.is_locked FROM users u JOIN persons p ON p.id = u.person_id WHERE p.email = 'qa.contador@vetmanage.test';"
+           email            | failed_login_attempts | is_locked
+----------------------------+-----------------------+-----------
+ qa.contador@vetmanage.test |                     0 | f
+(1 row)
+]633;D;0]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+PS>for ($i = 1; $i -le 3; $i++) {
+  curl.exe -s -o NUL -w "Intento ${i}: HTTP %{http_code}`n" -H "Content-Type: application/json" -d '{"email":"qa.contador@vetmanage.test","password":"Incorrecta1"}' http://localhost:3180/api/v1/auth/login
+}
+Intento 1: HTTP 400
+
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+PS>docker compose -f .\sprint-1\staging\docker-compose.staging.yml exec -T postgres psql -U vetmanage -d vet_manage_staging -p 56432 -c "SELECT p.email, u.failed_login_attempts, u.is_locked FROM users u JOIN persons p ON p.id = u.person_id WHERE p.email = 'qa.contador@vetmanage.test';"
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+PS>curl.exe -s -o NUL -w "Inicio correcto: HTTP %{http_code}`n" -H "Content-Type: application/json" -d '{"email":"qa.contador@vetmanage.test","password":"QaVet2026"}' http://localhost:3180/api/v1/auth/login
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+PS>$stamp = Get-Date -Format "yyyyMMdd-HHmmss"
+$evidence = ".\sprint-1\reports\e2e\evidencias\CP-57-07-$stamp.txt"
+Start-Transcript -Path $evidence
+
+bash sprint-1/staging/scripts/restore-staging.sh
+
+docker compose -f .\sprint-1\staging\docker-compose.staging.yml exec -T postgres psql -U vetmanage -d vet_manage_staging -p 56432 -c "SELECT p.email, u.failed_login_attempts, u.is_locked FROM users u JOIN persons p ON p.id = u.person_id WHERE p.email = 'qa.contador@vetmanage.test';"
+
+for ($i = 1; $i -le 3; $i++) {
+  curl.exe -s -o NUL -w "Intento ${i}: HTTP %{http_code}`n" -H "Content-Type: application/json" -d "{\"email\":\"qa.contador@vetmanage.test\",\"password\":\"Incorrecta1\"}" http://localhost:3180/api/v1/auth/login
+}
+
+docker compose -f .\sprint-1\staging\docker-compose.staging.yml exec -T postgres psql -U vetmanage -d vet_manage_staging -p 56432 -c "SELECT p.email, u.failed_login_attempts, u.is_locked FROM users u JOIN persons p ON p.id = u.person_id WHERE p.email = 'qa.contador@vetmanage.test';"
+
+curl.exe -s -o NUL -w "Inicio correcto: HTTP %{http_code}`n" -H "Content-Type: application/json" -d "{\"email\":\"qa.contador@vetmanage.test\",\"password\":\"QaVet2026\"}" http://localhost:3180/api/v1/auth/login
+
+docker compose -f .\sprint-1\staging\docker-compose.staging.yml exec -T postgres psql -U vetmanage -d vet_manage_staging -p 56432 -c "SELECT p.email, u.failed_login_attempts, u.is_locked FROM users u JOIN persons p ON p.id = u.person_id WHERE p.email = 'qa.contador@vetmanage.test';"
+
+Stop-Transcript
+La transcripción ha comenzado. El archivo de salida es .\sprint-1\reports\e2e\evidencias\CP-57-07-20261120-124033.txt
+
+
+
+
+
+
+
+
+La transcripción se ha detenido. El archivo de salida es C:\vet_manage\qa\sprint-1\reports\e2e\evidencias\CP-57-07-20261120-124033.txt
+]633;D;0]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+PS>$stamp = Get-Date -Format "yyyyMMdd-HHmmss"
+]633;D;0]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+PS>$evidence = ".\sprint-1\reports\e2e\evidencias\CP-57-07-$stamp.txt"
+]633;D;0]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+PS>Start-Transcript -Path $evidence
+La transcripción ha comenzado. El archivo de salida es .\sprint-1\reports\e2e\evidencias\CP-57-07-20261120-124149.txt
+]633;D;0]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+PS>bash sprint-1/staging/scripts/restore-staging.sh
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+PS>docker compose -f .\sprint-1\staging\docker-compose.staging.yml exec -T postgres psql -U vetmanage -d vet_manage_staging -p 56432 -c "SELECT p.email, u.failed_login_attempts, u.is_locked FROM users u JOIN persons p ON p.id = u.person_id WHERE p.email = 'qa.contador@vetmanage.test';"
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+PS>$badBody = @{ email = "qa.contador@vetmanage.test"; password = "Incorrecta1" } | ConvertTo-Json -Compress
+]633;D;0]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+PS>for ($i = 1; $i -le 3; $i++) {
+  $badBody | curl.exe -s -o NUL -w "Intento ${i}: HTTP %{http_code}`n" -H "Content-Type: application/json" -d "@-" http://localhost:3180/api/v1/auth/login
+}
+
+
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+PS>docker compose -f .\sprint-1\staging\docker-compose.staging.yml exec -T postgres psql -U vetmanage -d vet_manage_staging -p 56432 -c "SELECT p.email, u.failed_login_attempts, u.is_locked FROM users u JOIN persons p ON p.id = u.person_id WHERE p.email = 'qa.contador@vetmanage.test';"
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+PS>$goodBody = @{ email = "qa.contador@vetmanage.test"; password = "QaVet2026" } | ConvertTo-Json -Compress
+]633;D;0]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+PS>$goodBody | curl.exe -s -o NUL -w "Inicio correcto: HTTP %{http_code}`n" -H "Content-Type: application/json" -d "@-" http://localhost:3180/api/v1/auth/login
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+PS>docker compose -f .\sprint-1\staging\docker-compose.staging.yml exec -T postgres psql -U vetmanage -d vet_manage_staging -p 56432 -c "SELECT p.email, u.failed_login_attempts, u.is_locked FROM users u JOIN persons p ON p.id = u.person_id WHERE p.email = 'qa.contador@vetmanage.test';"
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+]633;D]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
+PS>bash sprint-1/staging/scripts/restore-staging.sh
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cvet_manage\x5cqaPS C:\vet_manage\qa> ]633;B
