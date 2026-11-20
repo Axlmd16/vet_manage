@@ -8,6 +8,7 @@ import { HealthModule } from './health/health.module.js';
 import { ClientsModule } from './modules/clients/clients.module.js';
 import { IdentityModule } from './modules/identity/identity.module.js';
 import { InventoryModule } from './modules/inventory/inventory.module.js';
+import { NotificationsModule } from './modules/notifications/notifications.module.js';
 import { PetsModule } from './modules/pets/pets.module.js';
 import { PrismaModule } from './infrastructure/database/prisma/prisma.module.js';
 import { RabbitmqModule } from './infrastructure/rabbitmq/rabbitmq.module.js';
@@ -28,6 +29,7 @@ import { RedisModule } from './infrastructure/redis/redis.module.js';
     IdentityModule,
     ClientsModule,
     InventoryModule,
+    NotificationsModule,
     PetsModule,
   ],
   controllers: [AppController],

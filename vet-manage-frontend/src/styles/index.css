@@ -117,3 +117,6 @@ button { cursor: pointer; }
 @media (max-width: 640px) { .main-content { padding: 24px 16px 36px; } .welcome-card { padding: 24px; } .welcome-icon { display: none; } .metric-grid { grid-template-columns: 1fr; } .appointment-row { grid-template-columns: 40px 30px 1fr; } .appointment-row .tag { display: none; } .page-heading { display: block; } .page-heading .button { margin-top: 18px; } .catalog-toolbar { align-items: stretch; } .catalog-toolbar .button { padding: 0 12px; } .form-section { padding: 23px 18px; } .form-grid { grid-template-columns: 1fr; } .form-grid__full { grid-column: auto; } .form-actions { padding: 18px; } .inline-create__row { flex-wrap: wrap; } .inline-create input { flex-basis: 100%; } .manager-form { align-items: stretch; flex-direction: column; } }
 .auth-loading { display: grid; place-items: center; min-height: 100vh; color: #8a96a3; font-size: 13px; }
 .batch-entry-summary { display: grid; gap: 4px; margin-bottom: 18px; padding: 16px 20px; border-color: #cfe9d9; background: #f4fbf7; color: #2f5f45; font-size: 12px; }.batch-entry-summary strong { font-size: 13px; }
+.detail-table th[scope="row"] { width: 220px; color: #99a4b0; font-size: 10px; text-transform: uppercase; letter-spacing: .07em; }
+.detail-table td { color: #26323d; }
+.detail-table td small { display: inline; color: #9aa4ae; font-size: 10px; }

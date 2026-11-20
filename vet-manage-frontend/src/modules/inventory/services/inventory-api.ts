@@ -1,5 +1,5 @@
 import { getJson, patchJson, postJson } from '../../../infrastructure/api/http-client';
-import type { BatchEntryDraft, BatchEntryResult, CatalogItem, ExpirationAlert, Product, ProductDraft } from '../types';
+import type { BatchDetail, BatchEntryDraft, BatchEntryResult, CatalogItem, ExpirationAlert, Product, ProductDraft } from '../types';
 
 export const inventoryApi = {
   listProducts(search = '') {
@@ -17,6 +17,9 @@ export const inventoryApi = {
   },
   getProduct(id: string) {
     return getJson<Product>(`/inventory/products/${id}`);
+  },
+  getBatch(id: string) {
+    return getJson<BatchDetail>(`/inventory/batches/${id}`);
   },
   listCategories() {
     return getJson<CatalogItem[]>('/inventory/categories');

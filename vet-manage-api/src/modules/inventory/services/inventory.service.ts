@@ -77,6 +77,29 @@ export class InventoryService {
     })), referenceDate);
   }
 
+  async getBatch(id: string) {
+    try {
+      const batch = await this.prisma.batch.findUnique({
+        where: { id },
+        include: { product: { select: { id: true, code: true, name: true } } },
+      });
+      if (!batch) throw ApiException.notFound('Lote no encontrado');
+
+      return {
+        id: batch.id,
+        productId: batch.productId,
+        code: batch.code,
+        expirationDate: batch.expirationDate.toISOString().slice(0, 10),
+        initialQuantity: batch.initialQuantity,
+        availableQuantity: batch.availableQuantity,
+        product: batch.product,
+      };
+    } catch (error) {
+      if (this.isNotFoundError(error)) throw ApiException.notFound('Lote no encontrado');
+      throw error;
+    }
+  }
+
   async updateBatchExpiration(id: string, value: unknown) {
     if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) {
       throw ApiException.badRequest('La fecha de caducidad no es válida');
