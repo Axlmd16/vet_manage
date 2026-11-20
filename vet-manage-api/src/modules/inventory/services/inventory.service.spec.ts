@@ -3,6 +3,45 @@ import { Prisma } from '../../../generated/prisma/client.js';
 import { ApiException } from '../../../common/errors/api-exception.js';
 import { InventoryService } from './inventory.service.js';
 
+function createCategoryVatPrismaMock(initial: Array<{
+  id: string;
+  name: string;
+  isActive: boolean;
+  vatRate: string | null;
+}>) {
+  const categories = initial.map((category) => ({
+    ...category,
+    description: null,
+    createdAt: new Date('2026-01-01T00:00:00.000Z'),
+    updatedAt: new Date('2026-01-01T00:00:00.000Z'),
+    vatRate: category.vatRate === null ? null : new Prisma.Decimal(category.vatRate),
+  }));
+  const category = {
+    updateMany: vi.fn(async ({ where, data }: {
+      where: { id: string; isActive: boolean };
+      data: { vatRate: Prisma.Decimal };
+    }) => {
+      const target = categories.find((item) => item.id === where.id && item.isActive === where.isActive);
+      if (!target) return { count: 0 };
+      target.vatRate = data.vatRate;
+      return { count: 1 };
+    }),
+    findUnique: vi.fn(async ({ where }: { where: { id: string } }) =>
+      categories.find((item) => item.id === where.id) ?? null),
+    findMany: vi.fn(async () => categories.filter((item) => item.isActive)),
+  };
+  const transaction = { category };
+
+  return {
+    categories,
+    category,
+    prisma: {
+      category: { findMany: category.findMany },
+      $transaction: vi.fn((callback: (tx: typeof transaction) => Promise<unknown>) => callback(transaction)),
+    },
+  };
+}
+
 function createPrismaMock() {
   const tx = {
     category: {
@@ -55,6 +94,84 @@ function createPrismaMock() {
 }
 
 describe('InventoryService', () => {
+  it.each(['0', '0.01', '12.5', '99.99', '100'])('updates a category VAT rate of %s exactly', async (vatRate) => {
+    const { prisma, category } = createCategoryVatPrismaMock([
+      { id: 'category-1', name: 'Accesorios', isActive: true, vatRate: null },
+    ]);
+    const service = new InventoryService(prisma as never);
+
+    const result = await service.updateCategoryVat('category-1', vatRate);
+
+    expect(result.vatRate).toBe(new Prisma.Decimal(vatRate).toString());
+    expect(category.updateMany).toHaveBeenCalledWith({
+      where: { id: 'category-1', isActive: true },
+      data: { vatRate: expect.any(Prisma.Decimal) },
+    });
+    expect(category.updateMany.mock.calls[0][0].data.vatRate.toString()).toBe(vatRate);
+  });
+
+  it.each(['', null, 'texto', '-5', '100.01', '12.345', 12.5, undefined] as const)(
+    'rejects invalid VAT input %s without changing the stored rate',
+    async (vatRate) => {
+      const { prisma, categories } = createCategoryVatPrismaMock([
+        { id: 'category-1', name: 'Accesorios', isActive: true, vatRate: '15.25' },
+      ]);
+      const service = new InventoryService(prisma as never);
+
+      await expect(service.updateCategoryVat('category-1', vatRate)).rejects.toMatchObject({ statusCode: 400 });
+
+      expect(prisma.$transaction).not.toHaveBeenCalled();
+      expect(categories[0].vatRate?.toString()).toBe('15.25');
+    },
+  );
+
+  it.each([
+    { categories: [], id: 'missing' },
+    { categories: [{ id: 'category-1', name: 'Accesorios', isActive: false, vatRate: '15.25' }], id: 'category-1' },
+  ])('does not update a missing or inactive category', async ({ categories: initial, id }) => {
+    const { prisma, category, categories } = createCategoryVatPrismaMock(initial);
+    const service = new InventoryService(prisma as never);
+
+    await expect(service.updateCategoryVat(id, '20')).rejects.toMatchObject({ statusCode: 404 });
+
+    expect(category.updateMany).toHaveBeenCalledWith({
+      where: { id, isActive: true },
+      data: { vatRate: expect.any(Prisma.Decimal) },
+    });
+    if (categories.length === 0) {
+      expect(categories).toHaveLength(0);
+    } else {
+      expect(categories[0].vatRate?.toString()).toBe('15.25');
+    }
+  });
+
+  it('updates each category independently and returns unset VAT as null when listing categories', async () => {
+    const { prisma, categories } = createCategoryVatPrismaMock([
+      { id: 'category-1', name: 'Accesorios', isActive: true, vatRate: null },
+      { id: 'category-2', name: 'Alimentos', isActive: true, vatRate: '8.5' },
+    ]);
+    const service = new InventoryService(prisma as never);
+
+    await service.updateCategoryVat('category-1', '0.01');
+    await service.updateCategoryVat('category-2', '99.99');
+
+    expect(categories.map((category) => category.vatRate?.toString() ?? null)).toEqual(['0.01', '99.99']);
+    expect(await service.listCategories()).toMatchObject([
+      { id: 'category-1', vatRate: '0.01' },
+      { id: 'category-2', vatRate: '99.99' },
+    ]);
+    expect(prisma.category.findMany).toHaveBeenCalledWith({
+      where: { isActive: true },
+      orderBy: { name: 'asc' },
+    });
+
+    categories[1].vatRate = null;
+    await expect(service.listCategories()).resolves.toMatchObject([
+      { id: 'category-1', vatRate: '0.01' },
+      { id: 'category-2', vatRate: null },
+    ]);
+  });
+
   it('creates category and brand inline in the product transaction', async () => {
     const { prisma, tx } = createPrismaMock();
     const service = new InventoryService(prisma as never);

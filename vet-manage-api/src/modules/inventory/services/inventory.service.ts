@@ -6,6 +6,7 @@ import { CreateCatalogItemDto } from '../dtos/create-catalog-item.dto.js';
 import { CatalogReferenceDto } from '../dtos/catalog-reference.dto.js';
 import { CreateProductDto } from '../dtos/create-product.dto.js';
 import { RegisterBatchEntryDto } from '../dtos/register-batch-entry.dto.js';
+import { CATEGORY_VAT_RATE_PATTERN } from '../dtos/update-category-vat.dto.js';
 import { validateBatchEntryInput } from './batch-entry-input.service.js';
 import { findExpirationAlerts, getExpirationAlertCutoff } from './expiration-alerts.service.js';
 import { validateProductInput } from './product-input.service.js';
@@ -15,8 +16,9 @@ export class InventoryService {
   private readonly logger = new Logger(InventoryService.name);
   constructor(private readonly prisma: PrismaService) {}
 
-  listCategories() {
-    return this.prisma.category.findMany({ where: { isActive: true }, orderBy: { name: 'asc' } });
+  async listCategories() {
+    const categories = await this.prisma.category.findMany({ where: { isActive: true }, orderBy: { name: 'asc' } });
+    return categories.map((category) => this.serializeCategoryVat(category));
   }
 
   createCategory(input: CreateCatalogItemDto) {
@@ -25,6 +27,31 @@ export class InventoryService {
 
   updateCategory(id: string, input: CreateCatalogItemDto) {
     return this.updateCatalogItem('category', id, input);
+  }
+
+  async updateCategoryVat(id: string, value: unknown) {
+    if (typeof value !== 'string' || !CATEGORY_VAT_RATE_PATTERN.test(value)) {
+      throw ApiException.badRequest('El IVA debe ser un porcentaje entre 0 y 100 con hasta dos decimales');
+    }
+
+    const vatRate = new Prisma.Decimal(value);
+    if (vatRate.comparedTo(0) < 0 || vatRate.comparedTo(100) > 0) {
+      throw ApiException.badRequest('El IVA debe ser un porcentaje entre 0 y 100 con hasta dos decimales');
+    }
+
+    const category = await this.prisma.$transaction(async (tx) => {
+      const updated = await tx.category.updateMany({
+        where: { id, isActive: true },
+        data: { vatRate },
+      });
+      if (updated.count !== 1) throw ApiException.notFound('Categoría no encontrada');
+
+      const updatedCategory = await tx.category.findUnique({ where: { id } });
+      if (!updatedCategory || !updatedCategory.isActive) throw ApiException.notFound('Categoría no encontrada');
+      return updatedCategory;
+    });
+
+    return this.serializeCategoryVat(category);
   }
 
   listBrands() {
@@ -381,6 +408,13 @@ export class InventoryService {
     return {
       ...product,
       unitPrice: product.unitPrice.toString(),
+    };
+  }
+
+  private serializeCategoryVat<T extends { vatRate: Prisma.Decimal | null }>(category: T): Omit<T, 'vatRate'> & { vatRate: string | null } {
+    return {
+      ...category,
+      vatRate: category.vatRate?.toString() ?? null,
     };
   }
 }

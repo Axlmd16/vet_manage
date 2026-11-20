@@ -1,5 +1,5 @@
 import { getJson, patchJson, postJson } from '../../../infrastructure/api/http-client';
-import type { BatchDetail, BatchEntryDraft, BatchEntryResult, CatalogItem, ExpirationAlert, Product, ProductDraft } from '../types';
+import type { BatchDetail, BatchEntryDraft, BatchEntryResult, CatalogItem, ExpirationAlert, InventoryCategory, Product, ProductDraft } from '../types';
 
 export const inventoryApi = {
   listProducts(search = '') {
@@ -22,7 +22,7 @@ export const inventoryApi = {
     return getJson<BatchDetail>(`/inventory/batches/${id}`);
   },
   listCategories() {
-    return getJson<CatalogItem[]>('/inventory/categories');
+    return getJson<InventoryCategory[]>('/inventory/categories');
   },
   listBrands() {
     return getJson<CatalogItem[]>('/inventory/brands');
@@ -37,10 +37,13 @@ export const inventoryApi = {
     return patchJson<Product, ProductDraft>(`/inventory/products/${id}`, draft);
   },
   createCategory(name: string) {
-    return postJson<CatalogItem, { name: string }>('/inventory/categories', { name });
+    return postJson<InventoryCategory, { name: string }>('/inventory/categories', { name });
   },
   updateCategory(id: string, input: { name: string; description?: string }) {
-    return patchJson<CatalogItem, { name: string; description?: string }>(`/inventory/categories/${id}`, input);
+    return patchJson<InventoryCategory, { name: string; description?: string }>(`/inventory/categories/${id}`, input);
+  },
+  updateCategoryVat(id: string, vatRate: string) {
+    return patchJson<InventoryCategory, { vatRate: string }>(`/inventory/categories/${id}/vat`, { vatRate });
   },
   createBrand(name: string) {
     return postJson<CatalogItem, { name: string }>('/inventory/brands', { name });

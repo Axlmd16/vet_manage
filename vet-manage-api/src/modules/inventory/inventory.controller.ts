@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseUUIDPipe, Patch, Post, Query } from '@nestjs/common';
 import { success } from '../../common/errors/api-response.js';
 import { CreateCatalogItemDto } from './dtos/create-catalog-item.dto.js';
 import { CreateProductDto } from './dtos/create-product.dto.js';
 import { RegisterBatchEntryDto } from './dtos/register-batch-entry.dto.js';
+import { UpdateCategoryVatDto } from './dtos/update-category-vat.dto.js';
 import { UpdateBatchExpirationDto } from './dtos/update-batch-expiration.dto.js';
 import { RequirePermissions } from '../identity/decorators/require-permissions.decorator.js';
 import { InventoryService } from './services/inventory.service.js';
@@ -27,6 +28,12 @@ export class InventoryController {
   @RequirePermissions('inventory:manage-categories')
   async updateCategory(@Param('id') id: string, @Body() input: CreateCatalogItemDto) {
     return success(await this.inventoryService.updateCategory(id, input), 'Categoría actualizada correctamente');
+  }
+
+  @Patch('categories/:id/vat')
+  @RequirePermissions('inventory:configure-vat')
+  async updateCategoryVat(@Param('id', ParseUUIDPipe) id: string, @Body() input: UpdateCategoryVatDto) {
+    return success(await this.inventoryService.updateCategoryVat(id, input.vatRate), 'IVA actualizado correctamente');
   }
 
   @Get('brands')
