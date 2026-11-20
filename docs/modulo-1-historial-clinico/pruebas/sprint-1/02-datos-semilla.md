@@ -38,25 +38,29 @@
 
 | Nombre | Cédula | Correo | Teléfono | Dirección | Estado | Uso en las pruebas |
 | --- | --- | --- | --- | --- | --- | --- |
-| Ana Ruiz | 1105016669 | ana.ruiz@correo.test | 0987000001 | Av. Universitaria y 10 de Agosto, Loja | ACTIVE | HU-51 Esc. 3: ya es Cliente; se la registra como Cajero sin duplicar la persona. |
-| Pedro Castillo | 1105017030 | pedro.castillo@correo.test | 0987000002 | Calle Sucre 12-34, Loja | ACTIVE | Dueño de Firulais y Luna; cliente por defecto para HU-07. |
-| Lucía Ordóñez | 1105017402 | lucia.ordonez@correo.test | 0987000003 | — | ACTIVE | Cliente sin dirección (campo opcional). |
+| Ana Ruiz | 1105016669 | ana.ruiz@correo.test | 0987000001 | Av. Universitaria y 10 de Agosto, Loja | ACTIVE | HU-51 Esc. 3: ya es Cliente; HU-06 búsqueda; dueña de pacientes QA. |
+| Pedro Castillo | 1105017030 | pedro.castillo@correo.test | 0987000002 | Calle Sucre 12-34, Loja | ACTIVE | HU-06 y HU-12: búsqueda exacta por cédula y dueño de Firulais y Luna. |
+| Lucía Ordóñez | 1105017402 | lucia.ordonez@correo.test | 0987000003 | — | ACTIVE | HU-06 búsqueda de nombre sin tilde; HU-12 búsqueda de dueña; sin dirección. |
 | Rosa Jaramillo | 1105017774 | rosa.jaramillo@correo.test | 0987000004 | Barrio El Valle, Loja | INACTIVE | HU-07: cliente inactivo no disponible (R-08). |
 | Hugo Vivanco | 1105018145 | hugo.vivanco@correo.test | 0987000005 | Av. Cuxibamba, Loja | DEACTIVATED | HU-07 Esc. 5: cliente dado de baja. |
 
 ## 4. Pacientes
 
-| Nombre | Especie / raza | Sexo | Nacimiento | Peso (kg) | Talla (cm) | Estado reproductivo | Color | Dueño |
-| --- | --- | --- | --- | :-: | :-: | --- | --- | --- |
-| Firulais | Canino / Labrador Retriever | MALE | 2021-03-15 | 28.5 | 60 | STERILIZED | Dorado | Pedro Castillo |
-| Luna | Felino / Persa | FEMALE | 2023-05-20 | 3.8 | 23 | STERILIZED | Blanco | Pedro Castillo |
-| Michi | Felino / Siamés | FEMALE | 2022-08-01 | 4.2 | 25 | NOT_STERILIZED | — | Lucía Ordóñez |
-| Rocky | Canino / Mestizo | MALE | 2019-01-10 | 12 | 45 | UNKNOWN | Negro | Ana Ruiz |
-| Toby | Canino / Pastor Alemán | MALE | 2018-11-02 | 32 | 63 | NOT_STERILIZED | Negro y fuego | Rosa Jaramillo |
+| Nombre | Especie / raza | Sexo | Nacimiento | Peso (kg) | Talla (cm) | Estado reproductivo | Estado | Color | Dueño | Uso en las pruebas |
+| --- | --- | --- | --- | :-: | :-: | --- | --- | --- | --- | --- |
+| Firulais | Canino / Labrador Retriever | MALE | 2021-03-15 | 28.5 | 60 | STERILIZED | ACTIVE | Dorado | Pedro Castillo | HU-06 y HU-12: búsqueda por nombre y código (PAC-000001). |
+| Luna | Felino / Persa | FEMALE | 2023-05-20 | 3.8 | 23 | STERILIZED | ACTIVE | Blanco | Pedro Castillo | Semilla base |
+| Michi | Felino / Siamés | FEMALE | 2022-08-01 | 4.2 | 25 | NOT_STERILIZED | ACTIVE | — | Lucía Ordóñez | Semilla base |
+| Rocky | Canino / Mestizo | MALE | 2019-01-10 | 12 | 45 | UNKNOWN | ACTIVE | Negro | Ana Ruiz | Semilla base |
+| Toby | Canino / Pastor Alemán | MALE | 2018-11-02 | 32 | 63 | NOT_STERILIZED | ACTIVE | Negro y fuego | Rosa Jaramillo | Semilla base |
+| José | Canino / Mestizo | MALE | 2020-06-12 | 14 | 42 | UNKNOWN | ACTIVE | — | Lucía Ordóñez | HU-12 Esc. 5: búsqueda ignora mayúsculas, espacios y tildes. |
+| Nube | Felino / Mestizo | FEMALE | 2023-02-02 | 3.2 | 21 | STERILIZED | ACTIVE | Gris | Ana Ruiz | HU-12 Esc. 8: mostrar pacientes activos. |
+| Nube Inactiva | Felino / Mestizo | FEMALE | 2022-04-04 | 3.5 | 22 | STERILIZED | INACTIVE | Gris | Ana Ruiz | HU-12 Esc. 8: mostrar pacientes inactivos. |
+| Nube Baja | Felino / Persa | FEMALE | 2021-09-09 | 4.1 | 24 | UNKNOWN | DEACTIVATED | Blanco | Ana Ruiz | HU-12 Esc. 8: mostrar pacientes dados de baja. |
 
 ## 5. Catálogo adicional
 
-- Especie **Hurón** (inactiva): HU-07: especie inactiva no disponible.
+- Especie **Hurón** (inactiva): HU-07: especie inactiva no disponible; HU-17: especie no seleccionable para registrar razas.
 
 ## 6. Cédulas reservadas para crear registros nuevos
 

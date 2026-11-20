@@ -14,7 +14,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 132225100
+              "duration": 301234700
             }
           },
           {
@@ -23,11 +23,11 @@
             "line": 9,
             "name": "que el \"Recepcionista\" se encuentra en el formulario de registro de cliente",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:121"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:121"
             },
             "result": {
               "status": "passed",
-              "duration": 365639599
+              "duration": 1134539099
             }
           },
           {
@@ -36,11 +36,11 @@
             "line": 10,
             "name": "ingresa cédula \"1105020364\", nombres \"Sofía\", apellidos \"Granda\", teléfono \"0987001122\" y correo \"sofia.granda@correo.test\"",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:126"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:126"
             },
             "result": {
               "status": "passed",
-              "duration": 167324100
+              "duration": 531675300
             }
           },
           {
@@ -49,11 +49,11 @@
             "line": 11,
             "name": "presiona \"Guardar cliente\"",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:136"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:136"
             },
             "result": {
               "status": "passed",
-              "duration": 65121799
+              "duration": 89351999
             }
           },
           {
@@ -62,11 +62,11 @@
             "line": 12,
             "name": "el cliente \"1105020364\" debe quedar guardado con estado \"ACTIVE\"",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:140"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:140"
             },
             "result": {
               "status": "passed",
-              "duration": 177680700
+              "duration": 432817100
             }
           },
           {
@@ -75,12 +75,12 @@
             "line": 13,
             "name": "debe mostrar el mensaje \"Cliente registrado exitosamente\"",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:74"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:74"
             },
             "result": {
               "status": "failed",
-              "duration": 5021302500,
-              "error_message": "Error: expect(locator).toContainText(expected) failed\n\nLocator: locator('.toast-region')\nExpected substring: \"Cliente registrado exitosamente\"\nReceived string:    \"\"\nTimeout: 5000ms\n\nCall log:\n  - Expect \"toContainText\" locator('.toast-region') with timeout 5000ms\n  - waiting for locator('.toast-region')\n    13 × locator resolved to <div aria-live=\"polite\" aria-atomic=\"false\" class=\"toast-region\">…</div>\n       - unexpected value \"✓ListoCliente registrado correctamente.×\"\n    - locator resolved to <div aria-live=\"polite\" aria-atomic=\"false\" class=\"toast-region\"></div>\n    - unexpected value \"\"\n\n    at captureRawStack (C:\\VetManage\\vet_manage\\qa\\node_modules\\playwright-core\\lib\\coreBundle.js:9551:17)\n    at callMatcherAsStep (C:\\VetManage\\vet_manage\\qa\\node_modules\\playwright\\lib\\matchers\\expect.js:13342:57)\n    at Object.toContainText (C:\\VetManage\\vet_manage\\qa\\node_modules\\playwright\\lib\\matchers\\expect.js:13334:23)\n    at VetWorld.<anonymous> (C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:75:34)"
+              "duration": 5021961000,
+              "error_message": "Error: expect(locator).toContainText(expected) failed\n\nLocator: locator('.toast-region')\nExpected substring: \"Cliente registrado exitosamente\"\nReceived string:    \"\"\nTimeout: 5000ms\n\nCall log:\n  - Expect \"toContainText\" locator('.toast-region') with timeout 5000ms\n  - waiting for locator('.toast-region')\n    12 × locator resolved to <div aria-live=\"polite\" aria-atomic=\"false\" class=\"toast-region\">…</div>\n       - unexpected value \"✓ListoCliente registrado correctamente.×\"\n    2 × locator resolved to <div aria-live=\"polite\" aria-atomic=\"false\" class=\"toast-region\"></div>\n      - unexpected value \"\"\n\n    at captureRawStack (C:\\vet_manage\\qa\\node_modules\\playwright-core\\lib\\coreBundle.js:9551:17)\n    at callMatcherAsStep (C:\\vet_manage\\qa\\node_modules\\playwright\\lib\\matchers\\expect.js:13342:57)\n    at Object.toContainText (C:\\vet_manage\\qa\\node_modules\\playwright\\lib\\matchers\\expect.js:13334:23)\n    at VetWorld.<anonymous> (C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:75:34)"
             }
           },
           {
@@ -88,7 +88,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 45322500
+              "duration": 133808900
             },
             "embeddings": [
               {
@@ -138,7 +138,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 77924499
+              "duration": 177322900
             }
           },
           {
@@ -147,11 +147,11 @@
             "line": 7,
             "name": "que el \"Recepcionista\" se encuentra en el formulario de registro de pacientes",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:149"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:149"
             },
             "result": {
               "status": "passed",
-              "duration": 349818900
+              "duration": 1145637600
             }
           },
           {
@@ -160,11 +160,11 @@
             "line": 8,
             "name": "ingresa nombre \"Kira\", especie \"Felino\", raza \"Siamés\", sexo \"Hembra\", nacimiento \"15032023\", peso \"3.9\" y talla \"24\"",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:155"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:155"
             },
             "result": {
               "status": "passed",
-              "duration": 101551400
+              "duration": 409593599
             }
           },
           {
@@ -173,11 +173,11 @@
             "line": 9,
             "name": "selecciona al cliente \"Ordóñez\" y presiona \"Guardar\"",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:169"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:169"
             },
             "result": {
               "status": "passed",
-              "duration": 891373999
+              "duration": 1046772000
             }
           },
           {
@@ -186,11 +186,11 @@
             "line": 10,
             "name": "debe mostrar el mensaje \"Paciente registrado exitosamente\"",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:74"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:74"
             },
             "result": {
               "status": "passed",
-              "duration": 45735999
+              "duration": 117551199
             }
           },
           {
@@ -199,11 +199,11 @@
             "line": 11,
             "name": "el paciente \"Kira\" debe quedar \"ACTIVE\" con un código \"PAC-######\" generado",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:176"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:176"
             },
             "result": {
               "status": "passed",
-              "duration": 1780300
+              "duration": 9733199
             }
           },
           {
@@ -211,7 +211,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 42054700
+              "duration": 98940800
             }
           }
         ],
@@ -255,7 +255,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 59559300
+              "duration": 147595099
             }
           },
           {
@@ -264,11 +264,11 @@
             "line": 7,
             "name": "que el \"Veterinario\" accede al módulo de gestión de especies",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:185"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:185"
             },
             "result": {
               "status": "passed",
-              "duration": 331039099
+              "duration": 902316399
             }
           },
           {
@@ -277,11 +277,11 @@
             "line": 8,
             "name": "ingresa el nombre \"Camélido\", la descripción \"Llamas y alpacas\" y selecciona \"Guardar especie\"",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:191"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:191"
             },
             "result": {
               "status": "passed",
-              "duration": 303256600
+              "duration": 239916099
             }
           },
           {
@@ -290,11 +290,11 @@
             "line": 9,
             "name": "debe mostrar el mensaje \"Especie registrada exitosamente\"",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:74"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:74"
             },
             "result": {
               "status": "passed",
-              "duration": 45449300
+              "duration": 78919499
             }
           },
           {
@@ -303,11 +303,11 @@
             "line": 10,
             "name": "la especie \"Camélido\" debe estar disponible en el catálogo",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:207"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:207"
             },
             "result": {
               "status": "passed",
-              "duration": 65506400
+              "duration": 185197800
             }
           },
           {
@@ -315,7 +315,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 38560499
+              "duration": 100536899
             }
           }
         ],
@@ -343,7 +343,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 63067199
+              "duration": 138639599
             }
           },
           {
@@ -352,11 +352,11 @@
             "line": 14,
             "name": "que el \"Veterinario\" accede al módulo de gestión de especies",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:185"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:185"
             },
             "result": {
               "status": "passed",
-              "duration": 383654900
+              "duration": 851920599
             }
           },
           {
@@ -365,11 +365,11 @@
             "line": 15,
             "name": "ingresa el nombre \"Insecto\" y selecciona \"Cancelar\"",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:197"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:197"
             },
             "result": {
               "status": "passed",
-              "duration": 283378999
+              "duration": 224247999
             }
           },
           {
@@ -378,11 +378,11 @@
             "line": 16,
             "name": "la especie \"Insecto\" no debe estar en el catálogo",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:211"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:211"
             },
             "result": {
               "status": "passed",
-              "duration": 57481800
+              "duration": 167720900
             }
           },
           {
@@ -390,7 +390,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 44575700
+              "duration": 106256100
             }
           }
         ],
@@ -434,7 +434,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 67900900
+              "duration": 142540300
             }
           },
           {
@@ -443,11 +443,11 @@
             "line": 9,
             "name": "que el \"Administrador\" se encuentra en el formulario de registro de personal",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:53"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:53"
             },
             "result": {
               "status": "passed",
-              "duration": 233301300
+              "duration": 614076799
             }
           },
           {
@@ -456,11 +456,11 @@
             "line": 10,
             "name": "ingresa cédula \"1105019622\", nombres \"Lucía\", apellidos \"Benítez\", correo \"lucia.benitez@vetmanage.test\" y teléfono \"0991112233\"",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:58"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:58"
             },
             "result": {
               "status": "passed",
-              "duration": 99092200
+              "duration": 277468899
             }
           },
           {
@@ -469,11 +469,11 @@
             "line": 11,
             "name": "selecciona el rol \"Veterinario\" y presiona \"Guardar usuario\"",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:69"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:69"
             },
             "result": {
               "status": "passed",
-              "duration": 65492299
+              "duration": 164994500
             }
           },
           {
@@ -482,11 +482,11 @@
             "line": 12,
             "name": "debe mostrar el mensaje \"Usuario registrado correctamente\"",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:74"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:74"
             },
             "result": {
               "status": "passed",
-              "duration": 101206199
+              "duration": 282255400
             }
           },
           {
@@ -495,11 +495,11 @@
             "line": 13,
             "name": "la cuenta \"lucia.benitez@vetmanage.test\" debe quedar en estado \"ACTIVE\" con el rol \"veterinarian\"",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:78"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:78"
             },
             "result": {
               "status": "passed",
-              "duration": 66376199
+              "duration": 302317000
             }
           },
           {
@@ -508,11 +508,11 @@
             "line": 14,
             "name": "debe enviar las credenciales al correo \"lucia.benitez@vetmanage.test\"",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:87"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:87"
             },
             "result": {
               "status": "passed",
-              "duration": 7727699
+              "duration": 37270200
             }
           },
           {
@@ -520,7 +520,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 86799799
+              "duration": 344149900
             }
           }
         ],
@@ -548,7 +548,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 63204999
+              "duration": 200058900
             }
           },
           {
@@ -557,11 +557,11 @@
             "line": 18,
             "name": "que un \"Recepcionista\" inició sesión",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:13"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:13"
             },
             "result": {
               "status": "passed",
-              "duration": 251158900
+              "duration": 938147099
             }
           },
           {
@@ -570,11 +570,11 @@
             "line": 19,
             "name": "intenta abrir el formulario de registro de personal",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:94"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:94"
             },
             "result": {
               "status": "passed",
-              "duration": 18229799
+              "duration": 270518899
             }
           },
           {
@@ -583,11 +583,11 @@
             "line": 20,
             "name": "el sistema debe mostrar el mensaje \"No tiene permisos para realizar esta acción\"",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:42"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:42"
             },
             "result": {
               "status": "passed",
-              "duration": 49664000
+              "duration": 124750200
             }
           },
           {
@@ -595,7 +595,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 51395599
+              "duration": 118144199
             }
           }
         ],
@@ -639,7 +639,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 62479900
+              "duration": 183102100
             }
           },
           {
@@ -648,11 +648,11 @@
             "line": 7,
             "name": "que \"Carlos Pérez\" tiene el rol \"Recepcionista\"",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:99"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:99"
             },
             "result": {
               "status": "passed",
-              "duration": 61384899
+              "duration": 197468499
             }
           },
           {
@@ -661,11 +661,11 @@
             "line": 8,
             "name": "el \"Administrador\" le asigna el rol \"Cajero\" y presiona \"Guardar cambios\"",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:107"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:107"
             },
             "result": {
               "status": "passed",
-              "duration": 536701399
+              "duration": 726998599
             }
           },
           {
@@ -674,11 +674,11 @@
             "line": 9,
             "name": "debe mostrar el mensaje \"Roles actualizados correctamente\"",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:74"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:74"
             },
             "result": {
               "status": "passed",
-              "duration": 43315099
+              "duration": 72323400
             }
           },
           {
@@ -687,11 +687,11 @@
             "line": 10,
             "name": "en su siguiente inicio de sesión Carlos debe tener los roles \"cashier,receptionist\"",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:114"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:114"
             },
             "result": {
               "status": "passed",
-              "duration": 72606900
+              "duration": 159750199
             }
           },
           {
@@ -699,7 +699,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 70476400
+              "duration": 180386000
             }
           }
         ],
@@ -743,7 +743,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 74735300
+              "duration": 174250499
             }
           },
           {
@@ -752,11 +752,11 @@
             "line": 9,
             "name": "que el \"Veterinario\" tiene una cuenta activa",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:9"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:9"
             },
             "result": {
               "status": "passed",
-              "duration": 228399
+              "duration": 510800
             }
           },
           {
@@ -765,11 +765,11 @@
             "line": 10,
             "name": "ingresa su correo y la contraseña \"QaVet2026\" y presiona \"Iniciar sesión\"",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:18"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:18"
             },
             "result": {
               "status": "passed",
-              "duration": 215555200
+              "duration": 593296099
             }
           },
           {
@@ -778,11 +778,11 @@
             "line": 11,
             "name": "el sistema debe iniciar la sesión",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:22"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:22"
             },
             "result": {
               "status": "passed",
-              "duration": 160064899
+              "duration": 235398900
             }
           },
           {
@@ -791,11 +791,11 @@
             "line": 12,
             "name": "debe mostrar la pantalla principal con la opción \"Pacientes\"",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:26"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:26"
             },
             "result": {
               "status": "passed",
-              "duration": 22297000
+              "duration": 27515400
             }
           },
           {
@@ -803,7 +803,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 138833200
+              "duration": 195807000
             }
           }
         ],
@@ -831,7 +831,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 87743300
+              "duration": 157308500
             }
           },
           {
@@ -840,11 +840,11 @@
             "line": 16,
             "name": "que el usuario \"qa.bloqueo@vetmanage.test\" ha fallado 4 intentos consecutivos de inicio de sesión",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:30"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:30"
             },
             "result": {
               "status": "passed",
-              "duration": 1044279099
+              "duration": 2742929200
             }
           },
           {
@@ -853,11 +853,11 @@
             "line": 17,
             "name": "falla el quinto intento",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:38"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:38"
             },
             "result": {
               "status": "passed",
-              "duration": 128265799
+              "duration": 342250899
             }
           },
           {
@@ -866,11 +866,11 @@
             "line": 18,
             "name": "el sistema debe mostrar el mensaje \"Cuenta bloqueada temporalmente. Intente en 15 minutos\"",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:42"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:42"
             },
             "result": {
               "status": "passed",
-              "duration": 119472900
+              "duration": 281031999
             }
           },
           {
@@ -879,11 +879,11 @@
             "line": 19,
             "name": "con la contraseña correcta el acceso sigue bloqueado",
             "match": {
-              "location": "file:\\C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:46"
+              "location": "file:\\C:\\vet_manage\\qa\\sprint-1\\e2e\\features\\step_definitions\\steps.mjs:46"
             },
             "result": {
               "status": "passed",
-              "duration": 151283699
+              "duration": 337570200
             }
           },
           {
@@ -891,7 +891,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 142005900
+              "duration": 489401900
             }
           }
         ],

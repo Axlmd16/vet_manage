@@ -2,7 +2,7 @@
 
 Documentación de QA del Sprint 1 según el *Plan de Pruebas Ágil – VetManage* (sección 6.3, cronograma del Sprint 1).
 
-**HU bajo prueba:** HU-51 Registrar usuario · HU-54 Asignar y quitar roles · HU-01 Registrar cliente · HU-07 Registrar paciente · HU-13 Registrar especie. Se incluye HU-57 Iniciar sesión porque las pruebas E2E del cronograma cubren el login y el bloqueo al 5.º intento.
+**HU bajo prueba:** HU-51 Registrar usuario · HU-54 Asignar y quitar roles · HU-57 Iniciar sesión · HU-01 Registrar cliente · HU-06 Consultar clientes · HU-07 Registrar paciente · HU-12 Consultar paciente · HU-13 Registrar especie · HU-17 Registrar raza.
 
 **Rama:** `test/sprint-1-qa` (desde `development`). El código de las pruebas está en [`qa/`](../../../../qa/), `vet-manage-api/test/qa/` y `vet-manage-frontend/src/test/qa/`; esta carpeta tiene la documentación y los entregables.
 
@@ -16,7 +16,9 @@ Documentación de QA del Sprint 1 según el *Plan de Pruebas Ágil – VetManage
 
 ## Resumen de resultados
 
-**86 casos de prueba** diseñados (23 positivos, 47 negativos, 16 de valor límite) y **ejecutados al 100 %**: 72 pasan y 14 fallan. Las fallas se agrupan en **7 defectos** (4 de severidad Alta, 3 Media, ninguno Crítico).
+La matriz contiene **109 casos de prueba** (35 positivos, 58 negativos y 16 de valor límite). Se consolidaron los resultados automatizados de los 86 casos originales (72 pasaron, 14 fallaron) y la ejecución manual de HU-06, HU-12 y HU-17: 7 pasaron, 3 fallaron, 8 quedaron bloqueados y 5 siguen pendientes. Los hallazgos de HU-06 y HU-12 se registraron junto a los 7 defectos previos: **11 defectos** (7 de severidad Alta, 4 Media, ninguno Crítico). Los casos bloqueados de HU-12 no se contaron como aprobados ni fallidos porque la funcionalidad de consulta no está disponible.
+
+Resultados históricos de los 86 casos originales:
 
 | Nivel | Herramienta | Pruebas | Pasan | Fallan | Proporción (plan) |
 | --- | --- | :-: | :-: | :-: | :-: |
@@ -28,6 +30,14 @@ Documentación de QA del Sprint 1 según el *Plan de Pruebas Ágil – VetManage
 
 Cobertura de líneas de la lógica de negocio de las HU: **93,3 %** (meta ≥ 90 %).
 
+Resultados de ejecución manual para las historias solicitadas:
+
+| HU | Pasaron | Fallaron | Bloqueados | Pendientes | Hallazgos |
+| --- | :-: | :-: | :-: | :-: | --- |
+| HU-06 Consultar clientes | 1 | 2 | 1 | 0 | DEF-08 a DEF-10 |
+| HU-12 Consultar datos del paciente | 0 | 1 | 7 | 1 | DEF-11 |
+| HU-17 Registrar raza | 6 | 0 | 0 | 4 | — |
+
 | Defecto | HU | Severidad | Resumen |
 | --- | --- | --- | --- |
 | DEF-01 | HU-01 | 2 - High | Se acepta la cédula de un cliente existente y se descartan los datos ingresados |
@@ -37,14 +47,18 @@ Cobertura de líneas de la lógica de negocio de las HU: **93,3 %** (meta ≥ 90
 | DEF-05 | HU-51, HU-54 | 2 - High | No hay auditoría del alta de usuarios ni de los cambios de rol |
 | DEF-06 | HU-57 | 2 - High | La contraseña temporal no obliga a cambiarla en el primer ingreso |
 | DEF-07 | HU-13 | 3 - Medium | El Administrador puede registrar especies (la matriz solo lo permite al Veterinario) |
+| DEF-08 | HU-06 | 2 - High | Pantalla de clientes sin búsqueda ni consulta |
+| DEF-09 | HU-06 | 3 - Medium | Búsqueda no encuentra nombres sin tilde |
+| DEF-10 | HU-06 | 2 - High | No se muestran las mascotas asociadas al cliente |
+| DEF-11 | HU-12 | 2 - High | Pantalla y endpoint de consulta de pacientes no implementados |
 
 Por HU: **HU-51, HU-54, HU-07 y HU-13** cumplen sus criterios de aceptación (con DEF-05 y DEF-07 como hallazgos de seguridad transversales); **HU-01** no cumple; **HU-57** cumple salvo el Esc. 9 (DEF-06).
 
-## Criterios de salida (estado al 19/11/2026)
+## Criterios de salida (estado al 20/11/2026)
 
 | Criterio | Estado | Detalle |
 | --- | --- | --- |
-| CS-01 Ejecución completa | ✅ | 86/86 casos ejecutados, ninguno pendiente |
+| CS-01 Ejecución completa | ⏳ | Los 86 casos originales se ejecutaron. HU-06 y HU-17 se ejecutaron parcialmente; HU-12 tiene 7 casos bloqueados por la funcionalidad ausente |
 | CS-02 Sin defectos críticos/bloqueantes abiertos | ✅ con alerta | No hay defectos Críticos; quedan 4 de severidad Alta abiertos |
 | CS-03 Defectos menores documentados | ⏳ | Documentados; falta la decisión del PO sobre diferirlos |
 | CS-04 Criterios de aceptación cumplidos | ❌ | HU-01 no cumple (DEF-01 a DEF-04); HU-57 Esc. 9 (DEF-06) |

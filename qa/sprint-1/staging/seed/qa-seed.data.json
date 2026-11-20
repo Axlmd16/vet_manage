@@ -22,21 +22,25 @@
     { "key": "roleTarget", "identification": "1105016297", "firstName": "Diego", "lastName": "Rotación QA", "email": "qa.rotacion@vetmanage.test", "phone": "0991100018", "roles": ["receptionist"], "purpose": "PNF-04 / R-12: quitarle el rol con sesión abierta y verificar bloqueo inmediato." }
   ],
   "clients": [
-    { "key": "ana", "identification": "1105016669", "firstName": "Ana", "lastName": "Ruiz", "email": "ana.ruiz@correo.test", "phone": "0987000001", "address": "Av. Universitaria y 10 de Agosto, Loja", "status": "ACTIVE", "purpose": "HU-51 Esc. 3: ya es Cliente; se la registra como Cajero sin duplicar la persona." },
-    { "key": "pedro", "identification": "1105017030", "firstName": "Pedro", "lastName": "Castillo", "email": "pedro.castillo@correo.test", "phone": "0987000002", "address": "Calle Sucre 12-34, Loja", "status": "ACTIVE", "purpose": "Dueño de Firulais y Luna; cliente por defecto para HU-07." },
-    { "key": "lucia", "identification": "1105017402", "firstName": "Lucía", "lastName": "Ordóñez", "email": "lucia.ordonez@correo.test", "phone": "0987000003", "address": null, "status": "ACTIVE", "purpose": "Cliente sin dirección (campo opcional)." },
+    { "key": "ana", "identification": "1105016669", "firstName": "Ana", "lastName": "Ruiz", "email": "ana.ruiz@correo.test", "phone": "0987000001", "address": "Av. Universitaria y 10 de Agosto, Loja", "status": "ACTIVE", "purpose": "HU-51 Esc. 3: ya es Cliente; HU-06 búsqueda; dueña de pacientes QA." },
+    { "key": "pedro", "identification": "1105017030", "firstName": "Pedro", "lastName": "Castillo", "email": "pedro.castillo@correo.test", "phone": "0987000002", "address": "Calle Sucre 12-34, Loja", "status": "ACTIVE", "purpose": "HU-06 y HU-12: búsqueda exacta por cédula y dueño de Firulais y Luna." },
+    { "key": "lucia", "identification": "1105017402", "firstName": "Lucía", "lastName": "Ordóñez", "email": "lucia.ordonez@correo.test", "phone": "0987000003", "address": null, "status": "ACTIVE", "purpose": "HU-06 búsqueda de nombre sin tilde; HU-12 búsqueda de dueña; sin dirección." },
     { "key": "rosa", "identification": "1105017774", "firstName": "Rosa", "lastName": "Jaramillo", "email": "rosa.jaramillo@correo.test", "phone": "0987000004", "address": "Barrio El Valle, Loja", "status": "INACTIVE", "purpose": "HU-07: cliente inactivo no disponible (R-08)." },
     { "key": "hugo", "identification": "1105018145", "firstName": "Hugo", "lastName": "Vivanco", "email": "hugo.vivanco@correo.test", "phone": "0987000005", "address": "Av. Cuxibamba, Loja", "status": "DEACTIVATED", "purpose": "HU-07 Esc. 5: cliente dado de baja." }
   ],
   "species": [
-    { "key": "ferret", "name": "Hurón", "description": "Especie inactiva para pruebas negativas.", "isActive": false, "purpose": "HU-07: especie inactiva no disponible." }
+    { "key": "ferret", "name": "Hurón", "description": "Especie inactiva para pruebas negativas.", "isActive": false, "purpose": "HU-07: especie inactiva no disponible; HU-17: especie no seleccionable para registrar razas." }
   ],
   "pets": [
-    { "key": "firulais", "name": "Firulais", "species": "Canino", "breed": "Labrador Retriever", "sex": "MALE", "birthDate": "2021-03-15", "weightKg": 28.5, "heightCm": 60, "reproductiveStatus": "STERILIZED", "color": "Dorado", "client": "pedro" },
+    { "key": "firulais", "name": "Firulais", "species": "Canino", "breed": "Labrador Retriever", "sex": "MALE", "birthDate": "2021-03-15", "weightKg": 28.5, "heightCm": 60, "reproductiveStatus": "STERILIZED", "color": "Dorado", "client": "pedro", "purpose": "HU-06 y HU-12: búsqueda por nombre y código (PAC-000001)." },
     { "key": "luna", "name": "Luna", "species": "Felino", "breed": "Persa", "sex": "FEMALE", "birthDate": "2023-05-20", "weightKg": 3.8, "heightCm": 23, "reproductiveStatus": "STERILIZED", "color": "Blanco", "client": "pedro" },
     { "key": "michi", "name": "Michi", "species": "Felino", "breed": "Siamés", "sex": "FEMALE", "birthDate": "2022-08-01", "weightKg": 4.2, "heightCm": 25, "reproductiveStatus": "NOT_STERILIZED", "color": null, "client": "lucia" },
     { "key": "rocky", "name": "Rocky", "species": "Canino", "breed": "Mestizo", "sex": "MALE", "birthDate": "2019-01-10", "weightKg": 12, "heightCm": 45, "reproductiveStatus": "UNKNOWN", "color": "Negro", "client": "ana" },
-    { "key": "toby", "name": "Toby", "species": "Canino", "breed": "Pastor Alemán", "sex": "MALE", "birthDate": "2018-11-02", "weightKg": 32, "heightCm": 63, "reproductiveStatus": "NOT_STERILIZED", "color": "Negro y fuego", "client": "rosa" }
+    { "key": "toby", "name": "Toby", "species": "Canino", "breed": "Pastor Alemán", "sex": "MALE", "birthDate": "2018-11-02", "weightKg": 32, "heightCm": 63, "reproductiveStatus": "NOT_STERILIZED", "color": "Negro y fuego", "client": "rosa" },
+    { "key": "jose", "name": "José", "species": "Canino", "breed": "Mestizo", "sex": "MALE", "birthDate": "2020-06-12", "weightKg": 14, "heightCm": 42, "reproductiveStatus": "UNKNOWN", "color": null, "client": "lucia", "purpose": "HU-12 Esc. 5: búsqueda ignora mayúsculas, espacios y tildes." },
+    { "key": "nubeActive", "name": "Nube", "species": "Felino", "breed": "Mestizo", "sex": "FEMALE", "birthDate": "2023-02-02", "weightKg": 3.2, "heightCm": 21, "reproductiveStatus": "STERILIZED", "color": "Gris", "client": "ana", "purpose": "HU-12 Esc. 8: mostrar pacientes activos." },
+    { "key": "nubeInactive", "name": "Nube Inactiva", "species": "Felino", "breed": "Mestizo", "sex": "FEMALE", "birthDate": "2022-04-04", "weightKg": 3.5, "heightCm": 22, "reproductiveStatus": "STERILIZED", "color": "Gris", "client": "ana", "status": "INACTIVE", "purpose": "HU-12 Esc. 8: mostrar pacientes inactivos." },
+    { "key": "nubeDeactivated", "name": "Nube Baja", "species": "Felino", "breed": "Persa", "sex": "FEMALE", "birthDate": "2021-09-09", "weightKg": 4.1, "heightCm": 24, "reproductiveStatus": "UNKNOWN", "color": "Blanco", "client": "ana", "status": "DEACTIVATED", "purpose": "HU-12 Esc. 8: mostrar pacientes dados de baja." }
   ],
   "reservedIdentifications": {
     "$comment": "Cédulas válidas que NO existen en la semilla; las usan las pruebas para crear registros nuevos.",

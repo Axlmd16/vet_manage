@@ -88,7 +88,7 @@ out('-- 4. Pacientes');
 for (const pet of data.pets) {
   const owner = data.clients.find((client) => client.key === pet.client);
   out(`INSERT INTO pets (id, name, sex, birth_date, weight_kg, height_cm, reproductive_status, color, status, client_id, species_id, breed_id, created_at, updated_at)
-SELECT gen_random_uuid(), ${q(pet.name)}, '${pet.sex}', DATE ${q(pet.birthDate)}, ${pet.weightKg}, ${pet.heightCm}, '${pet.reproductiveStatus}', ${q(pet.color)}, 'ACTIVE', c.id, s.id, b.id, NOW(), NOW()
+SELECT gen_random_uuid(), ${q(pet.name)}, '${pet.sex}', DATE ${q(pet.birthDate)}, ${pet.weightKg}, ${pet.heightCm}, '${pet.reproductiveStatus}', ${q(pet.color)}, ${q(pet.status ?? 'ACTIVE')}, c.id, s.id, b.id, NOW(), NOW()
 FROM clients c JOIN persons p ON p.id = c.person_id
 JOIN species s ON s.name = ${q(pet.species)}
 JOIN breeds b ON b.species_id = s.id AND b.name = ${q(pet.breed)}

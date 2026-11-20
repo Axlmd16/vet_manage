@@ -2,17 +2,17 @@
   "config": {
     "argv": [
       "C:\\Program Files\\nodejs\\node.exe",
-      "C:\\VetManage\\vet_manage\\qa\\node_modules\\@playwright\\test\\cli.js",
+      "C:\\vet_manage\\qa\\node_modules\\@playwright\\test\\cli.js",
       "test",
       "-c",
       "sprint-1/e2e/playwright.config.ts"
     ],
-    "configFile": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\playwright.config.ts",
-    "rootDir": "C:/VetManage/vet_manage/qa/sprint-1/e2e/tests",
+    "configFile": "C:\\vet_manage\\qa\\sprint-1\\e2e\\playwright.config.ts",
+    "rootDir": "C:/vet_manage/qa/sprint-1/e2e/tests",
     "failOnFlakyTests": false,
     "forbidOnly": false,
     "fullyParallel": false,
-    "globalSetup": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\global-setup.ts",
+    "globalSetup": "C:\\vet_manage\\qa\\sprint-1\\e2e\\global-setup.ts",
     "globalTeardown": null,
     "globalTimeout": 0,
     "grep": {},
@@ -24,7 +24,7 @@
     "preserveOutput": "always",
     "projects": [
       {
-        "outputDir": "C:/VetManage/vet_manage/qa/sprint-1/reports/test-results",
+        "outputDir": "C:/vet_manage/qa/sprint-1/reports/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
@@ -32,7 +32,7 @@
         },
         "id": "chromium",
         "name": "chromium",
-        "testDir": "C:/VetManage/vet_manage/qa/sprint-1/e2e/tests",
+        "testDir": "C:/vet_manage/qa/sprint-1/e2e/tests",
         "testIgnore": [],
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
@@ -44,15 +44,15 @@
       {
         "grep": {},
         "grepInvert": null,
-        "outputDir": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results",
+        "outputDir": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
           "actualWorkers": 1
         },
         "name": "chromium",
-        "testDir": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests",
-        "snapshotDir": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests",
+        "testDir": "C:\\vet_manage\\qa\\sprint-1\\e2e\\tests",
+        "snapshotDir": "C:\\vet_manage\\qa\\sprint-1\\e2e\\tests",
         "testIgnore": [],
         "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
         "timeout": 45000,
@@ -150,18 +150,18 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1040,
+                      "duration": 4954,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-19T22:47:58.608Z",
+                      "startTime": "2026-11-20T05:04:38.597Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\01-login-HU-57-Iniciar-ses-5b3e8-principal-con-sus-funciones-chromium\\test-finished-1.png"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\01-login-HU-57-Iniciar-ses-5b3e8-principal-con-sus-funciones-chromium\\test-finished-1.png"
                         }
                       ]
                     }
@@ -190,18 +190,18 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 809,
+                      "duration": 2219,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-19T22:47:59.829Z",
+                      "startTime": "2026-11-20T05:04:45.683Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\01-login-HU-57-Iniciar-ses-45706-muestra-un-mensaje-genérico-chromium\\test-finished-1.png"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\01-login-HU-57-Iniciar-ses-45706-muestra-un-mensaje-genérico-chromium\\test-finished-1.png"
                         }
                       ]
                     }
@@ -230,18 +230,18 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 755,
+                      "duration": 1928,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-19T22:48:00.655Z",
+                      "startTime": "2026-11-20T05:04:47.950Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\01-login-HU-57-Iniciar-ses-8a098-traseña-sin-llamar-a-la-API-chromium\\test-finished-1.png"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\01-login-HU-57-Iniciar-ses-8a098-traseña-sin-llamar-a-la-API-chromium\\test-finished-1.png"
                         }
                       ]
                     }
@@ -270,18 +270,18 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2260,
+                      "duration": 7412,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-19T22:48:01.424Z",
+                      "startTime": "2026-11-20T05:04:49.917Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\01-login-HU-57-Iniciar-ses-f846c--con-la-contraseña-correcta-chromium\\test-finished-1.png"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\01-login-HU-57-Iniciar-ses-f846c--con-la-contraseña-correcta-chromium\\test-finished-1.png"
                         }
                       ]
                     }
@@ -310,12 +310,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 9058,
+                      "duration": 11123,
                       "error": {
                         "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: /cambi(ar|o de) contraseña/i })\nExpected: visible\nTimeout: 8000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: /cambi(ar|o de) contraseña/i }) with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /cambi(ar|o de) contraseña/i })\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: /cambi(ar|o de) contraseña/i })\nExpected: visible\nTimeout: 8000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: /cambi(ar|o de) contraseña/i }) with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /cambi(ar|o de) contraseña/i })\u001b[22m\n\n    at C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\01-login.spec.ts:46:85",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: /cambi(ar|o de) contraseña/i })\nExpected: visible\nTimeout: 8000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: /cambi(ar|o de) contraseña/i }) with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /cambi(ar|o de) contraseña/i })\u001b[22m\n\n    at C:\\vet_manage\\qa\\sprint-1\\e2e\\tests\\01-login.spec.ts:46:85",
                         "location": {
-                          "file": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\01-login.spec.ts",
+                          "file": "C:\\vet_manage\\qa\\sprint-1\\e2e\\tests\\01-login.spec.ts",
                           "column": 85,
                           "line": 46
                         },
@@ -324,42 +324,42 @@
                       "errors": [
                         {
                           "location": {
-                            "file": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\01-login.spec.ts",
+                            "file": "C:\\vet_manage\\qa\\sprint-1\\e2e\\tests\\01-login.spec.ts",
                             "column": 85,
                             "line": 46
                           },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: /cambi(ar|o de) contraseña/i })\nExpected: visible\nTimeout: 8000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: /cambi(ar|o de) contraseña/i }) with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /cambi(ar|o de) contraseña/i })\u001b[22m\n\n\n  44 |   test('CP-57-09 el primer ingreso con contraseña temporal lleva al cambio obligatorio de contraseña', async ({ page }) => {\n  45 |     await fillLogin(page, USERS.temporary, PASSWORD);\n> 46 |     await expect(page.getByRole('heading', { name: /cambi(ar|o de) contraseña/i })).toBeVisible();\n     |                                                                                     ^\n  47 |   });\n  48 | });\n  49 |\n    at C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\01-login.spec.ts:46:85"
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: /cambi(ar|o de) contraseña/i })\nExpected: visible\nTimeout: 8000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: /cambi(ar|o de) contraseña/i }) with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /cambi(ar|o de) contraseña/i })\u001b[22m\n\n\n  44 |   test('CP-57-09 el primer ingreso con contraseña temporal lleva al cambio obligatorio de contraseña', async ({ page }) => {\n  45 |     await fillLogin(page, USERS.temporary, PASSWORD);\n> 46 |     await expect(page.getByRole('heading', { name: /cambi(ar|o de) contraseña/i })).toBeVisible();\n     |                                                                                     ^\n  47 |   });\n  48 | });\n  49 |\n    at C:\\vet_manage\\qa\\sprint-1\\e2e\\tests\\01-login.spec.ts:46:85"
                         }
                       ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-19T22:48:03.700Z",
+                      "startTime": "2026-11-20T05:04:57.368Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\01-login-HU-57-Iniciar-ses-c622c-o-obligatorio-de-contraseña-chromium\\test-failed-1.png"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\01-login-HU-57-Iniciar-ses-c622c-o-obligatorio-de-contraseña-chromium\\test-failed-1.png"
                         },
                         {
                           "name": "video",
                           "contentType": "video/webm",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\01-login-HU-57-Iniciar-ses-c622c-o-obligatorio-de-contraseña-chromium\\video.webm"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\01-login-HU-57-Iniciar-ses-c622c-o-obligatorio-de-contraseña-chromium\\video.webm"
                         },
                         {
                           "name": "error-context",
                           "contentType": "text/markdown",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\01-login-HU-57-Iniciar-ses-c622c-o-obligatorio-de-contraseña-chromium\\error-context.md"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\01-login-HU-57-Iniciar-ses-c622c-o-obligatorio-de-contraseña-chromium\\error-context.md"
                         },
                         {
                           "name": "trace",
                           "contentType": "application/zip",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\01-login-HU-57-Iniciar-ses-c622c-o-obligatorio-de-contraseña-chromium\\trace.zip"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\01-login-HU-57-Iniciar-ses-c622c-o-obligatorio-de-contraseña-chromium\\trace.zip"
                         }
                       ],
                       "errorLocation": {
-                        "file": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\01-login.spec.ts",
+                        "file": "C:\\vet_manage\\qa\\sprint-1\\e2e\\tests\\01-login.spec.ts",
                         "column": 85,
                         "line": 46
                       }
@@ -406,18 +406,18 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1431,
+                      "duration": 4629,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-19T22:48:13.448Z",
+                      "startTime": "2026-11-20T05:05:11.924Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\02-users-roles-audit-HU-51-ae2de--se-envían-las-credenciales-chromium\\test-finished-1.png"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\02-users-roles-audit-HU-51-ae2de--se-envían-las-credenciales-chromium\\test-finished-1.png"
                         }
                       ]
                     }
@@ -446,18 +446,18 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1011,
+                      "duration": 3239,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-19T22:48:15.024Z",
+                      "startTime": "2026-11-20T05:05:17.011Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\02-users-roles-audit-HU-51-48aa2-te-los-campos-obligatorios--chromium\\test-finished-1.png"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\02-users-roles-audit-HU-51-48aa2-te-los-campos-obligatorios--chromium\\test-finished-1.png"
                         }
                       ]
                     }
@@ -486,18 +486,18 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 696,
+                      "duration": 3038,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-19T22:48:16.054Z",
+                      "startTime": "2026-11-20T05:05:20.296Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\02-users-roles-audit-HU-51-bfc0f-rir-el-registro-de-personal-chromium\\test-finished-1.png"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\02-users-roles-audit-HU-51-bfc0f-rir-el-registro-de-personal-chromium\\test-finished-1.png"
                         }
                       ]
                     }
@@ -534,18 +534,18 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 762,
+                      "duration": 2461,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-19T22:48:16.760Z",
+                      "startTime": "2026-11-20T05:05:23.386Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\02-users-roles-audit-HU-54-cc0bb-sta-no-aparece-para-asignar-chromium\\test-finished-1.png"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\02-users-roles-audit-HU-54-cc0bb-sta-no-aparece-para-asignar-chromium\\test-finished-1.png"
                         }
                       ]
                     }
@@ -574,18 +574,18 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1200,
+                      "duration": 3170,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-19T22:48:17.618Z",
+                      "startTime": "2026-11-20T05:05:26.398Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\02-users-roles-audit-HU-54-a39a9-bos-roles-al-iniciar-sesión-chromium\\test-finished-1.png"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\02-users-roles-audit-HU-54-a39a9-bos-roles-al-iniciar-sesión-chromium\\test-finished-1.png"
                         }
                       ]
                     }
@@ -614,18 +614,18 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 949,
+                      "duration": 2913,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-19T22:48:18.830Z",
+                      "startTime": "2026-11-20T05:05:29.613Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\02-users-roles-audit-HU-54-a309a--dejar-al-usuario-sin-roles-chromium\\test-finished-1.png"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\02-users-roles-audit-HU-54-a309a--dejar-al-usuario-sin-roles-chromium\\test-finished-1.png"
                         }
                       ]
                     }
@@ -662,12 +662,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 9085,
+                      "duration": 12509,
                       "error": {
                         "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('link', { name: /Auditor[ií]a/ })\nExpected: visible\nTimeout: 8000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('link', { name: /Auditor[ií]a/ }) with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('link', { name: /Auditor[ií]a/ })\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('link', { name: /Auditor[ií]a/ })\nExpected: visible\nTimeout: 8000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('link', { name: /Auditor[ií]a/ }) with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('link', { name: /Auditor[ií]a/ })\u001b[22m\n\n    at C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\02-users-roles-audit.spec.ts:96:68",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('link', { name: /Auditor[ií]a/ })\nExpected: visible\nTimeout: 8000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('link', { name: /Auditor[ií]a/ }) with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('link', { name: /Auditor[ií]a/ })\u001b[22m\n\n    at C:\\vet_manage\\qa\\sprint-1\\e2e\\tests\\02-users-roles-audit.spec.ts:96:68",
                         "location": {
-                          "file": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\02-users-roles-audit.spec.ts",
+                          "file": "C:\\vet_manage\\qa\\sprint-1\\e2e\\tests\\02-users-roles-audit.spec.ts",
                           "column": 68,
                           "line": 96
                         },
@@ -676,42 +676,42 @@
                       "errors": [
                         {
                           "location": {
-                            "file": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\02-users-roles-audit.spec.ts",
+                            "file": "C:\\vet_manage\\qa\\sprint-1\\e2e\\tests\\02-users-roles-audit.spec.ts",
                             "column": 68,
                             "line": 96
                           },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('link', { name: /Auditor[ií]a/ })\nExpected: visible\nTimeout: 8000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('link', { name: /Auditor[ií]a/ }) with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('link', { name: /Auditor[ií]a/ })\u001b[22m\n\n\n  94 |     await login(page, USERS.admin);\n  95 |     await page.screenshot({ path: evidence('CP-54-14-menu-sin-auditoria'), fullPage: true });\n> 96 |     await expect(page.getByRole('link', { name: /Auditor[ií]a/ })).toBeVisible();\n     |                                                                    ^\n  97 |   });\n  98 | });\n  99 |\n    at C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\02-users-roles-audit.spec.ts:96:68"
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('link', { name: /Auditor[ií]a/ })\nExpected: visible\nTimeout: 8000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('link', { name: /Auditor[ií]a/ }) with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('link', { name: /Auditor[ií]a/ })\u001b[22m\n\n\n  94 |     await login(page, USERS.admin);\n  95 |     await page.screenshot({ path: evidence('CP-54-14-menu-sin-auditoria'), fullPage: true });\n> 96 |     await expect(page.getByRole('link', { name: /Auditor[ií]a/ })).toBeVisible();\n     |                                                                    ^\n  97 |   });\n  98 | });\n  99 |\n    at C:\\vet_manage\\qa\\sprint-1\\e2e\\tests\\02-users-roles-audit.spec.ts:96:68"
                         }
                       ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-19T22:48:19.790Z",
+                      "startTime": "2026-11-20T05:05:32.564Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\02-users-roles-audit-Audit-d72b2-uarios-y-el-cambio-de-roles-chromium\\test-failed-1.png"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\02-users-roles-audit-Audit-d72b2-uarios-y-el-cambio-de-roles-chromium\\test-failed-1.png"
                         },
                         {
                           "name": "video",
                           "contentType": "video/webm",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\02-users-roles-audit-Audit-d72b2-uarios-y-el-cambio-de-roles-chromium\\video.webm"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\02-users-roles-audit-Audit-d72b2-uarios-y-el-cambio-de-roles-chromium\\video.webm"
                         },
                         {
                           "name": "error-context",
                           "contentType": "text/markdown",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\02-users-roles-audit-Audit-d72b2-uarios-y-el-cambio-de-roles-chromium\\error-context.md"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\02-users-roles-audit-Audit-d72b2-uarios-y-el-cambio-de-roles-chromium\\error-context.md"
                         },
                         {
                           "name": "trace",
                           "contentType": "application/zip",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\02-users-roles-audit-Audit-d72b2-uarios-y-el-cambio-de-roles-chromium\\trace.zip"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\02-users-roles-audit-Audit-d72b2-uarios-y-el-cambio-de-roles-chromium\\trace.zip"
                         }
                       ],
                       "errorLocation": {
-                        "file": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\02-users-roles-audit.spec.ts",
+                        "file": "C:\\vet_manage\\qa\\sprint-1\\e2e\\tests\\02-users-roles-audit.spec.ts",
                         "column": 68,
                         "line": 96
                       }
@@ -758,12 +758,12 @@
                       "workerIndex": 2,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 9338,
+                      "duration": 13762,
                       "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.toast-region')\nExpected substring: \u001b[32m\"Cliente registrado exitosamente\"\u001b[39m\nReceived string:    \u001b[31m\"\"\u001b[39m\nTimeout: 8000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.toast-region') with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for locator('.toast-region')\u001b[22m\n\u001b[2m    13 × locator resolved to <div aria-live=\"polite\" aria-atomic=\"false\" class=\"toast-region\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"✓ListoCliente registrado correctamente.×\"\u001b[22m\n\u001b[2m    6 × locator resolved to <div aria-live=\"polite\" aria-atomic=\"false\" class=\"toast-region\"></div>\u001b[22m\n\u001b[2m      - unexpected value \"\"\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.toast-region')\nExpected substring: \u001b[32m\"Cliente registrado exitosamente\"\u001b[39m\nReceived string:    \u001b[31m\"\"\u001b[39m\nTimeout: 8000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.toast-region') with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for locator('.toast-region')\u001b[22m\n\u001b[2m    13 × locator resolved to <div aria-live=\"polite\" aria-atomic=\"false\" class=\"toast-region\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"✓ListoCliente registrado correctamente.×\"\u001b[22m\n\u001b[2m    6 × locator resolved to <div aria-live=\"polite\" aria-atomic=\"false\" class=\"toast-region\"></div>\u001b[22m\n\u001b[2m      - unexpected value \"\"\u001b[22m\n\n    at C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\03-clients-pets-species.spec.ts:25:31",
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.toast-region')\nExpected substring: \u001b[32m\"Cliente registrado exitosamente\"\u001b[39m\nReceived string:    \u001b[31m\"\"\u001b[39m\nTimeout: 8000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.toast-region') with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for locator('.toast-region')\u001b[22m\n\u001b[2m    12 × locator resolved to <div aria-live=\"polite\" aria-atomic=\"false\" class=\"toast-region\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"✓ListoCliente registrado correctamente.×\"\u001b[22m\n\u001b[2m    7 × locator resolved to <div aria-live=\"polite\" aria-atomic=\"false\" class=\"toast-region\"></div>\u001b[22m\n\u001b[2m      - unexpected value \"\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.toast-region')\nExpected substring: \u001b[32m\"Cliente registrado exitosamente\"\u001b[39m\nReceived string:    \u001b[31m\"\"\u001b[39m\nTimeout: 8000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.toast-region') with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for locator('.toast-region')\u001b[22m\n\u001b[2m    12 × locator resolved to <div aria-live=\"polite\" aria-atomic=\"false\" class=\"toast-region\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"✓ListoCliente registrado correctamente.×\"\u001b[22m\n\u001b[2m    7 × locator resolved to <div aria-live=\"polite\" aria-atomic=\"false\" class=\"toast-region\"></div>\u001b[22m\n\u001b[2m      - unexpected value \"\"\u001b[22m\n\n    at C:\\vet_manage\\qa\\sprint-1\\e2e\\tests\\03-clients-pets-species.spec.ts:25:31",
                         "location": {
-                          "file": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\03-clients-pets-species.spec.ts",
+                          "file": "C:\\vet_manage\\qa\\sprint-1\\e2e\\tests\\03-clients-pets-species.spec.ts",
                           "column": 31,
                           "line": 25
                         },
@@ -772,42 +772,42 @@
                       "errors": [
                         {
                           "location": {
-                            "file": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\03-clients-pets-species.spec.ts",
+                            "file": "C:\\vet_manage\\qa\\sprint-1\\e2e\\tests\\03-clients-pets-species.spec.ts",
                             "column": 31,
                             "line": 25
                           },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.toast-region')\nExpected substring: \u001b[32m\"Cliente registrado exitosamente\"\u001b[39m\nReceived string:    \u001b[31m\"\"\u001b[39m\nTimeout: 8000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.toast-region') with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for locator('.toast-region')\u001b[22m\n\u001b[2m    13 × locator resolved to <div aria-live=\"polite\" aria-atomic=\"false\" class=\"toast-region\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"✓ListoCliente registrado correctamente.×\"\u001b[22m\n\u001b[2m    6 × locator resolved to <div aria-live=\"polite\" aria-atomic=\"false\" class=\"toast-region\"></div>\u001b[22m\n\u001b[2m      - unexpected value \"\"\u001b[22m\n\n\n  23 |     await expect(page).toHaveURL(/\\/clients$/);\n  24 |     await page.screenshot({ path: evidence('CP-01-01-cliente-registrado'), fullPage: true });\n> 25 |     await expect(toast(page)).toContainText('Cliente registrado exitosamente');\n     |                               ^\n  26 |   });\n  27 |\n  28 |   test('CP-01-04 los obligatorios vacíos muestran \"Por favor, complete todos los campos obligatorios\"', async ({ page }) => {\n    at C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\03-clients-pets-species.spec.ts:25:31"
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.toast-region')\nExpected substring: \u001b[32m\"Cliente registrado exitosamente\"\u001b[39m\nReceived string:    \u001b[31m\"\"\u001b[39m\nTimeout: 8000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.toast-region') with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for locator('.toast-region')\u001b[22m\n\u001b[2m    12 × locator resolved to <div aria-live=\"polite\" aria-atomic=\"false\" class=\"toast-region\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"✓ListoCliente registrado correctamente.×\"\u001b[22m\n\u001b[2m    7 × locator resolved to <div aria-live=\"polite\" aria-atomic=\"false\" class=\"toast-region\"></div>\u001b[22m\n\u001b[2m      - unexpected value \"\"\u001b[22m\n\n\n  23 |     await expect(page).toHaveURL(/\\/clients$/);\n  24 |     await page.screenshot({ path: evidence('CP-01-01-cliente-registrado'), fullPage: true });\n> 25 |     await expect(toast(page)).toContainText('Cliente registrado exitosamente');\n     |                               ^\n  26 |   });\n  27 |\n  28 |   test('CP-01-04 los obligatorios vacíos muestran \"Por favor, complete todos los campos obligatorios\"', async ({ page }) => {\n    at C:\\vet_manage\\qa\\sprint-1\\e2e\\tests\\03-clients-pets-species.spec.ts:25:31"
                         }
                       ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-19T22:48:29.556Z",
+                      "startTime": "2026-11-20T05:05:48.268Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-88c95-te-registrado-exitosamente--chromium\\test-failed-1.png"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-88c95-te-registrado-exitosamente--chromium\\test-failed-1.png"
                         },
                         {
                           "name": "video",
                           "contentType": "video/webm",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-88c95-te-registrado-exitosamente--chromium\\video.webm"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-88c95-te-registrado-exitosamente--chromium\\video.webm"
                         },
                         {
                           "name": "error-context",
                           "contentType": "text/markdown",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-88c95-te-registrado-exitosamente--chromium\\error-context.md"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-88c95-te-registrado-exitosamente--chromium\\error-context.md"
                         },
                         {
                           "name": "trace",
                           "contentType": "application/zip",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-88c95-te-registrado-exitosamente--chromium\\trace.zip"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-88c95-te-registrado-exitosamente--chromium\\trace.zip"
                         }
                       ],
                       "errorLocation": {
-                        "file": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\03-clients-pets-species.spec.ts",
+                        "file": "C:\\vet_manage\\qa\\sprint-1\\e2e\\tests\\03-clients-pets-species.spec.ts",
                         "column": 31,
                         "line": 25
                       }
@@ -837,12 +837,12 @@
                       "workerIndex": 3,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 9356,
+                      "duration": 13392,
                       "error": {
                         "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Por favor, complete todos los campos obligatorios').first()\nExpected: visible\nTimeout: 8000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Por favor, complete todos los campos obligatorios').first() with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Por favor, complete todos los campos obligatorios').first()\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Por favor, complete todos los campos obligatorios').first()\nExpected: visible\nTimeout: 8000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Por favor, complete todos los campos obligatorios').first() with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Por favor, complete todos los campos obligatorios').first()\u001b[22m\n\n    at C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\03-clients-pets-species.spec.ts:34:95",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Por favor, complete todos los campos obligatorios').first()\nExpected: visible\nTimeout: 8000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Por favor, complete todos los campos obligatorios').first() with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Por favor, complete todos los campos obligatorios').first()\u001b[22m\n\n    at C:\\vet_manage\\qa\\sprint-1\\e2e\\tests\\03-clients-pets-species.spec.ts:34:95",
                         "location": {
-                          "file": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\03-clients-pets-species.spec.ts",
+                          "file": "C:\\vet_manage\\qa\\sprint-1\\e2e\\tests\\03-clients-pets-species.spec.ts",
                           "column": 95,
                           "line": 34
                         },
@@ -851,42 +851,42 @@
                       "errors": [
                         {
                           "location": {
-                            "file": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\03-clients-pets-species.spec.ts",
+                            "file": "C:\\vet_manage\\qa\\sprint-1\\e2e\\tests\\03-clients-pets-species.spec.ts",
                             "column": 95,
                             "line": 34
                           },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Por favor, complete todos los campos obligatorios').first()\nExpected: visible\nTimeout: 8000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Por favor, complete todos los campos obligatorios').first() with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Por favor, complete todos los campos obligatorios').first()\u001b[22m\n\n\n  32 |     await expect(page.getByLabel('Cédula')).toHaveAttribute('aria-invalid', 'true');\n  33 |     await page.screenshot({ path: evidence('CP-01-04-obligatorios'), fullPage: true });\n> 34 |     await expect(page.getByText('Por favor, complete todos los campos obligatorios').first()).toBeVisible();\n     |                                                                                               ^\n  35 |   });\n  36 |\n  37 |   test('CP-01-14 el Cajero no puede registrar clientes', async ({ page }) => {\n    at C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\03-clients-pets-species.spec.ts:34:95"
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Por favor, complete todos los campos obligatorios').first()\nExpected: visible\nTimeout: 8000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Por favor, complete todos los campos obligatorios').first() with timeout 8000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Por favor, complete todos los campos obligatorios').first()\u001b[22m\n\n\n  32 |     await expect(page.getByLabel('Cédula')).toHaveAttribute('aria-invalid', 'true');\n  33 |     await page.screenshot({ path: evidence('CP-01-04-obligatorios'), fullPage: true });\n> 34 |     await expect(page.getByText('Por favor, complete todos los campos obligatorios').first()).toBeVisible();\n     |                                                                                               ^\n  35 |   });\n  36 |\n  37 |   test('CP-01-14 el Cajero no puede registrar clientes', async ({ page }) => {\n    at C:\\vet_manage\\qa\\sprint-1\\e2e\\tests\\03-clients-pets-species.spec.ts:34:95"
                         }
                       ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-19T22:48:39.808Z",
+                      "startTime": "2026-11-20T05:06:06.640Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-69641-os-los-campos-obligatorios--chromium\\test-failed-1.png"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-69641-os-los-campos-obligatorios--chromium\\test-failed-1.png"
                         },
                         {
                           "name": "video",
                           "contentType": "video/webm",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-69641-os-los-campos-obligatorios--chromium\\video.webm"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-69641-os-los-campos-obligatorios--chromium\\video.webm"
                         },
                         {
                           "name": "error-context",
                           "contentType": "text/markdown",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-69641-os-los-campos-obligatorios--chromium\\error-context.md"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-69641-os-los-campos-obligatorios--chromium\\error-context.md"
                         },
                         {
                           "name": "trace",
                           "contentType": "application/zip",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-69641-os-los-campos-obligatorios--chromium\\trace.zip"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-69641-os-los-campos-obligatorios--chromium\\trace.zip"
                         }
                       ],
                       "errorLocation": {
-                        "file": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\e2e\\tests\\03-clients-pets-species.spec.ts",
+                        "file": "C:\\vet_manage\\qa\\sprint-1\\e2e\\tests\\03-clients-pets-species.spec.ts",
                         "column": 95,
                         "line": 34
                       }
@@ -916,18 +916,18 @@
                       "workerIndex": 4,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 674,
+                      "duration": 2303,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-19T22:48:49.986Z",
+                      "startTime": "2026-11-20T05:06:24.495Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-8da0b-no-puede-registrar-clientes-chromium\\test-finished-1.png"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-8da0b-no-puede-registrar-clientes-chromium\\test-finished-1.png"
                         }
                       ]
                     }
@@ -964,18 +964,18 @@
                       "workerIndex": 4,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2025,
+                      "duration": 4014,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-19T22:48:50.792Z",
+                      "startTime": "2026-11-20T05:06:27.354Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-93d99-in-campo-de-código-editable-chromium\\test-finished-1.png"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-93d99-in-campo-de-código-editable-chromium\\test-finished-1.png"
                         }
                       ]
                     }
@@ -1004,18 +1004,18 @@
                       "workerIndex": 4,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1217,
+                      "duration": 3539,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-19T22:48:52.829Z",
+                      "startTime": "2026-11-20T05:06:31.404Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-0a2be-onar-un-cliente-registrado--chromium\\test-finished-1.png"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-0a2be-onar-un-cliente-registrado--chromium\\test-finished-1.png"
                         }
                       ]
                     }
@@ -1044,18 +1044,18 @@
                       "workerIndex": 4,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1797,
+                      "duration": 4257,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-19T22:48:54.061Z",
+                      "startTime": "2026-11-20T05:06:34.996Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-af5df-o-no-aparece-en-el-selector-chromium\\test-finished-1.png"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-af5df-o-no-aparece-en-el-selector-chromium\\test-finished-1.png"
                         }
                       ]
                     }
@@ -1092,18 +1092,18 @@
                       "workerIndex": 4,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1369,
+                      "duration": 4162,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-19T22:48:55.872Z",
+                      "startTime": "2026-11-20T05:06:39.302Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-f34ec-inario-registra-una-especie-chromium\\test-finished-1.png"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-f34ec-inario-registra-una-especie-chromium\\test-finished-1.png"
                         }
                       ]
                     }
@@ -1132,18 +1132,18 @@
                       "workerIndex": 4,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1081,
+                      "duration": 3401,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-19T22:48:57.253Z",
+                      "startTime": "2026-11-20T05:06:43.508Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-ed0b0-ue-el-nombre-es-obligatorio-chromium\\test-finished-1.png"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-ed0b0-ue-el-nombre-es-obligatorio-chromium\\test-finished-1.png"
                         }
                       ]
                     }
@@ -1172,18 +1172,18 @@
                       "workerIndex": 4,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1092,
+                      "duration": 3085,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-19T22:48:58.344Z",
+                      "startTime": "2026-11-20T05:06:46.955Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "C:\\VetManage\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-f6754-ncelar-no-guarda-la-especie-chromium\\test-finished-1.png"
+                          "path": "C:\\vet_manage\\qa\\sprint-1\\reports\\test-results\\03-clients-pets-species-HU-f6754-ncelar-no-guarda-la-especie-chromium\\test-finished-1.png"
                         }
                       ]
                     }
@@ -1203,8 +1203,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-11-19T22:47:55.067Z",
-    "duration": 64510.758,
+    "startTime": "2026-11-20T05:04:35.848Z",
+    "duration": 134641.76700000002,
     "expected": 17,
     "skipped": 0,
     "unexpected": 4,
