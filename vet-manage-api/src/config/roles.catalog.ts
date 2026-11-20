@@ -1,4 +1,4 @@
-import type { PermissionKey } from './permissions.catalog.js';
+import { PERMISSIONS, type PermissionKey } from './permissions.catalog.js';
 
 export type RoleDefinition = {
   name: string;
@@ -36,8 +36,16 @@ const clinicalFiles: PermissionKey[] = [
   'clinical-files:create', 'clinical-files:read', 'clinical-files:update', 'clinical-files:remove',
 ];
 
-// Permisos iniciales de cada rol. El Administrador puede modificarlos desde el sistema.
+// Permisos iniciales de cada rol. El superadmin es una cuenta interna para pruebas.
 export const ROLES: readonly RoleDefinition[] = [
+  {
+    name: 'superadmin',
+    displayName: 'Superadministrador (pruebas)',
+    description: 'Cuenta interna de pruebas con todos los permisos del sistema.',
+    category: 'SYSTEM',
+    visible: false,
+    permissions: PERMISSIONS.map(({ key }) => key),
+  },
   {
     name: 'administrator',
     displayName: 'Administrador',
@@ -47,6 +55,7 @@ export const ROLES: readonly RoleDefinition[] = [
       'users:create', 'users:read', 'users:update', 'users:assign-roles',
       'users:change-status', 'users:deactivate',
       'roles:manage-permissions', 'audit:read', 'audit:export',
+      'inventory:read',
       ...catalogManagement('species'),
       ...catalogManagement('breeds'),
     ],
@@ -59,6 +68,7 @@ export const ROLES: readonly RoleDefinition[] = [
     permissions: [
       ...clientsAndPetsFull,
       'species:read', 'breeds:read',
+      'inventory:read',
       ...procedureCatalog,
     ],
   },
@@ -71,6 +81,7 @@ export const ROLES: readonly RoleDefinition[] = [
       ...clientsAndPetsFull.filter((key) => key !== 'pets:inactivate' && key !== 'pets:activate'),
       ...catalogManagement('species'),
       ...catalogManagement('breeds'),
+      'inventory:read',
       'medical-history:create', 'medical-history:read',
       'consultations:create', 'consultations:correct', 'diagnoses:create',
       'prescriptions:manage', 'prescriptions:read', 'prescriptions:export',
@@ -111,14 +122,14 @@ export const ROLES: readonly RoleDefinition[] = [
     displayName: 'Cajero',
     description: 'Gestiona cobros. Sus permisos se definen en el módulo de ventas.',
     category: 'STAFF',
-    permissions: [],
+    permissions: ['inventory:read'],
   },
   {
     name: 'warehouse_keeper',
     displayName: 'Bodeguero',
     description: 'Gestiona inventario. Sus permisos se definen en el módulo de inventario.',
     category: 'STAFF',
-    permissions: [],
+    permissions: ['inventory:read', 'inventory:register-entry'],
   },
   {
     name: 'client',
