@@ -177,7 +177,7 @@ describe('InventoryService', () => {
     const service = new InventoryService(prisma as never);
 
     const result = await service.createProduct({
-      code: 'PR-001', name: 'Producto', description: '', unitPrice: 25.5,
+      code: 'PR-001', name: 'Producto', description: 'Descripción del producto', unitPrice: 25.5,
       category: { name: 'Alimentos' }, brand: { name: 'Dog Chow' },
     });
 
@@ -196,7 +196,7 @@ describe('InventoryService', () => {
     const service = new InventoryService(prisma as never);
 
     await expect(service.createProduct({
-      code: 'PR-001', name: 'Producto', unitPrice: 25.5,
+      code: 'PR-001', name: 'Producto', description: 'Descripción del producto', unitPrice: 25.5,
       category: { name: 'Alimentos' }, brand: { name: 'Dog Chow' },
     })).rejects.toMatchObject({
       statusCode: 409,
@@ -271,14 +271,14 @@ describe('InventoryService', () => {
     const service = new InventoryService(prisma as never);
 
     const result = await service.updateProduct('product-1', {
-      code: 'PR-001', name: 'Producto actualizado', description: '', unitPrice: 30,
+      code: 'PR-001', name: 'Producto actualizado', description: 'Descripción actualizada', unitPrice: 30,
       category: { id: 'category-1' }, brand: { id: 'brand-1' },
     });
 
     expect(result.unitPrice).toBe('30');
     expect(tx.product.update).toHaveBeenCalledWith(expect.objectContaining({
       where: { id: 'product-1' },
-      data: expect.objectContaining({ code: 'PR-001', name: 'Producto actualizado', description: null }),
+      data: expect.objectContaining({ code: 'PR-001', name: 'Producto actualizado', description: 'Descripción actualizada' }),
     }));
   });
 
@@ -287,7 +287,18 @@ describe('InventoryService', () => {
     const service = new InventoryService(prisma as never);
 
     await expect(service.updateProduct('product-1', {
-      code: 'PR-001', name: 'Producto', unitPrice: 0,
+      code: 'PR-001', name: 'Producto', description: 'Descripción del producto', unitPrice: 0,
+      category: { id: 'category-1' }, brand: { id: 'brand-1' },
+    })).rejects.toMatchObject({ statusCode: 400, message: 'Revisa los campos del producto' });
+    expect(prisma.$transaction).not.toHaveBeenCalled();
+  });
+
+  it('rejects an empty description before creating a product', async () => {
+    const { prisma } = createPrismaMock();
+    const service = new InventoryService(prisma as never);
+
+    await expect(service.createProduct({
+      code: 'PR-001', name: 'Producto', description: ' ', unitPrice: 20,
       category: { id: 'category-1' }, brand: { id: 'brand-1' },
     })).rejects.toMatchObject({ statusCode: 400, message: 'Revisa los campos del producto' });
     expect(prisma.$transaction).not.toHaveBeenCalled();
@@ -299,7 +310,7 @@ describe('InventoryService', () => {
     const service = new InventoryService(prisma as never);
 
     await expect(service.updateProduct('missing', {
-      code: 'PR-001', name: 'Producto', unitPrice: 20,
+      code: 'PR-001', name: 'Producto', description: 'Descripción del producto', unitPrice: 20,
       category: { id: 'category-1' }, brand: { id: 'brand-1' },
     })).rejects.toMatchObject({ statusCode: 404, message: 'Producto no encontrado' });
   });
