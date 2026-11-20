@@ -4,6 +4,10 @@ export type CatalogItem = {
   description?: string | null;
 };
 
+export type InventoryCategory = CatalogItem & {
+  vatRate: string | null;
+};
+
 export type Product = {
   id: string;
   code: string;

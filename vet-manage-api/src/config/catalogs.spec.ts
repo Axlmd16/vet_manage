@@ -52,6 +52,14 @@ describe('Catálogos de permisos y roles', () => {
     expect(keysOf('superadmin')).toEqual(new Set(PERMISSIONS.map((permission) => permission.key)));
   });
 
+  it('solo asigna la configuración de IVA al Administrador y al Superadministrador de pruebas', () => {
+    expect(PERMISSIONS.some((permission) => permission.key === 'inventory:configure-vat')).toBe(true);
+    expect(keysOf('administrator').has('inventory:configure-vat')).toBe(true);
+    expect(keysOf('superadmin').has('inventory:configure-vat')).toBe(true);
+    expect(keysOf('manager').has('inventory:configure-vat')).toBe(false);
+    expect(keysOf('warehouse_keeper').has('inventory:configure-vat')).toBe(false);
+  });
+
   it('el Recepcionista no puede dar de baja clientes ni pacientes', () => {
     const receptionist = keysOf('receptionist');
 
