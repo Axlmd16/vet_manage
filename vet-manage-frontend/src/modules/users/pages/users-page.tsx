@@ -23,6 +23,7 @@ function emptyPage(page: number, pageSize: number): UserPage {
 
 export function UsersPage() {
   const { hasPermission } = useAuth();
+  const canAssignRoles = hasPermission('users:assign-roles');
   const [search, setSearch] = useState('');
   const [query, setQuery] = useState<UserQuery>({ page: 1, pageSize: 20 });
   const [result, setResult] = useState<UserPage>(emptyPage(1, 20));
@@ -162,6 +163,7 @@ export function UsersPage() {
                   <th>Correo</th>
                   <th>Roles</th>
                   <th>Estado</th>
+                  {canAssignRoles && <th>Acciones</th>}
                 </tr>
               </thead>
               <tbody>
@@ -176,6 +178,13 @@ export function UsersPage() {
                         {statusLabels[user.status]}
                       </span>
                     </td>
+                    {canAssignRoles && (
+                      <td className="users-actions-cell">
+                        <Link className="button button--ghost button--small" to={`/users/${user.id}/roles`}>
+                          Gestionar roles
+                        </Link>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>

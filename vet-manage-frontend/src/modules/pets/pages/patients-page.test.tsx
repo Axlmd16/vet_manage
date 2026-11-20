@@ -2,14 +2,14 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ToastContext } from '../../../common/components/toast-context';
-import { PetsPage } from './pets-page';
+import { PatientsPage } from './patients-page';
 import { speciesApi } from '../services/species.service';
 import { breedApi } from '../services/breed.service';
-import { petApi } from '../services/pet.service';
+import { patientApi } from '../services/patient.service';
 
 vi.mock('../services/species.service', () => ({ speciesApi: { listActiveSpecies: vi.fn() } }));
 vi.mock('../services/breed.service', () => ({ breedApi: { listActiveBreeds: vi.fn() } }));
-vi.mock('../services/pet.service', () => ({ petApi: { registerPet: vi.fn(), searchActiveClients: vi.fn() } }));
+vi.mock('../services/patient.service', () => ({ patientApi: { registerPatient: vi.fn(), searchActiveClients: vi.fn() } }));
 
 let canCreate = true;
 vi.mock('../../auth/auth-context', () => ({ useAuth: () => ({ hasPermission: () => canCreate }) }));
@@ -19,12 +19,12 @@ const showToast = vi.fn();
 function renderPage() {
   return render(
     <ToastContext.Provider value={{ showToast, dismissToast: vi.fn() }}>
-      <PetsPage />
+      <PatientsPage />
     </ToastContext.Provider>,
   );
 }
 
-describe('PetsPage', () => {
+describe('PatientsPage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     canCreate = true;
@@ -55,10 +55,10 @@ describe('PetsPage', () => {
   it('cierra el modal y muestra el toast de éxito al registrar', async () => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
     vi.mocked(breedApi.listActiveBreeds).mockResolvedValue([{ id: 'br-1', name: 'Labrador' }]);
-    vi.mocked(petApi.searchActiveClients).mockResolvedValue([
+    vi.mocked(patientApi.searchActiveClients).mockResolvedValue([
       { id: 'cl-1', identification: '1710034065', firstName: 'María', lastName: 'López' },
     ]);
-    vi.mocked(petApi.registerPet).mockResolvedValue({ code: 'PAC-000007' } as never);
+    vi.mocked(patientApi.registerPatient).mockResolvedValue({ code: 'PAC-000007' } as never);
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     renderPage();
 

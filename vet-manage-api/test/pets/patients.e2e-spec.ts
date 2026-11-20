@@ -8,7 +8,7 @@ import { ROLES } from '../../src/config/roles.catalog.js';
 import { GlobalExceptionFilter } from '../../src/common/errors/global-exception.filter.js';
 import { PetsModule } from '../../src/modules/pets/pets.module.js';
 import { BreedRepository } from '../../src/modules/pets/repositories/breed.repository.js';
-import { PetRepository } from '../../src/modules/pets/repositories/pet.repository.js';
+import { PatientRepository } from '../../src/modules/pets/repositories/patient.repository.js';
 import { SpeciesRepository } from '../../src/modules/pets/repositories/species.repository.js';
 import { ClientsRepository } from '../../src/modules/clients/repositories/clients.repository.js';
 import { PrismaService } from '../../src/infrastructure/database/prisma/prisma.service.js';
@@ -27,10 +27,10 @@ const MISSING = '923e4567-e89b-12d3-a456-426614174999';
 
 const permissionsOf = (role: string) => new Set(ROLES.find((r) => r.name === role)?.permissions ?? []);
 
-describe('PetsController (e2e)', () => {
+describe('PatientsController (e2e)', () => {
   let app: INestApplication;
   let permissions: Set<string>;
-  let pets: Array<Record<string, unknown>>;
+  let patients: Array<Record<string, unknown>>;
 
   const speciesDb = [
     { id: DOG, name: 'Canino', isActive: true },
@@ -66,15 +66,15 @@ describe('PetsController (e2e)', () => {
   const petRepo = {
     create: vi.fn(async (data: Record<string, unknown>) => {
       const created = {
-        id: `pet-${pets.length + 1}`,
-        code: `PAC-${String(pets.length + 1).padStart(6, '0')}`,
+        id: `patient-${patients.length + 1}`,
+        code: `PAC-${String(patients.length + 1).padStart(6, '0')}`,
         status: 'ACTIVE',
         createdAt: new Date('2026-11-19T12:00:00.000Z'),
         species: speciesDb.find((s) => s.id === data.speciesId),
         breed: breedsDb.find((b) => b.id === data.breedId),
         ...data,
       };
-      pets.push(created);
+      patients.push(created);
       return created;
     }),
   };
@@ -89,7 +89,7 @@ describe('PetsController (e2e)', () => {
       .overrideProvider(PrismaService).useValue({})
       .overrideProvider(SpeciesRepository).useValue(speciesRepo)
       .overrideProvider(BreedRepository).useValue(breedRepo)
-      .overrideProvider(PetRepository).useValue(petRepo)
+      .overrideProvider(PatientRepository).useValue(petRepo)
       .overrideProvider(ClientsRepository).useValue(clientsRepo)
       .overrideProvider(TokenService).useValue(tokens)
       .overrideProvider(AccessService).useValue(access)
@@ -102,7 +102,7 @@ describe('PetsController (e2e)', () => {
   });
 
   beforeEach(() => {
-    pets = [];
+    patients = [];
     permissions = permissionsOf('receptionist');
   });
 
@@ -110,11 +110,11 @@ describe('PetsController (e2e)', () => {
     await app?.close();
   });
 
-  const validPet = (overrides: Record<string, unknown> = {}) => ({
+  const validPatient = (overrides: Record<string, unknown> = {}) => ({
     name: 'Firulais',
     speciesId: DOG,
     breedId: LABRADOR,
-    sex: 'MALE',
+    gender: 'MALE',
     birthDate: '10-05-2024',
     weightKg: 12.5,
     heightCm: 45,
@@ -129,7 +129,7 @@ describe('PetsController (e2e)', () => {
 
   describe('POST /pets', () => {
     it('registra un paciente activo con código PAC-NNNNNN (201)', async () => {
-      const res = await post(validPet()).expect(201);
+      const res = await post(validPatient()).expect(201);
 
       expect(res.body.message).toBe('Paciente registrado exitosamente');
       expect(res.body.data).toMatchObject({
@@ -145,8 +145,8 @@ describe('PetsController (e2e)', () => {
     });
 
     it('asigna códigos distintos a pacientes consecutivos (201)', async () => {
-      const first = await post(validPet()).expect(201);
-      const second = await post(validPet({ name: 'Luna' })).expect(201);
+      const first = await post(validPatient()).expect(201);
+      const second = await post(validPatient({ name: 'Luna' })).expect(201);
 
       expect(first.body.data.code).not.toBe(second.body.data.code);
     });
@@ -154,24 +154,24 @@ describe('PetsController (e2e)', () => {
     it('permite registrar al Veterinario (201)', async () => {
       permissions = permissionsOf('veterinarian');
 
-      await post(validPet()).expect(201);
+      await post(validPatient()).expect(201);
     });
 
     it('permite registrar al Gerente (201)', async () => {
       permissions = permissionsOf('manager');
 
-      await post(validPet()).expect(201);
+      await post(validPatient()).expect(201);
     });
 
     it('registra sin color (201)', async () => {
-      const { color: _color, ...withoutColor } = validPet();
+      const { color: _color, ...withoutColor } = validPatient();
       const res = await post(withoutColor).expect(201);
 
       expect(res.body.data.color).toBeNull();
     });
 
     it('ignora el código enviado por el usuario (201)', async () => {
-      const res = await post(validPet({ code: 'PAC-999999' })).expect(201);
+      const res = await post(validPatient({ code: 'PAC-999999' })).expect(201);
 
       expect(res.body.data.code).toBe('PAC-000001');
     });
@@ -181,61 +181,61 @@ describe('PetsController (e2e)', () => {
 
       expect(res.body.message).toBe('Por favor, complete todos los campos obligatorios');
       expect(res.body.errors).toEqual(expect.arrayContaining(['name', 'speciesId', 'breedId', 'birthDate']));
-      expect(pets).toHaveLength(0);
+      expect(patients).toHaveLength(0);
     });
 
     it('exige un cliente (400)', async () => {
-      const { clientId: _clientId, ...withoutClient } = validPet();
+      const { clientId: _clientId, ...withoutClient } = validPatient();
       const res = await post(withoutClient).expect(400);
 
       expect(res.body.message).toBe('Debe seleccionar un cliente registrado');
     });
 
     it('rechaza un cliente inexistente (404)', async () => {
-      const res = await post(validPet({ clientId: MISSING })).expect(404);
+      const res = await post(validPatient({ clientId: MISSING })).expect(404);
 
       expect(res.body.message).toBe('Debe seleccionar un cliente registrado');
     });
 
     it('rechaza un cliente dado de baja (409)', async () => {
-      const res = await post(validPet({ clientId: DEACTIVATED_CLIENT })).expect(409);
+      const res = await post(validPatient({ clientId: DEACTIVATED_CLIENT })).expect(409);
 
       expect(res.body.message).toBe('El cliente seleccionado no está disponible');
-      expect(pets).toHaveLength(0);
+      expect(patients).toHaveLength(0);
     });
 
     it.each(['2024-05-10', '31-02-2024', '01-01-2999'])('rechaza la fecha %s (400)', async (birthDate) => {
-      const res = await post(validPet({ birthDate })).expect(400);
+      const res = await post(validPatient({ birthDate })).expect(400);
 
       expect(res.body.message).toBe('Fecha de nacimiento inválida');
     });
 
     it.each([{ weightKg: 0 }, { heightCm: -1 }, { weightKg: 'abc' }])('rechaza %j (400)', async (override) => {
-      const res = await post(validPet(override)).expect(400);
+      const res = await post(validPatient(override)).expect(400);
 
       expect(res.body.message).toBe('El peso y la talla deben ser valores numéricos mayores que cero');
       expect(res.body.errors).toEqual(Object.keys(override));
     });
 
     it('rechaza una raza de otra especie (400)', async () => {
-      const res = await post(validPet({ breedId: SIAMESE })).expect(400);
+      const res = await post(validPatient({ breedId: SIAMESE })).expect(400);
 
       expect(res.body.message).toBe('La raza no corresponde a la especie seleccionada');
     });
 
     it('rechaza una raza inactiva (409)', async () => {
-      await post(validPet({ breedId: OLD_BREED })).expect(409);
+      await post(validPatient({ breedId: OLD_BREED })).expect(409);
     });
 
     it('requiere autenticación (401)', async () => {
-      await request(app.getHttpServer()).post('/pets').send(validPet()).expect(401);
+      await request(app.getHttpServer()).post('/pets').send(validPatient()).expect(401);
     });
 
     it('requiere pets:create (403)', async () => {
       permissions = permissionsOf('veterinary_technician');
 
-      await post(validPet()).expect(403);
-      expect(pets).toHaveLength(0);
+      await post(validPatient()).expect(403);
+      expect(patients).toHaveLength(0);
     });
   });
 

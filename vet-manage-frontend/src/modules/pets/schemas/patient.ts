@@ -1,17 +1,17 @@
-import type { PetSex, RegisterPetDraft, ReproductiveStatus } from '../types';
+import type { Gender, RegisterPatientDraft, ReproductiveStatus } from '../types';
 
-export const PET_FORM_MESSAGES = {
+export const PATIENT_FORM_MESSAGES = {
   missing: 'Por favor, complete todos los campos obligatorios',
   clientRequired: 'Debe seleccionar un cliente registrado',
   invalidBirthDate: 'Fecha de nacimiento inválida',
   invalidMeasures: 'El peso y la talla deben ser valores numéricos mayores que cero',
 } as const;
 
-export type PetFormInput = {
+export type PatientFormInput = {
   name: string;
   speciesId: string;
   breedId: string;
-  sex: PetSex | '';
+  gender: Gender | '';
   birthDate: string;
   weightKg: string;
   heightCm: string;
@@ -20,18 +20,18 @@ export type PetFormInput = {
   clientId: string;
 };
 
-export type PetField = keyof PetFormInput;
-export type PetFieldErrors = Partial<Record<PetField, string>>;
+export type PatientField = keyof PatientFormInput;
+export type PatientFieldErrors = Partial<Record<PatientField, string>>;
 
-type PetValidation =
-  | { valid: true; value: RegisterPetDraft; errors: null; message: null }
-  | { valid: false; value: null; errors: PetFieldErrors; message: string };
+type PatientValidation =
+  | { valid: true; value: RegisterPatientDraft; errors: null; message: null }
+  | { valid: false; value: null; errors: PatientFieldErrors; message: string };
 
-export const emptyPetForm: PetFormInput = {
+export const emptyPatientForm: PatientFormInput = {
   name: '',
   speciesId: '',
   breedId: '',
-  sex: '',
+  gender: '',
   birthDate: '',
   weightKg: '',
   heightCm: '',
@@ -40,7 +40,7 @@ export const emptyPetForm: PetFormInput = {
   clientId: '',
 };
 
-const REQUIRED: PetField[] = ['name', 'speciesId', 'breedId', 'sex', 'birthDate', 'weightKg', 'heightCm', 'reproductiveStatus'];
+const REQUIRED: PatientField[] = ['name', 'speciesId', 'breedId', 'gender', 'birthDate', 'weightKg', 'heightCm', 'reproductiveStatus'];
 const NUMBER_PATTERN = /^\d+([.,]\d+)?$/;
 
 // Igual que el backend: DD-MM-YYYY, fecha existente y no futura.
@@ -66,33 +66,33 @@ export function maskBirthDate(value: string): string {
   return [digits.slice(0, 2), digits.slice(2, 4), digits.slice(4)].filter(Boolean).join('-');
 }
 
-export function validatePetDraft(input: PetFormInput, today: Date = new Date()): PetValidation {
-  const errors: PetFieldErrors = {};
+export function validatePatientDraft(input: PatientFormInput, today: Date = new Date()): PatientValidation {
+  const errors: PatientFieldErrors = {};
 
   for (const field of REQUIRED) {
     if (!input[field].trim()) errors[field] = 'Campo obligatorio';
   }
-  if (!input.clientId) errors.clientId = PET_FORM_MESSAGES.clientRequired;
+  if (!input.clientId) errors.clientId = PATIENT_FORM_MESSAGES.clientRequired;
 
   const missingOthers = REQUIRED.some((field) => errors[field]);
-  if (missingOthers) return { valid: false, value: null, errors, message: PET_FORM_MESSAGES.missing };
-  if (errors.clientId) return { valid: false, value: null, errors, message: PET_FORM_MESSAGES.clientRequired };
+  if (missingOthers) return { valid: false, value: null, errors, message: PATIENT_FORM_MESSAGES.missing };
+  if (errors.clientId) return { valid: false, value: null, errors, message: PATIENT_FORM_MESSAGES.clientRequired };
 
   if (!isValidBirthDate(input.birthDate, today)) {
     return {
       valid: false,
       value: null,
-      errors: { birthDate: PET_FORM_MESSAGES.invalidBirthDate },
-      message: PET_FORM_MESSAGES.invalidBirthDate,
+      errors: { birthDate: PATIENT_FORM_MESSAGES.invalidBirthDate },
+      message: PATIENT_FORM_MESSAGES.invalidBirthDate,
     };
   }
 
   const weightKg = parseMeasure(input.weightKg);
   const heightCm = parseMeasure(input.heightCm);
-  if (!(weightKg > 0)) errors.weightKg = PET_FORM_MESSAGES.invalidMeasures;
-  if (!(heightCm > 0)) errors.heightCm = PET_FORM_MESSAGES.invalidMeasures;
+  if (!(weightKg > 0)) errors.weightKg = PATIENT_FORM_MESSAGES.invalidMeasures;
+  if (!(heightCm > 0)) errors.heightCm = PATIENT_FORM_MESSAGES.invalidMeasures;
   if (errors.weightKg || errors.heightCm) {
-    return { valid: false, value: null, errors, message: PET_FORM_MESSAGES.invalidMeasures };
+    return { valid: false, value: null, errors, message: PATIENT_FORM_MESSAGES.invalidMeasures };
   }
 
   return {
@@ -101,7 +101,7 @@ export function validatePetDraft(input: PetFormInput, today: Date = new Date()):
       name: input.name.trim(),
       speciesId: input.speciesId,
       breedId: input.breedId,
-      sex: input.sex as PetSex,
+      gender: input.gender as Gender,
       birthDate: input.birthDate.trim(),
       weightKg,
       heightCm,
