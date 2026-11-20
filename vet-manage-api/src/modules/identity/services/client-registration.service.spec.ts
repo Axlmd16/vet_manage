@@ -2,6 +2,7 @@ import { Logger } from '@nestjs/common';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ApiException } from '../../../common/errors/api-exception.js';
 import { isValidPassword } from '../../../common/security/password-policy.js';
+import type { ClientRegistrationDto } from '../dtos/client-registration.dto.js';
 import { ClientRegistrationService, CLIENT_MESSAGES } from './client-registration.service.js';
 
 const CLIENT_ROLE = { id: 'r-client', name: 'client', displayName: 'Cliente' };
@@ -35,7 +36,7 @@ function build() {
 
   const prisma = {
     role: {
-      findFirst: vi.fn(async () => CLIENT_ROLE),
+      findFirst: vi.fn(async (): Promise<typeof CLIENT_ROLE | null> => CLIENT_ROLE),
       findMany: vi.fn(async () => [CLIENT_ROLE]),
     },
     $transaction: vi.fn((callback: (transaction: typeof tx) => unknown) => callback(tx)),
@@ -43,8 +44,9 @@ function build() {
   const hasher = { hash: vi.fn(async (password: string) => `hash:${password}`) };
   const mail = { send: vi.fn(async () => undefined) };
   const config = { get: vi.fn(() => 'http://localhost:5174') };
-  const service = new ClientRegistrationService(prisma as never, hasher as never, mail as never, config as never);
-  return { service, tx, prisma, hasher, mail };
+  const audit = { record: vi.fn(async () => undefined) };
+  const service = new ClientRegistrationService(prisma as never, hasher as never, mail as never, config as never, audit as never);
+  return { service, tx, prisma, hasher, mail, audit };
 }
 
 async function rejection(promise: Promise<unknown>): Promise<ApiException> {
@@ -206,7 +208,7 @@ describe('ClientRegistrationService', () => {
       ['firstName', { firstName: '' }],
       ['lastName', { lastName: undefined }],
     ])('rechaza si falta %s', async (field, override) => {
-      const error = await rejection(ctx.service.register({ ...valid, ...override }, 'admin-1'));
+      const error = await rejection(ctx.service.register({ ...valid, ...override } as ClientRegistrationDto, 'admin-1'));
 
       expect(error).toMatchObject({ statusCode: 400, message: 'Complete los campos obligatorios', code: 'CLIENT_MISSING_FIELDS', errors: [field] });
       expect(ctx.prisma.$transaction).not.toHaveBeenCalled();
@@ -214,8 +216,39 @@ describe('ClientRegistrationService', () => {
     });
 
     it('lista todos los campos faltantes', async () => {
-      const error = await rejection(ctx.service.register({}, 'admin-1'));
+      const error = await rejection(ctx.service.register({} as ClientRegistrationDto, 'admin-1'));
       expect(error.errors).toEqual(['identification', 'firstName', 'lastName', 'email']);
+    });
+  });
+
+  describe('auditoría', () => {
+    it('registra la acción en la transacción con el usuario autenticado como actor', async () => {
+      await ctx.service.register(valid, 'recep-1');
+
+      expect(ctx.audit.record).toHaveBeenCalledTimes(1);
+      expect(ctx.audit.record).toHaveBeenCalledWith(ctx.tx, {
+        actorId: 'recep-1',
+        action: 'Registrar',
+        module: 'Clientes',
+        affectedRecord: `${valid.identification} - ${valid.firstName} ${valid.lastName}`,
+      });
+    });
+
+    it('no registra nada cuando el registro se rechaza', async () => {
+      ctx.tx.person.findUnique.mockResolvedValue({
+        id: 'p2', identification: valid.identification,
+        user: { id: 'u2', password: 'h', userRoles: [{ role: { category: 'STAFF' } }] },
+      });
+
+      await rejection(ctx.service.register(valid, 'recep-1'));
+
+      expect(ctx.audit.record).not.toHaveBeenCalled();
+    });
+
+    it('falla el registro si no se puede guardar la auditoría', async () => {
+      ctx.audit.record.mockRejectedValue(new Error('fallo de auditoría'));
+
+      await expect(ctx.service.register(valid, 'recep-1')).rejects.toThrow('fallo de auditoría');
     });
   });
 

@@ -38,8 +38,8 @@ model Client {
   createdAt DateTime     @default(now()) @map("created_at")
   updatedAt DateTime     @updatedAt @map("updated_at")
 
-  person Person @relation(fields: [personId], references: [id], onDelete: Restrict)
-  pets   Pet[]
+  person   Person    @relation(fields: [personId], references: [id], onDelete: Restrict)
+  patients Patient[]
 
   @@index([status])
   @@map("clients")
@@ -65,6 +65,15 @@ model User {
   userRoles         UserRole[]
   createdRoles      Role[]        @relation("RoleCreatedBy")
   assignedUserRoles UserRole[]    @relation("UserRoleAssignedBy")
+  auditLogs         AuditLog[]
+
+  // agendamiento de Citas
+  horariosBase            HorarioBase[]    @relation("HorarioBaseVeterinario")
+  bloqueosVeterinario     BloqueoHorario[] @relation("BloqueoHorarioVeterinario")
+  bloqueosRegistrados     BloqueoHorario[] @relation("BloqueoHorarioRegistradoPor")
+  bloqueosEliminados      BloqueoHorario[] @relation("BloqueoHorarioEliminadoPor")
+  citasComoVeterinario    Cita[]           @relation("CitaVeterinario")
+  citasRegistradas        Cita[]           @relation("CitaRegistradaPor")
 
   @@index([status])
   @@map("users")
