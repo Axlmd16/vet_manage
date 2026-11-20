@@ -43,6 +43,57 @@ Equivalencia verificada en `qa/sprint-1/matrices/equivalencia-cp-equipo.json`.
 | CP-048 | CP-57-01 | HU-57 | Inicio de sesión exitoso. | Pasó | [CP-048.jpg](CP-048.jpg) |
 | CP-049 | CP-57-02 | HU-57 | Inicio de sesión de un usuario con varios roles. | Pasó | [CP-049.jpg](CP-049.jpg) |
 | CP-050 | CP-57-03 | HU-57 | Contraseña incorrecta y correo no registrado. | Pasó | [CP-050.jpg](CP-050.jpg) |
+| CP-051 | CP-57-04 | HU-57 | Campos vacíos. | Pasó | [CP-051.jpg](CP-051.jpg) |
+| CP-052 | CP-57-05 | HU-57 | El 4.º intento fallido NO bloquea; el 5.º sí bloquea 15 minutos. | Pasó | [CP-052.jpg](CP-052.jpg) |
+| CP-053 | CP-57-06 | HU-57 | Intento con la contraseña correcta durante el bloqueo. | Pasó | [CP-053.jpg](CP-053.jpg) |
+| CP-054 | CP-57-07 | HU-57 | Reinicio del contador tras un inicio de sesión correcto. | Pasó | [CP-054.jpg](CP-054.jpg) |
+| CP-055 | CP-57-08 | HU-57 | Cuenta inactiva o dada de baja con credenciales correctas. | Pasó | [CP-055.jpg](CP-055.jpg) |
+| CP-056 | CP-57-09 | HU-57 | Primer ingreso con contraseña temporal. | Falló | [CP-056.jpg](CP-056.jpg) |
+| CP-057 | CP-57-10 | HU-57 | Acceder a /auth/me con token alterado o ausente. | Pasó | [CP-057.jpg](CP-057.jpg) |
+| CP-058 | CP-01-01 | HU-01 | Registrar un cliente con datos válidos. | Falló | [CP-058.jpg](CP-058.jpg) |
+| CP-059 | CP-01-02 | HU-01 | Registrar un cliente sin dirección (opcional). | Pasó | [CP-059.jpg](CP-059.jpg) |
+| CP-060 | CP-01-03 | HU-01 | Veterinario y Gerente también pueden registrar clientes. | Pasó | [CP-060.jpg](CP-060.jpg) |
+| CP-061 | CP-01-04 | HU-01 | Omitir campos obligatorios (cédula, nombre, apellido, correo). | Falló | [CP-061.jpg](CP-061.jpg) |
+| CP-062 | CP-01-05 | HU-01 | Omitir el teléfono de contacto (obligatorio según la HU). | Falló | [CP-062.jpg](CP-062.jpg) |
+| CP-063 | CP-01-06 | HU-01 | Registrar un cliente con una cédula existente. | Falló | [CP-063.jpg](CP-063.jpg) |
+| CP-064 | CP-01-07 | HU-01 | Cédula alfanumérica. | Falló | [CP-064.jpg](CP-064.jpg) |
+| CP-065 | CP-01-08 | HU-01 | Cédula de 9 y 11 dígitos. | Falló | [CP-065.jpg](CP-065.jpg) |
+| CP-066 | CP-01-09 | HU-01 | Correo sin formato usuario@dominio.com. | Falló | [CP-066.jpg](CP-066.jpg) |
+| CP-067 | CP-01-10 | HU-01 | Teléfono con caracteres alfabéticos. | Falló | [CP-067.jpg](CP-067.jpg) |
+| CP-068 | CP-01-11 | HU-01 | Teléfono de 9 y de 11 dígitos (debe tener exactamente 10). | Falló | [CP-068.jpg](CP-068.jpg) |
+| CP-069 | CP-01-12 | HU-01 | Teléfono de 10 dígitos con prefijo inválido (no inicia en 0). | Falló | [CP-069.jpg](CP-069.jpg) |
+| CP-070 | CP-01-13 | HU-01 | Teléfono de exactamente 10 dígitos con prefijo 09 (válido). | Pasó | [CP-070.jpg](CP-070.jpg) |
+| CP-071 | CP-01-14 | HU-01 | Roles sin permiso intentan registrar un cliente. | Pasó | [CP-071.jpg](CP-071.jpg) |
+| CP-072 | CP-01-15 | HU-01 | Dirección de 255 caracteres (máximo) y de 256. | Pasó | [CP-072.jpg](CP-072.jpg) |
+| CP-073 | CP-07-01 | HU-07 | Registrar un paciente con datos válidos. | Pasó | [CP-073.jpg](CP-073.jpg) |
+| CP-074 | CP-07-02 | HU-07 | Campos obligatorios incompletos. | Pasó | [CP-074.jpg](CP-074.jpg) |
+| CP-075 | CP-07-03 | HU-07 | Registrar sin el campo opcional Color. | Pasó | [CP-075.jpg](CP-075.jpg) |
+| CP-076 | CP-07-04 | HU-07 | Guardar sin seleccionar cliente. | Pasó | [CP-076.jpg](CP-076.jpg) |
+| CP-077 | CP-07-05 | HU-07 | Asociar el paciente a un cliente dado de baja. | Pasó | [CP-077.jpg](CP-077.jpg) |
+| CP-078 | CP-07-06 | HU-07 | Asociar el paciente a un cliente inactivo. | Pasó | [CP-078.jpg](CP-078.jpg) |
+| CP-079 | CP-07-07 | HU-07 | Fecha de nacimiento inexistente. | Pasó | [CP-079.jpg](CP-079.jpg) |
+| CP-080 | CP-07-08 | HU-07 | Fecha de nacimiento futura. | Pasó | [CP-080.jpg](CP-080.jpg) |
+| CP-081 | CP-07-09 | HU-07 | Fecha con formato distinto a DD-MM-YYYY. | Pasó | [CP-081.jpg](CP-081.jpg) |
+| CP-082 | CP-07-10 | HU-07 | Fecha de nacimiento igual a hoy (borde de "futura"). | Pasó | [CP-082.jpg](CP-082.jpg) |
+| CP-083 | CP-07-11 | HU-07 | Fecha 29-02 en año bisiesto y no bisiesto. | Pasó | [CP-083.jpg](CP-083.jpg) |
+| CP-084 | CP-07-12 | HU-07 | Peso igual a cero. | Pasó | [CP-084.jpg](CP-084.jpg) |
+| CP-085 | CP-07-13 | HU-07 | Talla negativa y peso no numérico. | Pasó | [CP-085.jpg](CP-085.jpg) |
+| CP-086 | CP-07-14 | HU-07 | Peso mínimo 0.01 y máximo 9999.99. | Pasó | [CP-086.jpg](CP-086.jpg) |
+| CP-087 | CP-07-15 | HU-07 | Peso o talla mayor que el máximo (10000). | Pasó | [CP-087.jpg](CP-087.jpg) |
+| CP-088 | CP-07-16 | HU-07 | El código identificador se genera automáticamente, es único y no editable. | Pasó | [CP-088.jpg](CP-088.jpg) |
+| CP-089 | CP-07-17 | HU-07 | La raza no corresponde a la especie. | Pasó | [CP-089.jpg](CP-089.jpg) |
+| CP-090 | CP-07-18 | HU-07 | Registrar con una especie inactiva. | Pasó | [CP-090.jpg](CP-090.jpg) |
+| CP-091 | CP-07-19 | HU-07 | Roles sin permiso intentan registrar un paciente. | Pasó | [CP-091.jpg](CP-091.jpg) |
+| CP-092 | CP-07-20 | HU-07 | Nombre de 100/101 caracteres y color de 50/51. | Pasó | [CP-092.jpg](CP-092.jpg) |
+| CP-093 | CP-13-01 | HU-13 | Registrar una especie con nombre y descripción. | Pasó | [CP-093.jpg](CP-093.jpg) |
+| CP-094 | CP-13-02 | HU-13 | Guardar sin nombre. | Pasó | [CP-094.jpg](CP-094.jpg) |
+| CP-095 | CP-13-03 | HU-13 | Nombre compuesto solo por espacios. | Pasó | [CP-095.jpg](CP-095.jpg) |
+| CP-096 | CP-13-04 | HU-13 | Registrar sin descripción (opcional). | Pasó | [CP-096.jpg](CP-096.jpg) |
+| CP-097 | CP-13-05 | HU-13 | Cancelar el registro. | Pasó | [CP-097.jpg](CP-097.jpg) |
+| CP-098 | CP-13-06 | HU-13 | Nombre duplicado (también con otra combinación de mayúsculas). | Pasó | [CP-098.jpg](CP-098.jpg) |
+| CP-099 | CP-13-07 | HU-13 | Nombre de 100 caracteres (máximo) y de 101. | Pasó | [CP-099.jpg](CP-099.jpg) |
+| CP-100 | CP-13-08 | HU-13 | Un Recepcionista intenta registrar una especie. | Pasó | [CP-100.jpg](CP-100.jpg) |
+| CP-101 | CP-13-09 | HU-13 | El Administrador intenta registrar una especie (la matriz de roles solo lo permite al Veterinario). | Pasó | [CP-101.jpg](CP-101.jpg) |
 
 ## Según la matriz QA
 
