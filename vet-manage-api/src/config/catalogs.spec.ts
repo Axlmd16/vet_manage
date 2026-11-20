@@ -7,7 +7,7 @@ const keysOf = (roleName: string) =>
 
 describe('Catálogos de permisos y roles', () => {
   it('mantiene catálogos separados por módulo y los agrega en una colección plana', () => {
-    expect(PERMISSION_CATALOGS).toHaveLength(3);
+    expect(PERMISSION_CATALOGS).toHaveLength(4);
     expect(PERMISSION_CATALOGS.every((catalog) => catalog.length > 0)).toBe(true);
     expect(PERMISSIONS.length).toBe(PERMISSION_CATALOGS.reduce((total, catalog) => total + catalog.length, 0));
     expect(PERMISSIONS.some((permission) => permission.key === 'inventory:manage-products')).toBe(true);
@@ -23,7 +23,6 @@ describe('Catálogos de permisos y roles', () => {
   it('declara el superadmin de pruebas y los roles operativos', () => {
     expect(ROLES.map((role) => role.name)).toEqual([
       'superadmin', 'administrator', 'manager', 'veterinarian', 'veterinary_technician',
-      'administrator', 'manager', 'veterinarian', 'veterinary_technician',
       'receptionist', 'cashier', 'warehouse_keeper', 'client',
     ]);
   });
@@ -89,6 +88,36 @@ describe('Catálogos de permisos y roles', () => {
       expect(permissions.has('inventory:read'), role).toBe(true);
       for (const permission of catalogPermissions) expect(permissions.has(permission), `${role}: ${permission}`).toBe(true);
     }
+  });
+
+  it('Administrador y Gerente configuran la agenda', () => {
+    for (const name of ['administrator', 'manager']) {
+      const role = keysOf(name);
+      for (const key of [
+        'work-schedules:manage', 'saturday-shifts:manage', 'schedule-blocks:create',
+        'schedule-blocks:remove', 'rates:manage', 'resources:read-availability',
+      ]) expect(role.has(key), `${name}: ${key}`).toBe(true);
+      expect(role.has('daily-availability:manage-own'), name).toBe(false);
+    }
+  });
+
+  it('el Veterinario define solo su disponibilidad diaria y no configura la agenda', () => {
+    const veterinarian = keysOf('veterinarian');
+
+    expect(veterinarian.has('daily-availability:manage-own')).toBe(true);
+    expect(veterinarian.has('work-schedules:read')).toBe(true);
+    expect(veterinarian.has('work-schedules:manage')).toBe(false);
+    expect(veterinarian.has('schedule-blocks:create')).toBe(false);
+    expect(veterinarian.has('rates:manage')).toBe(false);
+  });
+
+  it('el Recepcionista consulta recursos disponibles pero no gestiona bloqueos ni tarifas', () => {
+    const receptionist = keysOf('receptionist');
+
+    expect(receptionist.has('resources:read-availability')).toBe(true);
+    expect(receptionist.has('rates:read')).toBe(true);
+    expect(receptionist.has('schedule-blocks:create')).toBe(false);
+    expect(receptionist.has('rates:manage')).toBe(false);
   });
 
   it('el Bodeguero también registra entradas de lote (HU-02)', () => {

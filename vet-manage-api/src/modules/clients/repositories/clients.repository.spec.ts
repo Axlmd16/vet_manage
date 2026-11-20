@@ -150,7 +150,7 @@ describe('ClientsRepository.findPetsByClientId', () => {
   it('valida al cliente y devuelve sus mascotas ordenadas por nombre', async () => {
     const findUnique = vi.fn(async () => ({ id: 'c1', status: 'ACTIVE' }));
     const findMany = vi.fn(async () => [petRecord()]);
-    const repository = new ClientsRepository({ client: { findUnique }, pet: { findMany } } as never);
+    const repository = new ClientsRepository({ client: { findUnique }, patient: { findMany } } as never);
 
     await expect(repository.findPetsByClientId('c1')).resolves.toEqual([petRecord()]);
     expect(findUnique).toHaveBeenCalledWith({ where: { id: 'c1' }, select: { id: true, status: true } });
@@ -171,7 +171,7 @@ describe('ClientsRepository.findPetsByClientId', () => {
   it('devuelve una lista vacía cuando el cliente no tiene mascotas', async () => {
     const findUnique = vi.fn(async () => ({ id: 'c1', status: 'ACTIVE' }));
     const findMany = vi.fn(async () => []);
-    const repository = new ClientsRepository({ client: { findUnique }, pet: { findMany } } as never);
+    const repository = new ClientsRepository({ client: { findUnique }, patient: { findMany } } as never);
 
     await expect(repository.findPetsByClientId('c1')).resolves.toEqual([]);
   });
@@ -179,7 +179,7 @@ describe('ClientsRepository.findPetsByClientId', () => {
   it('devuelve null sin consultar mascotas cuando el cliente no existe', async () => {
     const findUnique = vi.fn(async () => null);
     const findMany = vi.fn();
-    const repository = new ClientsRepository({ client: { findUnique }, pet: { findMany } } as never);
+    const repository = new ClientsRepository({ client: { findUnique }, patient: { findMany } } as never);
 
     await expect(repository.findPetsByClientId('missing')).resolves.toBeNull();
     expect(findMany).not.toHaveBeenCalled();

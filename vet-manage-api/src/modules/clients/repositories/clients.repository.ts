@@ -139,7 +139,7 @@ export class ClientsRepository {
     const client = await this.findById(clientId);
     if (!client) return null;
 
-    return this.prisma.pet.findMany({
+    return this.prisma.patient.findMany({
       where: { clientId },
       select: {
         id: true,
