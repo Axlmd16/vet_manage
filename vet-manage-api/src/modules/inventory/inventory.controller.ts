@@ -12,36 +12,43 @@ export class InventoryController {
   constructor(private readonly inventoryService: InventoryService) {}
 
   @Get('categories')
+  @RequirePermissions('inventory:read')
   async listCategories() {
     return success(await this.inventoryService.listCategories());
   }
 
   @Post('categories')
+  @RequirePermissions('inventory:manage-categories')
   async createCategory(@Body() input: CreateCatalogItemDto) {
     return success(await this.inventoryService.createCategory(input), 'Categoría creada correctamente', 201);
   }
 
   @Patch('categories/:id')
+  @RequirePermissions('inventory:manage-categories')
   async updateCategory(@Param('id') id: string, @Body() input: CreateCatalogItemDto) {
     return success(await this.inventoryService.updateCategory(id, input), 'Categoría actualizada correctamente');
   }
 
   @Get('brands')
+  @RequirePermissions('inventory:read')
   async listBrands() {
     return success(await this.inventoryService.listBrands());
   }
 
   @Post('brands')
+  @RequirePermissions('inventory:manage-brands')
   async createBrand(@Body() input: CreateCatalogItemDto) {
     return success(await this.inventoryService.createBrand(input), 'Marca creada correctamente', 201);
   }
 
   @Patch('brands/:id')
+  @RequirePermissions('inventory:manage-brands')
   async updateBrand(@Param('id') id: string, @Body() input: CreateCatalogItemDto) {
     return success(await this.inventoryService.updateBrand(id, input), 'Marca actualizada correctamente');
   }
 
   @Get('products')
+  @RequirePermissions('inventory:read')
   async listProducts(@Query('search') search?: string) {
     return success(await this.inventoryService.listProducts(search));
   }
@@ -62,16 +69,19 @@ export class InventoryController {
   }
 
   @Get('products/:id')
+  @RequirePermissions('inventory:read')
   async getProduct(@Param('id') id: string) {
     return success(await this.inventoryService.getProduct(id));
   }
 
   @Post('products')
+  @RequirePermissions('inventory:manage-products')
   async createProduct(@Body() input: CreateProductDto) {
     return success(await this.inventoryService.createProduct(input), 'Producto registrado correctamente', 201);
   }
 
   @Patch('products/:id')
+  @RequirePermissions('inventory:manage-products')
   async updateProduct(@Param('id') id: string, @Body() input: CreateProductDto) {
     return success(await this.inventoryService.updateProduct(id, input), 'Producto actualizado correctamente');
   }
