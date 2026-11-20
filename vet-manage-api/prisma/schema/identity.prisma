@@ -67,6 +67,14 @@ model User {
   assignedUserRoles UserRole[]    @relation("UserRoleAssignedBy")
   auditLogs         AuditLog[]
 
+  // agendamiento de Citas
+  horariosBase            HorarioBase[]    @relation("HorarioBaseVeterinario")
+  bloqueosVeterinario     BloqueoHorario[] @relation("BloqueoHorarioVeterinario")
+  bloqueosRegistrados     BloqueoHorario[] @relation("BloqueoHorarioRegistradoPor")
+  bloqueosEliminados      BloqueoHorario[] @relation("BloqueoHorarioEliminadoPor")
+  citasComoVeterinario    Cita[]           @relation("CitaVeterinario")
+  citasRegistradas        Cita[]           @relation("CitaRegistradaPor")
+
   @@index([status])
   @@map("users")
 }
