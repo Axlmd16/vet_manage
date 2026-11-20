@@ -1,7 +1,7 @@
 // QA Sprint 1 · HU-07 Registrar datos del paciente · nivel unitario.
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { clinicToday, formatBirthDate, parseBirthDate } from '../../../src/modules/pets/services/pets/birth-date.js';
-import { RegisterPetService } from '../../../src/modules/pets/services/pets/register-pet.service.js';
+import { clinicToday, formatBirthDate, parseBirthDate } from '../../../src/modules/pets/services/patients/birth-date.js';
+import { RegisterPatientService } from '../../../src/modules/pets/services/patients/register-patient.service.js';
 import { describeError, rejection } from './support.js';
 
 const IDS = {
@@ -18,7 +18,7 @@ const valid = (): Record<string, unknown> => ({
   name: 'Max',
   speciesId: IDS.canino,
   breedId: IDS.labrador,
-  sex: 'MALE',
+  gender: 'MALE',
   birthDate: '10-02-2024',
   weightKg: 20.5,
   heightCm: 55,
@@ -44,13 +44,15 @@ function build() {
   };
   const breedRepository = { findById: vi.fn(async (id: string) => (id === IDS.labrador ? { id, speciesId: IDS.canino, isActive: true } : null)) };
   const clientsService = { findById: vi.fn(async (id: string) => (id === IDS.client ? { id, status: 'ACTIVE' } : null)) };
-  const service = new RegisterPetService(petRepository as never, speciesRepository as never, breedRepository as never, clientsService as never);
+  const prisma = { $transaction: vi.fn(async (callback: (tx: unknown) => unknown) => callback({})) };
+  const audit = { record: vi.fn(async () => undefined) };
+  const service = new RegisterPatientService(petRepository as never, speciesRepository as never, breedRepository as never, clientsService as never, prisma as never, audit as never);
   return { service, petRepository, clientsService };
 }
 
 describe('HU-07 Registrar datos del paciente (unitarias)', () => {
   let ctx: ReturnType<typeof build>;
-  const register = (patch: Record<string, unknown> = {}) => ctx.service.execute({ ...valid(), ...patch } as never);
+  const register = (patch: Record<string, unknown> = {}) => ctx.service.execute({ ...valid(), ...patch } as never, 'recep-id');
 
   beforeEach(() => {
     ctx = build();
@@ -180,7 +182,7 @@ describe('HU-07 Registrar datos del paciente (unitarias)', () => {
   });
 
   it('CP-07-01 rechaza sexo y estado reproductivo fuera del catálogo', async () => {
-    expect((await rejection(register({ sex: 'OTRO' }))).message).toBe('El sexo debe ser Macho o Hembra');
+    expect((await rejection(register({ gender: 'OTRO' }))).message).toBe('El sexo debe ser Macho o Hembra');
     expect((await rejection(register({ reproductiveStatus: 'CASTRADO' }))).message)
       .toBe('El estado reproductivo debe ser Esterilizado, No esterilizado o Desconocido');
   });

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuites name="vitest tests" tests="110" failures="12" errors="0" time="0.6934072">
-    <testsuite name="test/qa/unit/hu-01-register-client.qa-spec.ts" timestamp="2026-11-20T04:57:46.691Z" hostname="MSI-Estefania21" tests="18" failures="12" errors="0" skipped="0" time="0.1502362">
-        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-01 registra un cliente válido en estado Activo con el mensaje de la HU" time="0.0644634">
+<testsuites name="vitest tests" tests="110" failures="12" errors="0" time="0.1766803">
+    <testsuite name="test/qa/unit/hu-01-register-client.qa-spec.ts" timestamp="2026-11-20T20:55:09.546Z" hostname="Christian" tests="18" failures="12" errors="0" skipped="0" time="0.0344033">
+        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-01 registra un cliente válido en estado Activo con el mensaje de la HU" time="0.014761">
             <failure message="expected &apos;Cliente registrado correctamente&apos; to be &apos;Cliente registrado exitosamente&apos; // Object.is equality" type="AssertionError">
 AssertionError: expected &apos;Cliente registrado correctamente&apos; to be &apos;Cliente registrado exitosamente&apos; // Object.is equality
 
 Expected: &quot;Cliente registrado exitosamente&quot;
 Received: &quot;Cliente registrado correctamente&quot;
 
- ❯ test/qa/unit/hu-01-register-client.qa-spec.ts:59:28
+ ❯ test/qa/unit/hu-01-register-client.qa-spec.ts:60:28
             </failure>
         </testcase>
-        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-02 acepta la dirección vacía (opcional) y la guarda como null" time="0.0047972">
+        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-02 acepta la dirección vacía (opcional) y la guarda como null" time="0.0015722">
         </testcase>
-        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-04 rechaza los campos obligatorios vacíos con el mensaje de la HU" time="0.0173226">
+        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-04 rechaza los campos obligatorios vacíos con el mensaje de la HU" time="0.0038745">
             <failure message="expected { status: 400, …(1) } to deeply equal { status: 400, …(1) }" type="AssertionError">
 AssertionError: expected { status: 400, …(1) } to deeply equal { status: 400, …(1) }
 
@@ -26,26 +26,26 @@ AssertionError: expected { status: 400, …(1) } to deeply equal { status: 400, 
     &quot;status&quot;: 400,
   }
 
- ❯ test/qa/unit/hu-01-register-client.qa-spec.ts:69:34
+ ❯ test/qa/unit/hu-01-register-client.qa-spec.ts:70:34
             </failure>
         </testcase>
-        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-05 rechaza el registro sin teléfono de contacto (obligatorio en la HU)" time="0.0084121">
+        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-05 rechaza el registro sin teléfono de contacto (obligatorio en la HU)" time="0.001046">
             <failure message="Se esperaba que la operación fuera rechazada, pero se completó" type="Error">
 Error: Se esperaba que la operación fuera rechazada, pero se completó
  ❯ rejection test/qa/unit/support.ts:10:9
- ❯ test/qa/unit/hu-01-register-client.qa-spec.ts:74:19
+ ❯ test/qa/unit/hu-01-register-client.qa-spec.ts:75:19
             </failure>
         </testcase>
-        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-06 rechaza una cédula que ya pertenece a otro cliente" time="0.0037531">
+        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-06 rechaza una cédula que ya pertenece a otro cliente" time="0.0006319">
             <failure message="Se esperaba que la operación fuera rechazada, pero se completó" type="Error">
 Error: Se esperaba que la operación fuera rechazada, pero se completó
  ❯ rejection test/qa/unit/support.ts:10:9
- ❯ test/qa/unit/hu-01-register-client.qa-spec.ts:85:19
+ ❯ test/qa/unit/hu-01-register-client.qa-spec.ts:86:19
             </failure>
         </testcase>
-        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-06 rechaza una cédula que pertenece al personal" time="0.0022024">
+        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-06 rechaza una cédula que pertenece al personal" time="0.0006046">
         </testcase>
-        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-07 rechaza una cédula alfanumérica con &quot;Número de cédula no válido&quot;" time="0.003143">
+        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-07 rechaza una cédula alfanumérica con &quot;Número de cédula no válido&quot;" time="0.0007677">
             <failure message="expected { status: 400, …(1) } to deeply equal { status: 400, …(1) }" type="AssertionError">
 AssertionError: expected { status: 400, …(1) } to deeply equal { status: 400, …(1) }
 
@@ -58,10 +58,10 @@ AssertionError: expected { status: 400, …(1) } to deeply equal { status: 400, 
     &quot;status&quot;: 400,
   }
 
- ❯ test/qa/unit/hu-01-register-client.qa-spec.ts:97:34
+ ❯ test/qa/unit/hu-01-register-client.qa-spec.ts:98:34
             </failure>
         </testcase>
-        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-08 rechaza una cédula de 9 dígitos (valor límite)" time="0.003928">
+        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-08 rechaza una cédula de 9 dígitos (valor límite)" time="0.0007516">
             <failure message="expected { status: 400, …(1) } to deeply equal { status: 400, …(1) }" type="AssertionError">
 AssertionError: expected { status: 400, …(1) } to deeply equal { status: 400, …(1) }
 
@@ -74,10 +74,10 @@ AssertionError: expected { status: 400, …(1) } to deeply equal { status: 400, 
     &quot;status&quot;: 400,
   }
 
- ❯ test/qa/unit/hu-01-register-client.qa-spec.ts:105:36
+ ❯ test/qa/unit/hu-01-register-client.qa-spec.ts:106:36
             </failure>
         </testcase>
-        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-08 rechaza una cédula de 11 dígitos (valor límite)" time="0.0034118">
+        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-08 rechaza una cédula de 11 dígitos (valor límite)" time="0.0008656">
             <failure message="expected { status: 400, …(1) } to deeply equal { status: 400, …(1) }" type="AssertionError">
 AssertionError: expected { status: 400, …(1) } to deeply equal { status: 400, …(1) }
 
@@ -90,10 +90,10 @@ AssertionError: expected { status: 400, …(1) } to deeply equal { status: 400, 
     &quot;status&quot;: 400,
   }
 
- ❯ test/qa/unit/hu-01-register-client.qa-spec.ts:105:36
+ ❯ test/qa/unit/hu-01-register-client.qa-spec.ts:106:36
             </failure>
         </testcase>
-        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-09 rechaza un correo sin formato usuario@dominio.com" time="0.0043736">
+        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-09 rechaza un correo sin formato usuario@dominio.com" time="0.0008446">
             <failure message="expected { status: 400, …(1) } to deeply equal { status: 400, …(1) }" type="AssertionError">
 AssertionError: expected { status: 400, …(1) } to deeply equal { status: 400, …(1) }
 
@@ -106,10 +106,10 @@ AssertionError: expected { status: 400, …(1) } to deeply equal { status: 400, 
     &quot;status&quot;: 400,
   }
 
- ❯ test/qa/unit/hu-01-register-client.qa-spec.ts:111:34
+ ❯ test/qa/unit/hu-01-register-client.qa-spec.ts:112:34
             </failure>
         </testcase>
-        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-10 rechaza un teléfono con letras" time="0.0037705">
+        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-10 rechaza un teléfono con letras" time="0.0007995">
             <failure message="expected { status: 400, …(1) } to deeply equal { status: 400, …(1) }" type="AssertionError">
 AssertionError: expected { status: 400, …(1) } to deeply equal { status: 400, …(1) }
 
@@ -122,233 +122,233 @@ AssertionError: expected { status: 400, …(1) } to deeply equal { status: 400, 
     &quot;status&quot;: 400,
   }
 
- ❯ test/qa/unit/hu-01-register-client.qa-spec.ts:116:34
+ ❯ test/qa/unit/hu-01-register-client.qa-spec.ts:117:34
             </failure>
         </testcase>
-        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-11 rechaza un teléfono de 9 dígitos (debe tener exactamente 10)" time="0.0024165">
+        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-11 rechaza un teléfono de 9 dígitos (debe tener exactamente 10)" time="0.0009009">
             <failure message="Se esperaba que la operación fuera rechazada, pero se completó" type="Error">
 Error: Se esperaba que la operación fuera rechazada, pero se completó
  ❯ rejection test/qa/unit/support.ts:10:9
- ❯ test/qa/unit/hu-01-register-client.qa-spec.ts:122:21
+ ❯ test/qa/unit/hu-01-register-client.qa-spec.ts:123:21
             </failure>
         </testcase>
-        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-11 rechaza un teléfono de 11 dígitos (debe tener exactamente 10)" time="0.0023552">
+        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-11 rechaza un teléfono de 11 dígitos (debe tener exactamente 10)" time="0.0006638">
             <failure message="Se esperaba que la operación fuera rechazada, pero se completó" type="Error">
 Error: Se esperaba que la operación fuera rechazada, pero se completó
  ❯ rejection test/qa/unit/support.ts:10:9
- ❯ test/qa/unit/hu-01-register-client.qa-spec.ts:122:21
+ ❯ test/qa/unit/hu-01-register-client.qa-spec.ts:123:21
             </failure>
         </testcase>
-        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-12 rechaza un teléfono de 10 dígitos con prefijo inválido" time="0.0038593">
+        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-12 rechaza un teléfono de 10 dígitos con prefijo inválido" time="0.0006256">
             <failure message="Se esperaba que la operación fuera rechazada, pero se completó" type="Error">
 Error: Se esperaba que la operación fuera rechazada, pero se completó
  ❯ rejection test/qa/unit/support.ts:10:9
- ❯ test/qa/unit/hu-01-register-client.qa-spec.ts:128:19
+ ❯ test/qa/unit/hu-01-register-client.qa-spec.ts:129:19
             </failure>
         </testcase>
-        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-13 acepta un teléfono de exactamente 10 dígitos con prefijo 09 (valor límite)" time="0.0020217">
+        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-13 acepta un teléfono de exactamente 10 dígitos con prefijo 09 (valor límite)" time="0.0004331">
         </testcase>
-        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-15 acepta una dirección de 255 caracteres (máximo)" time="0.0051612">
+        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-15 acepta una dirección de 255 caracteres (máximo)" time="0.0014886">
         </testcase>
-        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-15 rechaza una dirección de 256 caracteres" time="0.0016446">
+        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-15 rechaza una dirección de 256 caracteres" time="0.0010978">
         </testcase>
-        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-01 rechaza un correo que ya pertenece a otra persona" time="0.0034818">
-        </testcase>
-    </testsuite>
-    <testsuite name="test/qa/unit/hu-07-register-pet.qa-spec.ts" timestamp="2026-11-20T04:57:46.772Z" hostname="MSI-Estefania21" tests="27" failures="0" errors="0" skipped="0" time="0.1368796">
-        <testcase classname="test/qa/unit/hu-07-register-pet.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-01 registra un paciente válido, Activo y asociado al cliente" time="0.0319776">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-07-register-pet.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-02 rechaza campos obligatorios vacíos y los identifica" time="0.0064973">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-07-register-pet.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-03 registra sin color (opcional)" time="0.0035231">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-07-register-pet.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-04 exige seleccionar un cliente" time="0.0030616">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-07-register-pet.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-05/06 rechaza un cliente dado de baja" time="0.0042117">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-07-register-pet.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-05/06 rechaza un cliente inactivo" time="0.0049563">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-07-register-pet.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-04 rechaza un cliente que no existe" time="0.0027682">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-07-register-pet.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-07 rechaza una fecha inexistente (31-02-2024)" time="0.0014508">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-07-register-pet.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-08 rechaza una fecha futura (mañana)" time="0.0035657">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-07-register-pet.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-09 rechaza el formato ISO" time="0.0019676">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-07-register-pet.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-09 rechaza el formato con barras" time="0.0009602">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-07-register-pet.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-09 rechaza el formato sin ceros" time="0.0008475">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-07-register-pet.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-10 acepta la fecha de hoy (valor límite)" time="0.0045806">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-07-register-pet.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-11 valida el 29 de febrero según el año (bisiesto / no bisiesto)" time="0.0029876">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-07-register-pet.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-12 rechaza peso igual a cero (valor límite)" time="0.0042842">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-07-register-pet.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-13 rechaza talla negativa" time="0.0043823">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-07-register-pet.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-13 rechaza peso no numérico" time="0.0022593">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-07-register-pet.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-14 acepta el peso 0.01 (valor límite)" time="0.0036243">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-07-register-pet.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-14 acepta el peso 9999.99 (valor límite)" time="0.0026477">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-07-register-pet.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-15 rechaza una talla mayor al máximo (10000)" time="0.0050813">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-07-register-pet.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-16 genera el código automáticamente e ignora el código enviado" time="0.0087249">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-07-register-pet.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-17 rechaza una raza que no corresponde a la especie" time="0.0033191">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-07-register-pet.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-18 rechaza una especie inactiva" time="0.0018978">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-07-register-pet.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-20 acepta nombre de 100 y color de 50 caracteres (máximos)" time="0.0086951">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-07-register-pet.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-20 rechaza nombre de 101 caracteres" time="0.0010375">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-07-register-pet.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-20 rechaza color de 51 caracteres" time="0.0020186">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-07-register-pet.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-01 rechaza sexo y estado reproductivo fuera del catálogo" time="0.0019106">
+        <testcase classname="test/qa/unit/hu-01-register-client.qa-spec.ts" name="HU-01 Registrar datos del cliente (unitarias) &gt; CP-01-01 rechaza un correo que ya pertenece a otra persona" time="0.000543">
         </testcase>
     </testsuite>
-    <testsuite name="test/qa/unit/hu-13-register-species.qa-spec.ts" timestamp="2026-11-20T04:57:46.807Z" hostname="MSI-Estefania21" tests="10" failures="0" errors="0" skipped="0" time="0.0820283">
-        <testcase classname="test/qa/unit/hu-13-register-species.qa-spec.ts" name="HU-13 Registrar especie (unitarias) &gt; CP-13-01 registra una especie con nombre y descripción" time="0.0228345">
+    <testsuite name="test/qa/unit/hu-07-register-patient.qa-spec.ts" timestamp="2026-11-20T20:55:09.562Z" hostname="Christian" tests="27" failures="0" errors="0" skipped="0" time="0.0258968">
+        <testcase classname="test/qa/unit/hu-07-register-patient.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-01 registra un paciente válido, Activo y asociado al cliente" time="0.0081111">
         </testcase>
-        <testcase classname="test/qa/unit/hu-13-register-species.qa-spec.ts" name="HU-13 Registrar especie (unitarias) &gt; CP-13-01 guarda el nombre sin espacios al inicio ni al final" time="0.0023326">
+        <testcase classname="test/qa/unit/hu-07-register-patient.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-02 rechaza campos obligatorios vacíos y los identifica" time="0.0009695">
         </testcase>
-        <testcase classname="test/qa/unit/hu-13-register-species.qa-spec.ts" name="HU-13 Registrar especie (unitarias) &gt; CP-13-02 rechaza el nombre vacío" time="0.0048778">
+        <testcase classname="test/qa/unit/hu-07-register-patient.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-03 registra sin color (opcional)" time="0.0007311">
         </testcase>
-        <testcase classname="test/qa/unit/hu-13-register-species.qa-spec.ts" name="HU-13 Registrar especie (unitarias) &gt; CP-13-03 rechaza un nombre con solo espacios" time="0.0014594">
+        <testcase classname="test/qa/unit/hu-07-register-patient.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-04 exige seleccionar un cliente" time="0.000393">
         </testcase>
-        <testcase classname="test/qa/unit/hu-13-register-species.qa-spec.ts" name="HU-13 Registrar especie (unitarias) &gt; CP-13-04 registra sin descripción (opcional)" time="0.0065141">
+        <testcase classname="test/qa/unit/hu-07-register-patient.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-05/06 rechaza un cliente dado de baja" time="0.0007174">
         </testcase>
-        <testcase classname="test/qa/unit/hu-13-register-species.qa-spec.ts" name="HU-13 Registrar especie (unitarias) &gt; CP-13-06 rechaza el nombre duplicado &quot;Canino&quot;" time="0.002002">
+        <testcase classname="test/qa/unit/hu-07-register-patient.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-05/06 rechaza un cliente inactivo" time="0.0005913">
         </testcase>
-        <testcase classname="test/qa/unit/hu-13-register-species.qa-spec.ts" name="HU-13 Registrar especie (unitarias) &gt; CP-13-06 rechaza el nombre duplicado &quot;canino&quot;" time="0.0013814">
+        <testcase classname="test/qa/unit/hu-07-register-patient.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-04 rechaza un cliente que no existe" time="0.0006138">
         </testcase>
-        <testcase classname="test/qa/unit/hu-13-register-species.qa-spec.ts" name="HU-13 Registrar especie (unitarias) &gt; CP-13-06 rechaza el nombre duplicado &quot;CANINO&quot;" time="0.0007846">
+        <testcase classname="test/qa/unit/hu-07-register-patient.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-07 rechaza una fecha inexistente (31-02-2024)" time="0.0003365">
         </testcase>
-        <testcase classname="test/qa/unit/hu-13-register-species.qa-spec.ts" name="HU-13 Registrar especie (unitarias) &gt; CP-13-07 el DTO acepta 100 caracteres y rechaza 101 (valor límite)" time="0.0230515">
+        <testcase classname="test/qa/unit/hu-07-register-patient.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-08 rechaza una fecha futura (mañana)" time="0.0006891">
         </testcase>
-        <testcase classname="test/qa/unit/hu-13-register-species.qa-spec.ts" name="HU-13 Registrar especie (unitarias) &gt; CP-13-02 el DTO exige el nombre" time="0.0045636">
+        <testcase classname="test/qa/unit/hu-07-register-patient.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-09 rechaza el formato ISO" time="0.0003802">
         </testcase>
-    </testsuite>
-    <testsuite name="test/qa/unit/hu-51-register-user.qa-spec.ts" timestamp="2026-11-20T04:57:46.827Z" hostname="MSI-Estefania21" tests="20" failures="0" errors="0" skipped="0" time="0.1150251">
-        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-01 registra con un rol: cuenta ACTIVE, contraseña temporal y correo de credenciales" time="0.0525593">
+        <testcase classname="test/qa/unit/hu-07-register-patient.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-09 rechaza el formato con barras" time="0.0002399">
         </testcase>
-        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-02 registra con varios roles en una sola cuenta" time="0.0035843">
+        <testcase classname="test/qa/unit/hu-07-register-patient.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-09 rechaza el formato sin ceros" time="0.0001636">
         </testcase>
-        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-03 no duplica a una persona que ya es Cliente y le agrega el rol Cajero" time="0.0054974">
+        <testcase classname="test/qa/unit/hu-07-register-patient.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-10 acepta la fecha de hoy (valor límite)" time="0.0007097">
         </testcase>
-        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-04 acepta el teléfono vacío (opcional) y lo guarda como null" time="0.0039174">
+        <testcase classname="test/qa/unit/hu-07-register-patient.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-11 valida el 29 de febrero según el año (bisiesto / no bisiesto)" time="0.0005712">
         </testcase>
-        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-05 rechaza el correo vacío con &quot;Complete los campos obligatorios&quot;" time="0.0038982">
+        <testcase classname="test/qa/unit/hu-07-register-patient.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-12 rechaza peso igual a cero (valor límite)" time="0.0005658">
         </testcase>
-        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-06 rechaza el registro sin roles" time="0.0024246">
+        <testcase classname="test/qa/unit/hu-07-register-patient.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-13 rechaza talla negativa" time="0.0005123">
         </testcase>
-        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-07 rechaza una cédula ya registrada en el personal" time="0.0022359">
+        <testcase classname="test/qa/unit/hu-07-register-patient.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-13 rechaza peso no numérico" time="0.0004306">
         </testcase>
-        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-08 rechaza la cédula &quot;11045&quot;" time="0.0025045">
+        <testcase classname="test/qa/unit/hu-07-register-patient.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-14 acepta el peso 0.01 (valor límite)" time="0.0004764">
         </testcase>
-        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-09 rechaza la cédula de 9 dígitos (valor límite)" time="0.0026164">
+        <testcase classname="test/qa/unit/hu-07-register-patient.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-14 acepta el peso 9999.99 (valor límite)" time="0.000387">
         </testcase>
-        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-09 rechaza la cédula de 11 dígitos (valor límite)" time="0.0018574">
+        <testcase classname="test/qa/unit/hu-07-register-patient.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-15 rechaza una talla mayor al máximo (10000)" time="0.0005733">
         </testcase>
-        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-10 rechaza la cédula con dígito verificador incorrecto" time="0.0015623">
+        <testcase classname="test/qa/unit/hu-07-register-patient.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-16 genera el código automáticamente e ignora el código enviado" time="0.0017909">
         </testcase>
-        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-10 rechaza la cédula con provincia 25 inexistente" time="0.0012213">
+        <testcase classname="test/qa/unit/hu-07-register-patient.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-17 rechaza una raza que no corresponde a la especie" time="0.0006534">
         </testcase>
-        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-11 rechaza un correo ya registrado" time="0.0018365">
+        <testcase classname="test/qa/unit/hu-07-register-patient.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-18 rechaza una especie inactiva" time="0.0005711">
         </testcase>
-        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-12 compara el correo sin distinguir mayúsculas (R-36)" time="0.0033912">
+        <testcase classname="test/qa/unit/hu-07-register-patient.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-20 acepta nombre de 100 y color de 50 caracteres (máximos)" time="0.001242">
         </testcase>
-        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-12 traduce la violación de unicidad concurrente (P2002) en &quot;correo ya registrado&quot;" time="0.0031029">
+        <testcase classname="test/qa/unit/hu-07-register-patient.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-20 rechaza nombre de 101 caracteres" time="0.0003107">
         </testcase>
-        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-13 si falla el correo la cuenta queda creada y se avisa al Administrador" time="0.0034075">
+        <testcase classname="test/qa/unit/hu-07-register-patient.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-20 rechaza color de 51 caracteres" time="0.0005038">
         </testcase>
-        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-16 acepta nombres de 100 caracteres (máximo)" time="0.0027446">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-16 rechaza nombres de 101 caracteres" time="0.001722">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-17 rechaza el rol Cliente" time="0.0015337">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-17 rechaza el rol inexistente" time="0.0013697">
+        <testcase classname="test/qa/unit/hu-07-register-patient.qa-spec.ts" name="HU-07 Registrar datos del paciente (unitarias) &gt; CP-07-01 rechaza sexo y estado reproductivo fuera del catálogo" time="0.0003574">
         </testcase>
     </testsuite>
-    <testsuite name="test/qa/unit/hu-54-role-assignment.qa-spec.ts" timestamp="2026-11-20T04:57:46.859Z" hostname="MSI-Estefania21" tests="14" failures="0" errors="0" skipped="0" time="0.0861347">
-        <testcase classname="test/qa/unit/hu-54-role-assignment.qa-spec.ts" name="HU-54 Asignar y quitar roles (unitarias) &gt; CP-54-01 asigna un rol adicional (Recepcionista + Cajero)" time="0.0312717">
+    <testsuite name="test/qa/unit/hu-13-register-species.qa-spec.ts" timestamp="2026-11-20T20:55:09.568Z" hostname="Christian" tests="10" failures="0" errors="0" skipped="0" time="0.0174155">
+        <testcase classname="test/qa/unit/hu-13-register-species.qa-spec.ts" name="HU-13 Registrar especie (unitarias) &gt; CP-13-01 registra una especie con nombre y descripción" time="0.0039818">
         </testcase>
-        <testcase classname="test/qa/unit/hu-54-role-assignment.qa-spec.ts" name="HU-54 Asignar y quitar roles (unitarias) &gt; CP-54-02 quita un rol (queda solo Recepcionista)" time="0.0038747">
+        <testcase classname="test/qa/unit/hu-13-register-species.qa-spec.ts" name="HU-13 Registrar especie (unitarias) &gt; CP-13-01 guarda el nombre sin espacios al inicio ni al final" time="0.0005527">
         </testcase>
-        <testcase classname="test/qa/unit/hu-54-role-assignment.qa-spec.ts" name="HU-54 Asignar y quitar roles (unitarias) &gt; CP-54-03 cambia de función (Recepcionista → Veterinario)" time="0.0016227">
+        <testcase classname="test/qa/unit/hu-13-register-species.qa-spec.ts" name="HU-13 Registrar especie (unitarias) &gt; CP-13-02 rechaza el nombre vacío" time="0.0008708">
         </testcase>
-        <testcase classname="test/qa/unit/hu-54-role-assignment.qa-spec.ts" name="HU-54 Asignar y quitar roles (unitarias) &gt; CP-54-04 impide quitar el único rol" time="0.0027151">
+        <testcase classname="test/qa/unit/hu-13-register-species.qa-spec.ts" name="HU-13 Registrar especie (unitarias) &gt; CP-13-03 rechaza un nombre con solo espacios" time="0.000313">
         </testcase>
-        <testcase classname="test/qa/unit/hu-54-role-assignment.qa-spec.ts" name="HU-54 Asignar y quitar roles (unitarias) &gt; CP-54-04 trata una lista con solo espacios como vacía" time="0.0020616">
+        <testcase classname="test/qa/unit/hu-13-register-species.qa-spec.ts" name="HU-13 Registrar especie (unitarias) &gt; CP-13-04 registra sin descripción (opcional)" time="0.0020654">
         </testcase>
-        <testcase classname="test/qa/unit/hu-54-role-assignment.qa-spec.ts" name="HU-54 Asignar y quitar roles (unitarias) &gt; CP-54-05 impide quitar el rol al último Administrador activo" time="0.0049855">
+        <testcase classname="test/qa/unit/hu-13-register-species.qa-spec.ts" name="HU-13 Registrar especie (unitarias) &gt; CP-13-06 rechaza el nombre duplicado &quot;Canino&quot;" time="0.0005232">
         </testcase>
-        <testcase classname="test/qa/unit/hu-54-role-assignment.qa-spec.ts" name="HU-54 Asignar y quitar roles (unitarias) &gt; CP-54-06 permite quitar Administrador si queda exactamente otro activo (valor límite)" time="0.0029743">
+        <testcase classname="test/qa/unit/hu-13-register-species.qa-spec.ts" name="HU-13 Registrar especie (unitarias) &gt; CP-13-06 rechaza el nombre duplicado &quot;canino&quot;" time="0.000228">
         </testcase>
-        <testcase classname="test/qa/unit/hu-54-role-assignment.qa-spec.ts" name="HU-54 Asignar y quitar roles (unitarias) &gt; CP-54-07 no ofrece como opción un rol ya asignado" time="0.0071054">
+        <testcase classname="test/qa/unit/hu-13-register-species.qa-spec.ts" name="HU-13 Registrar especie (unitarias) &gt; CP-13-06 rechaza el nombre duplicado &quot;CANINO&quot;" time="0.0001719">
         </testcase>
-        <testcase classname="test/qa/unit/hu-54-role-assignment.qa-spec.ts" name="HU-54 Asignar y quitar roles (unitarias) &gt; CP-54-08 impide modificar los roles de un usuario dado de baja" time="0.0018552">
+        <testcase classname="test/qa/unit/hu-13-register-species.qa-spec.ts" name="HU-13 Registrar especie (unitarias) &gt; CP-13-07 el DTO acepta 100 caracteres y rechaza 101 (valor límite)" time="0.0061236">
         </testcase>
-        <testcase classname="test/qa/unit/hu-54-role-assignment.qa-spec.ts" name="HU-54 Asignar y quitar roles (unitarias) &gt; CP-54-10 rechaza un rol que no es del personal" time="0.0017211">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-54-role-assignment.qa-spec.ts" name="HU-54 Asignar y quitar roles (unitarias) &gt; CP-54-11 responde 404 si el usuario no existe" time="0.0016931">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-54-role-assignment.qa-spec.ts" name="HU-54 Asignar y quitar roles (unitarias) &gt; CP-54-12 acepta los 7 roles del personal y ya no quedan roles disponibles (valor límite)" time="0.0013857">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-54-role-assignment.qa-spec.ts" name="HU-54 Asignar y quitar roles (unitarias) &gt; CP-54-01 ignora roles repetidos en la petición" time="0.0010583">
-        </testcase>
-        <testcase classname="test/qa/unit/hu-54-role-assignment.qa-spec.ts" name="HU-54 Asignar y quitar roles (unitarias) &gt; CP-54-01 renueva un rol vencido en lugar de duplicarlo" time="0.0118382">
+        <testcase classname="test/qa/unit/hu-13-register-species.qa-spec.ts" name="HU-13 Registrar especie (unitarias) &gt; CP-13-02 el DTO exige el nombre" time="0.0003826">
         </testcase>
     </testsuite>
-    <testsuite name="test/qa/unit/hu-57-login.qa-spec.ts" timestamp="2026-11-20T04:57:46.874Z" hostname="MSI-Estefania21" tests="14" failures="0" errors="0" skipped="0" time="0.0955495">
-        <testcase classname="test/qa/unit/hu-57-login.qa-spec.ts" name="HU-57 Iniciar sesión (unitarias) &gt; CP-57-01 inicia sesión con credenciales correctas y entrega el token" time="0.0333251">
+    <testsuite name="test/qa/unit/hu-51-register-user.qa-spec.ts" timestamp="2026-11-20T20:55:09.571Z" hostname="Christian" tests="20" failures="0" errors="0" skipped="0" time="0.0377244">
+        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-01 registra con un rol: cuenta ACTIVE, contraseña temporal y correo de credenciales" time="0.0163116">
         </testcase>
-        <testcase classname="test/qa/unit/hu-57-login.qa-spec.ts" name="HU-57 Iniciar sesión (unitarias) &gt; CP-57-03 niega el acceso con contraseña incorrecta sin revelar qué campo falló" time="0.0080333">
+        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-02 registra con varios roles en una sola cuenta" time="0.0016597">
         </testcase>
-        <testcase classname="test/qa/unit/hu-57-login.qa-spec.ts" name="HU-57 Iniciar sesión (unitarias) &gt; CP-57-03 responde igual para un correo no registrado" time="0.0055528">
+        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-03 no duplica a una persona que ya es Cliente y le agrega el rol Cajero" time="0.0018302">
         </testcase>
-        <testcase classname="test/qa/unit/hu-57-login.qa-spec.ts" name="HU-57 Iniciar sesión (unitarias) &gt; CP-57-04 no intenta el acceso sin correo" time="0.0072356">
+        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-04 acepta el teléfono vacío (opcional) y lo guarda como null" time="0.0007809">
         </testcase>
-        <testcase classname="test/qa/unit/hu-57-login.qa-spec.ts" name="HU-57 Iniciar sesión (unitarias) &gt; CP-57-04 no intenta el acceso sin contraseña" time="0.0020765">
+        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-05 rechaza el correo vacío con &quot;Complete los campos obligatorios&quot;" time="0.0015189">
         </testcase>
-        <testcase classname="test/qa/unit/hu-57-login.qa-spec.ts" name="HU-57 Iniciar sesión (unitarias) &gt; CP-57-04 no intenta el acceso contraseña solo espacios" time="0.0020483">
+        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-06 rechaza el registro sin roles" time="0.0006563">
         </testcase>
-        <testcase classname="test/qa/unit/hu-57-login.qa-spec.ts" name="HU-57 Iniciar sesión (unitarias) &gt; CP-57-05 el 4.º intento fallido NO bloquea y avisa que queda 1 intento (valor límite)" time="0.0037603">
+        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-07 rechaza una cédula ya registrada en el personal" time="0.0008581">
         </testcase>
-        <testcase classname="test/qa/unit/hu-57-login.qa-spec.ts" name="HU-57 Iniciar sesión (unitarias) &gt; CP-57-05 el 5.º intento fallido bloquea la cuenta 15 minutos" time="0.003234">
+        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-08 rechaza la cédula &quot;11045&quot;" time="0.0006156">
         </testcase>
-        <testcase classname="test/qa/unit/hu-57-login.qa-spec.ts" name="HU-57 Iniciar sesión (unitarias) &gt; CP-57-06 durante el bloqueo (hace 5 min) niega incluso la contraseña correcta: &quot;Intente en 10 minutos&quot;" time="0.0052568">
+        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-09 rechaza la cédula de 9 dígitos (valor límite)" time="0.0006661">
         </testcase>
-        <testcase classname="test/qa/unit/hu-57-login.qa-spec.ts" name="HU-57 Iniciar sesión (unitarias) &gt; CP-57-06 al cumplirse los 15 minutos el bloqueo se levanta (valor límite)" time="0.0029282">
+        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-09 rechaza la cédula de 11 dígitos (valor límite)" time="0.0005493">
         </testcase>
-        <testcase classname="test/qa/unit/hu-57-login.qa-spec.ts" name="HU-57 Iniciar sesión (unitarias) &gt; CP-57-07 reinicia el contador tras un inicio de sesión correcto" time="0.0036984">
+        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-10 rechaza la cédula con dígito verificador incorrecto" time="0.0005817">
         </testcase>
-        <testcase classname="test/qa/unit/hu-57-login.qa-spec.ts" name="HU-57 Iniciar sesión (unitarias) &gt; CP-57-08 niega el acceso a una cuenta INACTIVE" time="0.0025213">
+        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-10 rechaza la cédula con provincia 25 inexistente" time="0.0005055">
         </testcase>
-        <testcase classname="test/qa/unit/hu-57-login.qa-spec.ts" name="HU-57 Iniciar sesión (unitarias) &gt; CP-57-08 niega el acceso a una cuenta DEACTIVATED" time="0.0024307">
+        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-11 rechaza un correo ya registrado" time="0.0008174">
         </testcase>
-        <testcase classname="test/qa/unit/hu-57-login.qa-spec.ts" name="HU-57 Iniciar sesión (unitarias) &gt; CP-57-05 también bloquea al 5.º intento con un correo no registrado (no revela si existe)" time="0.0044163">
+        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-12 compara el correo sin distinguir mayúsculas (R-36)" time="0.0013939">
+        </testcase>
+        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-12 traduce la violación de unicidad concurrente (P2002) en &quot;correo ya registrado&quot;" time="0.0010999">
+        </testcase>
+        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-13 si falla el correo la cuenta queda creada y se avisa al Administrador" time="0.0009074">
+        </testcase>
+        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-16 acepta nombres de 100 caracteres (máximo)" time="0.0010166">
+        </testcase>
+        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-16 rechaza nombres de 101 caracteres" time="0.0004337">
+        </testcase>
+        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-17 rechaza el rol Cliente" time="0.0016455">
+        </testcase>
+        <testcase classname="test/qa/unit/hu-51-register-user.qa-spec.ts" name="HU-51 Registrar usuario (unitarias) &gt; CP-51-17 rechaza el rol inexistente" time="0.0007293">
         </testcase>
     </testsuite>
-    <testsuite name="test/qa/unit/identification.qa-spec.ts" timestamp="2026-11-20T04:57:46.886Z" hostname="MSI-Estefania21" tests="7" failures="0" errors="0" skipped="0" time="0.0275538">
-        <testcase classname="test/qa/unit/identification.qa-spec.ts" name="Validación de cédula (unitarias) &gt; acepta las cédulas de la semilla QA (dígito verificador módulo 10)" time="0.0092416">
+    <testsuite name="test/qa/unit/hu-54-role-assignment.qa-spec.ts" timestamp="2026-11-20T20:55:09.578Z" hostname="Christian" tests="14" failures="0" errors="0" skipped="0" time="0.0197227">
+        <testcase classname="test/qa/unit/hu-54-role-assignment.qa-spec.ts" name="HU-54 Asignar y quitar roles (unitarias) &gt; CP-54-01 asigna un rol adicional (Recepcionista + Cajero)" time="0.0060889">
         </testcase>
-        <testcase classname="test/qa/unit/identification.qa-spec.ts" name="Validación de cédula (unitarias) &gt; calcula el dígito verificador" time="0.0014323">
+        <testcase classname="test/qa/unit/hu-54-role-assignment.qa-spec.ts" name="HU-54 Asignar y quitar roles (unitarias) &gt; CP-54-02 quita un rol (queda solo Recepcionista)" time="0.0009565">
         </testcase>
-        <testcase classname="test/qa/unit/identification.qa-spec.ts" name="Validación de cédula (unitarias) &gt; acepta la provincia 30 (ecuatorianos en el exterior) y la 24 (límite superior)" time="0.0008753">
+        <testcase classname="test/qa/unit/hu-54-role-assignment.qa-spec.ts" name="HU-54 Asignar y quitar roles (unitarias) &gt; CP-54-03 cambia de función (Recepcionista → Veterinario)" time="0.0003594">
         </testcase>
-        <testcase classname="test/qa/unit/identification.qa-spec.ts" name="Validación de cédula (unitarias) &gt; rechaza provincia 00 y 25 (fuera de rango)" time="0.000868">
+        <testcase classname="test/qa/unit/hu-54-role-assignment.qa-spec.ts" name="HU-54 Asignar y quitar roles (unitarias) &gt; CP-54-04 impide quitar el único rol" time="0.0007407">
         </testcase>
-        <testcase classname="test/qa/unit/identification.qa-spec.ts" name="Validación de cédula (unitarias) &gt; rechaza un tercer dígito ≥ 6 (valor límite: 5 válido, 6 inválido)" time="0.0007699">
+        <testcase classname="test/qa/unit/hu-54-role-assignment.qa-spec.ts" name="HU-54 Asignar y quitar roles (unitarias) &gt; CP-54-04 trata una lista con solo espacios como vacía" time="0.0004008">
         </testcase>
-        <testcase classname="test/qa/unit/identification.qa-spec.ts" name="Validación de cédula (unitarias) &gt; rechaza alfanuméricos, espacios y longitudes distintas de 10" time="0.00491">
+        <testcase classname="test/qa/unit/hu-54-role-assignment.qa-spec.ts" name="HU-54 Asignar y quitar roles (unitarias) &gt; CP-54-05 impide quitar el rol al último Administrador activo" time="0.0005046">
         </testcase>
-        <testcase classname="test/qa/unit/identification.qa-spec.ts" name="Validación de cédula (unitarias) &gt; rechaza las cédulas de ejemplo de las HU (verificador incorrecto)" time="0.0008392">
+        <testcase classname="test/qa/unit/hu-54-role-assignment.qa-spec.ts" name="HU-54 Asignar y quitar roles (unitarias) &gt; CP-54-06 permite quitar Administrador si queda exactamente otro activo (valor límite)" time="0.0003868">
+        </testcase>
+        <testcase classname="test/qa/unit/hu-54-role-assignment.qa-spec.ts" name="HU-54 Asignar y quitar roles (unitarias) &gt; CP-54-07 no ofrece como opción un rol ya asignado" time="0.0019237">
+        </testcase>
+        <testcase classname="test/qa/unit/hu-54-role-assignment.qa-spec.ts" name="HU-54 Asignar y quitar roles (unitarias) &gt; CP-54-08 impide modificar los roles de un usuario dado de baja" time="0.0009459">
+        </testcase>
+        <testcase classname="test/qa/unit/hu-54-role-assignment.qa-spec.ts" name="HU-54 Asignar y quitar roles (unitarias) &gt; CP-54-10 rechaza un rol que no es del personal" time="0.0004482">
+        </testcase>
+        <testcase classname="test/qa/unit/hu-54-role-assignment.qa-spec.ts" name="HU-54 Asignar y quitar roles (unitarias) &gt; CP-54-11 responde 404 si el usuario no existe" time="0.0005653">
+        </testcase>
+        <testcase classname="test/qa/unit/hu-54-role-assignment.qa-spec.ts" name="HU-54 Asignar y quitar roles (unitarias) &gt; CP-54-12 acepta los 7 roles del personal y ya no quedan roles disponibles (valor límite)" time="0.000522">
+        </testcase>
+        <testcase classname="test/qa/unit/hu-54-role-assignment.qa-spec.ts" name="HU-54 Asignar y quitar roles (unitarias) &gt; CP-54-01 ignora roles repetidos en la petición" time="0.0003163">
+        </testcase>
+        <testcase classname="test/qa/unit/hu-54-role-assignment.qa-spec.ts" name="HU-54 Asignar y quitar roles (unitarias) &gt; CP-54-01 renueva un rol vencido en lugar de duplicarlo" time="0.0028631">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/qa/unit/hu-57-login.qa-spec.ts" timestamp="2026-11-20T20:55:09.581Z" hostname="Christian" tests="14" failures="0" errors="0" skipped="0" time="0.0331228">
+        <testcase classname="test/qa/unit/hu-57-login.qa-spec.ts" name="HU-57 Iniciar sesión (unitarias) &gt; CP-57-01 inicia sesión con credenciales correctas y entrega el token" time="0.0124385">
+        </testcase>
+        <testcase classname="test/qa/unit/hu-57-login.qa-spec.ts" name="HU-57 Iniciar sesión (unitarias) &gt; CP-57-03 niega el acceso con contraseña incorrecta sin revelar qué campo falló" time="0.00218">
+        </testcase>
+        <testcase classname="test/qa/unit/hu-57-login.qa-spec.ts" name="HU-57 Iniciar sesión (unitarias) &gt; CP-57-03 responde igual para un correo no registrado" time="0.0021416">
+        </testcase>
+        <testcase classname="test/qa/unit/hu-57-login.qa-spec.ts" name="HU-57 Iniciar sesión (unitarias) &gt; CP-57-04 no intenta el acceso sin correo" time="0.0026398">
+        </testcase>
+        <testcase classname="test/qa/unit/hu-57-login.qa-spec.ts" name="HU-57 Iniciar sesión (unitarias) &gt; CP-57-04 no intenta el acceso sin contraseña" time="0.0008882">
+        </testcase>
+        <testcase classname="test/qa/unit/hu-57-login.qa-spec.ts" name="HU-57 Iniciar sesión (unitarias) &gt; CP-57-04 no intenta el acceso contraseña solo espacios" time="0.0008292">
+        </testcase>
+        <testcase classname="test/qa/unit/hu-57-login.qa-spec.ts" name="HU-57 Iniciar sesión (unitarias) &gt; CP-57-05 el 4.º intento fallido NO bloquea y avisa que queda 1 intento (valor límite)" time="0.0013758">
+        </testcase>
+        <testcase classname="test/qa/unit/hu-57-login.qa-spec.ts" name="HU-57 Iniciar sesión (unitarias) &gt; CP-57-05 el 5.º intento fallido bloquea la cuenta 15 minutos" time="0.001345">
+        </testcase>
+        <testcase classname="test/qa/unit/hu-57-login.qa-spec.ts" name="HU-57 Iniciar sesión (unitarias) &gt; CP-57-06 durante el bloqueo (hace 5 min) niega incluso la contraseña correcta: &quot;Intente en 10 minutos&quot;" time="0.0011676">
+        </testcase>
+        <testcase classname="test/qa/unit/hu-57-login.qa-spec.ts" name="HU-57 Iniciar sesión (unitarias) &gt; CP-57-06 al cumplirse los 15 minutos el bloqueo se levanta (valor límite)" time="0.0012286">
+        </testcase>
+        <testcase classname="test/qa/unit/hu-57-login.qa-spec.ts" name="HU-57 Iniciar sesión (unitarias) &gt; CP-57-07 reinicia el contador tras un inicio de sesión correcto" time="0.0010824">
+        </testcase>
+        <testcase classname="test/qa/unit/hu-57-login.qa-spec.ts" name="HU-57 Iniciar sesión (unitarias) &gt; CP-57-08 niega el acceso a una cuenta INACTIVE" time="0.0010274">
+        </testcase>
+        <testcase classname="test/qa/unit/hu-57-login.qa-spec.ts" name="HU-57 Iniciar sesión (unitarias) &gt; CP-57-08 niega el acceso a una cuenta DEACTIVATED" time="0.0005513">
+        </testcase>
+        <testcase classname="test/qa/unit/hu-57-login.qa-spec.ts" name="HU-57 Iniciar sesión (unitarias) &gt; CP-57-05 también bloquea al 5.º intento con un correo no registrado (no revela si existe)" time="0.0014966">
+        </testcase>
+    </testsuite>
+    <testsuite name="test/qa/unit/identification.qa-spec.ts" timestamp="2026-11-20T20:55:09.585Z" hostname="Christian" tests="7" failures="0" errors="0" skipped="0" time="0.0083948">
+        <testcase classname="test/qa/unit/identification.qa-spec.ts" name="Validación de cédula (unitarias) &gt; acepta las cédulas de la semilla QA (dígito verificador módulo 10)" time="0.0025677">
+        </testcase>
+        <testcase classname="test/qa/unit/identification.qa-spec.ts" name="Validación de cédula (unitarias) &gt; calcula el dígito verificador" time="0.0003495">
+        </testcase>
+        <testcase classname="test/qa/unit/identification.qa-spec.ts" name="Validación de cédula (unitarias) &gt; acepta la provincia 30 (ecuatorianos en el exterior) y la 24 (límite superior)" time="0.0005015">
+        </testcase>
+        <testcase classname="test/qa/unit/identification.qa-spec.ts" name="Validación de cédula (unitarias) &gt; rechaza provincia 00 y 25 (fuera de rango)" time="0.0004422">
+        </testcase>
+        <testcase classname="test/qa/unit/identification.qa-spec.ts" name="Validación de cédula (unitarias) &gt; rechaza un tercer dígito ≥ 6 (valor límite: 5 válido, 6 inválido)" time="0.0003689">
+        </testcase>
+        <testcase classname="test/qa/unit/identification.qa-spec.ts" name="Validación de cédula (unitarias) &gt; rechaza alfanuméricos, espacios y longitudes distintas de 10" time="0.0004927">
+        </testcase>
+        <testcase classname="test/qa/unit/identification.qa-spec.ts" name="Validación de cédula (unitarias) &gt; rechaza las cédulas de ejemplo de las HU (verificador incorrecto)" time="0.0002623">
         </testcase>
     </testsuite>
 </testsuites>

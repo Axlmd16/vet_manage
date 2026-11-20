@@ -60,7 +60,8 @@ function build(initialRoles: string[], options: { status?: string; otherAdmins?:
     },
     $transaction: vi.fn(async (callback: (tx: unknown) => unknown) => callback(prisma)),
   };
-  const service = new UserRoleAssignmentService(prisma as never);
+  const audit = { record: vi.fn(async () => undefined) };
+  const service = new UserRoleAssignmentService(prisma as never, audit as never);
   const roleNames = () => state.assignments.map((a) => roleOf(a.roleId).name).sort();
   return { service, prisma, state, roleNames };
 }

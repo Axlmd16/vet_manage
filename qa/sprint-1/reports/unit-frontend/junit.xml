@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuites name="vitest tests" tests="42" failures="10" errors="0" time="0.1415414">
-    <testsuite name="src/test/qa/form-rules.qa.test.ts" timestamp="2026-11-20T04:55:47.773Z" hostname="MSI-Estefania21" tests="42" failures="10" errors="0" skipped="0" time="0.1415414">
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-51 formulario de registro de usuario &gt; CP-51-01 un formulario válido no tiene errores" time="0.0146814">
+<testsuites name="vitest tests" tests="42" failures="10" errors="0" time="0.0831341">
+    <testsuite name="src/test/qa/form-rules.qa.test.ts" timestamp="2026-11-20T20:55:28.263Z" hostname="Christian" tests="42" failures="10" errors="0" skipped="0" time="0.0831341">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-51 formulario de registro de usuario &gt; CP-51-01 un formulario válido no tiene errores" time="0.0092853">
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-51 formulario de registro de usuario &gt; CP-51-05 resalta el correo vacío con &quot;Complete los campos obligatorios&quot;" time="0.0034942">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-51 formulario de registro de usuario &gt; CP-51-05 resalta el correo vacío con &quot;Complete los campos obligatorios&quot;" time="0.0012219">
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-51 formulario de registro de usuario &gt; CP-51-06 resalta la falta de roles" time="0.001262">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-51 formulario de registro de usuario &gt; CP-51-06 resalta la falta de roles" time="0.0006452">
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-51 formulario de registro de usuario &gt; CP-51-08/09/10 rechaza la cédula 11045" time="0.0010412">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-51 formulario de registro de usuario &gt; CP-51-08/09/10 rechaza la cédula 11045" time="0.0005027">
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-51 formulario de registro de usuario &gt; CP-51-08/09/10 rechaza la cédula 110501000" time="0.0009557">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-51 formulario de registro de usuario &gt; CP-51-08/09/10 rechaza la cédula 110501000" time="0.000306">
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-51 formulario de registro de usuario &gt; CP-51-08/09/10 rechaza la cédula 11050100011" time="0.0009822">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-51 formulario de registro de usuario &gt; CP-51-08/09/10 rechaza la cédula 11050100011" time="0.000262">
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-51 formulario de registro de usuario &gt; CP-51-08/09/10 rechaza la cédula 1105010002" time="0.0007292">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-51 formulario de registro de usuario &gt; CP-51-08/09/10 rechaza la cédula 1105010002" time="0.0002872">
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-51 formulario de registro de usuario &gt; CP-51-04 acepta el teléfono vacío" time="0.0010143">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-51 formulario de registro de usuario &gt; CP-51-04 acepta el teléfono vacío" time="0.0005082">
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-51 formulario de registro de usuario &gt; CP-51-07 resalta la cédula cuando la API responde USER_IDENTIFICATION_TAKEN" time="0.0015453">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-51 formulario de registro de usuario &gt; CP-51-07 resalta la cédula cuando la API responde USER_IDENTIFICATION_TAKEN" time="0.0016923">
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-51 formulario de registro de usuario &gt; CP-51-13 muestra advertencia cuando no se pudo enviar el correo" time="0.0016306">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-51 formulario de registro de usuario &gt; CP-51-13 muestra advertencia cuando no se pudo enviar el correo" time="0.0018862">
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-51 formulario de registro de usuario &gt; CP-51-01 muestra &quot;Usuario registrado correctamente&quot; al registrar" time="0.0009579">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-51 formulario de registro de usuario &gt; CP-51-01 muestra &quot;Usuario registrado correctamente&quot; al registrar" time="0.0005869">
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-01 formulario de registro de cliente &gt; CP-01-01 un formulario válido no tiene errores" time="0.0026493">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-01 formulario de registro de cliente &gt; CP-01-01 un formulario válido no tiene errores" time="0.0007683">
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-01 formulario de registro de cliente &gt; CP-01-01 muestra &quot;Cliente registrado exitosamente&quot; al registrar" time="0.031477">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-01 formulario de registro de cliente &gt; CP-01-01 muestra &quot;Cliente registrado exitosamente&quot; al registrar" time="0.0189914">
             <failure message="expected false to be true // Object.is equality" type="AssertionError">
 AssertionError: expected false to be true // Object.is equality
 
@@ -38,7 +38,7 @@ AssertionError: expected false to be true // Object.is equality
  ❯ src/test/qa/form-rules.qa.test.ts:72:75
             </failure>
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-01 formulario de registro de cliente &gt; CP-01-04 resalta los obligatorios vacíos con &quot;Por favor, complete todos los campos obligatorios&quot;" time="0.0113967">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-01 formulario de registro de cliente &gt; CP-01-04 resalta los obligatorios vacíos con &quot;Por favor, complete todos los campos obligatorios&quot;" time="0.0064946">
             <failure message="expected &apos;Complete los campos obligatorios&apos; to be &apos;Por favor, complete todos los campos …&apos; // Object.is equality" type="AssertionError">
 AssertionError: expected &apos;Complete los campos obligatorios&apos; to be &apos;Por favor, complete todos los campos …&apos; // Object.is equality
 
@@ -48,13 +48,13 @@ Received: &quot;Complete los campos obligatorios&quot;
  ❯ src/test/qa/form-rules.qa.test.ts:78:30
             </failure>
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-01 formulario de registro de cliente &gt; CP-01-05 resalta el teléfono vacío (obligatorio en la HU)" time="0.0020445">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-01 formulario de registro de cliente &gt; CP-01-05 resalta el teléfono vacío (obligatorio en la HU)" time="0.0008072">
             <failure message="expected undefined to be defined" type="AssertionError">
 AssertionError: expected undefined to be defined
  ❯ src/test/qa/form-rules.qa.test.ts:82:82
             </failure>
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-01 formulario de registro de cliente &gt; CP-01-07/08 resalta la cédula 11050A0001 con &quot;Número de cédula no válido&quot;" time="0.0052933">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-01 formulario de registro de cliente &gt; CP-01-07/08 resalta la cédula 11050A0001 con &quot;Número de cédula no válido&quot;" time="0.0036924">
             <failure message="expected &apos;La cédula debe tener 10 dígitos válid…&apos; to be &apos;Número de cédula no válido&apos; // Object.is equality" type="AssertionError">
 AssertionError: expected &apos;La cédula debe tener 10 dígitos válid…&apos; to be &apos;Número de cédula no válido&apos; // Object.is equality
 
@@ -64,7 +64,7 @@ Received: &quot;La cédula debe tener 10 dígitos válidos&quot;
  ❯ src/test/qa/form-rules.qa.test.ts:86:96
             </failure>
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-01 formulario de registro de cliente &gt; CP-01-07/08 resalta la cédula 110501000 con &quot;Número de cédula no válido&quot;" time="0.0057043">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-01 formulario de registro de cliente &gt; CP-01-07/08 resalta la cédula 110501000 con &quot;Número de cédula no válido&quot;" time="0.003077">
             <failure message="expected &apos;La cédula debe tener 10 dígitos válid…&apos; to be &apos;Número de cédula no válido&apos; // Object.is equality" type="AssertionError">
 AssertionError: expected &apos;La cédula debe tener 10 dígitos válid…&apos; to be &apos;Número de cédula no válido&apos; // Object.is equality
 
@@ -74,7 +74,7 @@ Received: &quot;La cédula debe tener 10 dígitos válidos&quot;
  ❯ src/test/qa/form-rules.qa.test.ts:86:96
             </failure>
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-01 formulario de registro de cliente &gt; CP-01-09 resalta el correo sin formato con el mensaje de la HU" time="0.0062358">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-01 formulario de registro de cliente &gt; CP-01-09 resalta el correo sin formato con el mensaje de la HU" time="0.0035779">
             <failure message="expected &apos;Ingrese un correo electrónico válido&apos; to be &apos;Por favor, ingrese un correo y número…&apos; // Object.is equality" type="AssertionError">
 AssertionError: expected &apos;Ingrese un correo electrónico válido&apos; to be &apos;Por favor, ingrese un correo y número…&apos; // Object.is equality
 
@@ -84,7 +84,7 @@ Received: &quot;Ingrese un correo electrónico válido&quot;
  ❯ src/test/qa/form-rules.qa.test.ts:91:8
             </failure>
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-01 formulario de registro de cliente &gt; CP-01-10/11/12 resalta el teléfono con letras" time="0.0055049">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-01 formulario de registro de cliente &gt; CP-01-10/11/12 resalta el teléfono con letras" time="0.0023333">
             <failure message="expected &apos;Ingrese un teléfono válido&apos; to be &apos;Por favor, ingrese un correo y número…&apos; // Object.is equality" type="AssertionError">
 AssertionError: expected &apos;Ingrese un teléfono válido&apos; to be &apos;Por favor, ingrese un correo y número…&apos; // Object.is equality
 
@@ -94,7 +94,7 @@ Received: &quot;Ingrese un teléfono válido&quot;
  ❯ src/test/qa/form-rules.qa.test.ts:97:80
             </failure>
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-01 formulario de registro de cliente &gt; CP-01-10/11/12 resalta el teléfono de 9 dígitos" time="0.0027733">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-01 formulario de registro de cliente &gt; CP-01-10/11/12 resalta el teléfono de 9 dígitos" time="0.0018616">
             <failure message="expected undefined to be &apos;Por favor, ingrese un correo y número…&apos; // Object.is equality" type="AssertionError">
 AssertionError: expected undefined to be &apos;Por favor, ingrese un correo y número…&apos; // Object.is equality
 
@@ -107,7 +107,7 @@ undefined
  ❯ src/test/qa/form-rules.qa.test.ts:97:80
             </failure>
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-01 formulario de registro de cliente &gt; CP-01-10/11/12 resalta el teléfono de 11 dígitos" time="0.0030034">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-01 formulario de registro de cliente &gt; CP-01-10/11/12 resalta el teléfono de 11 dígitos" time="0.0014742">
             <failure message="expected undefined to be &apos;Por favor, ingrese un correo y número…&apos; // Object.is equality" type="AssertionError">
 AssertionError: expected undefined to be &apos;Por favor, ingrese un correo y número…&apos; // Object.is equality
 
@@ -120,7 +120,7 @@ undefined
  ❯ src/test/qa/form-rules.qa.test.ts:97:80
             </failure>
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-01 formulario de registro de cliente &gt; CP-01-10/11/12 resalta el teléfono con prefijo inválido" time="0.0034519">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-01 formulario de registro de cliente &gt; CP-01-10/11/12 resalta el teléfono con prefijo inválido" time="0.0012283">
             <failure message="expected undefined to be &apos;Por favor, ingrese un correo y número…&apos; // Object.is equality" type="AssertionError">
 AssertionError: expected undefined to be &apos;Por favor, ingrese un correo y número…&apos; // Object.is equality
 
@@ -133,45 +133,45 @@ undefined
  ❯ src/test/qa/form-rules.qa.test.ts:97:80
             </failure>
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-01 formulario de registro de cliente &gt; CP-01-13 acepta 0999999999 (10 dígitos con prefijo 09)" time="0.0015417">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-01 formulario de registro de cliente &gt; CP-01-13 acepta 0999999999 (10 dígitos con prefijo 09)" time="0.000457">
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-01 formulario de registro de cliente &gt; CP-01-15 resalta una dirección de 256 caracteres y acepta 255" time="0.0006685">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-01 formulario de registro de cliente &gt; CP-01-15 resalta una dirección de 256 caracteres y acepta 255" time="0.0007455">
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-01 formulario de registro de cliente &gt; CP-01-01 siempre envía el rol Cliente" time="0.0007065">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-01 formulario de registro de cliente &gt; CP-01-01 siempre envía el rol Cliente" time="0.0011715">
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-07 formulario de registro de paciente &gt; CP-07-01 un formulario válido produce el borrador (coma decimal aceptada)" time="0.0017921">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-07 formulario de registro de paciente &gt; CP-07-01 un formulario válido produce el borrador (coma decimal aceptada)" time="0.0022609">
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-07 formulario de registro de paciente &gt; CP-07-02 marca los obligatorios vacíos" time="0.0015548">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-07 formulario de registro de paciente &gt; CP-07-02 marca los obligatorios vacíos" time="0.0014629">
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-07 formulario de registro de paciente &gt; CP-07-03 el color es opcional" time="0.0006464">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-07 formulario de registro de paciente &gt; CP-07-03 el color es opcional" time="0.0007957">
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-07 formulario de registro de paciente &gt; CP-07-04 exige seleccionar cliente" time="0.0004516">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-07 formulario de registro de paciente &gt; CP-07-04 exige seleccionar cliente" time="0.0004647">
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-07 formulario de registro de paciente &gt; CP-07-07/08/09 rechaza la fecha inexistente" time="0.0004928">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-07 formulario de registro de paciente &gt; CP-07-07/08/09 rechaza la fecha inexistente" time="0.0005065">
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-07 formulario de registro de paciente &gt; CP-07-07/08/09 rechaza la fecha futura" time="0.0012026">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-07 formulario de registro de paciente &gt; CP-07-07/08/09 rechaza la fecha futura" time="0.0003877">
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-07 formulario de registro de paciente &gt; CP-07-07/08/09 rechaza la fecha ISO" time="0.0005032">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-07 formulario de registro de paciente &gt; CP-07-07/08/09 rechaza la fecha ISO" time="0.0002593">
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-07 formulario de registro de paciente &gt; CP-07-10 acepta la fecha de hoy (valor límite)" time="0.0010843">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-07 formulario de registro de paciente &gt; CP-07-10 acepta la fecha de hoy (valor límite)" time="0.0004366">
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-07 formulario de registro de paciente &gt; CP-07-12/13 rechaza una medida cero" time="0.0069666">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-07 formulario de registro de paciente &gt; CP-07-12/13 rechaza una medida cero" time="0.0004378">
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-07 formulario de registro de paciente &gt; CP-07-12/13 rechaza una medida negativa" time="0.0005114">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-07 formulario de registro de paciente &gt; CP-07-12/13 rechaza una medida negativa" time="0.0002458">
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-07 formulario de registro de paciente &gt; CP-07-12/13 rechaza una medida no numérica" time="0.0004399">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-07 formulario de registro de paciente &gt; CP-07-12/13 rechaza una medida no numérica" time="0.0002458">
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-07 formulario de registro de paciente &gt; CP-07-14 interpreta 0,01 como medida válida mínima" time="0.0011288">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-07 formulario de registro de paciente &gt; CP-07-14 interpreta 0,01 como medida válida mínima" time="0.0003144">
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-07 formulario de registro de paciente &gt; CP-07-09 la máscara de fecha arma DD-MM-YYYY mientras se escribe" time="0.0008563">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-07 formulario de registro de paciente &gt; CP-07-09 la máscara de fecha arma DD-MM-YYYY mientras se escribe" time="0.0009403">
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-13 formulario de registro de especie &gt; CP-13-01 un nombre válido produce el borrador" time="0.0006518">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-13 formulario de registro de especie &gt; CP-13-01 un nombre válido produce el borrador" time="0.0007389">
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-13 formulario de registro de especie &gt; CP-13-02/03 rechaza el nombre &quot;&quot;" time="0.0003553">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-13 formulario de registro de especie &gt; CP-13-02/03 rechaza el nombre &quot;&quot;" time="0.0003705">
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-13 formulario de registro de especie &gt; CP-13-02/03 rechaza el nombre &quot;   &quot;" time="0.0002405">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-13 formulario de registro de especie &gt; CP-13-02/03 rechaza el nombre &quot;   &quot;" time="0.0002126">
         </testcase>
-        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-13 formulario de registro de especie &gt; CP-13-04 la descripción vacía es opcional" time="0.0004014">
+        <testcase classname="src/test/qa/form-rules.qa.test.ts" name="HU-13 formulario de registro de especie &gt; CP-13-04 la descripción vacía es opcional" time="0.0002889">
         </testcase>
     </testsuite>
 </testsuites>

@@ -41,7 +41,8 @@ function build() {
   const hasher = { hash: vi.fn(async (value: string) => `hash:${value}`) };
   const mail = { send: vi.fn(async () => undefined) };
   const config = { get: vi.fn(() => 'http://localhost:5184') };
-  const service = new ClientRegistrationService(prisma as never, hasher as never, mail as never, config as never);
+  const audit = { record: vi.fn(async () => undefined) };
+  const service = new ClientRegistrationService(prisma as never, hasher as never, mail as never, config as never, audit as never);
   return { service, tx, prisma };
 }
 

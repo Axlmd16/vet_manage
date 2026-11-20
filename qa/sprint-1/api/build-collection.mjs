@@ -35,7 +35,7 @@ const login = (name, email, variable) => request(name, {
 });
 
 const pet = (patch = {}) => ({
-  name: 'Newman', speciesId: '{{caninoId}}', breedId: '{{labradorId}}', sex: 'FEMALE', birthDate: '05-06-2023',
+  name: 'Newman', speciesId: '{{caninoId}}', breedId: '{{labradorId}}', gender: 'FEMALE', birthDate: '05-06-2023',
   weightKg: 7.5, heightCm: 35, reproductiveStatus: 'STERILIZED', color: 'Blanco', clientId: '{{pedroId}}', ...patch,
 });
 

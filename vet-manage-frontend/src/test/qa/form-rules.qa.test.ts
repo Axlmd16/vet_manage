@@ -4,7 +4,7 @@
 import { describe, expect, it } from 'vitest';
 import { ApiError } from '../../infrastructure/api/http-client';
 import * as clientRules from '../../modules/clients/form-rules';
-import { isValidBirthDate, maskBirthDate, parseMeasure, validatePetDraft, emptyPetForm } from '../../modules/pets/schemas/pet';
+import { isValidBirthDate, maskBirthDate, parseMeasure, validatePatientDraft as validatePetDraft, emptyPatientForm as emptyPetForm } from '../../modules/pets/schemas/patient';
 import { validateSpeciesDraft } from '../../modules/pets/schemas/species';
 import * as userRules from '../../modules/users/form-rules';
 
@@ -17,7 +17,7 @@ const client = (patch: Partial<clientRules.Form> = {}): clientRules.Form => ({
   phone: '0987654321', address: '', ...patch,
 });
 const pet = (patch: Partial<typeof emptyPetForm> = {}) => ({
-  ...emptyPetForm, name: 'Max', speciesId: 's1', breedId: 'b1', sex: 'MALE' as const, birthDate: '10-02-2024',
+  ...emptyPetForm, name: 'Max', speciesId: 's1', breedId: 'b1', gender: 'MALE' as const, birthDate: '10-02-2024',
   weightKg: '20,5', heightCm: '55', reproductiveStatus: 'NOT_STERILIZED' as const, clientId: 'c1', ...patch,
 });
 const TODAY = new Date(2026, 10, 19);

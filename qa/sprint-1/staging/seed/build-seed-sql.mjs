@@ -87,13 +87,13 @@ out();
 out('-- 4. Pacientes');
 for (const pet of data.pets) {
   const owner = data.clients.find((client) => client.key === pet.client);
-  out(`INSERT INTO pets (id, name, sex, birth_date, weight_kg, height_cm, reproductive_status, color, status, client_id, species_id, breed_id, created_at, updated_at)
+  out(`INSERT INTO patients (id, name, gender, birth_date, weight_kg, height_cm, reproductive_status, color, status, client_id, species_id, breed_id, created_at, updated_at)
 SELECT gen_random_uuid(), ${q(pet.name)}, '${pet.sex}', DATE ${q(pet.birthDate)}, ${pet.weightKg}, ${pet.heightCm}, '${pet.reproductiveStatus}', ${q(pet.color)}, ${q(pet.status ?? 'ACTIVE')}, c.id, s.id, b.id, NOW(), NOW()
 FROM clients c JOIN persons p ON p.id = c.person_id
 JOIN species s ON s.name = ${q(pet.species)}
 JOIN breeds b ON b.species_id = s.id AND b.name = ${q(pet.breed)}
 WHERE p.identification = ${q(owner.identification)}
-  AND NOT EXISTS (SELECT 1 FROM pets x WHERE x.client_id = c.id AND x.name = ${q(pet.name)});`);
+  AND NOT EXISTS (SELECT 1 FROM patients x WHERE x.client_id = c.id AND x.name = ${q(pet.name)});`);
 }
 out();
 out('COMMIT;');

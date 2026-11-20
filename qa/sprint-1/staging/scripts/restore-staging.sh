@@ -14,5 +14,5 @@ log "Restaurando $SEED_DUMP con pg_restore --clean…"
 
 elapsed=$(( $(date +%s) - start ))
 users=$(psql_staging -tAc "SELECT count(*) FROM users")
-pets=$(psql_staging -tAc "SELECT count(*) FROM pets")
+pets=$(psql_staging -tAc "SELECT count(*) FROM patients")
 log "Restauración completa en ${elapsed}s (usuarios: $users, pacientes: $pets)."

@@ -106,7 +106,7 @@ describe('HU-07 Registrar datos del paciente (API)', () => {
   let labrador: { speciesId: string; breedId: string | null };
 
   const body = (patch: Record<string, unknown> = {}) => ({
-    name: 'Max', speciesId: labrador.speciesId, breedId: labrador.breedId, sex: 'MALE', birthDate: '10-02-2024',
+    name: 'Max', speciesId: labrador.speciesId, breedId: labrador.breedId, gender: 'MALE', birthDate: '10-02-2024',
     weightKg: 20.5, heightCm: 55, reproductiveStatus: 'NOT_STERILIZED', color: 'Café', clientId: pedro, ...patch,
   });
 

@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for modules/pets/services/pets/register-pet.service.ts</title>
+    <title>Code coverage report for modules/pets/services/patients/register-patient.service.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../../prettify.css" />
     <link rel="stylesheet" href="../../../../base.css" />
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../index.html">All files</a> / <a href="index.html">modules/pets/services/pets</a> register-pet.service.ts</h1>
+        <h1><a href="../../../../index.html">All files</a> / <a href="index.html">modules/pets/services/patients</a> register-patient.service.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">93.9% </span>
+                <span class="strong">94.31% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>77/82</span>
+                <span class='fraction'>83/88</span>
             </div>
         
             
@@ -39,14 +39,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>13/13</span>
+                <span class='fraction'>14/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>58/58</span>
+                <span class='fraction'>64/64</span>
             </div>
         
             
@@ -229,7 +229,26 @@
 <a name='L164'></a><a href='#L164'>164</a>
 <a name='L165'></a><a href='#L165'>165</a>
 <a name='L166'></a><a href='#L166'>166</a>
-<a name='L167'></a><a href='#L167'>167</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a>
+<a name='L177'></a><a href='#L177'>177</a>
+<a name='L178'></a><a href='#L178'>178</a>
+<a name='L179'></a><a href='#L179'>179</a>
+<a name='L180'></a><a href='#L180'>180</a>
+<a name='L181'></a><a href='#L181'>181</a>
+<a name='L182'></a><a href='#L182'>182</a>
+<a name='L183'></a><a href='#L183'>183</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -304,6 +323,8 @@
 <span class="cline-any cline-yes">27x</span>
 <span class="cline-any cline-yes">27x</span>
 <span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -322,6 +343,17 @@
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -397,21 +429,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Injectable } from '@nestjs/common';
 import { ApiException } from '../../../../common/errors/api-exception.js';
+import { PrismaService } from '../../../../infrastructure/database/prisma/prisma.service.js';
+import { AUDIT_ACTIONS, AUDIT_MODULES } from '../../../audit/audit.catalog.js';
+import { AuditService } from '../../../audit/services/audit.service.js';
 import { ClientsService } from '../../../clients/services/clients.service.js';
-import type { RegisterPetDto } from '../../dtos/pets/register-pet.dto.js';
+import type { RegisterPatientDto } from '../../dtos/patients/register-patient.dto.js';
 import { BreedRepository } from '../../repositories/breed.repository.js';
-import { PetRepository, type CreatedPet, type NewPet } from '../../repositories/pet.repository.js';
+import { PatientRepository, type CreatedPatient, type NewPatient } from '../../repositories/patient.repository.js';
 import { SpeciesRepository } from '../../repositories/species.repository.js';
 import { formatBirthDate, parseBirthDate } from './birth-date.js';
 &nbsp;
-export const PET_MESSAGES = {
+export const PATIENT_MESSAGES = {
   registered: 'Paciente registrado exitosamente',
   missing: 'Por favor, complete todos los campos obligatorios',
   clientRequired: 'Debe seleccionar un cliente registrado',
   clientUnavailable: 'El cliente seleccionado no está disponible',
   invalidBirthDate: 'Fecha de nacimiento inválida',
   invalidMeasures: 'El peso y la talla deben ser valores numéricos mayores que cero',
-  invalidSex: 'El sexo debe ser Macho o Hembra',
+  invalidGender: 'El sexo debe ser Macho o Hembra',
   invalidReproductiveStatus: 'El estado reproductivo debe ser Esterilizado, No esterilizado o Desconocido',
   nameTooLong: 'El nombre no puede exceder los 100 caracteres',
   colorTooLong: 'El color no puede exceder los 50 caracteres',
@@ -424,9 +459,9 @@ export const PET_MESSAGES = {
   breedMismatch: 'La raza no corresponde a la especie seleccionada',
 } as const;
 &nbsp;
-const SEXES: readonly string[] = ['MALE', 'FEMALE'];
+const GENDERS: readonly string[] = ['MALE', 'FEMALE'];
 const REPRODUCTIVE_STATUSES: readonly string[] = ['STERILIZED', 'NOT_STERILIZED', 'UNKNOWN'];
-const REQUIRED = ['name', 'speciesId', 'breedId', 'sex', 'birthDate', 'weightKg', 'heightCm', 'reproductiveStatus'] as const;
+const REQUIRED = ['name', 'speciesId', 'breedId', 'gender', 'birthDate', 'weightKg', 'heightCm', 'reproductiveStatus'] as const;
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const MEASURE_MAX = 9999.99;
 &nbsp;
@@ -446,11 +481,11 @@ const fail = (message: string, status: number, fields: string[], code: string) =
 &nbsp;
 const fieldsWhere = (checks: [string, boolean][]) =&gt; checks.filter(([, invalid]) =&gt; invalid).map(([field]) =&gt; field);
 &nbsp;
-export type RegisteredPet = {
+export type RegisteredPatient = {
   id: string;
   code: string;
   name: string;
-  sex: string;
+  gender: string;
   birthDate: string;
   weightKg: number;
   heightCm: number;
@@ -464,77 +499,90 @@ export type RegisteredPet = {
 };
 &nbsp;
 @Injectable()
-export class RegisterPetService {
+export class RegisterPatientService {
   constructor(
-    private readonly petRepository: PetRepository,
+    private readonly patientRepository: PatientRepository,
     private readonly speciesRepository: SpeciesRepository,
     private readonly breedRepository: BreedRepository,
     private readonly clientsService: ClientsService,
+    private readonly prisma: PrismaService,
+    private readonly audit: AuditService,
   ) {}
 &nbsp;
-  async execute(dto: RegisterPetDto): Promise&lt;RegisteredPet&gt; {
+  async execute(dto: RegisterPatientDto, actorId: string): Promise&lt;RegisteredPatient&gt; {
     const data = this.validate(dto);
 &nbsp;
     // El dueño se valida con el servicio de clientes, no con su tabla.
     const client = await this.clientsService.findById(data.clientId);
-    if (!client) throw fail(PET_MESSAGES.clientRequired, 404, ['clientId'], 'PET_CLIENT_NOT_FOUND');
-    if (client.status !== 'ACTIVE') throw fail(PET_MESSAGES.clientUnavailable, 409, ['clientId'], 'PET_CLIENT_UNAVAILABLE');
+    if (!client) throw fail(PATIENT_MESSAGES.clientRequired, 404, ['clientId'], 'PATIENT_CLIENT_NOT_FOUND');
+    if (client.status !== 'ACTIVE') throw fail(PATIENT_MESSAGES.clientUnavailable, 409, ['clientId'], 'PATIENT_CLIENT_UNAVAILABLE');
 &nbsp;
     const species = await this.speciesRepository.findById(data.speciesId);
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (!species) <span class="cstat-no" title="statement not covered" >throw fail(PET_MESSAGES.speciesNotFound, 404, ['speciesId'], 'PET_SPECIES_NOT_FOUND');</span>
-    if (!species.isActive) throw fail(PET_MESSAGES.speciesInactive, 409, ['speciesId'], 'PET_SPECIES_INACTIVE');
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!species) <span class="cstat-no" title="statement not covered" >throw fail(PATIENT_MESSAGES.speciesNotFound, 404, ['speciesId'], 'PATIENT_SPECIES_NOT_FOUND');</span>
+    if (!species.isActive) throw fail(PATIENT_MESSAGES.speciesInactive, 409, ['speciesId'], 'PATIENT_SPECIES_INACTIVE');
 &nbsp;
     const breed = await this.breedRepository.findById(data.breedId);
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (!breed) <span class="cstat-no" title="statement not covered" >throw fail(PET_MESSAGES.breedNotFound, 404, ['breedId'], 'PET_BREED_NOT_FOUND');</span>
-    if (breed.speciesId !== species.id) throw fail(PET_MESSAGES.breedMismatch, 400, ['breedId'], 'PET_BREED_MISMATCH');
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (!breed.isActive) <span class="cstat-no" title="statement not covered" >throw fail(PET_MESSAGES.breedInactive, 409, ['breedId'], 'PET_BREED_INACTIVE');</span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!breed) <span class="cstat-no" title="statement not covered" >throw fail(PATIENT_MESSAGES.breedNotFound, 404, ['breedId'], 'PATIENT_BREED_NOT_FOUND');</span>
+    if (breed.speciesId !== species.id) throw fail(PATIENT_MESSAGES.breedMismatch, 400, ['breedId'], 'PATIENT_BREED_MISMATCH');
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!breed.isActive) <span class="cstat-no" title="statement not covered" >throw fail(PATIENT_MESSAGES.breedInactive, 409, ['breedId'], 'PATIENT_BREED_INACTIVE');</span>
 &nbsp;
-    return this.toResponse(await this.petRepository.create(data));
+    const created = await this.prisma.$transaction(async (tx) =&gt; {
+      const patient = await this.patientRepository.create(data, tx);
+      await this.audit.record(tx, {
+        actorId,
+        action: AUDIT_ACTIONS.register,
+        module: AUDIT_MODULES.patients,
+        affectedRecord: `${patient.name} (${patient.code})`,
+      });
+      return patient;
+    });
+&nbsp;
+    return this.toResponse(created);
   }
 &nbsp;
   // Valida en el orden de los criterios de aceptación; dto.code se ignora a propósito.
-  private validate(dto: RegisterPetDto): NewPet {
-    if (isBlank(dto.clientId)) throw fail(PET_MESSAGES.clientRequired, 400, ['clientId'], 'PET_CLIENT_REQUIRED');
+  private validate(dto: RegisterPatientDto): NewPatient {
+    if (isBlank(dto.clientId)) throw fail(PATIENT_MESSAGES.clientRequired, 400, ['clientId'], 'PATIENT_CLIENT_REQUIRED');
 &nbsp;
     const missing = REQUIRED.filter((field) =&gt; isBlank(dto[field]));
-    if (missing.length &gt; 0) throw fail(PET_MESSAGES.missing, 400, [...missing], 'PET_MISSING_FIELDS');
+    if (missing.length &gt; 0) throw fail(PATIENT_MESSAGES.missing, 400, [...missing], 'PATIENT_MISSING_FIELDS');
 &nbsp;
     const invalidIds = (['clientId', 'speciesId', 'breedId'] as const).filter((field) =&gt; !UUID_PATTERN.test(text(dto[field])));
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (invalidIds.length &gt; 0) <span class="cstat-no" title="statement not covered" >throw fail(PET_MESSAGES.invalidId, 400, invalidIds, 'PET_INVALID_ID');</span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (invalidIds.length &gt; 0) <span class="cstat-no" title="statement not covered" >throw fail(PATIENT_MESSAGES.invalidId, 400, invalidIds, 'PATIENT_INVALID_ID');</span>
 &nbsp;
     const name = text(dto.name);
-    if (name.length &gt; 100) throw fail(PET_MESSAGES.nameTooLong, 400, ['name'], 'PET_INVALID_NAME');
+    if (name.length &gt; 100) throw fail(PATIENT_MESSAGES.nameTooLong, 400, ['name'], 'PATIENT_INVALID_NAME');
 &nbsp;
-    const sex = text(dto.sex);
-    if (!SEXES.includes(sex)) throw fail(PET_MESSAGES.invalidSex, 400, ['sex'], 'PET_INVALID_SEX');
+    const gender = text(dto.gender);
+    if (!GENDERS.includes(gender)) throw fail(PATIENT_MESSAGES.invalidGender, 400, ['gender'], 'PATIENT_INVALID_GENDER');
 &nbsp;
     const reproductiveStatus = text(dto.reproductiveStatus);
     if (!REPRODUCTIVE_STATUSES.includes(reproductiveStatus)) {
-      throw fail(PET_MESSAGES.invalidReproductiveStatus, 400, ['reproductiveStatus'], 'PET_INVALID_REPRODUCTIVE_STATUS');
+      throw fail(PATIENT_MESSAGES.invalidReproductiveStatus, 400, ['reproductiveStatus'], 'PATIENT_INVALID_REPRODUCTIVE_STATUS');
     }
 &nbsp;
     const birthDate = parseBirthDate(dto.birthDate);
-    if (!birthDate) throw fail(PET_MESSAGES.invalidBirthDate, 400, ['birthDate'], 'PET_INVALID_BIRTH_DATE');
+    if (!birthDate) throw fail(PATIENT_MESSAGES.invalidBirthDate, 400, ['birthDate'], 'PATIENT_INVALID_BIRTH_DATE');
 &nbsp;
     const weightKg = toNumber(dto.weightKg);
     const heightCm = toNumber(dto.heightCm);
     // !(x &gt; 0) también atrapa NaN.
     const invalidMeasures = fieldsWhere([['weightKg', !(weightKg &gt; 0)], ['heightCm', !(heightCm &gt; 0)]]);
-    if (invalidMeasures.length &gt; 0) throw fail(PET_MESSAGES.invalidMeasures, 400, invalidMeasures, 'PET_INVALID_MEASURES');
+    if (invalidMeasures.length &gt; 0) throw fail(PATIENT_MESSAGES.invalidMeasures, 400, invalidMeasures, 'PATIENT_INVALID_MEASURES');
 &nbsp;
     const tooLarge = fieldsWhere([['weightKg', weightKg &gt; MEASURE_MAX], ['heightCm', heightCm &gt; MEASURE_MAX]]);
-    if (tooLarge.length &gt; 0) throw fail(PET_MESSAGES.measureTooLarge, 400, tooLarge, 'PET_INVALID_MEASURES');
+    if (tooLarge.length &gt; 0) throw fail(PATIENT_MESSAGES.measureTooLarge, 400, tooLarge, 'PATIENT_INVALID_MEASURES');
 &nbsp;
     const color = isBlank(dto.color) ? null : text(dto.color);
-    if (color &amp;&amp; color.length &gt; 50) throw fail(PET_MESSAGES.colorTooLong, 400, ['color'], 'PET_INVALID_COLOR');
+    if (color &amp;&amp; color.length &gt; 50) throw fail(PATIENT_MESSAGES.colorTooLong, 400, ['color'], 'PATIENT_INVALID_COLOR');
 &nbsp;
     return {
       name,
-      sex: sex as NewPet['sex'],
+      gender: gender as NewPatient['gender'],
       birthDate,
       weightKg: Math.round(weightKg * 100) / 100,
       heightCm: Math.round(heightCm * 100) / 100,
-      reproductiveStatus: reproductiveStatus as NewPet['reproductiveStatus'],
+      reproductiveStatus: reproductiveStatus as NewPatient['reproductiveStatus'],
       color,
       clientId: text(dto.clientId),
       speciesId: text(dto.speciesId),
@@ -542,22 +590,22 @@ export class RegisterPetService {
     };
   }
 &nbsp;
-  private toResponse(pet: CreatedPet): RegisteredPet {
+  private toResponse(patient: CreatedPatient): RegisteredPatient {
     return {
-      id: pet.id,
-      code: pet.code,
-      name: pet.name,
-      sex: pet.sex,
-      birthDate: formatBirthDate(pet.birthDate),
-      weightKg: Number(pet.weightKg),
-      heightCm: Number(pet.heightCm),
-      reproductiveStatus: pet.reproductiveStatus,
-      color: pet.color,
-      status: pet.status,
-      clientId: pet.clientId,
-      species: pet.species,
-      breed: pet.breed,
-      createdAt: pet.createdAt.toISOString(),
+      id: patient.id,
+      code: patient.code,
+      name: patient.name,
+      gender: patient.gender,
+      birthDate: formatBirthDate(patient.birthDate),
+      weightKg: Number(patient.weightKg),
+      heightCm: Number(patient.heightCm),
+      reproductiveStatus: patient.reproductiveStatus,
+      color: patient.color,
+      status: patient.status,
+      clientId: patient.clientId,
+      species: patient.species,
+      breed: patient.breed,
+      createdAt: patient.createdAt.toISOString(),
     };
   }
 }
@@ -568,7 +616,7 @@ export class RegisterPetService {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-11-20T04:57:46.972Z
+                at 2026-11-20T20:55:09.603Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

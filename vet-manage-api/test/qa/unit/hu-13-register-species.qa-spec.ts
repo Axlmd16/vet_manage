@@ -11,7 +11,9 @@ function build(existing: string[] = ['Canino']) {
     findByName: vi.fn(async (name: string) => (existing.some((e) => e.toLowerCase() === name.toLowerCase()) ? { id: 's1', name } : null)),
     create: vi.fn(async (data: { name: string; description?: string }) => ({ id: 's-new', isActive: true, description: null, ...data })),
   };
-  return { service: new RegisterSpeciesService(speciesRepository as never), speciesRepository };
+  const prisma = { $transaction: vi.fn(async (callback: (tx: unknown) => unknown) => callback({})) };
+  const audit = { record: vi.fn(async () => undefined) };
+  return { service: new RegisterSpeciesService(speciesRepository as never, prisma as never, audit as never), speciesRepository, audit };
 }
 
 const dtoErrors = async (body: object) =>
@@ -25,33 +27,33 @@ describe('HU-13 Registrar especie (unitarias)', () => {
   });
 
   it('CP-13-01 registra una especie con nombre y descripción', async () => {
-    const species = await ctx.service.execute({ name: 'Roedor', description: 'Hámsters, cobayos y similares' });
+    const species = await ctx.service.execute({ name: 'Roedor', description: 'Hámsters, cobayos y similares' }, 'vet-id');
     expect(species).toMatchObject({ name: 'Roedor', isActive: true, description: 'Hámsters, cobayos y similares' });
   });
 
   it('CP-13-01 guarda el nombre sin espacios al inicio ni al final', async () => {
-    const species = await ctx.service.execute({ name: '  Roedor  ' });
+    const species = await ctx.service.execute({ name: '  Roedor  ' }, 'vet-id');
     expect(species.name).toBe('Roedor');
   });
 
   it('CP-13-02 rechaza el nombre vacío', async () => {
-    const error = await rejection(ctx.service.execute({ name: '' }));
+    const error = await rejection(ctx.service.execute({ name: '' }, 'vet-id'));
     expect(describeError(error)).toEqual({ status: 400, message: 'El nombre de la especie es obligatorio' });
     expect(ctx.speciesRepository.create).not.toHaveBeenCalled();
   });
 
   it('CP-13-03 rechaza un nombre con solo espacios', async () => {
-    const error = await rejection(ctx.service.execute({ name: '   ' }));
+    const error = await rejection(ctx.service.execute({ name: '   ' }, 'vet-id'));
     expect(describeError(error)).toEqual({ status: 400, message: 'El nombre de la especie es obligatorio' });
   });
 
   it('CP-13-04 registra sin descripción (opcional)', async () => {
-    await ctx.service.execute({ name: 'Pez' });
-    expect(ctx.speciesRepository.create).toHaveBeenCalledWith({ name: 'Pez', description: undefined });
+    await ctx.service.execute({ name: 'Pez' }, 'vet-id');
+    expect(ctx.speciesRepository.create).toHaveBeenCalledWith({ name: 'Pez', description: undefined }, expect.anything());
   });
 
   it.each([['Canino'], ['canino'], ['CANINO']])('CP-13-06 rechaza el nombre duplicado "%s"', async (name) => {
-    const error = await rejection(ctx.service.execute({ name }));
+    const error = await rejection(ctx.service.execute({ name }, 'vet-id'));
     expect(error.statusCode).toBe(409);
     expect(error.message).toContain('Ya existe una especie registrada con el nombre');
   });

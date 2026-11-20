@@ -2,7 +2,7 @@
 // Requiere Staging restaurado con la semilla QA (qa/sprint-1/staging/scripts/restore-staging.sh).
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import {
-  api, auditTables, bearer, closeDb, mailsTo, PASSWORD, sql, tamper, tokenFor, userIdByEmail, USERS,
+  api, bearer, closeDb, mailsTo, PASSWORD, sql, tamper, tokenFor, userIdByEmail, USERS,
 } from './support.js';
 
 afterAll(closeDb);
@@ -110,8 +110,11 @@ describe('HU-51 Registrar usuario (API)', () => {
     const response = await api().post('/users').set(bearer(admin))
       .send(body({ identification: '1105019622', email: 'auditado@vetmanage.test', roles: ['cashier'] }));
     expect(response.status).toBe(201);
-    const tables = await auditTables();
-    expect(tables, 'No existe ninguna tabla de auditoría en la base de datos').not.toEqual([]);
+    const rows = await sql<{ role: string; action: string; module: string; affected_record: string; email: string }>(
+      `SELECT a.role, a.action, a.module, a.affected_record, p.email FROM audit_logs a
+       JOIN users u ON u.id = a.user_id JOIN persons p ON p.id = u.person_id
+       WHERE a.affected_record LIKE '1105019622%' ORDER BY a.occurred_at DESC`);
+    expect(rows[0]).toMatchObject({ role: 'Administrador', action: 'Registrar', module: 'Usuarios', email: USERS.admin });
   });
 });
 
@@ -215,8 +218,14 @@ describe('HU-54 Asignar y quitar roles (API)', () => {
   });
 
   it('CP-54-14 el cambio de roles queda en la auditoría con valor anterior y nuevo (OC-04 / PNF-05)', async () => {
-    const tables = await auditTables();
-    expect(tables, 'No existe ninguna tabla de auditoría en la base de datos').not.toEqual([]);
+    // CP-54-01 asignó Cajero a Carlos Pérez (1105013336) en esta misma corrida.
+    const rows = await sql<{ role: string; action: string; module: string }>(
+      "SELECT role, action, module FROM audit_logs WHERE affected_record LIKE '1105013336%' AND action = 'Asignar roles'");
+    expect(rows.length, 'No hay registro de auditoría del cambio de roles').toBeGreaterThan(0);
+    expect(rows[0]).toMatchObject({ role: 'Administrador', module: 'Usuarios' });
+    const columns = (await sql<{ column_name: string }>(
+      "SELECT column_name FROM information_schema.columns WHERE table_name = 'audit_logs'")).map((r) => r.column_name);
+    expect(columns, 'La auditoría no guarda el valor anterior ni el nuevo').toEqual(expect.arrayContaining([expect.stringMatching(/previous|old|before|anterior/), expect.stringMatching(/new|after|nuevo/)]));
   });
 });
 

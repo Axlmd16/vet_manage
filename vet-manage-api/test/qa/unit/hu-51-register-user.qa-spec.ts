@@ -44,8 +44,9 @@ function build() {
   const hasher = { hash: vi.fn(async (password: string) => `hash:${password}`) };
   const mail = { send: vi.fn(async () => undefined) };
   const config = { get: vi.fn(() => 'http://localhost:5184') };
-  const service = new UserRegistrationService(prisma as never, hasher as never, mail as never, config as never);
-  return { service, tx, prisma, hasher, mail };
+  const audit = { record: vi.fn(async () => undefined) };
+  const service = new UserRegistrationService(prisma as never, hasher as never, mail as never, config as never, audit as never);
+  return { service, tx, prisma, hasher, mail, audit };
 }
 
 describe('HU-51 Registrar usuario (unitarias)', () => {
