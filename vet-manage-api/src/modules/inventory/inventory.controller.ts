@@ -52,6 +52,12 @@ export class InventoryController {
     return success(await this.inventoryService.listExpirationAlerts());
   }
 
+  @Get('batches/:id')
+  @RequirePermissions('inventory:read')
+  async getBatch(@Param('id') id: string) {
+    return success(await this.inventoryService.getBatch(id));
+  }
+
   @Patch('batches/:id/expiration-date')
   @RequirePermissions('inventory:register-entry')
   async updateBatchExpiration(@Param('id') id: string, @Body() input: UpdateBatchExpirationDto) {

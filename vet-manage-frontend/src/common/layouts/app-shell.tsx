@@ -3,6 +3,7 @@ import type { ComponentType } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import logo from '../../assets/logo.jpeg';
 import { useAuth } from '../../modules/auth/auth-context';
+import { NotificationsBell } from '../../modules/notifications/components/notifications-bell';
 import {
   BoxIcon,
   CalendarIcon,
@@ -103,6 +104,7 @@ export function AppShell() {
           )}
         </nav>
 
+        <NotificationsBell />
         <UserMenu />
       </aside>
 
