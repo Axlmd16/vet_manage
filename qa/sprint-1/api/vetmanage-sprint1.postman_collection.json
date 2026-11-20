@@ -1029,7 +1029,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Newman\",\n  \"speciesId\": \"{{caninoId}}\",\n  \"breedId\": \"{{labradorId}}\",\n  \"sex\": \"FEMALE\",\n  \"birthDate\": \"05-06-2023\",\n  \"weightKg\": 7.5,\n  \"heightCm\": 35,\n  \"reproductiveStatus\": \"STERILIZED\",\n  \"color\": \"Blanco\",\n  \"clientId\": \"{{pedroId}}\"\n}"
+              "raw": "{\n  \"name\": \"Newman\",\n  \"speciesId\": \"{{caninoId}}\",\n  \"breedId\": \"{{labradorId}}\",\n  \"gender\": \"FEMALE\",\n  \"birthDate\": \"05-06-2023\",\n  \"weightKg\": 7.5,\n  \"heightCm\": 35,\n  \"reproductiveStatus\": \"STERILIZED\",\n  \"color\": \"Blanco\",\n  \"clientId\": \"{{pedroId}}\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/pets",
@@ -1070,7 +1070,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Newman\",\n  \"speciesId\": \"{{caninoId}}\",\n  \"breedId\": \"{{labradorId}}\",\n  \"sex\": \"FEMALE\",\n  \"birthDate\": \"05-06-2023\",\n  \"weightKg\": 7.5,\n  \"heightCm\": 35,\n  \"reproductiveStatus\": \"STERILIZED\",\n  \"color\": \"Blanco\",\n  \"clientId\": \"\"\n}"
+              "raw": "{\n  \"name\": \"Newman\",\n  \"speciesId\": \"{{caninoId}}\",\n  \"breedId\": \"{{labradorId}}\",\n  \"gender\": \"FEMALE\",\n  \"birthDate\": \"05-06-2023\",\n  \"weightKg\": 7.5,\n  \"heightCm\": 35,\n  \"reproductiveStatus\": \"STERILIZED\",\n  \"color\": \"Blanco\",\n  \"clientId\": \"\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/pets",
@@ -1111,7 +1111,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Newman\",\n  \"speciesId\": \"{{caninoId}}\",\n  \"breedId\": \"{{labradorId}}\",\n  \"sex\": \"FEMALE\",\n  \"birthDate\": \"05-06-2023\",\n  \"weightKg\": 0,\n  \"heightCm\": 35,\n  \"reproductiveStatus\": \"STERILIZED\",\n  \"color\": \"Blanco\",\n  \"clientId\": \"{{pedroId}}\"\n}"
+              "raw": "{\n  \"name\": \"Newman\",\n  \"speciesId\": \"{{caninoId}}\",\n  \"breedId\": \"{{labradorId}}\",\n  \"gender\": \"FEMALE\",\n  \"birthDate\": \"05-06-2023\",\n  \"weightKg\": 0,\n  \"heightCm\": 35,\n  \"reproductiveStatus\": \"STERILIZED\",\n  \"color\": \"Blanco\",\n  \"clientId\": \"{{pedroId}}\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/pets",

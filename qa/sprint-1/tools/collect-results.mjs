@@ -61,7 +61,10 @@ if (newman) {
 const playwright = read(join(reports, 'e2e', 'playwright-results.json'));
 if (playwright) {
   const walk = (suite) => {
-    for (const spec of suite.specs ?? []) record('E2E Playwright', spec.title, spec.ok);
+    for (const spec of suite.specs ?? []) {
+      if (spec.tests?.every((t) => t.status === 'skipped')) continue; // fixme/skip: no es un resultado
+      record('E2E Playwright', spec.title, spec.ok);
+    }
     for (const child of suite.suites ?? []) walk(child);
   };
   for (const suite of JSON.parse(playwright).suites) walk(suite);
@@ -78,11 +81,19 @@ if (cucumber) {
   }
 }
 
+// Los casos sin prueba automatizada (ejecución manual) conservan el resultado que se registró a mano.
+const resultsFile = join(here, '..', 'matrices', 'resultados-ejecucion.json');
+const previous = existsSync(resultsFile) ? JSON.parse(readFileSync(resultsFile, 'utf8')) : {};
 const results = {};
 const detail = {};
 for (const [id, entry] of [...outcomes.entries()].sort()) {
   results[id] = entry.failed > 0 ? 'Falló' : 'Pasó';
-  detail[id] = { ...entry, suites: [...entry.suites] };
+  detail[id] = { ...entry, suites: [...entry.suites], source: 'automatizada' };
+}
+for (const [id, result] of Object.entries(previous)) {
+  if (results[id]) continue;
+  results[id] = result;
+  detail[id] = { source: 'manual', result };
 }
 
 writeFileSync(join(here, '..', 'matrices', 'resultados-ejecucion.json'), JSON.stringify(results, null, 2) + '\n');

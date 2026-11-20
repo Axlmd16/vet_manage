@@ -13,6 +13,7 @@ Documentación de QA del Sprint 1 según el *Plan de Pruebas Ágil – VetManage
 | 1. Diseño: casos de prueba y datos semilla | [01-matriz-casos-prueba.md](01-matriz-casos-prueba.md) · [02-datos-semilla.md](02-datos-semilla.md) | [Matriz de casos de prueba (.xlsx)](entregables/matriz-casos-prueba-sprint-1.xlsx) |
 | 2. Staging, semilla (pg_dump/pg_restore), CE-01 a CE-03, unitarias e integración API | [03-staging-y-ejecucion-unit-api.md](03-staging-y-ejecucion-unit-api.md) | [Validación CE](../../../../qa/sprint-1/reports/ce-validation.md) · [Cobertura](../../../../qa/sprint-1/reports/coverage/index.html) · [Newman](../../../../qa/sprint-1/reports/newman/newman-report.html) |
 | 3. E2E (Playwright / Cucumber.js) | [04-ejecucion-e2e.md](04-ejecucion-e2e.md) · [05-matriz-errores.md](05-matriz-errores.md) | [Matriz de errores (.xlsx)](entregables/matriz-errores-sprint-1.xlsx) |
+| Reporte: una evidencia por caso | [evidencias/README.md](evidencias/README.md) | 109 fichas `evidencias/CP-xx-yy.jpg` |
 
 ## Resumen de resultados
 
@@ -30,6 +31,24 @@ Resultados históricos de los 86 casos originales:
 
 Cobertura de líneas de la lógica de negocio de las HU: **93,3 %** (meta ≥ 90 %).
 
+### Ciclo 2 – retest del 20/11/2026 (tras integrar `development`)
+
+Se integró `upstream/development` (renombrado pet → patient, auditoría HT-04, permisos de especies, HU-06) y se volvió a ejecutar toda la suite automatizada sobre Staging reconstruido desde cero.
+
+| Nivel | Pruebas | Pasan | Fallan |
+| --- | :-: | :-: | :-: |
+| Unitarias API / frontend | 110 / 42 | 98 / 32 | 12 / 10 |
+| Integración Supertest | 75 | 65 | 10 |
+| Newman (casos) | 22 | 19 | 3 |
+| E2E Playwright | 20 (+1 omitida: pantalla de auditoría = HU-60) | 17 | 3 |
+| Aceptación Cucumber | 9 | 8 | 1 |
+
+- **DEF-07 cerrado:** el Administrador ya recibe 403 al registrar especies (CP-13-09 pasa).
+- **DEF-05 corregido en parte:** el alta de usuarios y el cambio de roles quedan en `audit_logs` (CP-51-18 pasa), pero sin valor anterior ni nuevo (CP-54-14 falla).
+- **DEF-01 a DEF-04 y DEF-06 siguen abiertos.**
+- **DEF-12 nuevo (Crítico):** en una base nueva las migraciones fallan por el orden de `agendamiento_citas` y `rename_pets_to_patients`. Staging usa un rodeo temporal (`qa/sprint-1/staging/scripts/workaround-migration-order.sh`).
+- Los casos de HU-06, HU-12 y HU-17 se ejecutaron a mano; conservan su resultado manual y conviene repetirlos ahora que HU-06 está integrada.
+
 Resultados de ejecución manual para las historias solicitadas:
 
 | HU | Pasaron | Fallaron | Bloqueados | Pendientes | Hallazgos |
@@ -44,13 +63,14 @@ Resultados de ejecución manual para las historias solicitadas:
 | DEF-02 | HU-01 | 2 - High | El teléfono no es obligatorio |
 | DEF-03 | HU-01 | 3 - Medium | El teléfono acepta 7-15 dígitos y cualquier prefijo |
 | DEF-04 | HU-01 | 3 - Medium | Mensajes distintos a los criterios de aceptación |
-| DEF-05 | HU-51, HU-54 | 2 - High | No hay auditoría del alta de usuarios ni de los cambios de rol |
+| DEF-05 | HU-51, HU-54 | 2 - High | La auditoría no guarda el valor anterior ni el nuevo (ciclo 2: corregido en parte) |
 | DEF-06 | HU-57 | 2 - High | La contraseña temporal no obliga a cambiarla en el primer ingreso |
-| DEF-07 | HU-13 | 3 - Medium | El Administrador puede registrar especies (la matriz solo lo permite al Veterinario) |
+| DEF-07 | HU-13 | 3 - Medium | ~~El Administrador puede registrar especies~~ **Cerrado en ciclo 2** |
 | DEF-08 | HU-06 | 2 - High | Pantalla de clientes sin búsqueda ni consulta |
 | DEF-09 | HU-06 | 3 - Medium | Búsqueda no encuentra nombres sin tilde |
 | DEF-10 | HU-06 | 2 - High | No se muestran las mascotas asociadas al cliente |
 | DEF-11 | HU-12 | 2 - High | Pantalla y endpoint de consulta de pacientes no implementados |
+| DEF-12 | Migraciones | 1 - Critical | En una base nueva las migraciones fallan (agendamiento referencia `patients` antes de que exista) |
 
 Por HU: **HU-51, HU-54, HU-07 y HU-13** cumplen sus criterios de aceptación (con DEF-05 y DEF-07 como hallazgos de seguridad transversales); **HU-01** no cumple; **HU-57** cumple salvo el Esc. 9 (DEF-06).
 
@@ -59,7 +79,7 @@ Por HU: **HU-51, HU-54, HU-07 y HU-13** cumplen sus criterios de aceptación (co
 | Criterio | Estado | Detalle |
 | --- | --- | --- |
 | CS-01 Ejecución completa | ⏳ | Los 86 casos originales se ejecutaron. HU-06 y HU-17 se ejecutaron parcialmente; HU-12 tiene 7 casos bloqueados por la funcionalidad ausente |
-| CS-02 Sin defectos críticos/bloqueantes abiertos | ✅ con alerta | No hay defectos Críticos; quedan 4 de severidad Alta abiertos |
+| CS-02 Sin defectos críticos/bloqueantes abiertos | ❌ | DEF-12 (Crítico) bloquea cualquier despliegue desde cero |
 | CS-03 Defectos menores documentados | ⏳ | Documentados; falta la decisión del PO sobre diferirlos |
 | CS-04 Criterios de aceptación cumplidos | ❌ | HU-01 no cumple (DEF-01 a DEF-04); HU-57 Esc. 9 (DEF-06) |
 | CS-05 Regresión exitosa | ⏳ | La suite queda automatizada (`run-unit-api.sh`, `run-e2e.sh`, GitHub Actions); se repite tras las correcciones (retest, BUG_CYCLE 2) |

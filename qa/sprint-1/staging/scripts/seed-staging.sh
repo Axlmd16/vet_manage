@@ -20,7 +20,7 @@ psql_staging -c "
 SELECT 'usuarios' AS tabla, count(*) FROM users
 UNION ALL SELECT 'roles asignados', count(*) FROM user_roles
 UNION ALL SELECT 'clientes', count(*) FROM clients
-UNION ALL SELECT 'pacientes', count(*) FROM pets
+UNION ALL SELECT 'pacientes', count(*) FROM patients
 UNION ALL SELECT 'especies', count(*) FROM species
 UNION ALL SELECT 'razas', count(*) FROM breeds;"
 

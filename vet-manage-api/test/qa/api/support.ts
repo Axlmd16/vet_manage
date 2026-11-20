@@ -1,6 +1,10 @@
 // Utilidades de la suite de integración API (Supertest contra Staging).
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import pg from 'pg';
 import request from 'supertest';
+import { afterAll, expect } from 'vitest';
 
 export const API_URL = process.env.QA_API_URL ?? 'http://localhost:3180/api/v1';
 export const MAILPIT_URL = process.env.QA_MAILPIT_URL ?? 'http://localhost:59025';
@@ -28,8 +32,60 @@ export const USERS = {
   roleTarget: 'qa.rotacion@vetmanage.test',
 } as const;
 
-export const api = () => request(API_URL);
+// ── Evidencia: se graba cada petición hecha dentro de una prueba, con el nombre de la prueba (que lleva el CP). ──
+export const CALLS_FILE = fileURLToPath(new URL('../../../../qa/sprint-1/reports/api/calls.json', import.meta.url));
+type Call = { method: string; path: string; as: string; body: unknown; status: number; response: unknown };
+const calls: Record<string, Call[]> = {};
+const emailByToken = new Map<string, string>();
+
+const mask = (value: unknown): unknown => {
+  if (Array.isArray(value)) return value.map(mask);
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(Object.entries(value).map(([key, inner]) =>
+      [key, /password|token/i.test(key) && typeof inner === 'string' ? '•••' : mask(inner)]));
+  }
+  return value;
+};
+
+function track<T extends request.Test>(test: T): T {
+  test.on('response', (res: request.Response) => {
+    const name = expect.getState().currentTestName;
+    if (!name) return; // logins de preparación (beforeAll)
+    const header = (test as unknown as { _header?: Record<string, string> })._header ?? {};
+    const token = header.authorization?.replace(/^Bearer /, '');
+    const as = !token ? 'sin token' : emailByToken.get(token) ?? 'token alterado';
+    (calls[name] ??= []).push({
+      method: (test as unknown as { method: string }).method,
+      path: (test as unknown as { url: string }).url.replace(API_URL, ''),
+      as,
+      body: mask((test as unknown as { _data?: unknown })._data ?? null),
+      status: res.status,
+      response: mask(res.body),
+    });
+  });
+  return test;
+}
+
+export const api = () => {
+  const agent = request(API_URL);
+  return new Proxy(agent, {
+    get(target, property: string) {
+      const value = (target as unknown as Record<string, unknown>)[property];
+      if (['get', 'post', 'put', 'patch', 'delete'].includes(property) && typeof value === 'function') {
+        return (...args: unknown[]) => track((value as (...a: unknown[]) => request.Test).apply(target, args));
+      }
+      return value;
+    },
+  });
+};
 export const bearer = (token: string) => ({ Authorization: `Bearer ${token}` });
+
+// Se acumulan las llamadas de todos los archivos de la corrida (se ejecutan en serie).
+afterAll(() => {
+  mkdirSync(dirname(CALLS_FILE), { recursive: true });
+  const previous = existsSync(CALLS_FILE) ? JSON.parse(readFileSync(CALLS_FILE, 'utf8')) : {};
+  writeFileSync(CALLS_FILE, JSON.stringify({ ...previous, ...calls }, null, 2));
+});
 
 const tokens = new Map<string, string>();
 export async function tokenFor(email: string, { fresh = false } = {}): Promise<string> {
@@ -39,6 +95,7 @@ export async function tokenFor(email: string, { fresh = false } = {}): Promise<s
     throw new Error(`No se pudo iniciar sesión con ${email}: ${response.status} ${JSON.stringify(response.body)}`);
   }
   tokens.set(email, response.body.data.accessToken);
+  emailByToken.set(response.body.data.accessToken, email);
   return response.body.data.accessToken;
 }
 

@@ -1,0 +1,3665 @@
+{
+  "HU-51 Registrar usuario (API) > CP-51-01 registra un usuario Veterinario, ACTIVE, con contraseña temporal y correo enviado": [
+    {
+      "method": "POST",
+      "path": "/users",
+      "as": "qa.admin@vetmanage.test",
+      "body": {
+        "identification": "1105018517",
+        "firstName": "Pablo",
+        "lastName": "Andrade",
+        "email": "pablo.andrade@vetmanage.test",
+        "phone": "0991234567",
+        "roles": [
+          "veterinarian"
+        ]
+      },
+      "status": 201,
+      "response": {
+        "statusCode": 201,
+        "success": true,
+        "message": "Usuario registrado correctamente",
+        "data": {
+          "id": "f91f428b-fe2e-42b6-9d56-aee8efc0326d",
+          "personId": "f2f6e102-71db-4296-9228-4de1a8ce1571",
+          "identification": "1105018517",
+          "firstName": "Pablo",
+          "lastName": "Andrade",
+          "email": "pablo.andrade@vetmanage.test",
+          "phone": "0991234567",
+          "status": "ACTIVE",
+          "roles": [
+            {
+              "name": "veterinarian",
+              "displayName": "Veterinario"
+            }
+          ],
+          "existingPerson": false,
+          "passwordAssigned": true,
+          "credentialsSent": true
+        }
+      }
+    }
+  ],
+  "HU-51 Registrar usuario (API) > CP-51-02 registra un usuario con Gerente y Administrador en una sola cuenta": [
+    {
+      "method": "POST",
+      "path": "/users",
+      "as": "qa.admin@vetmanage.test",
+      "body": {
+        "identification": "1105018889",
+        "firstName": "Pablo",
+        "lastName": "Andrade",
+        "email": "multi.nuevo@vetmanage.test",
+        "phone": "0991234567",
+        "roles": [
+          "manager",
+          "administrator"
+        ]
+      },
+      "status": 201,
+      "response": {
+        "statusCode": 201,
+        "success": true,
+        "message": "Usuario registrado correctamente",
+        "data": {
+          "id": "e9569462-debd-4ba5-a7bd-7dbd370312da",
+          "personId": "3c898d3f-2ed2-41de-9c8f-30784a92cd27",
+          "identification": "1105018889",
+          "firstName": "Pablo",
+          "lastName": "Andrade",
+          "email": "multi.nuevo@vetmanage.test",
+          "phone": "0991234567",
+          "status": "ACTIVE",
+          "roles": [
+            {
+              "name": "administrator",
+              "displayName": "Administrador"
+            },
+            {
+              "name": "manager",
+              "displayName": "Gerente"
+            }
+          ],
+          "existingPerson": false,
+          "passwordAssigned": true,
+          "credentialsSent": true
+        }
+      }
+    }
+  ],
+  "HU-51 Registrar usuario (API) > CP-51-03 agrega Cajero a Ana Ruiz (ya Cliente) sin duplicar la persona": [
+    {
+      "method": "POST",
+      "path": "/users",
+      "as": "qa.admin@vetmanage.test",
+      "body": {
+        "identification": "1105016669",
+        "firstName": "Ana",
+        "lastName": "Ruiz",
+        "email": "ana.ruiz@correo.test",
+        "phone": "0991234567",
+        "roles": [
+          "cashier"
+        ]
+      },
+      "status": 201,
+      "response": {
+        "statusCode": 201,
+        "success": true,
+        "message": "Usuario registrado correctamente",
+        "data": {
+          "id": "8270f561-a283-472b-be2a-8317bb65f526",
+          "personId": "fce74129-ab1e-4e7f-a851-6122085aa81b",
+          "identification": "1105016669",
+          "firstName": "Ana",
+          "lastName": "Ruiz",
+          "email": "ana.ruiz@correo.test",
+          "phone": "0987000001",
+          "status": "ACTIVE",
+          "roles": [
+            {
+              "name": "cashier",
+              "displayName": "Cajero"
+            }
+          ],
+          "existingPerson": true,
+          "passwordAssigned": false,
+          "credentialsSent": false
+        }
+      }
+    }
+  ],
+  "HU-51 Registrar usuario (API) > CP-51-05 rechaza el correo vacío": [
+    {
+      "method": "POST",
+      "path": "/users",
+      "as": "qa.admin@vetmanage.test",
+      "body": {
+        "identification": "1105019994",
+        "firstName": "Pablo",
+        "lastName": "Andrade",
+        "email": "",
+        "phone": "0991234567",
+        "roles": [
+          "veterinarian"
+        ]
+      },
+      "status": 400,
+      "response": {
+        "statusCode": 400,
+        "success": false,
+        "message": "Complete los campos obligatorios",
+        "errors": [
+          "email"
+        ],
+        "code": "USER_MISSING_FIELDS",
+        "traceId": "8632f308-64da-4cb9-81e4-dd877658a91e"
+      }
+    }
+  ],
+  "HU-51 Registrar usuario (API) > CP-51-06 rechaza el registro sin roles": [
+    {
+      "method": "POST",
+      "path": "/users",
+      "as": "qa.admin@vetmanage.test",
+      "body": {
+        "identification": "1105019994",
+        "firstName": "Pablo",
+        "lastName": "Andrade",
+        "email": "sinrol@vetmanage.test",
+        "phone": "0991234567",
+        "roles": []
+      },
+      "status": 400,
+      "response": {
+        "statusCode": 400,
+        "success": false,
+        "message": "Complete los campos obligatorios",
+        "errors": [
+          "roles"
+        ],
+        "code": "USER_MISSING_FIELDS",
+        "traceId": "1334c7bb-9445-42dd-b292-eed4cbc14378"
+      }
+    }
+  ],
+  "HU-51 Registrar usuario (API) > CP-51-07 rechaza una cédula ya registrada en el personal": [
+    {
+      "method": "POST",
+      "path": "/users",
+      "as": "qa.admin@vetmanage.test",
+      "body": {
+        "identification": "1105010746",
+        "firstName": "Pablo",
+        "lastName": "Andrade",
+        "email": "otro@vetmanage.test",
+        "phone": "0991234567",
+        "roles": [
+          "veterinarian"
+        ]
+      },
+      "status": 409,
+      "response": {
+        "statusCode": 409,
+        "success": false,
+        "message": "Número de cédula ya registrado",
+        "code": "USER_IDENTIFICATION_TAKEN",
+        "traceId": "61a8927a-3983-4297-b5c9-b2558be9bd4a"
+      }
+    }
+  ],
+  "HU-51 Registrar usuario (API) > CP-51-08 rechaza la cédula \"11045\"": [
+    {
+      "method": "POST",
+      "path": "/users",
+      "as": "qa.admin@vetmanage.test",
+      "body": {
+        "identification": "11045",
+        "firstName": "Pablo",
+        "lastName": "Andrade",
+        "email": "pablo.andrade@vetmanage.test",
+        "phone": "0991234567",
+        "roles": [
+          "veterinarian"
+        ]
+      },
+      "status": 400,
+      "response": {
+        "statusCode": 400,
+        "success": false,
+        "message": "La cédula debe tener 10 dígitos válidos",
+        "errors": [
+          "identification"
+        ],
+        "code": "USER_INVALID_IDENTIFICATION",
+        "traceId": "b734ad33-b435-48c7-bc23-4330dd8ce888"
+      }
+    }
+  ],
+  "HU-51 Registrar usuario (API) > CP-51-11 rechaza un correo ya registrado": [
+    {
+      "method": "POST",
+      "path": "/users",
+      "as": "qa.admin@vetmanage.test",
+      "body": {
+        "identification": "1105019259",
+        "firstName": "Pablo",
+        "lastName": "Andrade",
+        "email": "mlopez@vetmanage.com",
+        "phone": "0991234567",
+        "roles": [
+          "veterinarian"
+        ]
+      },
+      "status": 409,
+      "response": {
+        "statusCode": 409,
+        "success": false,
+        "message": "El correo ya se encuentra registrado",
+        "code": "USER_EMAIL_TAKEN",
+        "traceId": "8cc3b3f7-3da5-499b-8d28-b0adb8d9ce48"
+      }
+    }
+  ],
+  "HU-51 Registrar usuario (API) > CP-51-12 rechaza el correo duplicado con otra combinación de mayúsculas (R-36)": [
+    {
+      "method": "POST",
+      "path": "/users",
+      "as": "qa.admin@vetmanage.test",
+      "body": {
+        "identification": "1105019259",
+        "firstName": "Pablo",
+        "lastName": "Andrade",
+        "email": "MLopez@VetManage.com",
+        "phone": "0991234567",
+        "roles": [
+          "veterinarian"
+        ]
+      },
+      "status": 409,
+      "response": {
+        "statusCode": 409,
+        "success": false,
+        "message": "El correo ya se encuentra registrado",
+        "code": "USER_EMAIL_TAKEN",
+        "traceId": "9f0deb95-decf-4d1c-9d5b-69cea1417aa6"
+      }
+    }
+  ],
+  "HU-51 Registrar usuario (API) > CP-51-14 niega el registro a un Recepcionista": [
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "as": "sin token",
+      "body": {
+        "email": "qa.recepcion@vetmanage.test",
+        "password": "•••"
+      },
+      "status": 200,
+      "response": {
+        "statusCode": 200,
+        "success": true,
+        "message": "Sesión iniciada correctamente",
+        "data": {
+          "accessToken": "•••",
+          "mustChangePassword": false,
+          "user": {
+            "id": "52aafee6-6b17-4a80-a831-38d7870ad04e",
+            "firstName": "Rebeca",
+            "lastName": "Recepcionista QA",
+            "email": "qa.recepcion@vetmanage.test",
+            "roles": [
+              {
+                "name": "receptionist",
+                "displayName": "Recepcionista"
+              }
+            ],
+            "permissions": [
+              "branches:read",
+              "breeds:read",
+              "clients:activate",
+              "clients:create",
+              "clients:inactivate",
+              "clients:read",
+              "clients:update",
+              "pets:activate",
+              "pets:create",
+              "pets:inactivate",
+              "pets:read",
+              "pets:update",
+              "rates:read",
+              "resources:read-availability",
+              "schedule-blocks:read",
+              "species:read",
+              "work-schedules:read"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/users",
+      "as": "qa.recepcion@vetmanage.test",
+      "body": {
+        "identification": "1105019259",
+        "firstName": "Pablo",
+        "lastName": "Andrade",
+        "email": "x@vetmanage.test",
+        "phone": "0991234567",
+        "roles": [
+          "veterinarian"
+        ]
+      },
+      "status": 403,
+      "response": {
+        "statusCode": 403,
+        "success": false,
+        "message": "No tiene permisos para realizar esta acción",
+        "traceId": "53806985-2bb9-4c49-8c5f-c46f3c15afcd"
+      }
+    }
+  ],
+  "HU-51 Registrar usuario (API) > CP-51-15 rechaza la petición sin token y con token alterado": [
+    {
+      "method": "POST",
+      "path": "/users",
+      "as": "sin token",
+      "body": {
+        "identification": "1105018517",
+        "firstName": "Pablo",
+        "lastName": "Andrade",
+        "email": "pablo.andrade@vetmanage.test",
+        "phone": "0991234567",
+        "roles": [
+          "veterinarian"
+        ]
+      },
+      "status": 401,
+      "response": {
+        "statusCode": 401,
+        "success": false,
+        "message": "No autenticado",
+        "traceId": "c28e5902-15bd-4395-a4fd-51e2a6ad8cf3"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/users",
+      "as": "token alterado",
+      "body": {
+        "identification": "1105018517",
+        "firstName": "Pablo",
+        "lastName": "Andrade",
+        "email": "pablo.andrade@vetmanage.test",
+        "phone": "0991234567",
+        "roles": [
+          "veterinarian"
+        ]
+      },
+      "status": 401,
+      "response": {
+        "statusCode": 401,
+        "success": false,
+        "message": "Sesión inválida o vencida",
+        "traceId": "11a5bf30-b55e-44d1-9818-02f02f9b1da0"
+      }
+    }
+  ],
+  "HU-51 Registrar usuario (API) > CP-51-17 rechaza asignar el rol Cliente al personal": [
+    {
+      "method": "POST",
+      "path": "/users",
+      "as": "qa.admin@vetmanage.test",
+      "body": {
+        "identification": "1105019259",
+        "firstName": "Pablo",
+        "lastName": "Andrade",
+        "email": "y@vetmanage.test",
+        "phone": "0991234567",
+        "roles": [
+          "client"
+        ]
+      },
+      "status": 400,
+      "response": {
+        "statusCode": 400,
+        "success": false,
+        "message": "Seleccione roles válidos del personal",
+        "code": "USER_INVALID_ROLES",
+        "traceId": "d5782114-b6b1-421c-bb7d-9cdde7cc9176"
+      }
+    }
+  ],
+  "HU-51 Registrar usuario (API) > CP-51-18 el registro del usuario queda en la auditoría (OC-04 / PNF-05)": [
+    {
+      "method": "POST",
+      "path": "/users",
+      "as": "qa.admin@vetmanage.test",
+      "body": {
+        "identification": "1105019622",
+        "firstName": "Pablo",
+        "lastName": "Andrade",
+        "email": "auditado@vetmanage.test",
+        "phone": "0991234567",
+        "roles": [
+          "cashier"
+        ]
+      },
+      "status": 201,
+      "response": {
+        "statusCode": 201,
+        "success": true,
+        "message": "Usuario registrado correctamente",
+        "data": {
+          "id": "c271cceb-047f-414d-a549-74ee0a2c3131",
+          "personId": "3c808dea-d060-484c-b260-8846615588f0",
+          "identification": "1105019622",
+          "firstName": "Pablo",
+          "lastName": "Andrade",
+          "email": "auditado@vetmanage.test",
+          "phone": "0991234567",
+          "status": "ACTIVE",
+          "roles": [
+            {
+              "name": "cashier",
+              "displayName": "Cajero"
+            }
+          ],
+          "existingPerson": false,
+          "passwordAssigned": true,
+          "credentialsSent": true
+        }
+      }
+    }
+  ],
+  "HU-54 Asignar y quitar roles (API) > CP-54-07 el rol ya asignado no aparece como opción": [
+    {
+      "method": "GET",
+      "path": "/users/fe918ad7-726d-47bf-8fc0-41f98a68ae12/role-assignment",
+      "as": "qa.admin@vetmanage.test",
+      "body": null,
+      "status": 200,
+      "response": {
+        "statusCode": 200,
+        "success": true,
+        "message": "Asignación de roles consultada correctamente",
+        "data": {
+          "user": {
+            "id": "fe918ad7-726d-47bf-8fc0-41f98a68ae12",
+            "status": "ACTIVE",
+            "fullName": "Carlos Pérez"
+          },
+          "currentRoles": [
+            {
+              "name": "receptionist",
+              "displayName": "Recepcionista"
+            }
+          ],
+          "availableRoles": [
+            {
+              "name": "administrator",
+              "displayName": "Administrador"
+            },
+            {
+              "name": "warehouse_keeper",
+              "displayName": "Bodeguero"
+            },
+            {
+              "name": "cashier",
+              "displayName": "Cajero"
+            },
+            {
+              "name": "manager",
+              "displayName": "Gerente"
+            },
+            {
+              "name": "veterinary_technician",
+              "displayName": "Técnico Veterinario"
+            },
+            {
+              "name": "veterinarian",
+              "displayName": "Veterinario"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "HU-54 Asignar y quitar roles (API) > CP-54-01 asigna Cajero y Carlos ve ambos roles en su siguiente inicio de sesión": [
+    {
+      "method": "PUT",
+      "path": "/users/fe918ad7-726d-47bf-8fc0-41f98a68ae12/role-assignment",
+      "as": "qa.admin@vetmanage.test",
+      "body": {
+        "roles": [
+          "receptionist",
+          "cashier"
+        ]
+      },
+      "status": 200,
+      "response": {
+        "statusCode": 200,
+        "success": true,
+        "message": "Roles actualizados correctamente",
+        "data": {
+          "user": {
+            "id": "fe918ad7-726d-47bf-8fc0-41f98a68ae12",
+            "status": "ACTIVE",
+            "fullName": "Carlos Pérez"
+          },
+          "currentRoles": [
+            {
+              "name": "cashier",
+              "displayName": "Cajero"
+            },
+            {
+              "name": "receptionist",
+              "displayName": "Recepcionista"
+            }
+          ],
+          "availableRoles": [
+            {
+              "name": "administrator",
+              "displayName": "Administrador"
+            },
+            {
+              "name": "warehouse_keeper",
+              "displayName": "Bodeguero"
+            },
+            {
+              "name": "manager",
+              "displayName": "Gerente"
+            },
+            {
+              "name": "veterinary_technician",
+              "displayName": "Técnico Veterinario"
+            },
+            {
+              "name": "veterinarian",
+              "displayName": "Veterinario"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "as": "sin token",
+      "body": {
+        "email": "qa.cperez@vetmanage.test",
+        "password": "•••"
+      },
+      "status": 200,
+      "response": {
+        "statusCode": 200,
+        "success": true,
+        "message": "Sesión iniciada correctamente",
+        "data": {
+          "accessToken": "•••",
+          "mustChangePassword": false,
+          "user": {
+            "id": "fe918ad7-726d-47bf-8fc0-41f98a68ae12",
+            "firstName": "Carlos",
+            "lastName": "Pérez",
+            "email": "qa.cperez@vetmanage.test",
+            "roles": [
+              {
+                "name": "cashier",
+                "displayName": "Cajero"
+              },
+              {
+                "name": "receptionist",
+                "displayName": "Recepcionista"
+              }
+            ],
+            "permissions": [
+              "branches:read",
+              "breeds:read",
+              "clients:activate",
+              "clients:create",
+              "clients:inactivate",
+              "clients:read",
+              "clients:update",
+              "inventory:read",
+              "pets:activate",
+              "pets:create",
+              "pets:inactivate",
+              "pets:read",
+              "pets:update",
+              "rates:read",
+              "resources:read-availability",
+              "schedule-blocks:read",
+              "species:read",
+              "work-schedules:read"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/auth/me",
+      "as": "qa.cperez@vetmanage.test",
+      "body": null,
+      "status": 200,
+      "response": {
+        "statusCode": 200,
+        "success": true,
+        "message": "Operación realizada correctamente",
+        "data": {
+          "mustChangePassword": false,
+          "user": {
+            "id": "fe918ad7-726d-47bf-8fc0-41f98a68ae12",
+            "firstName": "Carlos",
+            "lastName": "Pérez",
+            "email": "qa.cperez@vetmanage.test",
+            "roles": [
+              {
+                "name": "cashier",
+                "displayName": "Cajero"
+              },
+              {
+                "name": "receptionist",
+                "displayName": "Recepcionista"
+              }
+            ],
+            "permissions": [
+              "branches:read",
+              "breeds:read",
+              "clients:activate",
+              "clients:create",
+              "clients:inactivate",
+              "clients:read",
+              "clients:update",
+              "inventory:read",
+              "pets:activate",
+              "pets:create",
+              "pets:inactivate",
+              "pets:read",
+              "pets:update",
+              "rates:read",
+              "resources:read-availability",
+              "schedule-blocks:read",
+              "species:read",
+              "work-schedules:read"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "HU-54 Asignar y quitar roles (API) > CP-54-02 quita Cajero y queda solo Recepcionista": [
+    {
+      "method": "PUT",
+      "path": "/users/fe918ad7-726d-47bf-8fc0-41f98a68ae12/role-assignment",
+      "as": "qa.admin@vetmanage.test",
+      "body": {
+        "roles": [
+          "receptionist"
+        ]
+      },
+      "status": 200,
+      "response": {
+        "statusCode": 200,
+        "success": true,
+        "message": "Roles actualizados correctamente",
+        "data": {
+          "user": {
+            "id": "fe918ad7-726d-47bf-8fc0-41f98a68ae12",
+            "status": "ACTIVE",
+            "fullName": "Carlos Pérez"
+          },
+          "currentRoles": [
+            {
+              "name": "receptionist",
+              "displayName": "Recepcionista"
+            }
+          ],
+          "availableRoles": [
+            {
+              "name": "administrator",
+              "displayName": "Administrador"
+            },
+            {
+              "name": "warehouse_keeper",
+              "displayName": "Bodeguero"
+            },
+            {
+              "name": "cashier",
+              "displayName": "Cajero"
+            },
+            {
+              "name": "manager",
+              "displayName": "Gerente"
+            },
+            {
+              "name": "veterinary_technician",
+              "displayName": "Técnico Veterinario"
+            },
+            {
+              "name": "veterinarian",
+              "displayName": "Veterinario"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "HU-54 Asignar y quitar roles (API) > CP-54-03 cambia Recepcionista por Veterinario y obtiene sus permisos": [
+    {
+      "method": "PUT",
+      "path": "/users/fe918ad7-726d-47bf-8fc0-41f98a68ae12/role-assignment",
+      "as": "qa.admin@vetmanage.test",
+      "body": {
+        "roles": [
+          "veterinarian"
+        ]
+      },
+      "status": 200,
+      "response": {
+        "statusCode": 200,
+        "success": true,
+        "message": "Roles actualizados correctamente",
+        "data": {
+          "user": {
+            "id": "fe918ad7-726d-47bf-8fc0-41f98a68ae12",
+            "status": "ACTIVE",
+            "fullName": "Carlos Pérez"
+          },
+          "currentRoles": [
+            {
+              "name": "veterinarian",
+              "displayName": "Veterinario"
+            }
+          ],
+          "availableRoles": [
+            {
+              "name": "administrator",
+              "displayName": "Administrador"
+            },
+            {
+              "name": "warehouse_keeper",
+              "displayName": "Bodeguero"
+            },
+            {
+              "name": "cashier",
+              "displayName": "Cajero"
+            },
+            {
+              "name": "manager",
+              "displayName": "Gerente"
+            },
+            {
+              "name": "receptionist",
+              "displayName": "Recepcionista"
+            },
+            {
+              "name": "veterinary_technician",
+              "displayName": "Técnico Veterinario"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "as": "sin token",
+      "body": {
+        "email": "qa.cperez@vetmanage.test",
+        "password": "•••"
+      },
+      "status": 200,
+      "response": {
+        "statusCode": 200,
+        "success": true,
+        "message": "Sesión iniciada correctamente",
+        "data": {
+          "accessToken": "•••",
+          "mustChangePassword": false,
+          "user": {
+            "id": "fe918ad7-726d-47bf-8fc0-41f98a68ae12",
+            "firstName": "Carlos",
+            "lastName": "Pérez",
+            "email": "qa.cperez@vetmanage.test",
+            "roles": [
+              {
+                "name": "veterinarian",
+                "displayName": "Veterinario"
+              }
+            ],
+            "permissions": [
+              "branches:read",
+              "breeds:change-status",
+              "breeds:create",
+              "breeds:read",
+              "breeds:update",
+              "clients:activate",
+              "clients:create",
+              "clients:deactivate",
+              "clients:inactivate",
+              "clients:read",
+              "clients:update",
+              "clinical-files:create",
+              "clinical-files:read",
+              "clinical-files:remove",
+              "clinical-files:update",
+              "consultations:correct",
+              "consultations:create",
+              "daily-availability:manage-own",
+              "daily-availability:read",
+              "deworming:create",
+              "deworming:read",
+              "deworming:update",
+              "deworming:void",
+              "diagnoses:create",
+              "inventory:read",
+              "medical-history:create",
+              "medical-history:read",
+              "pets:create",
+              "pets:deactivate",
+              "pets:read",
+              "pets:update",
+              "prescriptions:export",
+              "prescriptions:manage",
+              "prescriptions:read",
+              "procedure-reports:correct",
+              "procedure-reports:create",
+              "procedure-types:create",
+              "procedure-types:inactivate",
+              "procedure-types:read",
+              "procedures:create",
+              "procedures:deactivate",
+              "procedures:read",
+              "saturday-shifts:read",
+              "schedule-blocks:read",
+              "species:change-status",
+              "species:create",
+              "species:read",
+              "species:update",
+              "supplies-used:create",
+              "supplies-used:remove",
+              "vaccinations:create",
+              "vaccinations:read",
+              "vaccinations:update",
+              "vaccinations:void",
+              "work-schedules:read"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/auth/me",
+      "as": "qa.cperez@vetmanage.test",
+      "body": null,
+      "status": 200,
+      "response": {
+        "statusCode": 200,
+        "success": true,
+        "message": "Operación realizada correctamente",
+        "data": {
+          "mustChangePassword": false,
+          "user": {
+            "id": "fe918ad7-726d-47bf-8fc0-41f98a68ae12",
+            "firstName": "Carlos",
+            "lastName": "Pérez",
+            "email": "qa.cperez@vetmanage.test",
+            "roles": [
+              {
+                "name": "veterinarian",
+                "displayName": "Veterinario"
+              }
+            ],
+            "permissions": [
+              "branches:read",
+              "breeds:change-status",
+              "breeds:create",
+              "breeds:read",
+              "breeds:update",
+              "clients:activate",
+              "clients:create",
+              "clients:deactivate",
+              "clients:inactivate",
+              "clients:read",
+              "clients:update",
+              "clinical-files:create",
+              "clinical-files:read",
+              "clinical-files:remove",
+              "clinical-files:update",
+              "consultations:correct",
+              "consultations:create",
+              "daily-availability:manage-own",
+              "daily-availability:read",
+              "deworming:create",
+              "deworming:read",
+              "deworming:update",
+              "deworming:void",
+              "diagnoses:create",
+              "inventory:read",
+              "medical-history:create",
+              "medical-history:read",
+              "pets:create",
+              "pets:deactivate",
+              "pets:read",
+              "pets:update",
+              "prescriptions:export",
+              "prescriptions:manage",
+              "prescriptions:read",
+              "procedure-reports:correct",
+              "procedure-reports:create",
+              "procedure-types:create",
+              "procedure-types:inactivate",
+              "procedure-types:read",
+              "procedures:create",
+              "procedures:deactivate",
+              "procedures:read",
+              "saturday-shifts:read",
+              "schedule-blocks:read",
+              "species:change-status",
+              "species:create",
+              "species:read",
+              "species:update",
+              "supplies-used:create",
+              "supplies-used:remove",
+              "vaccinations:create",
+              "vaccinations:read",
+              "vaccinations:update",
+              "vaccinations:void",
+              "work-schedules:read"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "HU-54 Asignar y quitar roles (API) > CP-54-04 impide quitar el único rol": [
+    {
+      "method": "PUT",
+      "path": "/users/fe918ad7-726d-47bf-8fc0-41f98a68ae12/role-assignment",
+      "as": "qa.admin@vetmanage.test",
+      "body": {
+        "roles": []
+      },
+      "status": 400,
+      "response": {
+        "statusCode": 400,
+        "success": false,
+        "message": "El usuario debe tener al menos un rol",
+        "code": "USER_ROLE_AT_LEAST_ONE",
+        "traceId": "6d2120fa-aa4a-4338-a668-f7e1a7013583"
+      }
+    }
+  ],
+  "HU-54 Asignar y quitar roles (API) > CP-54-06 permite quitar Administrador a Jorge Solís porque queda otro Administrador activo": [
+    {
+      "method": "PUT",
+      "path": "/users/98bb8814-3ad2-4071-95a8-73ffe857cdb2/role-assignment",
+      "as": "qa.admin@vetmanage.test",
+      "body": {
+        "roles": [
+          "manager"
+        ]
+      },
+      "status": 200,
+      "response": {
+        "statusCode": 200,
+        "success": true,
+        "message": "Roles actualizados correctamente",
+        "data": {
+          "user": {
+            "id": "98bb8814-3ad2-4071-95a8-73ffe857cdb2",
+            "status": "ACTIVE",
+            "fullName": "Jorge Solís"
+          },
+          "currentRoles": [
+            {
+              "name": "manager",
+              "displayName": "Gerente"
+            }
+          ],
+          "availableRoles": [
+            {
+              "name": "administrator",
+              "displayName": "Administrador"
+            },
+            {
+              "name": "warehouse_keeper",
+              "displayName": "Bodeguero"
+            },
+            {
+              "name": "cashier",
+              "displayName": "Cajero"
+            },
+            {
+              "name": "receptionist",
+              "displayName": "Recepcionista"
+            },
+            {
+              "name": "veterinary_technician",
+              "displayName": "Técnico Veterinario"
+            },
+            {
+              "name": "veterinarian",
+              "displayName": "Veterinario"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/users/98bb8814-3ad2-4071-95a8-73ffe857cdb2/role-assignment",
+      "as": "qa.admin@vetmanage.test",
+      "body": {
+        "roles": [
+          "manager",
+          "administrator"
+        ]
+      },
+      "status": 200,
+      "response": {
+        "statusCode": 200,
+        "success": true,
+        "message": "Roles actualizados correctamente",
+        "data": {
+          "user": {
+            "id": "98bb8814-3ad2-4071-95a8-73ffe857cdb2",
+            "status": "ACTIVE",
+            "fullName": "Jorge Solís"
+          },
+          "currentRoles": [
+            {
+              "name": "administrator",
+              "displayName": "Administrador"
+            },
+            {
+              "name": "manager",
+              "displayName": "Gerente"
+            }
+          ],
+          "availableRoles": [
+            {
+              "name": "warehouse_keeper",
+              "displayName": "Bodeguero"
+            },
+            {
+              "name": "cashier",
+              "displayName": "Cajero"
+            },
+            {
+              "name": "receptionist",
+              "displayName": "Recepcionista"
+            },
+            {
+              "name": "veterinary_technician",
+              "displayName": "Técnico Veterinario"
+            },
+            {
+              "name": "veterinarian",
+              "displayName": "Veterinario"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "HU-54 Asignar y quitar roles (API) > CP-54-08 impide modificar los roles de un usuario dado de baja (Luis Ríos)": [
+    {
+      "method": "PUT",
+      "path": "/users/a5debbe0-6bbc-4dc5-87eb-d8136f20dc01/role-assignment",
+      "as": "qa.admin@vetmanage.test",
+      "body": {
+        "roles": [
+          "receptionist",
+          "cashier"
+        ]
+      },
+      "status": 400,
+      "response": {
+        "statusCode": 400,
+        "success": false,
+        "message": "No se pueden modificar los roles de un usuario dado de baja",
+        "code": "USER_ROLE_DEACTIVATED",
+        "traceId": "c510605c-adc9-4bd2-b763-917a5e4d748f"
+      }
+    }
+  ],
+  "HU-54 Asignar y quitar roles (API) > CP-54-09 niega el cambio de roles a un Veterinario": [
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "as": "sin token",
+      "body": {
+        "email": "qa.veterinario@vetmanage.test",
+        "password": "•••"
+      },
+      "status": 200,
+      "response": {
+        "statusCode": 200,
+        "success": true,
+        "message": "Sesión iniciada correctamente",
+        "data": {
+          "accessToken": "•••",
+          "mustChangePassword": false,
+          "user": {
+            "id": "691f4c32-0a33-414e-8a01-2bfa2c892a54",
+            "firstName": "Valeria",
+            "lastName": "Veterinaria QA",
+            "email": "qa.veterinario@vetmanage.test",
+            "roles": [
+              {
+                "name": "veterinarian",
+                "displayName": "Veterinario"
+              }
+            ],
+            "permissions": [
+              "branches:read",
+              "breeds:change-status",
+              "breeds:create",
+              "breeds:read",
+              "breeds:update",
+              "clients:activate",
+              "clients:create",
+              "clients:deactivate",
+              "clients:inactivate",
+              "clients:read",
+              "clients:update",
+              "clinical-files:create",
+              "clinical-files:read",
+              "clinical-files:remove",
+              "clinical-files:update",
+              "consultations:correct",
+              "consultations:create",
+              "daily-availability:manage-own",
+              "daily-availability:read",
+              "deworming:create",
+              "deworming:read",
+              "deworming:update",
+              "deworming:void",
+              "diagnoses:create",
+              "inventory:read",
+              "medical-history:create",
+              "medical-history:read",
+              "pets:create",
+              "pets:deactivate",
+              "pets:read",
+              "pets:update",
+              "prescriptions:export",
+              "prescriptions:manage",
+              "prescriptions:read",
+              "procedure-reports:correct",
+              "procedure-reports:create",
+              "procedure-types:create",
+              "procedure-types:inactivate",
+              "procedure-types:read",
+              "procedures:create",
+              "procedures:deactivate",
+              "procedures:read",
+              "saturday-shifts:read",
+              "schedule-blocks:read",
+              "species:change-status",
+              "species:create",
+              "species:read",
+              "species:update",
+              "supplies-used:create",
+              "supplies-used:remove",
+              "vaccinations:create",
+              "vaccinations:read",
+              "vaccinations:update",
+              "vaccinations:void",
+              "work-schedules:read"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/users/fe918ad7-726d-47bf-8fc0-41f98a68ae12/role-assignment",
+      "as": "qa.veterinario@vetmanage.test",
+      "body": {
+        "roles": [
+          "cashier"
+        ]
+      },
+      "status": 403,
+      "response": {
+        "statusCode": 403,
+        "success": false,
+        "message": "No tiene permisos para realizar esta acción",
+        "traceId": "16abaf13-cd19-4135-b121-feb655d4f942"
+      }
+    }
+  ],
+  "HU-54 Asignar y quitar roles (API) > CP-54-10 rechaza un rol que no es del personal": [
+    {
+      "method": "PUT",
+      "path": "/users/fe918ad7-726d-47bf-8fc0-41f98a68ae12/role-assignment",
+      "as": "qa.admin@vetmanage.test",
+      "body": {
+        "roles": [
+          "veterinarian",
+          "client"
+        ]
+      },
+      "status": 400,
+      "response": {
+        "statusCode": 400,
+        "success": false,
+        "message": "Seleccione roles válidos del personal",
+        "code": "USER_INVALID_ROLES",
+        "traceId": "68cd0071-6f34-4513-85da-383ae09175c0"
+      }
+    }
+  ],
+  "HU-54 Asignar y quitar roles (API) > CP-54-11 responde 404 para un usuario inexistente": [
+    {
+      "method": "PUT",
+      "path": "/users/00000000-0000-4000-8000-000000000000/role-assignment",
+      "as": "qa.admin@vetmanage.test",
+      "body": {
+        "roles": [
+          "cashier"
+        ]
+      },
+      "status": 404,
+      "response": {
+        "statusCode": 404,
+        "success": false,
+        "message": "Usuario no encontrado",
+        "traceId": "9f4ede97-81cd-4ea8-a15d-8bb2084b81e3"
+      }
+    }
+  ],
+  "HU-54 Asignar y quitar roles (API) > CP-54-13 al quitarle el rol con la sesión abierta, la siguiente acción se bloquea de inmediato (PNF-04 / R-12)": [
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "as": "sin token",
+      "body": {
+        "email": "qa.rotacion@vetmanage.test",
+        "password": "•••"
+      },
+      "status": 200,
+      "response": {
+        "statusCode": 200,
+        "success": true,
+        "message": "Sesión iniciada correctamente",
+        "data": {
+          "accessToken": "•••",
+          "mustChangePassword": false,
+          "user": {
+            "id": "7e328653-8229-4c08-91bf-1e55e274224f",
+            "firstName": "Diego",
+            "lastName": "Rotación QA",
+            "email": "qa.rotacion@vetmanage.test",
+            "roles": [
+              {
+                "name": "receptionist",
+                "displayName": "Recepcionista"
+              }
+            ],
+            "permissions": [
+              "branches:read",
+              "breeds:read",
+              "clients:activate",
+              "clients:create",
+              "clients:inactivate",
+              "clients:read",
+              "clients:update",
+              "pets:activate",
+              "pets:create",
+              "pets:inactivate",
+              "pets:read",
+              "pets:update",
+              "rates:read",
+              "resources:read-availability",
+              "schedule-blocks:read",
+              "species:read",
+              "work-schedules:read"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/clients",
+      "as": "qa.rotacion@vetmanage.test",
+      "body": {
+        "identification": "1105020364",
+        "firstName": "Cliente",
+        "lastName": "Rotación",
+        "email": "rotacion1@correo.test",
+        "phone": "0987111222"
+      },
+      "status": 201,
+      "response": {
+        "statusCode": 201,
+        "success": true,
+        "message": "Cliente registrado correctamente",
+        "data": {
+          "id": "5d85236b-2c75-476f-be8a-6347c4ec074f",
+          "personId": "0540e625-6fc1-474e-9de1-d8ea6f6bcd21",
+          "identification": "1105020364",
+          "firstName": "Cliente",
+          "lastName": "Rotación",
+          "email": "rotacion1@correo.test",
+          "phone": "0987111222",
+          "address": null,
+          "status": "ACTIVE",
+          "roles": [
+            {
+              "name": "client",
+              "displayName": "Cliente"
+            }
+          ],
+          "existingPerson": false,
+          "passwordAssigned": true,
+          "credentialsSent": true
+        }
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/users/7e328653-8229-4c08-91bf-1e55e274224f/role-assignment",
+      "as": "qa.admin@vetmanage.test",
+      "body": {
+        "roles": [
+          "cashier"
+        ]
+      },
+      "status": 200,
+      "response": {
+        "statusCode": 200,
+        "success": true,
+        "message": "Roles actualizados correctamente",
+        "data": {
+          "user": {
+            "id": "7e328653-8229-4c08-91bf-1e55e274224f",
+            "status": "ACTIVE",
+            "fullName": "Diego Rotación QA"
+          },
+          "currentRoles": [
+            {
+              "name": "cashier",
+              "displayName": "Cajero"
+            }
+          ],
+          "availableRoles": [
+            {
+              "name": "administrator",
+              "displayName": "Administrador"
+            },
+            {
+              "name": "warehouse_keeper",
+              "displayName": "Bodeguero"
+            },
+            {
+              "name": "manager",
+              "displayName": "Gerente"
+            },
+            {
+              "name": "receptionist",
+              "displayName": "Recepcionista"
+            },
+            {
+              "name": "veterinary_technician",
+              "displayName": "Técnico Veterinario"
+            },
+            {
+              "name": "veterinarian",
+              "displayName": "Veterinario"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/clients",
+      "as": "qa.rotacion@vetmanage.test",
+      "body": {
+        "identification": "1105020737",
+        "firstName": "Cliente",
+        "lastName": "Rotación",
+        "email": "rotacion2@correo.test",
+        "phone": "0987111222"
+      },
+      "status": 403,
+      "response": {
+        "statusCode": 403,
+        "success": false,
+        "message": "No tiene permisos para realizar esta acción",
+        "traceId": "e3f9db6e-90fd-4fbc-82f8-4f964d8d2606"
+      }
+    }
+  ],
+  "HU-57 Iniciar sesión (API) > CP-57-01 inicia sesión y entrega accessToken y cookie httpOnly de refresh": [
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "as": "sin token",
+      "body": {
+        "email": "qa.veterinario@vetmanage.test",
+        "password": "•••"
+      },
+      "status": 200,
+      "response": {
+        "statusCode": 200,
+        "success": true,
+        "message": "Sesión iniciada correctamente",
+        "data": {
+          "accessToken": "•••",
+          "mustChangePassword": false,
+          "user": {
+            "id": "691f4c32-0a33-414e-8a01-2bfa2c892a54",
+            "firstName": "Valeria",
+            "lastName": "Veterinaria QA",
+            "email": "qa.veterinario@vetmanage.test",
+            "roles": [
+              {
+                "name": "veterinarian",
+                "displayName": "Veterinario"
+              }
+            ],
+            "permissions": [
+              "branches:read",
+              "breeds:change-status",
+              "breeds:create",
+              "breeds:read",
+              "breeds:update",
+              "clients:activate",
+              "clients:create",
+              "clients:deactivate",
+              "clients:inactivate",
+              "clients:read",
+              "clients:update",
+              "clinical-files:create",
+              "clinical-files:read",
+              "clinical-files:remove",
+              "clinical-files:update",
+              "consultations:correct",
+              "consultations:create",
+              "daily-availability:manage-own",
+              "daily-availability:read",
+              "deworming:create",
+              "deworming:read",
+              "deworming:update",
+              "deworming:void",
+              "diagnoses:create",
+              "inventory:read",
+              "medical-history:create",
+              "medical-history:read",
+              "pets:create",
+              "pets:deactivate",
+              "pets:read",
+              "pets:update",
+              "prescriptions:export",
+              "prescriptions:manage",
+              "prescriptions:read",
+              "procedure-reports:correct",
+              "procedure-reports:create",
+              "procedure-types:create",
+              "procedure-types:inactivate",
+              "procedure-types:read",
+              "procedures:create",
+              "procedures:deactivate",
+              "procedures:read",
+              "saturday-shifts:read",
+              "schedule-blocks:read",
+              "species:change-status",
+              "species:create",
+              "species:read",
+              "species:update",
+              "supplies-used:create",
+              "supplies-used:remove",
+              "vaccinations:create",
+              "vaccinations:read",
+              "vaccinations:update",
+              "vaccinations:void",
+              "work-schedules:read"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "HU-57 Iniciar sesión (API) > CP-57-02 un usuario con Gerente y Administrador recibe los permisos de ambos": [
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "as": "sin token",
+      "body": {
+        "email": "qa.multirol@vetmanage.test",
+        "password": "•••"
+      },
+      "status": 200,
+      "response": {
+        "statusCode": 200,
+        "success": true,
+        "message": "Sesión iniciada correctamente",
+        "data": {
+          "accessToken": "•••",
+          "mustChangePassword": false,
+          "user": {
+            "id": "98bb8814-3ad2-4071-95a8-73ffe857cdb2",
+            "firstName": "Jorge",
+            "lastName": "Solís",
+            "email": "qa.multirol@vetmanage.test",
+            "roles": [
+              {
+                "name": "administrator",
+                "displayName": "Administrador"
+              },
+              {
+                "name": "manager",
+                "displayName": "Gerente"
+              }
+            ],
+            "permissions": [
+              "audit:export",
+              "audit:read",
+              "branches:read",
+              "breeds:change-status",
+              "breeds:create",
+              "breeds:read",
+              "breeds:update",
+              "clients:activate",
+              "clients:create",
+              "clients:deactivate",
+              "clients:inactivate",
+              "clients:read",
+              "clients:update",
+              "daily-availability:read",
+              "inventory:manage-brands",
+              "inventory:manage-categories",
+              "inventory:manage-products",
+              "inventory:read",
+              "pets:activate",
+              "pets:create",
+              "pets:deactivate",
+              "pets:inactivate",
+              "pets:read",
+              "pets:update",
+              "procedure-types:create",
+              "procedure-types:inactivate",
+              "procedure-types:read",
+              "procedures:create",
+              "procedures:deactivate",
+              "procedures:read",
+              "rates:manage",
+              "rates:read",
+              "resources:read-availability",
+              "roles:manage-permissions",
+              "saturday-shifts:manage",
+              "saturday-shifts:read",
+              "schedule-blocks:create",
+              "schedule-blocks:read",
+              "schedule-blocks:remove",
+              "species:read",
+              "users:assign-roles",
+              "users:change-status",
+              "users:create",
+              "users:deactivate",
+              "users:read",
+              "users:update",
+              "work-schedules:manage",
+              "work-schedules:read"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "HU-57 Iniciar sesión (API) > CP-57-03 responde el mismo mensaje para contraseña incorrecta y correo no registrado": [
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "as": "sin token",
+      "body": {
+        "email": "qa.contador@vetmanage.test",
+        "password": "•••"
+      },
+      "status": 401,
+      "response": {
+        "statusCode": 401,
+        "success": false,
+        "message": "Correo o contraseña incorrectos. Le quedan 4 intentos antes de que la cuenta se bloquee",
+        "code": "LOGIN_INVALID_CREDENTIALS",
+        "traceId": "ab44756e-a415-4dc1-ac18-519c076819a5"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "as": "sin token",
+      "body": {
+        "email": "noexiste@vetmanage.test",
+        "password": "•••"
+      },
+      "status": 401,
+      "response": {
+        "statusCode": 401,
+        "success": false,
+        "message": "Correo o contraseña incorrectos. Le quedan 4 intentos antes de que la cuenta se bloquee",
+        "code": "LOGIN_INVALID_CREDENTIALS",
+        "traceId": "7308e76b-20e2-4f2c-9cbe-e4a0d5e92220"
+      }
+    }
+  ],
+  "HU-57 Iniciar sesión (API) > CP-57-04 rechaza los campos vacíos": [
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "as": "sin token",
+      "body": {
+        "email": "",
+        "password": "•••"
+      },
+      "status": 400,
+      "response": {
+        "statusCode": 400,
+        "success": false,
+        "message": "Ingrese su correo y contraseña",
+        "code": "LOGIN_MISSING_CREDENTIALS",
+        "traceId": "d480c6ba-a58a-4197-aee2-6e5adc5db5fd"
+      }
+    }
+  ],
+  "HU-57 Iniciar sesión (API) > CP-57-05/06 bloquea al 5.º intento fallido y sigue bloqueada con la contraseña correcta": [
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "as": "sin token",
+      "body": {
+        "email": "qa.bloqueo.api@vetmanage.test",
+        "password": "•••"
+      },
+      "status": 401,
+      "response": {
+        "statusCode": 401,
+        "success": false,
+        "message": "Correo o contraseña incorrectos. Le quedan 4 intentos antes de que la cuenta se bloquee",
+        "code": "LOGIN_INVALID_CREDENTIALS",
+        "traceId": "24cea534-1292-4431-b9e9-17259ede7efe"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "as": "sin token",
+      "body": {
+        "email": "qa.bloqueo.api@vetmanage.test",
+        "password": "•••"
+      },
+      "status": 401,
+      "response": {
+        "statusCode": 401,
+        "success": false,
+        "message": "Correo o contraseña incorrectos. Le quedan 3 intentos antes de que la cuenta se bloquee",
+        "code": "LOGIN_INVALID_CREDENTIALS",
+        "traceId": "d150dac5-2cdb-4d8a-812c-3e531686bf00"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "as": "sin token",
+      "body": {
+        "email": "qa.bloqueo.api@vetmanage.test",
+        "password": "•••"
+      },
+      "status": 401,
+      "response": {
+        "statusCode": 401,
+        "success": false,
+        "message": "Correo o contraseña incorrectos. Le quedan 2 intentos antes de que la cuenta se bloquee",
+        "code": "LOGIN_INVALID_CREDENTIALS",
+        "traceId": "6c04aec3-47fe-40ab-ae88-7bfe8e4cdfab"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "as": "sin token",
+      "body": {
+        "email": "qa.bloqueo.api@vetmanage.test",
+        "password": "•••"
+      },
+      "status": 401,
+      "response": {
+        "statusCode": 401,
+        "success": false,
+        "message": "Correo o contraseña incorrectos. Le queda 1 intento antes de que la cuenta se bloquee",
+        "code": "LOGIN_INVALID_CREDENTIALS",
+        "traceId": "01697ed6-a07c-4bea-997b-acc17f10b1e0"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "as": "sin token",
+      "body": {
+        "email": "qa.bloqueo.api@vetmanage.test",
+        "password": "•••"
+      },
+      "status": 423,
+      "response": {
+        "statusCode": 423,
+        "success": false,
+        "message": "Cuenta bloqueada temporalmente. Intente en 15 minutos",
+        "code": "LOGIN_ACCOUNT_LOCKED",
+        "traceId": "4dc57577-67de-447c-98f6-1f67a313a2f5"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "as": "sin token",
+      "body": {
+        "email": "qa.bloqueo.api@vetmanage.test",
+        "password": "•••"
+      },
+      "status": 423,
+      "response": {
+        "statusCode": 423,
+        "success": false,
+        "message": "Cuenta bloqueada temporalmente. Intente en 15 minutos",
+        "code": "LOGIN_ACCOUNT_LOCKED",
+        "traceId": "aaa83e33-ab09-40e2-b79a-33f08f56cb32"
+      }
+    }
+  ],
+  "HU-57 Iniciar sesión (API) > CP-57-07 reinicia el contador tras un inicio de sesión correcto": [
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "as": "sin token",
+      "body": {
+        "email": "qa.contador@vetmanage.test",
+        "password": "•••"
+      },
+      "status": 401,
+      "response": {
+        "statusCode": 401,
+        "success": false,
+        "message": "Correo o contraseña incorrectos. Le quedan 3 intentos antes de que la cuenta se bloquee",
+        "code": "LOGIN_INVALID_CREDENTIALS",
+        "traceId": "b182756f-dec5-4c79-8165-dcde9073071c"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "as": "sin token",
+      "body": {
+        "email": "qa.contador@vetmanage.test",
+        "password": "•••"
+      },
+      "status": 401,
+      "response": {
+        "statusCode": 401,
+        "success": false,
+        "message": "Correo o contraseña incorrectos. Le quedan 2 intentos antes de que la cuenta se bloquee",
+        "code": "LOGIN_INVALID_CREDENTIALS",
+        "traceId": "f5e630f3-c7cf-4897-b162-6bfe0f427d0c"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "as": "sin token",
+      "body": {
+        "email": "qa.contador@vetmanage.test",
+        "password": "•••"
+      },
+      "status": 401,
+      "response": {
+        "statusCode": 401,
+        "success": false,
+        "message": "Correo o contraseña incorrectos. Le queda 1 intento antes de que la cuenta se bloquee",
+        "code": "LOGIN_INVALID_CREDENTIALS",
+        "traceId": "7b227010-9b87-4c3a-b1f3-3bf24c721259"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "as": "sin token",
+      "body": {
+        "email": "qa.contador@vetmanage.test",
+        "password": "•••"
+      },
+      "status": 200,
+      "response": {
+        "statusCode": 200,
+        "success": true,
+        "message": "Sesión iniciada correctamente",
+        "data": {
+          "accessToken": "•••",
+          "mustChangePassword": false,
+          "user": {
+            "id": "2f629ce9-a9d8-4227-9a71-1ab4498a9925",
+            "firstName": "Cecilia",
+            "lastName": "Contador QA",
+            "email": "qa.contador@vetmanage.test",
+            "roles": [
+              {
+                "name": "veterinarian",
+                "displayName": "Veterinario"
+              }
+            ],
+            "permissions": [
+              "branches:read",
+              "breeds:change-status",
+              "breeds:create",
+              "breeds:read",
+              "breeds:update",
+              "clients:activate",
+              "clients:create",
+              "clients:deactivate",
+              "clients:inactivate",
+              "clients:read",
+              "clients:update",
+              "clinical-files:create",
+              "clinical-files:read",
+              "clinical-files:remove",
+              "clinical-files:update",
+              "consultations:correct",
+              "consultations:create",
+              "daily-availability:manage-own",
+              "daily-availability:read",
+              "deworming:create",
+              "deworming:read",
+              "deworming:update",
+              "deworming:void",
+              "diagnoses:create",
+              "inventory:read",
+              "medical-history:create",
+              "medical-history:read",
+              "pets:create",
+              "pets:deactivate",
+              "pets:read",
+              "pets:update",
+              "prescriptions:export",
+              "prescriptions:manage",
+              "prescriptions:read",
+              "procedure-reports:correct",
+              "procedure-reports:create",
+              "procedure-types:create",
+              "procedure-types:inactivate",
+              "procedure-types:read",
+              "procedures:create",
+              "procedures:deactivate",
+              "procedures:read",
+              "saturday-shifts:read",
+              "schedule-blocks:read",
+              "species:change-status",
+              "species:create",
+              "species:read",
+              "species:update",
+              "supplies-used:create",
+              "supplies-used:remove",
+              "vaccinations:create",
+              "vaccinations:read",
+              "vaccinations:update",
+              "vaccinations:void",
+              "work-schedules:read"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "HU-57 Iniciar sesión (API) > CP-57-08 niega el acceso a la cuenta inactiva": [
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "as": "sin token",
+      "body": {
+        "email": "qa.inactivo@vetmanage.test",
+        "password": "•••"
+      },
+      "status": 403,
+      "response": {
+        "statusCode": 403,
+        "success": false,
+        "message": "Su cuenta se encuentra desactivada. Contacte al administrador",
+        "code": "LOGIN_ACCOUNT_DISABLED",
+        "traceId": "0eaa684d-d406-404f-acc8-1df955bb1981"
+      }
+    }
+  ],
+  "HU-57 Iniciar sesión (API) > CP-57-08 niega el acceso a la cuenta dada de baja": [
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "as": "sin token",
+      "body": {
+        "email": "qa.lrios@vetmanage.test",
+        "password": "•••"
+      },
+      "status": 403,
+      "response": {
+        "statusCode": 403,
+        "success": false,
+        "message": "Su cuenta se encuentra desactivada. Contacte al administrador",
+        "code": "LOGIN_ACCOUNT_DISABLED",
+        "traceId": "d9c68afa-fded-47b4-a0ac-bf950c74ad06"
+      }
+    }
+  ],
+  "HU-57 Iniciar sesión (API) > CP-57-09 indica cambio obligatorio de contraseña en el primer ingreso": [
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "as": "sin token",
+      "body": {
+        "email": "qa.temporal@vetmanage.test",
+        "password": "•••"
+      },
+      "status": 200,
+      "response": {
+        "statusCode": 200,
+        "success": true,
+        "message": "Sesión iniciada correctamente",
+        "data": {
+          "accessToken": "•••",
+          "mustChangePassword": true,
+          "user": {
+            "id": "b0d3c46d-6cf3-4519-8304-185a9cc32894",
+            "firstName": "Teresa",
+            "lastName": "Temporal QA",
+            "email": "qa.temporal@vetmanage.test",
+            "roles": [
+              {
+                "name": "receptionist",
+                "displayName": "Recepcionista"
+              }
+            ],
+            "permissions": [
+              "branches:read",
+              "breeds:read",
+              "clients:activate",
+              "clients:create",
+              "clients:inactivate",
+              "clients:read",
+              "clients:update",
+              "pets:activate",
+              "pets:create",
+              "pets:inactivate",
+              "pets:read",
+              "pets:update",
+              "rates:read",
+              "resources:read-availability",
+              "schedule-blocks:read",
+              "species:read",
+              "work-schedules:read"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "HU-57 Iniciar sesión (API) > CP-57-10 /auth/me rechaza peticiones sin token o con token alterado": [
+    {
+      "method": "GET",
+      "path": "/auth/me",
+      "as": "sin token",
+      "body": null,
+      "status": 401,
+      "response": {
+        "statusCode": 401,
+        "success": false,
+        "message": "No autenticado",
+        "traceId": "9fedc6b7-c62b-4995-a1c3-33fdeb82743a"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/auth/me",
+      "as": "token alterado",
+      "body": null,
+      "status": 401,
+      "response": {
+        "statusCode": 401,
+        "success": false,
+        "message": "Sesión inválida o vencida",
+        "traceId": "c10de545-ec4f-4640-8204-b3a020e5462c"
+      }
+    }
+  ],
+  "HU-01 Registrar datos del cliente (API) > CP-01-01 registra un cliente válido en estado Activo con el mensaje de la HU": [
+    {
+      "method": "POST",
+      "path": "/clients",
+      "as": "qa.recepcion@vetmanage.test",
+      "body": {
+        "identification": "1105019994",
+        "firstName": "Mateo",
+        "lastName": "Cueva",
+        "email": "mateo.cueva@correo.test",
+        "phone": "0987654321",
+        "address": "Av. Orillas del Zamora"
+      },
+      "status": 201,
+      "response": {
+        "statusCode": 201,
+        "success": true,
+        "message": "Cliente registrado correctamente",
+        "data": {
+          "id": "e055fc57-d4ea-47f3-884e-63de013fdff9",
+          "personId": "75e6de08-5346-42d6-a4dc-b2538e387e4e",
+          "identification": "1105019994",
+          "firstName": "Mateo",
+          "lastName": "Cueva",
+          "email": "mateo.cueva@correo.test",
+          "phone": "0987654321",
+          "address": "Av. Orillas del Zamora",
+          "status": "ACTIVE",
+          "roles": [
+            {
+              "name": "client",
+              "displayName": "Cliente"
+            }
+          ],
+          "existingPerson": false,
+          "passwordAssigned": true,
+          "credentialsSent": true
+        }
+      }
+    }
+  ],
+  "HU-01 Registrar datos del cliente (API) > CP-01-02 registra un cliente sin dirección": [
+    {
+      "method": "POST",
+      "path": "/clients",
+      "as": "qa.recepcion@vetmanage.test",
+      "body": {
+        "identification": "1105030009",
+        "firstName": "Mateo",
+        "lastName": "Cueva",
+        "email": "sin.direccion@correo.test",
+        "phone": "0987654321",
+        "address": ""
+      },
+      "status": 201,
+      "response": {
+        "statusCode": 201,
+        "success": true,
+        "message": "Cliente registrado correctamente",
+        "data": {
+          "id": "7a7ef161-66ee-44f9-b5ae-d38d42dc4cad",
+          "personId": "54154151-9c83-4469-897f-14bce85a30a1",
+          "identification": "1105030009",
+          "firstName": "Mateo",
+          "lastName": "Cueva",
+          "email": "sin.direccion@correo.test",
+          "phone": "0987654321",
+          "address": null,
+          "status": "ACTIVE",
+          "roles": [
+            {
+              "name": "client",
+              "displayName": "Cliente"
+            }
+          ],
+          "existingPerson": false,
+          "passwordAssigned": true,
+          "credentialsSent": true
+        }
+      }
+    }
+  ],
+  "HU-01 Registrar datos del cliente (API) > CP-01-03 el Veterinario también puede registrar clientes": [
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "as": "sin token",
+      "body": {
+        "email": "qa.veterinario@vetmanage.test",
+        "password": "•••"
+      },
+      "status": 200,
+      "response": {
+        "statusCode": 200,
+        "success": true,
+        "message": "Sesión iniciada correctamente",
+        "data": {
+          "accessToken": "•••",
+          "mustChangePassword": false,
+          "user": {
+            "id": "691f4c32-0a33-414e-8a01-2bfa2c892a54",
+            "firstName": "Valeria",
+            "lastName": "Veterinaria QA",
+            "email": "qa.veterinario@vetmanage.test",
+            "roles": [
+              {
+                "name": "veterinarian",
+                "displayName": "Veterinario"
+              }
+            ],
+            "permissions": [
+              "branches:read",
+              "breeds:change-status",
+              "breeds:create",
+              "breeds:read",
+              "breeds:update",
+              "clients:activate",
+              "clients:create",
+              "clients:deactivate",
+              "clients:inactivate",
+              "clients:read",
+              "clients:update",
+              "clinical-files:create",
+              "clinical-files:read",
+              "clinical-files:remove",
+              "clinical-files:update",
+              "consultations:correct",
+              "consultations:create",
+              "daily-availability:manage-own",
+              "daily-availability:read",
+              "deworming:create",
+              "deworming:read",
+              "deworming:update",
+              "deworming:void",
+              "diagnoses:create",
+              "inventory:read",
+              "medical-history:create",
+              "medical-history:read",
+              "pets:create",
+              "pets:deactivate",
+              "pets:read",
+              "pets:update",
+              "prescriptions:export",
+              "prescriptions:manage",
+              "prescriptions:read",
+              "procedure-reports:correct",
+              "procedure-reports:create",
+              "procedure-types:create",
+              "procedure-types:inactivate",
+              "procedure-types:read",
+              "procedures:create",
+              "procedures:deactivate",
+              "procedures:read",
+              "saturday-shifts:read",
+              "schedule-blocks:read",
+              "species:change-status",
+              "species:create",
+              "species:read",
+              "species:update",
+              "supplies-used:create",
+              "supplies-used:remove",
+              "vaccinations:create",
+              "vaccinations:read",
+              "vaccinations:update",
+              "vaccinations:void",
+              "work-schedules:read"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/clients",
+      "as": "qa.veterinario@vetmanage.test",
+      "body": {
+        "identification": "1105030413",
+        "firstName": "Mateo",
+        "lastName": "Cueva",
+        "email": "c1105030413@correo.test",
+        "phone": "0987654321",
+        "address": "Av. Orillas del Zamora"
+      },
+      "status": 201,
+      "response": {
+        "statusCode": 201,
+        "success": true,
+        "message": "Cliente registrado correctamente",
+        "data": {
+          "id": "aa804fa4-81ee-4f89-afc3-43206ed17f38",
+          "personId": "9a798a2d-6a80-4e69-aebf-cf6f7186839f",
+          "identification": "1105030413",
+          "firstName": "Mateo",
+          "lastName": "Cueva",
+          "email": "c1105030413@correo.test",
+          "phone": "0987654321",
+          "address": "Av. Orillas del Zamora",
+          "status": "ACTIVE",
+          "roles": [
+            {
+              "name": "client",
+              "displayName": "Cliente"
+            }
+          ],
+          "existingPerson": false,
+          "passwordAssigned": true,
+          "credentialsSent": true
+        }
+      }
+    }
+  ],
+  "HU-01 Registrar datos del cliente (API) > CP-01-03 el Gerente también puede registrar clientes": [
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "as": "sin token",
+      "body": {
+        "email": "qa.gerente@vetmanage.test",
+        "password": "•••"
+      },
+      "status": 200,
+      "response": {
+        "statusCode": 200,
+        "success": true,
+        "message": "Sesión iniciada correctamente",
+        "data": {
+          "accessToken": "•••",
+          "mustChangePassword": false,
+          "user": {
+            "id": "645b72df-e458-4e14-b2d7-b2b218abfe1d",
+            "firstName": "Gabriel",
+            "lastName": "Gerente QA",
+            "email": "qa.gerente@vetmanage.test",
+            "roles": [
+              {
+                "name": "manager",
+                "displayName": "Gerente"
+              }
+            ],
+            "permissions": [
+              "branches:read",
+              "breeds:read",
+              "clients:activate",
+              "clients:create",
+              "clients:deactivate",
+              "clients:inactivate",
+              "clients:read",
+              "clients:update",
+              "daily-availability:read",
+              "inventory:manage-brands",
+              "inventory:manage-categories",
+              "inventory:manage-products",
+              "inventory:read",
+              "pets:activate",
+              "pets:create",
+              "pets:deactivate",
+              "pets:inactivate",
+              "pets:read",
+              "pets:update",
+              "procedure-types:create",
+              "procedure-types:inactivate",
+              "procedure-types:read",
+              "procedures:create",
+              "procedures:deactivate",
+              "procedures:read",
+              "rates:manage",
+              "rates:read",
+              "resources:read-availability",
+              "saturday-shifts:manage",
+              "saturday-shifts:read",
+              "schedule-blocks:create",
+              "schedule-blocks:read",
+              "schedule-blocks:remove",
+              "species:read",
+              "work-schedules:manage",
+              "work-schedules:read"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/clients",
+      "as": "qa.gerente@vetmanage.test",
+      "body": {
+        "identification": "1105030827",
+        "firstName": "Mateo",
+        "lastName": "Cueva",
+        "email": "c1105030827@correo.test",
+        "phone": "0987654321",
+        "address": "Av. Orillas del Zamora"
+      },
+      "status": 201,
+      "response": {
+        "statusCode": 201,
+        "success": true,
+        "message": "Cliente registrado correctamente",
+        "data": {
+          "id": "9a0a1af8-a2ed-40ac-9ff0-83ec4173458a",
+          "personId": "dc3c2555-9887-4dad-9b32-3a6195d84e06",
+          "identification": "1105030827",
+          "firstName": "Mateo",
+          "lastName": "Cueva",
+          "email": "c1105030827@correo.test",
+          "phone": "0987654321",
+          "address": "Av. Orillas del Zamora",
+          "status": "ACTIVE",
+          "roles": [
+            {
+              "name": "client",
+              "displayName": "Cliente"
+            }
+          ],
+          "existingPerson": false,
+          "passwordAssigned": true,
+          "credentialsSent": true
+        }
+      }
+    }
+  ],
+  "HU-01 Registrar datos del cliente (API) > CP-01-04 rechaza los obligatorios vacíos con el mensaje de la HU": [
+    {
+      "method": "POST",
+      "path": "/clients",
+      "as": "qa.recepcion@vetmanage.test",
+      "body": {
+        "identification": "",
+        "firstName": "",
+        "lastName": "",
+        "email": "",
+        "phone": ""
+      },
+      "status": 400,
+      "response": {
+        "statusCode": 400,
+        "success": false,
+        "message": "Complete los campos obligatorios",
+        "errors": [
+          "identification",
+          "firstName",
+          "lastName",
+          "email"
+        ],
+        "code": "CLIENT_MISSING_FIELDS",
+        "traceId": "81e7ac85-2ea9-49e3-bf44-b151b0f63f9a"
+      }
+    }
+  ],
+  "HU-01 Registrar datos del cliente (API) > CP-01-05 rechaza el registro sin teléfono (obligatorio en la HU)": [
+    {
+      "method": "POST",
+      "path": "/clients",
+      "as": "qa.recepcion@vetmanage.test",
+      "body": {
+        "identification": "1105031239",
+        "firstName": "Mateo",
+        "lastName": "Cueva",
+        "email": "sin.telefono@correo.test",
+        "phone": "",
+        "address": "Av. Orillas del Zamora"
+      },
+      "status": 201,
+      "response": {
+        "statusCode": 201,
+        "success": true,
+        "message": "Cliente registrado correctamente",
+        "data": {
+          "id": "78102626-04d8-49fe-b8e5-1631271d20d0",
+          "personId": "13eb252c-165e-4ac0-9206-63734b67f1de",
+          "identification": "1105031239",
+          "firstName": "Mateo",
+          "lastName": "Cueva",
+          "email": "sin.telefono@correo.test",
+          "phone": null,
+          "address": "Av. Orillas del Zamora",
+          "status": "ACTIVE",
+          "roles": [
+            {
+              "name": "client",
+              "displayName": "Cliente"
+            }
+          ],
+          "existingPerson": false,
+          "passwordAssigned": true,
+          "credentialsSent": true
+        }
+      }
+    }
+  ],
+  "HU-01 Registrar datos del cliente (API) > CP-01-06 rechaza una cédula que ya pertenece a un cliente (Pedro Castillo)": [
+    {
+      "method": "POST",
+      "path": "/clients",
+      "as": "qa.recepcion@vetmanage.test",
+      "body": {
+        "identification": "1105017030",
+        "firstName": "Otro",
+        "lastName": "Cueva",
+        "email": "otro.pedro@correo.test",
+        "phone": "0987654321",
+        "address": "Av. Orillas del Zamora"
+      },
+      "status": 201,
+      "response": {
+        "statusCode": 201,
+        "success": true,
+        "message": "Cliente registrado correctamente",
+        "data": {
+          "id": "6d3beba1-36b9-45da-b41f-92d2b036f9a3",
+          "personId": "9ea633c7-47eb-423e-9c03-1e041a3bff95",
+          "identification": "1105017030",
+          "firstName": "Pedro",
+          "lastName": "Castillo",
+          "email": "pedro.castillo@correo.test",
+          "phone": "0987000002",
+          "address": "Calle Sucre 12-34, Loja",
+          "status": "ACTIVE",
+          "roles": [
+            {
+              "name": "client",
+              "displayName": "Cliente"
+            }
+          ],
+          "existingPerson": true,
+          "passwordAssigned": false,
+          "credentialsSent": false
+        }
+      }
+    }
+  ],
+  "HU-01 Registrar datos del cliente (API) > CP-01-07 rechaza una cédula alfanumérica con \"Número de cédula no válido\"": [
+    {
+      "method": "POST",
+      "path": "/clients",
+      "as": "qa.recepcion@vetmanage.test",
+      "body": {
+        "identification": "11050A0001",
+        "firstName": "Mateo",
+        "lastName": "Cueva",
+        "email": "mateo.cueva@correo.test",
+        "phone": "0987654321",
+        "address": "Av. Orillas del Zamora"
+      },
+      "status": 400,
+      "response": {
+        "statusCode": 400,
+        "success": false,
+        "message": "La cédula debe tener 10 dígitos válidos",
+        "errors": [
+          "identification"
+        ],
+        "code": "CLIENT_INVALID_IDENTIFICATION",
+        "traceId": "c636a69a-21ad-4a6e-809f-9ab676a1a5c9"
+      }
+    }
+  ],
+  "HU-01 Registrar datos del cliente (API) > CP-01-09 rechaza un correo sin formato": [
+    {
+      "method": "POST",
+      "path": "/clients",
+      "as": "qa.recepcion@vetmanage.test",
+      "body": {
+        "identification": "1105031643",
+        "firstName": "Mateo",
+        "lastName": "Cueva",
+        "email": "mateo.correo.test",
+        "phone": "0987654321",
+        "address": "Av. Orillas del Zamora"
+      },
+      "status": 400,
+      "response": {
+        "statusCode": 400,
+        "success": false,
+        "message": "Ingrese un correo electrónico válido",
+        "errors": [
+          "email"
+        ],
+        "code": "CLIENT_INVALID_EMAIL",
+        "traceId": "4d9e7ef2-47bb-4d95-b3f4-96d17ccec1a1"
+      }
+    }
+  ],
+  "HU-01 Registrar datos del cliente (API) > CP-01-10 rechaza un teléfono con letras": [
+    {
+      "method": "POST",
+      "path": "/clients",
+      "as": "qa.recepcion@vetmanage.test",
+      "body": {
+        "identification": "1105031643",
+        "firstName": "Mateo",
+        "lastName": "Cueva",
+        "email": "tel.letras@correo.test",
+        "phone": "09876ABCDE",
+        "address": "Av. Orillas del Zamora"
+      },
+      "status": 400,
+      "response": {
+        "statusCode": 400,
+        "success": false,
+        "message": "Ingrese un teléfono válido",
+        "errors": [
+          "phone"
+        ],
+        "code": "CLIENT_INVALID_PHONE",
+        "traceId": "6281adcd-14ed-4316-b467-60f626a3d9cd"
+      }
+    }
+  ],
+  "HU-01 Registrar datos del cliente (API) > CP-01-11 rechaza un teléfono de 9 dígitos (valor límite)": [
+    {
+      "method": "POST",
+      "path": "/clients",
+      "as": "qa.recepcion@vetmanage.test",
+      "body": {
+        "identification": "1105032054",
+        "firstName": "Mateo",
+        "lastName": "Cueva",
+        "email": "tel.nueve@correo.test",
+        "phone": "098765432",
+        "address": "Av. Orillas del Zamora"
+      },
+      "status": 201,
+      "response": {
+        "statusCode": 201,
+        "success": true,
+        "message": "Cliente registrado correctamente",
+        "data": {
+          "id": "ebe8dad6-fe55-4a59-b9bd-9db5db9163e8",
+          "personId": "de877337-61d2-492f-8ffc-f3b3cf00f180",
+          "identification": "1105032054",
+          "firstName": "Mateo",
+          "lastName": "Cueva",
+          "email": "tel.nueve@correo.test",
+          "phone": "098765432",
+          "address": "Av. Orillas del Zamora",
+          "status": "ACTIVE",
+          "roles": [
+            {
+              "name": "client",
+              "displayName": "Cliente"
+            }
+          ],
+          "existingPerson": false,
+          "passwordAssigned": true,
+          "credentialsSent": true
+        }
+      }
+    }
+  ],
+  "HU-01 Registrar datos del cliente (API) > CP-01-12 rechaza un teléfono con prefijo inválido": [
+    {
+      "method": "POST",
+      "path": "/clients",
+      "as": "qa.recepcion@vetmanage.test",
+      "body": {
+        "identification": "1105032468",
+        "firstName": "Mateo",
+        "lastName": "Cueva",
+        "email": "tel.prefijo@correo.test",
+        "phone": "1987654321",
+        "address": "Av. Orillas del Zamora"
+      },
+      "status": 201,
+      "response": {
+        "statusCode": 201,
+        "success": true,
+        "message": "Cliente registrado correctamente",
+        "data": {
+          "id": "726a8af9-f9fd-43e4-8c3a-fc91303faf1a",
+          "personId": "c9ad67ce-77e7-4ed2-ae59-3bfc80c5863b",
+          "identification": "1105032468",
+          "firstName": "Mateo",
+          "lastName": "Cueva",
+          "email": "tel.prefijo@correo.test",
+          "phone": "1987654321",
+          "address": "Av. Orillas del Zamora",
+          "status": "ACTIVE",
+          "roles": [
+            {
+              "name": "client",
+              "displayName": "Cliente"
+            }
+          ],
+          "existingPerson": false,
+          "passwordAssigned": true,
+          "credentialsSent": true
+        }
+      }
+    }
+  ],
+  "HU-01 Registrar datos del cliente (API) > CP-01-14 niega el registro al Cajero": [
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "as": "sin token",
+      "body": {
+        "email": "qa.cajero@vetmanage.test",
+        "password": "•••"
+      },
+      "status": 200,
+      "response": {
+        "statusCode": 200,
+        "success": true,
+        "message": "Sesión iniciada correctamente",
+        "data": {
+          "accessToken": "•••",
+          "mustChangePassword": false,
+          "user": {
+            "id": "9945770a-a757-43a3-acf5-9ba8919f7c5f",
+            "firstName": "Camilo",
+            "lastName": "Cajero QA",
+            "email": "qa.cajero@vetmanage.test",
+            "roles": [
+              {
+                "name": "cashier",
+                "displayName": "Cajero"
+              }
+            ],
+            "permissions": [
+              "inventory:read"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/clients",
+      "as": "qa.cajero@vetmanage.test",
+      "body": {
+        "identification": "1105032872",
+        "firstName": "Mateo",
+        "lastName": "Cueva",
+        "email": "denegado@correo.test",
+        "phone": "0987654321",
+        "address": "Av. Orillas del Zamora"
+      },
+      "status": 403,
+      "response": {
+        "statusCode": 403,
+        "success": false,
+        "message": "No tiene permisos para realizar esta acción",
+        "traceId": "867046f1-97e5-4cee-9ef7-f66750435ca8"
+      }
+    }
+  ],
+  "HU-01 Registrar datos del cliente (API) > CP-01-14 niega el registro al Técnico Veterinario": [
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "as": "sin token",
+      "body": {
+        "email": "qa.tecnico@vetmanage.test",
+        "password": "•••"
+      },
+      "status": 200,
+      "response": {
+        "statusCode": 200,
+        "success": true,
+        "message": "Sesión iniciada correctamente",
+        "data": {
+          "accessToken": "•••",
+          "mustChangePassword": false,
+          "user": {
+            "id": "66b63dc2-341e-4404-8bc8-01a6eb887ba6",
+            "firstName": "Tomás",
+            "lastName": "Técnico QA",
+            "email": "qa.tecnico@vetmanage.test",
+            "roles": [
+              {
+                "name": "veterinary_technician",
+                "displayName": "Técnico Veterinario"
+              }
+            ],
+            "permissions": [
+              "breeds:read",
+              "clients:read",
+              "clinical-files:create",
+              "clinical-files:read",
+              "clinical-files:remove",
+              "clinical-files:update",
+              "deworming:create",
+              "deworming:read",
+              "deworming:update",
+              "deworming:void",
+              "medical-history:read",
+              "pets:read",
+              "procedure-reports:create",
+              "procedure-types:read",
+              "procedures:read",
+              "species:read",
+              "supplies-used:create",
+              "vaccinations:create",
+              "vaccinations:read",
+              "vaccinations:update",
+              "vaccinations:void"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/clients",
+      "as": "qa.tecnico@vetmanage.test",
+      "body": {
+        "identification": "1105032872",
+        "firstName": "Mateo",
+        "lastName": "Cueva",
+        "email": "denegado@correo.test",
+        "phone": "0987654321",
+        "address": "Av. Orillas del Zamora"
+      },
+      "status": 403,
+      "response": {
+        "statusCode": 403,
+        "success": false,
+        "message": "No tiene permisos para realizar esta acción",
+        "traceId": "7121ca71-de96-471f-b40c-9c8e602db047"
+      }
+    }
+  ],
+  "HU-01 Registrar datos del cliente (API) > CP-01-14 niega el registro al Administrador": [
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "as": "sin token",
+      "body": {
+        "email": "qa.admin@vetmanage.test",
+        "password": "•••"
+      },
+      "status": 200,
+      "response": {
+        "statusCode": 200,
+        "success": true,
+        "message": "Sesión iniciada correctamente",
+        "data": {
+          "accessToken": "•••",
+          "mustChangePassword": false,
+          "user": {
+            "id": "a6f4aa33-907e-46b4-94be-87a8d5e31ac5",
+            "firstName": "Andrea",
+            "lastName": "Administradora QA",
+            "email": "qa.admin@vetmanage.test",
+            "roles": [
+              {
+                "name": "administrator",
+                "displayName": "Administrador"
+              }
+            ],
+            "permissions": [
+              "audit:export",
+              "audit:read",
+              "branches:read",
+              "breeds:change-status",
+              "breeds:create",
+              "breeds:read",
+              "breeds:update",
+              "daily-availability:read",
+              "inventory:read",
+              "rates:manage",
+              "rates:read",
+              "resources:read-availability",
+              "roles:manage-permissions",
+              "saturday-shifts:manage",
+              "saturday-shifts:read",
+              "schedule-blocks:create",
+              "schedule-blocks:read",
+              "schedule-blocks:remove",
+              "users:assign-roles",
+              "users:change-status",
+              "users:create",
+              "users:deactivate",
+              "users:read",
+              "users:update",
+              "work-schedules:manage",
+              "work-schedules:read"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/clients",
+      "as": "qa.admin@vetmanage.test",
+      "body": {
+        "identification": "1105032872",
+        "firstName": "Mateo",
+        "lastName": "Cueva",
+        "email": "denegado@correo.test",
+        "phone": "0987654321",
+        "address": "Av. Orillas del Zamora"
+      },
+      "status": 403,
+      "response": {
+        "statusCode": 403,
+        "success": false,
+        "message": "No tiene permisos para realizar esta acción",
+        "traceId": "c6dc1408-0d55-438f-80a1-994d7e9ac8b5"
+      }
+    }
+  ],
+  "HU-07 Registrar datos del paciente (API) > CP-07-01 registra un paciente Activo con código PAC-###### asociado a Pedro Castillo": [
+    {
+      "method": "POST",
+      "path": "/pets",
+      "as": "qa.recepcion@vetmanage.test",
+      "body": {
+        "name": "Max",
+        "speciesId": "988745aa-b345-4318-afcf-4ce3b1e201e1",
+        "breedId": "7fff0510-c7d1-42de-baa5-0c5b86165d19",
+        "gender": "MALE",
+        "birthDate": "10-02-2024",
+        "weightKg": 20.5,
+        "heightCm": 55,
+        "reproductiveStatus": "NOT_STERILIZED",
+        "color": "Café",
+        "clientId": "6d3beba1-36b9-45da-b41f-92d2b036f9a3"
+      },
+      "status": 201,
+      "response": {
+        "statusCode": 201,
+        "success": true,
+        "message": "Paciente registrado exitosamente",
+        "data": {
+          "id": "685798fb-bdb8-437a-9691-2bb0de3399ad",
+          "code": "PAC-000013",
+          "name": "Max",
+          "gender": "MALE",
+          "birthDate": "10-02-2024",
+          "weightKg": 20.5,
+          "heightCm": 55,
+          "reproductiveStatus": "NOT_STERILIZED",
+          "color": "Café",
+          "status": "ACTIVE",
+          "clientId": "6d3beba1-36b9-45da-b41f-92d2b036f9a3",
+          "species": {
+            "id": "988745aa-b345-4318-afcf-4ce3b1e201e1",
+            "name": "Canino"
+          },
+          "breed": {
+            "id": "7fff0510-c7d1-42de-baa5-0c5b86165d19",
+            "name": "Labrador Retriever"
+          },
+          "createdAt": "2026-11-20T21:06:11.748Z"
+        }
+      }
+    }
+  ],
+  "HU-07 Registrar datos del paciente (API) > CP-07-02 rechaza los obligatorios vacíos": [
+    {
+      "method": "POST",
+      "path": "/pets",
+      "as": "qa.recepcion@vetmanage.test",
+      "body": {
+        "name": "",
+        "speciesId": "988745aa-b345-4318-afcf-4ce3b1e201e1",
+        "breedId": "7fff0510-c7d1-42de-baa5-0c5b86165d19",
+        "gender": "MALE",
+        "birthDate": "10-02-2024",
+        "weightKg": "",
+        "heightCm": 55,
+        "reproductiveStatus": "NOT_STERILIZED",
+        "color": "Café",
+        "clientId": "6d3beba1-36b9-45da-b41f-92d2b036f9a3"
+      },
+      "status": 400,
+      "response": {
+        "statusCode": 400,
+        "success": false,
+        "message": "Por favor, complete todos los campos obligatorios",
+        "errors": [
+          "name",
+          "weightKg"
+        ],
+        "code": "PATIENT_MISSING_FIELDS",
+        "traceId": "18d77524-044b-477a-9edf-42c75e3b1977"
+      }
+    }
+  ],
+  "HU-07 Registrar datos del paciente (API) > CP-07-03 registra sin color": [
+    {
+      "method": "POST",
+      "path": "/pets",
+      "as": "qa.recepcion@vetmanage.test",
+      "body": {
+        "name": "Sin Color",
+        "speciesId": "988745aa-b345-4318-afcf-4ce3b1e201e1",
+        "breedId": "7fff0510-c7d1-42de-baa5-0c5b86165d19",
+        "gender": "MALE",
+        "birthDate": "10-02-2024",
+        "weightKg": 20.5,
+        "heightCm": 55,
+        "reproductiveStatus": "NOT_STERILIZED",
+        "color": "",
+        "clientId": "6d3beba1-36b9-45da-b41f-92d2b036f9a3"
+      },
+      "status": 201,
+      "response": {
+        "statusCode": 201,
+        "success": true,
+        "message": "Paciente registrado exitosamente",
+        "data": {
+          "id": "b03f6df4-d35a-4914-bf2e-7a698359f050",
+          "code": "PAC-000014",
+          "name": "Sin Color",
+          "gender": "MALE",
+          "birthDate": "10-02-2024",
+          "weightKg": 20.5,
+          "heightCm": 55,
+          "reproductiveStatus": "NOT_STERILIZED",
+          "color": null,
+          "status": "ACTIVE",
+          "clientId": "6d3beba1-36b9-45da-b41f-92d2b036f9a3",
+          "species": {
+            "id": "988745aa-b345-4318-afcf-4ce3b1e201e1",
+            "name": "Canino"
+          },
+          "breed": {
+            "id": "7fff0510-c7d1-42de-baa5-0c5b86165d19",
+            "name": "Labrador Retriever"
+          },
+          "createdAt": "2026-11-20T21:06:11.806Z"
+        }
+      }
+    }
+  ],
+  "HU-07 Registrar datos del paciente (API) > CP-07-04 exige un cliente": [
+    {
+      "method": "POST",
+      "path": "/pets",
+      "as": "qa.recepcion@vetmanage.test",
+      "body": {
+        "name": "Max",
+        "speciesId": "988745aa-b345-4318-afcf-4ce3b1e201e1",
+        "breedId": "7fff0510-c7d1-42de-baa5-0c5b86165d19",
+        "gender": "MALE",
+        "birthDate": "10-02-2024",
+        "weightKg": 20.5,
+        "heightCm": 55,
+        "reproductiveStatus": "NOT_STERILIZED",
+        "color": "Café"
+      },
+      "status": 400,
+      "response": {
+        "statusCode": 400,
+        "success": false,
+        "message": "Debe seleccionar un cliente registrado",
+        "errors": [
+          "clientId"
+        ],
+        "code": "PATIENT_CLIENT_REQUIRED",
+        "traceId": "56c38505-ab2f-478c-ba6c-ee5bb8b53024"
+      }
+    }
+  ],
+  "HU-07 Registrar datos del paciente (API) > CP-07-05/06 rechaza un cliente dado de baja (Hugo Vivanco)": [
+    {
+      "method": "POST",
+      "path": "/pets",
+      "as": "qa.recepcion@vetmanage.test",
+      "body": {
+        "name": "Max",
+        "speciesId": "988745aa-b345-4318-afcf-4ce3b1e201e1",
+        "breedId": "7fff0510-c7d1-42de-baa5-0c5b86165d19",
+        "gender": "MALE",
+        "birthDate": "10-02-2024",
+        "weightKg": 20.5,
+        "heightCm": 55,
+        "reproductiveStatus": "NOT_STERILIZED",
+        "color": "Café",
+        "clientId": "3fdf1dcb-c4fe-4a9e-8b7a-08aeba1ca3d0"
+      },
+      "status": 409,
+      "response": {
+        "statusCode": 409,
+        "success": false,
+        "message": "El cliente seleccionado no está disponible",
+        "errors": [
+          "clientId"
+        ],
+        "code": "PATIENT_CLIENT_UNAVAILABLE",
+        "traceId": "59da185a-a441-4c42-b8a5-841dee17a800"
+      }
+    }
+  ],
+  "HU-07 Registrar datos del paciente (API) > CP-07-05/06 rechaza un cliente inactivo (Rosa Jaramillo)": [
+    {
+      "method": "POST",
+      "path": "/pets",
+      "as": "qa.recepcion@vetmanage.test",
+      "body": {
+        "name": "Max",
+        "speciesId": "988745aa-b345-4318-afcf-4ce3b1e201e1",
+        "breedId": "7fff0510-c7d1-42de-baa5-0c5b86165d19",
+        "gender": "MALE",
+        "birthDate": "10-02-2024",
+        "weightKg": 20.5,
+        "heightCm": 55,
+        "reproductiveStatus": "NOT_STERILIZED",
+        "color": "Café",
+        "clientId": "8d1d0786-ca55-4de4-8678-70e167b37141"
+      },
+      "status": 409,
+      "response": {
+        "statusCode": 409,
+        "success": false,
+        "message": "El cliente seleccionado no está disponible",
+        "errors": [
+          "clientId"
+        ],
+        "code": "PATIENT_CLIENT_UNAVAILABLE",
+        "traceId": "d2f921cc-5a9a-449e-984e-68d976224e5c"
+      }
+    }
+  ],
+  "HU-07 Registrar datos del paciente (API) > CP-07-07/08 rechaza una fecha inexistente": [
+    {
+      "method": "POST",
+      "path": "/pets",
+      "as": "qa.recepcion@vetmanage.test",
+      "body": {
+        "name": "Max",
+        "speciesId": "988745aa-b345-4318-afcf-4ce3b1e201e1",
+        "breedId": "7fff0510-c7d1-42de-baa5-0c5b86165d19",
+        "gender": "MALE",
+        "birthDate": "31-02-2024",
+        "weightKg": 20.5,
+        "heightCm": 55,
+        "reproductiveStatus": "NOT_STERILIZED",
+        "color": "Café",
+        "clientId": "6d3beba1-36b9-45da-b41f-92d2b036f9a3"
+      },
+      "status": 400,
+      "response": {
+        "statusCode": 400,
+        "success": false,
+        "message": "Fecha de nacimiento inválida",
+        "errors": [
+          "birthDate"
+        ],
+        "code": "PATIENT_INVALID_BIRTH_DATE",
+        "traceId": "04a6ff9b-e440-41d9-bd66-761512ce0478"
+      }
+    }
+  ],
+  "HU-07 Registrar datos del paciente (API) > CP-07-07/08 rechaza una fecha futura": [
+    {
+      "method": "POST",
+      "path": "/pets",
+      "as": "qa.recepcion@vetmanage.test",
+      "body": {
+        "name": "Max",
+        "speciesId": "988745aa-b345-4318-afcf-4ce3b1e201e1",
+        "breedId": "7fff0510-c7d1-42de-baa5-0c5b86165d19",
+        "gender": "MALE",
+        "birthDate": "01-01-2099",
+        "weightKg": 20.5,
+        "heightCm": 55,
+        "reproductiveStatus": "NOT_STERILIZED",
+        "color": "Café",
+        "clientId": "6d3beba1-36b9-45da-b41f-92d2b036f9a3"
+      },
+      "status": 400,
+      "response": {
+        "statusCode": 400,
+        "success": false,
+        "message": "Fecha de nacimiento inválida",
+        "errors": [
+          "birthDate"
+        ],
+        "code": "PATIENT_INVALID_BIRTH_DATE",
+        "traceId": "cdbdd050-0c89-4b21-bd61-3a7813790be3"
+      }
+    }
+  ],
+  "HU-07 Registrar datos del paciente (API) > CP-07-10 acepta la fecha de nacimiento de hoy (valor límite)": [
+    {
+      "method": "POST",
+      "path": "/pets",
+      "as": "qa.recepcion@vetmanage.test",
+      "body": {
+        "name": "Recién Nacido",
+        "speciesId": "988745aa-b345-4318-afcf-4ce3b1e201e1",
+        "breedId": "7fff0510-c7d1-42de-baa5-0c5b86165d19",
+        "gender": "MALE",
+        "birthDate": "20-11-2026",
+        "weightKg": 20.5,
+        "heightCm": 55,
+        "reproductiveStatus": "NOT_STERILIZED",
+        "color": "Café",
+        "clientId": "6d3beba1-36b9-45da-b41f-92d2b036f9a3"
+      },
+      "status": 201,
+      "response": {
+        "statusCode": 201,
+        "success": true,
+        "message": "Paciente registrado exitosamente",
+        "data": {
+          "id": "40becaed-60dc-4965-96dd-473a525237dd",
+          "code": "PAC-000015",
+          "name": "Recién Nacido",
+          "gender": "MALE",
+          "birthDate": "20-11-2026",
+          "weightKg": 20.5,
+          "heightCm": 55,
+          "reproductiveStatus": "NOT_STERILIZED",
+          "color": "Café",
+          "status": "ACTIVE",
+          "clientId": "6d3beba1-36b9-45da-b41f-92d2b036f9a3",
+          "species": {
+            "id": "988745aa-b345-4318-afcf-4ce3b1e201e1",
+            "name": "Canino"
+          },
+          "breed": {
+            "id": "7fff0510-c7d1-42de-baa5-0c5b86165d19",
+            "name": "Labrador Retriever"
+          },
+          "createdAt": "2026-11-20T21:06:12.010Z"
+        }
+      }
+    }
+  ],
+  "HU-07 Registrar datos del paciente (API) > CP-07-12 rechaza peso cero (valor límite)": [
+    {
+      "method": "POST",
+      "path": "/pets",
+      "as": "qa.recepcion@vetmanage.test",
+      "body": {
+        "name": "Max",
+        "speciesId": "988745aa-b345-4318-afcf-4ce3b1e201e1",
+        "breedId": "7fff0510-c7d1-42de-baa5-0c5b86165d19",
+        "gender": "MALE",
+        "birthDate": "10-02-2024",
+        "weightKg": 0,
+        "heightCm": 55,
+        "reproductiveStatus": "NOT_STERILIZED",
+        "color": "Café",
+        "clientId": "6d3beba1-36b9-45da-b41f-92d2b036f9a3"
+      },
+      "status": 400,
+      "response": {
+        "statusCode": 400,
+        "success": false,
+        "message": "El peso y la talla deben ser valores numéricos mayores que cero",
+        "errors": [
+          "weightKg"
+        ],
+        "code": "PATIENT_INVALID_MEASURES",
+        "traceId": "80f80075-6906-4e99-8324-9f6f419a4905"
+      }
+    }
+  ],
+  "HU-07 Registrar datos del paciente (API) > CP-07-14 acepta el peso 0.01 (valor límite)": [
+    {
+      "method": "POST",
+      "path": "/pets",
+      "as": "qa.recepcion@vetmanage.test",
+      "body": {
+        "name": "Peso 0.01",
+        "speciesId": "988745aa-b345-4318-afcf-4ce3b1e201e1",
+        "breedId": "7fff0510-c7d1-42de-baa5-0c5b86165d19",
+        "gender": "MALE",
+        "birthDate": "10-02-2024",
+        "weightKg": 0.01,
+        "heightCm": 55,
+        "reproductiveStatus": "NOT_STERILIZED",
+        "color": "Café",
+        "clientId": "6d3beba1-36b9-45da-b41f-92d2b036f9a3"
+      },
+      "status": 201,
+      "response": {
+        "statusCode": 201,
+        "success": true,
+        "message": "Paciente registrado exitosamente",
+        "data": {
+          "id": "e8a32238-5b2b-4d1b-830a-727dc723fbb0",
+          "code": "PAC-000016",
+          "name": "Peso 0.01",
+          "gender": "MALE",
+          "birthDate": "10-02-2024",
+          "weightKg": 0.01,
+          "heightCm": 55,
+          "reproductiveStatus": "NOT_STERILIZED",
+          "color": "Café",
+          "status": "ACTIVE",
+          "clientId": "6d3beba1-36b9-45da-b41f-92d2b036f9a3",
+          "species": {
+            "id": "988745aa-b345-4318-afcf-4ce3b1e201e1",
+            "name": "Canino"
+          },
+          "breed": {
+            "id": "7fff0510-c7d1-42de-baa5-0c5b86165d19",
+            "name": "Labrador Retriever"
+          },
+          "createdAt": "2026-11-20T21:06:12.059Z"
+        }
+      }
+    }
+  ],
+  "HU-07 Registrar datos del paciente (API) > CP-07-14 acepta el peso 9999.99 (valor límite)": [
+    {
+      "method": "POST",
+      "path": "/pets",
+      "as": "qa.recepcion@vetmanage.test",
+      "body": {
+        "name": "Peso 9999.99",
+        "speciesId": "988745aa-b345-4318-afcf-4ce3b1e201e1",
+        "breedId": "7fff0510-c7d1-42de-baa5-0c5b86165d19",
+        "gender": "MALE",
+        "birthDate": "10-02-2024",
+        "weightKg": 9999.99,
+        "heightCm": 55,
+        "reproductiveStatus": "NOT_STERILIZED",
+        "color": "Café",
+        "clientId": "6d3beba1-36b9-45da-b41f-92d2b036f9a3"
+      },
+      "status": 201,
+      "response": {
+        "statusCode": 201,
+        "success": true,
+        "message": "Paciente registrado exitosamente",
+        "data": {
+          "id": "1f1fde1e-dfea-4816-8ec9-56a4729102bc",
+          "code": "PAC-000017",
+          "name": "Peso 9999.99",
+          "gender": "MALE",
+          "birthDate": "10-02-2024",
+          "weightKg": 9999.99,
+          "heightCm": 55,
+          "reproductiveStatus": "NOT_STERILIZED",
+          "color": "Café",
+          "status": "ACTIVE",
+          "clientId": "6d3beba1-36b9-45da-b41f-92d2b036f9a3",
+          "species": {
+            "id": "988745aa-b345-4318-afcf-4ce3b1e201e1",
+            "name": "Canino"
+          },
+          "breed": {
+            "id": "7fff0510-c7d1-42de-baa5-0c5b86165d19",
+            "name": "Labrador Retriever"
+          },
+          "createdAt": "2026-11-20T21:06:12.087Z"
+        }
+      }
+    }
+  ],
+  "HU-07 Registrar datos del paciente (API) > CP-07-16 genera códigos únicos e ignora el código enviado": [
+    {
+      "method": "POST",
+      "path": "/pets",
+      "as": "qa.recepcion@vetmanage.test",
+      "body": {
+        "name": "Código A",
+        "speciesId": "988745aa-b345-4318-afcf-4ce3b1e201e1",
+        "breedId": "7fff0510-c7d1-42de-baa5-0c5b86165d19",
+        "gender": "MALE",
+        "birthDate": "10-02-2024",
+        "weightKg": 20.5,
+        "heightCm": 55,
+        "reproductiveStatus": "NOT_STERILIZED",
+        "color": "Café",
+        "clientId": "6d3beba1-36b9-45da-b41f-92d2b036f9a3"
+      },
+      "status": 201,
+      "response": {
+        "statusCode": 201,
+        "success": true,
+        "message": "Paciente registrado exitosamente",
+        "data": {
+          "id": "f1f0834d-86d4-4b0e-98a9-0c83453b1e95",
+          "code": "PAC-000018",
+          "name": "Código A",
+          "gender": "MALE",
+          "birthDate": "10-02-2024",
+          "weightKg": 20.5,
+          "heightCm": 55,
+          "reproductiveStatus": "NOT_STERILIZED",
+          "color": "Café",
+          "status": "ACTIVE",
+          "clientId": "6d3beba1-36b9-45da-b41f-92d2b036f9a3",
+          "species": {
+            "id": "988745aa-b345-4318-afcf-4ce3b1e201e1",
+            "name": "Canino"
+          },
+          "breed": {
+            "id": "7fff0510-c7d1-42de-baa5-0c5b86165d19",
+            "name": "Labrador Retriever"
+          },
+          "createdAt": "2026-11-20T21:06:12.116Z"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/pets",
+      "as": "qa.recepcion@vetmanage.test",
+      "body": {
+        "name": "Código B",
+        "speciesId": "988745aa-b345-4318-afcf-4ce3b1e201e1",
+        "breedId": "7fff0510-c7d1-42de-baa5-0c5b86165d19",
+        "gender": "MALE",
+        "birthDate": "10-02-2024",
+        "weightKg": 20.5,
+        "heightCm": 55,
+        "reproductiveStatus": "NOT_STERILIZED",
+        "color": "Café",
+        "clientId": "6d3beba1-36b9-45da-b41f-92d2b036f9a3",
+        "code": "PAC-999999"
+      },
+      "status": 201,
+      "response": {
+        "statusCode": 201,
+        "success": true,
+        "message": "Paciente registrado exitosamente",
+        "data": {
+          "id": "becc8931-08ff-4d3b-bab9-ee3280fc937f",
+          "code": "PAC-000019",
+          "name": "Código B",
+          "gender": "MALE",
+          "birthDate": "10-02-2024",
+          "weightKg": 20.5,
+          "heightCm": 55,
+          "reproductiveStatus": "NOT_STERILIZED",
+          "color": "Café",
+          "status": "ACTIVE",
+          "clientId": "6d3beba1-36b9-45da-b41f-92d2b036f9a3",
+          "species": {
+            "id": "988745aa-b345-4318-afcf-4ce3b1e201e1",
+            "name": "Canino"
+          },
+          "breed": {
+            "id": "7fff0510-c7d1-42de-baa5-0c5b86165d19",
+            "name": "Labrador Retriever"
+          },
+          "createdAt": "2026-11-20T21:06:12.150Z"
+        }
+      }
+    }
+  ],
+  "HU-07 Registrar datos del paciente (API) > CP-07-17 rechaza una raza que no corresponde a la especie": [
+    {
+      "method": "POST",
+      "path": "/pets",
+      "as": "qa.recepcion@vetmanage.test",
+      "body": {
+        "name": "Max",
+        "speciesId": "43d06fed-333c-4153-b84d-708783873e5b",
+        "breedId": "7fff0510-c7d1-42de-baa5-0c5b86165d19",
+        "gender": "MALE",
+        "birthDate": "10-02-2024",
+        "weightKg": 20.5,
+        "heightCm": 55,
+        "reproductiveStatus": "NOT_STERILIZED",
+        "color": "Café",
+        "clientId": "6d3beba1-36b9-45da-b41f-92d2b036f9a3"
+      },
+      "status": 400,
+      "response": {
+        "statusCode": 400,
+        "success": false,
+        "message": "La raza no corresponde a la especie seleccionada",
+        "errors": [
+          "breedId"
+        ],
+        "code": "PATIENT_BREED_MISMATCH",
+        "traceId": "4657f05d-da2a-4da5-8a1f-3702ce1be0a7"
+      }
+    }
+  ],
+  "HU-07 Registrar datos del paciente (API) > CP-07-18 rechaza una especie inactiva (Hurón)": [
+    {
+      "method": "POST",
+      "path": "/pets",
+      "as": "qa.recepcion@vetmanage.test",
+      "body": {
+        "name": "Max",
+        "speciesId": "f716562d-40a3-4141-afb4-249020ea5766",
+        "breedId": "7fff0510-c7d1-42de-baa5-0c5b86165d19",
+        "gender": "MALE",
+        "birthDate": "10-02-2024",
+        "weightKg": 20.5,
+        "heightCm": 55,
+        "reproductiveStatus": "NOT_STERILIZED",
+        "color": "Café",
+        "clientId": "6d3beba1-36b9-45da-b41f-92d2b036f9a3"
+      },
+      "status": 409,
+      "response": {
+        "statusCode": 409,
+        "success": false,
+        "message": "La especie seleccionada no está disponible",
+        "errors": [
+          "speciesId"
+        ],
+        "code": "PATIENT_SPECIES_INACTIVE",
+        "traceId": "79592455-36fc-4b3f-b424-730b1b89b090"
+      }
+    }
+  ],
+  "HU-07 Registrar datos del paciente (API) > CP-07-19 niega el registro al Cajero": [
+    {
+      "method": "POST",
+      "path": "/pets",
+      "as": "qa.cajero@vetmanage.test",
+      "body": {
+        "name": "Max",
+        "speciesId": "988745aa-b345-4318-afcf-4ce3b1e201e1",
+        "breedId": "7fff0510-c7d1-42de-baa5-0c5b86165d19",
+        "gender": "MALE",
+        "birthDate": "10-02-2024",
+        "weightKg": 20.5,
+        "heightCm": 55,
+        "reproductiveStatus": "NOT_STERILIZED",
+        "color": "Café",
+        "clientId": "6d3beba1-36b9-45da-b41f-92d2b036f9a3"
+      },
+      "status": 403,
+      "response": {
+        "statusCode": 403,
+        "success": false,
+        "message": "No tiene permisos para realizar esta acción",
+        "traceId": "8dab9bac-f29a-412a-bc4e-5a4f62da4207"
+      }
+    }
+  ],
+  "HU-07 Registrar datos del paciente (API) > CP-07-19 niega el registro al Técnico Veterinario": [
+    {
+      "method": "POST",
+      "path": "/pets",
+      "as": "qa.tecnico@vetmanage.test",
+      "body": {
+        "name": "Max",
+        "speciesId": "988745aa-b345-4318-afcf-4ce3b1e201e1",
+        "breedId": "7fff0510-c7d1-42de-baa5-0c5b86165d19",
+        "gender": "MALE",
+        "birthDate": "10-02-2024",
+        "weightKg": 20.5,
+        "heightCm": 55,
+        "reproductiveStatus": "NOT_STERILIZED",
+        "color": "Café",
+        "clientId": "6d3beba1-36b9-45da-b41f-92d2b036f9a3"
+      },
+      "status": 403,
+      "response": {
+        "statusCode": 403,
+        "success": false,
+        "message": "No tiene permisos para realizar esta acción",
+        "traceId": "0943067e-305f-46d1-9d03-58ed2c59d914"
+      }
+    }
+  ],
+  "HU-13 Registrar especie (API) > CP-13-01 registra una especie con descripción": [
+    {
+      "method": "POST",
+      "path": "/pets/species",
+      "as": "qa.veterinario@vetmanage.test",
+      "body": {
+        "name": "Roedor",
+        "description": "Hámsters, cobayos y similares"
+      },
+      "status": 201,
+      "response": {
+        "statusCode": 201,
+        "success": true,
+        "message": "Especie registrada exitosamente",
+        "data": {
+          "id": "527a5fd5-bedd-4859-90fe-bbc9c8ea4c89",
+          "name": "Roedor",
+          "description": "Hámsters, cobayos y similares",
+          "isActive": true,
+          "createdAt": "2026-11-20T21:06:12.250Z",
+          "updatedAt": "2026-11-20T21:06:12.250Z"
+        }
+      }
+    }
+  ],
+  "HU-13 Registrar especie (API) > CP-13-02 rechaza el nombre vacío": [
+    {
+      "method": "POST",
+      "path": "/pets/species",
+      "as": "qa.veterinario@vetmanage.test",
+      "body": {
+        "name": ""
+      },
+      "status": 400,
+      "response": {
+        "statusCode": 400,
+        "success": false,
+        "message": "El nombre de la especie es obligatorio",
+        "traceId": "93a15698-c0b6-4bd7-b0ec-5c848697cb53"
+      }
+    }
+  ],
+  "HU-13 Registrar especie (API) > CP-13-04 registra sin descripción": [
+    {
+      "method": "POST",
+      "path": "/pets/species",
+      "as": "qa.veterinario@vetmanage.test",
+      "body": {
+        "name": "Pez"
+      },
+      "status": 201,
+      "response": {
+        "statusCode": 201,
+        "success": true,
+        "message": "Especie registrada exitosamente",
+        "data": {
+          "id": "cc8eaa6e-7e1d-4698-a299-d3d33a867808",
+          "name": "Pez",
+          "description": null,
+          "isActive": true,
+          "createdAt": "2026-11-20T21:06:12.295Z",
+          "updatedAt": "2026-11-20T21:06:12.295Z"
+        }
+      }
+    }
+  ],
+  "HU-13 Registrar especie (API) > CP-13-06 rechaza el nombre duplicado \"Canino\"": [
+    {
+      "method": "POST",
+      "path": "/pets/species",
+      "as": "qa.veterinario@vetmanage.test",
+      "body": {
+        "name": "Canino"
+      },
+      "status": 409,
+      "response": {
+        "statusCode": 409,
+        "success": false,
+        "message": "Ya existe una especie registrada con el nombre \"Canino\"",
+        "traceId": "a1212265-45b3-4c2e-b242-5e64536f28f4"
+      }
+    }
+  ],
+  "HU-13 Registrar especie (API) > CP-13-06 rechaza el nombre duplicado \"canino\"": [
+    {
+      "method": "POST",
+      "path": "/pets/species",
+      "as": "qa.veterinario@vetmanage.test",
+      "body": {
+        "name": "canino"
+      },
+      "status": 409,
+      "response": {
+        "statusCode": 409,
+        "success": false,
+        "message": "Ya existe una especie registrada con el nombre \"canino\"",
+        "traceId": "e1a6b56c-924d-446a-9765-53f916cd63b7"
+      }
+    }
+  ],
+  "HU-13 Registrar especie (API) > CP-13-07 acepta 100 caracteres y rechaza 101 (valor límite)": [
+    {
+      "method": "POST",
+      "path": "/pets/species",
+      "as": "qa.veterinario@vetmanage.test",
+      "body": {
+        "name": "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"
+      },
+      "status": 201,
+      "response": {
+        "statusCode": 201,
+        "success": true,
+        "message": "Especie registrada exitosamente",
+        "data": {
+          "id": "294c9ccc-ae3a-472b-88e6-818e9a730f84",
+          "name": "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
+          "description": null,
+          "isActive": true,
+          "createdAt": "2026-11-20T21:06:12.367Z",
+          "updatedAt": "2026-11-20T21:06:12.367Z"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/pets/species",
+      "as": "qa.veterinario@vetmanage.test",
+      "body": {
+        "name": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
+      },
+      "status": 400,
+      "response": {
+        "statusCode": 400,
+        "success": false,
+        "message": "El nombre no puede exceder los 100 caracteres",
+        "traceId": "c4ce9ee9-48ad-4894-b64e-9c77b538eaef"
+      }
+    }
+  ],
+  "HU-13 Registrar especie (API) > CP-13-08 niega el registro al Recepcionista": [
+    {
+      "method": "POST",
+      "path": "/pets/species",
+      "as": "qa.recepcion@vetmanage.test",
+      "body": {
+        "name": "Anfibio"
+      },
+      "status": 403,
+      "response": {
+        "statusCode": 403,
+        "success": false,
+        "message": "No tiene permisos para realizar esta acción",
+        "traceId": "bb5fcf0f-979d-428d-ae30-6c566793e576"
+      }
+    }
+  ],
+  "HU-13 Registrar especie (API) > CP-13-09 niega el registro al Administrador (matriz de roles: solo Veterinario)": [
+    {
+      "method": "POST",
+      "path": "/pets/species",
+      "as": "qa.admin@vetmanage.test",
+      "body": {
+        "name": "Insecto"
+      },
+      "status": 403,
+      "response": {
+        "statusCode": 403,
+        "success": false,
+        "message": "No tiene permisos para realizar esta acción",
+        "traceId": "8d4eee6d-eb30-4c88-8c37-4ed53fd36ca8"
+      }
+    }
+  ]
+}

@@ -8,6 +8,7 @@ export default defineConfig({
     globals: true,
     root: './',
     include: ['test/qa/api/**/*.qa-spec.ts'],
+    globalSetup: ['./test/qa/api/global-setup.ts'],
     // Las pruebas comparten la base de Staging: se ejecutan en serie y en orden.
     fileParallelism: false,
     sequence: { concurrent: false },

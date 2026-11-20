@@ -90,7 +90,9 @@ test.describe('HU-54 Asignar y quitar roles (E2E)', () => {
 });
 
 test.describe('Auditoría de acciones sensibles (E2E · OC-04 / PNF-05)', () => {
-  test('CP-51-18 / CP-54-14 el Administrador consulta en la auditoría el registro de usuarios y el cambio de roles', async ({ page }) => {
+  // La pantalla de consulta de auditoría es la HU-60 (fuera de este sprint). El registro en sí se verifica
+  // por API/SQL en CP-51-18 y CP-54-14 (vet-manage-api/test/qa/api/identity.qa-spec.ts).
+  test.fixme('CP-51-18 / CP-54-14 el Administrador consulta en la auditoría el registro de usuarios y el cambio de roles', async ({ page }) => {
     await login(page, USERS.admin);
     await page.screenshot({ path: evidence('CP-54-14-menu-sin-auditoria'), fullPage: true });
     await expect(page.getByRole('link', { name: /Auditor[ií]a/ })).toBeVisible();

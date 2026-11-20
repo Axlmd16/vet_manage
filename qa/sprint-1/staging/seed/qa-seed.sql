@@ -10,7 +10,7 @@ INSERT INTO persons (id, identification, first_name, last_name, email, phone, cr
 VALUES (gen_random_uuid(), '1105010001', 'Andrea', 'Administradora QA', 'qa.admin@vetmanage.test', '0991100001', NOW(), NOW())
 ON CONFLICT (identification) DO NOTHING;
 INSERT INTO users (id, person_id, password, status, must_change_password, deactivated_at, created_at, updated_at)
-SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$kOVJ3afrAbUHav/DgixwDg==$ozB1K40J2wHhWVVD3uuhXo8AiYNCd02LnI4Vg+uRs4cYLBVXNJaPOhW7rATbmid0/2aMvHPxxCKFkxu2Mj7feA==', 'ACTIVE', FALSE, NULL, NOW(), NOW()
+SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$zKEU9Yy6XbSgqwzy2VWIRA==$8R2lH9GHezUaGpDqZOun1wR26/cBEQczJBBZXTozLpalTXTKo2yMs2/T6pEcPk+J1+F9MduyQHw4NSHtVWzyrA==', 'ACTIVE', FALSE, NULL, NOW(), NOW()
 FROM persons p WHERE p.identification = '1105010001'
 ON CONFLICT (person_id) DO NOTHING;
 INSERT INTO user_roles (id, user_id, role_id, created_at, updated_at)
@@ -24,7 +24,7 @@ INSERT INTO persons (id, identification, first_name, last_name, email, phone, cr
 VALUES (gen_random_uuid(), '1105010373', 'Gabriel', 'Gerente QA', 'qa.gerente@vetmanage.test', '0991100002', NOW(), NOW())
 ON CONFLICT (identification) DO NOTHING;
 INSERT INTO users (id, person_id, password, status, must_change_password, deactivated_at, created_at, updated_at)
-SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$kOVJ3afrAbUHav/DgixwDg==$ozB1K40J2wHhWVVD3uuhXo8AiYNCd02LnI4Vg+uRs4cYLBVXNJaPOhW7rATbmid0/2aMvHPxxCKFkxu2Mj7feA==', 'ACTIVE', FALSE, NULL, NOW(), NOW()
+SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$zKEU9Yy6XbSgqwzy2VWIRA==$8R2lH9GHezUaGpDqZOun1wR26/cBEQczJBBZXTozLpalTXTKo2yMs2/T6pEcPk+J1+F9MduyQHw4NSHtVWzyrA==', 'ACTIVE', FALSE, NULL, NOW(), NOW()
 FROM persons p WHERE p.identification = '1105010373'
 ON CONFLICT (person_id) DO NOTHING;
 INSERT INTO user_roles (id, user_id, role_id, created_at, updated_at)
@@ -38,7 +38,7 @@ INSERT INTO persons (id, identification, first_name, last_name, email, phone, cr
 VALUES (gen_random_uuid(), '1105010746', 'Valeria', 'Veterinaria QA', 'qa.veterinario@vetmanage.test', '0991100003', NOW(), NOW())
 ON CONFLICT (identification) DO NOTHING;
 INSERT INTO users (id, person_id, password, status, must_change_password, deactivated_at, created_at, updated_at)
-SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$kOVJ3afrAbUHav/DgixwDg==$ozB1K40J2wHhWVVD3uuhXo8AiYNCd02LnI4Vg+uRs4cYLBVXNJaPOhW7rATbmid0/2aMvHPxxCKFkxu2Mj7feA==', 'ACTIVE', FALSE, NULL, NOW(), NOW()
+SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$zKEU9Yy6XbSgqwzy2VWIRA==$8R2lH9GHezUaGpDqZOun1wR26/cBEQczJBBZXTozLpalTXTKo2yMs2/T6pEcPk+J1+F9MduyQHw4NSHtVWzyrA==', 'ACTIVE', FALSE, NULL, NOW(), NOW()
 FROM persons p WHERE p.identification = '1105010746'
 ON CONFLICT (person_id) DO NOTHING;
 INSERT INTO user_roles (id, user_id, role_id, created_at, updated_at)
@@ -52,7 +52,7 @@ INSERT INTO persons (id, identification, first_name, last_name, email, phone, cr
 VALUES (gen_random_uuid(), '1105011116', 'Tomás', 'Técnico QA', 'qa.tecnico@vetmanage.test', '0991100004', NOW(), NOW())
 ON CONFLICT (identification) DO NOTHING;
 INSERT INTO users (id, person_id, password, status, must_change_password, deactivated_at, created_at, updated_at)
-SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$kOVJ3afrAbUHav/DgixwDg==$ozB1K40J2wHhWVVD3uuhXo8AiYNCd02LnI4Vg+uRs4cYLBVXNJaPOhW7rATbmid0/2aMvHPxxCKFkxu2Mj7feA==', 'ACTIVE', FALSE, NULL, NOW(), NOW()
+SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$zKEU9Yy6XbSgqwzy2VWIRA==$8R2lH9GHezUaGpDqZOun1wR26/cBEQczJBBZXTozLpalTXTKo2yMs2/T6pEcPk+J1+F9MduyQHw4NSHtVWzyrA==', 'ACTIVE', FALSE, NULL, NOW(), NOW()
 FROM persons p WHERE p.identification = '1105011116'
 ON CONFLICT (person_id) DO NOTHING;
 INSERT INTO user_roles (id, user_id, role_id, created_at, updated_at)
@@ -66,7 +66,7 @@ INSERT INTO persons (id, identification, first_name, last_name, email, phone, cr
 VALUES (gen_random_uuid(), '1105011488', 'Rebeca', 'Recepcionista QA', 'qa.recepcion@vetmanage.test', '0991100005', NOW(), NOW())
 ON CONFLICT (identification) DO NOTHING;
 INSERT INTO users (id, person_id, password, status, must_change_password, deactivated_at, created_at, updated_at)
-SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$kOVJ3afrAbUHav/DgixwDg==$ozB1K40J2wHhWVVD3uuhXo8AiYNCd02LnI4Vg+uRs4cYLBVXNJaPOhW7rATbmid0/2aMvHPxxCKFkxu2Mj7feA==', 'ACTIVE', FALSE, NULL, NOW(), NOW()
+SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$zKEU9Yy6XbSgqwzy2VWIRA==$8R2lH9GHezUaGpDqZOun1wR26/cBEQczJBBZXTozLpalTXTKo2yMs2/T6pEcPk+J1+F9MduyQHw4NSHtVWzyrA==', 'ACTIVE', FALSE, NULL, NOW(), NOW()
 FROM persons p WHERE p.identification = '1105011488'
 ON CONFLICT (person_id) DO NOTHING;
 INSERT INTO user_roles (id, user_id, role_id, created_at, updated_at)
@@ -80,7 +80,7 @@ INSERT INTO persons (id, identification, first_name, last_name, email, phone, cr
 VALUES (gen_random_uuid(), '1105011850', 'Camilo', 'Cajero QA', 'qa.cajero@vetmanage.test', '0991100006', NOW(), NOW())
 ON CONFLICT (identification) DO NOTHING;
 INSERT INTO users (id, person_id, password, status, must_change_password, deactivated_at, created_at, updated_at)
-SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$kOVJ3afrAbUHav/DgixwDg==$ozB1K40J2wHhWVVD3uuhXo8AiYNCd02LnI4Vg+uRs4cYLBVXNJaPOhW7rATbmid0/2aMvHPxxCKFkxu2Mj7feA==', 'ACTIVE', FALSE, NULL, NOW(), NOW()
+SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$zKEU9Yy6XbSgqwzy2VWIRA==$8R2lH9GHezUaGpDqZOun1wR26/cBEQczJBBZXTozLpalTXTKo2yMs2/T6pEcPk+J1+F9MduyQHw4NSHtVWzyrA==', 'ACTIVE', FALSE, NULL, NOW(), NOW()
 FROM persons p WHERE p.identification = '1105011850'
 ON CONFLICT (person_id) DO NOTHING;
 INSERT INTO user_roles (id, user_id, role_id, created_at, updated_at)
@@ -94,7 +94,7 @@ INSERT INTO persons (id, identification, first_name, last_name, email, phone, cr
 VALUES (gen_random_uuid(), '1105012221', 'Bruno', 'Bodeguero QA', 'qa.bodeguero@vetmanage.test', '0991100007', NOW(), NOW())
 ON CONFLICT (identification) DO NOTHING;
 INSERT INTO users (id, person_id, password, status, must_change_password, deactivated_at, created_at, updated_at)
-SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$kOVJ3afrAbUHav/DgixwDg==$ozB1K40J2wHhWVVD3uuhXo8AiYNCd02LnI4Vg+uRs4cYLBVXNJaPOhW7rATbmid0/2aMvHPxxCKFkxu2Mj7feA==', 'ACTIVE', FALSE, NULL, NOW(), NOW()
+SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$zKEU9Yy6XbSgqwzy2VWIRA==$8R2lH9GHezUaGpDqZOun1wR26/cBEQczJBBZXTozLpalTXTKo2yMs2/T6pEcPk+J1+F9MduyQHw4NSHtVWzyrA==', 'ACTIVE', FALSE, NULL, NOW(), NOW()
 FROM persons p WHERE p.identification = '1105012221'
 ON CONFLICT (person_id) DO NOTHING;
 INSERT INTO user_roles (id, user_id, role_id, created_at, updated_at)
@@ -108,7 +108,7 @@ INSERT INTO persons (id, identification, first_name, last_name, email, phone, cr
 VALUES (gen_random_uuid(), '1105012593', 'Clara', 'Cliente QA', 'qa.cliente@vetmanage.test', '0991100008', NOW(), NOW())
 ON CONFLICT (identification) DO NOTHING;
 INSERT INTO users (id, person_id, password, status, must_change_password, deactivated_at, created_at, updated_at)
-SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$kOVJ3afrAbUHav/DgixwDg==$ozB1K40J2wHhWVVD3uuhXo8AiYNCd02LnI4Vg+uRs4cYLBVXNJaPOhW7rATbmid0/2aMvHPxxCKFkxu2Mj7feA==', 'ACTIVE', FALSE, NULL, NOW(), NOW()
+SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$zKEU9Yy6XbSgqwzy2VWIRA==$8R2lH9GHezUaGpDqZOun1wR26/cBEQczJBBZXTozLpalTXTKo2yMs2/T6pEcPk+J1+F9MduyQHw4NSHtVWzyrA==', 'ACTIVE', FALSE, NULL, NOW(), NOW()
 FROM persons p WHERE p.identification = '1105012593'
 ON CONFLICT (person_id) DO NOTHING;
 INSERT INTO user_roles (id, user_id, role_id, created_at, updated_at)
@@ -125,7 +125,7 @@ INSERT INTO persons (id, identification, first_name, last_name, email, phone, cr
 VALUES (gen_random_uuid(), '1105012965', 'Jorge', 'Solís', 'qa.multirol@vetmanage.test', '0991100009', NOW(), NOW())
 ON CONFLICT (identification) DO NOTHING;
 INSERT INTO users (id, person_id, password, status, must_change_password, deactivated_at, created_at, updated_at)
-SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$kOVJ3afrAbUHav/DgixwDg==$ozB1K40J2wHhWVVD3uuhXo8AiYNCd02LnI4Vg+uRs4cYLBVXNJaPOhW7rATbmid0/2aMvHPxxCKFkxu2Mj7feA==', 'ACTIVE', FALSE, NULL, NOW(), NOW()
+SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$zKEU9Yy6XbSgqwzy2VWIRA==$8R2lH9GHezUaGpDqZOun1wR26/cBEQczJBBZXTozLpalTXTKo2yMs2/T6pEcPk+J1+F9MduyQHw4NSHtVWzyrA==', 'ACTIVE', FALSE, NULL, NOW(), NOW()
 FROM persons p WHERE p.identification = '1105012965'
 ON CONFLICT (person_id) DO NOTHING;
 INSERT INTO user_roles (id, user_id, role_id, created_at, updated_at)
@@ -144,7 +144,7 @@ INSERT INTO persons (id, identification, first_name, last_name, email, phone, cr
 VALUES (gen_random_uuid(), '1105013336', 'Carlos', 'Pérez', 'qa.cperez@vetmanage.test', '0991100010', NOW(), NOW())
 ON CONFLICT (identification) DO NOTHING;
 INSERT INTO users (id, person_id, password, status, must_change_password, deactivated_at, created_at, updated_at)
-SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$kOVJ3afrAbUHav/DgixwDg==$ozB1K40J2wHhWVVD3uuhXo8AiYNCd02LnI4Vg+uRs4cYLBVXNJaPOhW7rATbmid0/2aMvHPxxCKFkxu2Mj7feA==', 'ACTIVE', FALSE, NULL, NOW(), NOW()
+SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$zKEU9Yy6XbSgqwzy2VWIRA==$8R2lH9GHezUaGpDqZOun1wR26/cBEQczJBBZXTozLpalTXTKo2yMs2/T6pEcPk+J1+F9MduyQHw4NSHtVWzyrA==', 'ACTIVE', FALSE, NULL, NOW(), NOW()
 FROM persons p WHERE p.identification = '1105013336'
 ON CONFLICT (person_id) DO NOTHING;
 INSERT INTO user_roles (id, user_id, role_id, created_at, updated_at)
@@ -158,7 +158,7 @@ INSERT INTO persons (id, identification, first_name, last_name, email, phone, cr
 VALUES (gen_random_uuid(), '1105013708', 'Luis', 'Ríos', 'qa.lrios@vetmanage.test', '0991100011', NOW(), NOW())
 ON CONFLICT (identification) DO NOTHING;
 INSERT INTO users (id, person_id, password, status, must_change_password, deactivated_at, created_at, updated_at)
-SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$kOVJ3afrAbUHav/DgixwDg==$ozB1K40J2wHhWVVD3uuhXo8AiYNCd02LnI4Vg+uRs4cYLBVXNJaPOhW7rATbmid0/2aMvHPxxCKFkxu2Mj7feA==', 'DEACTIVATED', FALSE, NOW(), NOW(), NOW()
+SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$zKEU9Yy6XbSgqwzy2VWIRA==$8R2lH9GHezUaGpDqZOun1wR26/cBEQczJBBZXTozLpalTXTKo2yMs2/T6pEcPk+J1+F9MduyQHw4NSHtVWzyrA==', 'DEACTIVATED', FALSE, NOW(), NOW(), NOW()
 FROM persons p WHERE p.identification = '1105013708'
 ON CONFLICT (person_id) DO NOTHING;
 INSERT INTO user_roles (id, user_id, role_id, created_at, updated_at)
@@ -172,7 +172,7 @@ INSERT INTO persons (id, identification, first_name, last_name, email, phone, cr
 VALUES (gen_random_uuid(), '1105014078', 'Irene', 'Inactiva QA', 'qa.inactivo@vetmanage.test', '0991100012', NOW(), NOW())
 ON CONFLICT (identification) DO NOTHING;
 INSERT INTO users (id, person_id, password, status, must_change_password, deactivated_at, created_at, updated_at)
-SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$kOVJ3afrAbUHav/DgixwDg==$ozB1K40J2wHhWVVD3uuhXo8AiYNCd02LnI4Vg+uRs4cYLBVXNJaPOhW7rATbmid0/2aMvHPxxCKFkxu2Mj7feA==', 'INACTIVE', FALSE, NULL, NOW(), NOW()
+SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$zKEU9Yy6XbSgqwzy2VWIRA==$8R2lH9GHezUaGpDqZOun1wR26/cBEQczJBBZXTozLpalTXTKo2yMs2/T6pEcPk+J1+F9MduyQHw4NSHtVWzyrA==', 'INACTIVE', FALSE, NULL, NOW(), NOW()
 FROM persons p WHERE p.identification = '1105014078'
 ON CONFLICT (person_id) DO NOTHING;
 INSERT INTO user_roles (id, user_id, role_id, created_at, updated_at)
@@ -186,7 +186,7 @@ INSERT INTO persons (id, identification, first_name, last_name, email, phone, cr
 VALUES (gen_random_uuid(), '1105014441', 'Teresa', 'Temporal QA', 'qa.temporal@vetmanage.test', '0991100013', NOW(), NOW())
 ON CONFLICT (identification) DO NOTHING;
 INSERT INTO users (id, person_id, password, status, must_change_password, deactivated_at, created_at, updated_at)
-SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$kOVJ3afrAbUHav/DgixwDg==$ozB1K40J2wHhWVVD3uuhXo8AiYNCd02LnI4Vg+uRs4cYLBVXNJaPOhW7rATbmid0/2aMvHPxxCKFkxu2Mj7feA==', 'ACTIVE', TRUE, NULL, NOW(), NOW()
+SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$zKEU9Yy6XbSgqwzy2VWIRA==$8R2lH9GHezUaGpDqZOun1wR26/cBEQczJBBZXTozLpalTXTKo2yMs2/T6pEcPk+J1+F9MduyQHw4NSHtVWzyrA==', 'ACTIVE', TRUE, NULL, NOW(), NOW()
 FROM persons p WHERE p.identification = '1105014441'
 ON CONFLICT (person_id) DO NOTHING;
 INSERT INTO user_roles (id, user_id, role_id, created_at, updated_at)
@@ -200,7 +200,7 @@ INSERT INTO persons (id, identification, first_name, last_name, email, phone, cr
 VALUES (gen_random_uuid(), '1105014813', 'Bernardo', 'Bloqueo QA', 'qa.bloqueo@vetmanage.test', '0991100014', NOW(), NOW())
 ON CONFLICT (identification) DO NOTHING;
 INSERT INTO users (id, person_id, password, status, must_change_password, deactivated_at, created_at, updated_at)
-SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$kOVJ3afrAbUHav/DgixwDg==$ozB1K40J2wHhWVVD3uuhXo8AiYNCd02LnI4Vg+uRs4cYLBVXNJaPOhW7rATbmid0/2aMvHPxxCKFkxu2Mj7feA==', 'ACTIVE', FALSE, NULL, NOW(), NOW()
+SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$zKEU9Yy6XbSgqwzy2VWIRA==$8R2lH9GHezUaGpDqZOun1wR26/cBEQczJBBZXTozLpalTXTKo2yMs2/T6pEcPk+J1+F9MduyQHw4NSHtVWzyrA==', 'ACTIVE', FALSE, NULL, NOW(), NOW()
 FROM persons p WHERE p.identification = '1105014813'
 ON CONFLICT (person_id) DO NOTHING;
 INSERT INTO user_roles (id, user_id, role_id, created_at, updated_at)
@@ -214,7 +214,7 @@ INSERT INTO persons (id, identification, first_name, last_name, email, phone, cr
 VALUES (gen_random_uuid(), '1105015182', 'Cecilia', 'Contador QA', 'qa.contador@vetmanage.test', '0991100015', NOW(), NOW())
 ON CONFLICT (identification) DO NOTHING;
 INSERT INTO users (id, person_id, password, status, must_change_password, deactivated_at, created_at, updated_at)
-SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$kOVJ3afrAbUHav/DgixwDg==$ozB1K40J2wHhWVVD3uuhXo8AiYNCd02LnI4Vg+uRs4cYLBVXNJaPOhW7rATbmid0/2aMvHPxxCKFkxu2Mj7feA==', 'ACTIVE', FALSE, NULL, NOW(), NOW()
+SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$zKEU9Yy6XbSgqwzy2VWIRA==$8R2lH9GHezUaGpDqZOun1wR26/cBEQczJBBZXTozLpalTXTKo2yMs2/T6pEcPk+J1+F9MduyQHw4NSHtVWzyrA==', 'ACTIVE', FALSE, NULL, NOW(), NOW()
 FROM persons p WHERE p.identification = '1105015182'
 ON CONFLICT (person_id) DO NOTHING;
 INSERT INTO user_roles (id, user_id, role_id, created_at, updated_at)
@@ -228,7 +228,7 @@ INSERT INTO persons (id, identification, first_name, last_name, email, phone, cr
 VALUES (gen_random_uuid(), '1105015554', 'Bianca', 'Bloqueo API QA', 'qa.bloqueo.api@vetmanage.test', '0991100016', NOW(), NOW())
 ON CONFLICT (identification) DO NOTHING;
 INSERT INTO users (id, person_id, password, status, must_change_password, deactivated_at, created_at, updated_at)
-SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$kOVJ3afrAbUHav/DgixwDg==$ozB1K40J2wHhWVVD3uuhXo8AiYNCd02LnI4Vg+uRs4cYLBVXNJaPOhW7rATbmid0/2aMvHPxxCKFkxu2Mj7feA==', 'ACTIVE', FALSE, NULL, NOW(), NOW()
+SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$zKEU9Yy6XbSgqwzy2VWIRA==$8R2lH9GHezUaGpDqZOun1wR26/cBEQczJBBZXTozLpalTXTKo2yMs2/T6pEcPk+J1+F9MduyQHw4NSHtVWzyrA==', 'ACTIVE', FALSE, NULL, NOW(), NOW()
 FROM persons p WHERE p.identification = '1105015554'
 ON CONFLICT (person_id) DO NOTHING;
 INSERT INTO user_roles (id, user_id, role_id, created_at, updated_at)
@@ -242,7 +242,7 @@ INSERT INTO persons (id, identification, first_name, last_name, email, phone, cr
 VALUES (gen_random_uuid(), '1105015927', 'María', 'López', 'mlopez@vetmanage.com', '0991100017', NOW(), NOW())
 ON CONFLICT (identification) DO NOTHING;
 INSERT INTO users (id, person_id, password, status, must_change_password, deactivated_at, created_at, updated_at)
-SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$kOVJ3afrAbUHav/DgixwDg==$ozB1K40J2wHhWVVD3uuhXo8AiYNCd02LnI4Vg+uRs4cYLBVXNJaPOhW7rATbmid0/2aMvHPxxCKFkxu2Mj7feA==', 'ACTIVE', FALSE, NULL, NOW(), NOW()
+SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$zKEU9Yy6XbSgqwzy2VWIRA==$8R2lH9GHezUaGpDqZOun1wR26/cBEQczJBBZXTozLpalTXTKo2yMs2/T6pEcPk+J1+F9MduyQHw4NSHtVWzyrA==', 'ACTIVE', FALSE, NULL, NOW(), NOW()
 FROM persons p WHERE p.identification = '1105015927'
 ON CONFLICT (person_id) DO NOTHING;
 INSERT INTO user_roles (id, user_id, role_id, created_at, updated_at)
@@ -256,7 +256,7 @@ INSERT INTO persons (id, identification, first_name, last_name, email, phone, cr
 VALUES (gen_random_uuid(), '1105016297', 'Diego', 'Rotación QA', 'qa.rotacion@vetmanage.test', '0991100018', NOW(), NOW())
 ON CONFLICT (identification) DO NOTHING;
 INSERT INTO users (id, person_id, password, status, must_change_password, deactivated_at, created_at, updated_at)
-SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$kOVJ3afrAbUHav/DgixwDg==$ozB1K40J2wHhWVVD3uuhXo8AiYNCd02LnI4Vg+uRs4cYLBVXNJaPOhW7rATbmid0/2aMvHPxxCKFkxu2Mj7feA==', 'ACTIVE', FALSE, NULL, NOW(), NOW()
+SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$zKEU9Yy6XbSgqwzy2VWIRA==$8R2lH9GHezUaGpDqZOun1wR26/cBEQczJBBZXTozLpalTXTKo2yMs2/T6pEcPk+J1+F9MduyQHw4NSHtVWzyrA==', 'ACTIVE', FALSE, NULL, NOW(), NOW()
 FROM persons p WHERE p.identification = '1105016297'
 ON CONFLICT (person_id) DO NOTHING;
 INSERT INTO user_roles (id, user_id, role_id, created_at, updated_at)
@@ -274,7 +274,7 @@ INSERT INTO clients (id, person_id, status, created_at, updated_at)
 SELECT gen_random_uuid(), p.id, 'ACTIVE', NOW(), NOW() FROM persons p WHERE p.identification = '1105016669'
 ON CONFLICT (person_id) DO NOTHING;
 INSERT INTO users (id, person_id, password, status, must_change_password, created_at, updated_at)
-SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$kOVJ3afrAbUHav/DgixwDg==$ozB1K40J2wHhWVVD3uuhXo8AiYNCd02LnI4Vg+uRs4cYLBVXNJaPOhW7rATbmid0/2aMvHPxxCKFkxu2Mj7feA==', 'ACTIVE', TRUE, NOW(), NOW() FROM persons p WHERE p.identification = '1105016669'
+SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$zKEU9Yy6XbSgqwzy2VWIRA==$8R2lH9GHezUaGpDqZOun1wR26/cBEQczJBBZXTozLpalTXTKo2yMs2/T6pEcPk+J1+F9MduyQHw4NSHtVWzyrA==', 'ACTIVE', TRUE, NOW(), NOW() FROM persons p WHERE p.identification = '1105016669'
 ON CONFLICT (person_id) DO NOTHING;
 INSERT INTO user_roles (id, user_id, role_id, created_at, updated_at)
 SELECT gen_random_uuid(), u.id, r.id, NOW(), NOW()
@@ -290,7 +290,7 @@ INSERT INTO clients (id, person_id, status, created_at, updated_at)
 SELECT gen_random_uuid(), p.id, 'ACTIVE', NOW(), NOW() FROM persons p WHERE p.identification = '1105017030'
 ON CONFLICT (person_id) DO NOTHING;
 INSERT INTO users (id, person_id, password, status, must_change_password, created_at, updated_at)
-SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$kOVJ3afrAbUHav/DgixwDg==$ozB1K40J2wHhWVVD3uuhXo8AiYNCd02LnI4Vg+uRs4cYLBVXNJaPOhW7rATbmid0/2aMvHPxxCKFkxu2Mj7feA==', 'ACTIVE', TRUE, NOW(), NOW() FROM persons p WHERE p.identification = '1105017030'
+SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$zKEU9Yy6XbSgqwzy2VWIRA==$8R2lH9GHezUaGpDqZOun1wR26/cBEQczJBBZXTozLpalTXTKo2yMs2/T6pEcPk+J1+F9MduyQHw4NSHtVWzyrA==', 'ACTIVE', TRUE, NOW(), NOW() FROM persons p WHERE p.identification = '1105017030'
 ON CONFLICT (person_id) DO NOTHING;
 INSERT INTO user_roles (id, user_id, role_id, created_at, updated_at)
 SELECT gen_random_uuid(), u.id, r.id, NOW(), NOW()
@@ -306,7 +306,7 @@ INSERT INTO clients (id, person_id, status, created_at, updated_at)
 SELECT gen_random_uuid(), p.id, 'ACTIVE', NOW(), NOW() FROM persons p WHERE p.identification = '1105017402'
 ON CONFLICT (person_id) DO NOTHING;
 INSERT INTO users (id, person_id, password, status, must_change_password, created_at, updated_at)
-SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$kOVJ3afrAbUHav/DgixwDg==$ozB1K40J2wHhWVVD3uuhXo8AiYNCd02LnI4Vg+uRs4cYLBVXNJaPOhW7rATbmid0/2aMvHPxxCKFkxu2Mj7feA==', 'ACTIVE', TRUE, NOW(), NOW() FROM persons p WHERE p.identification = '1105017402'
+SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$zKEU9Yy6XbSgqwzy2VWIRA==$8R2lH9GHezUaGpDqZOun1wR26/cBEQczJBBZXTozLpalTXTKo2yMs2/T6pEcPk+J1+F9MduyQHw4NSHtVWzyrA==', 'ACTIVE', TRUE, NOW(), NOW() FROM persons p WHERE p.identification = '1105017402'
 ON CONFLICT (person_id) DO NOTHING;
 INSERT INTO user_roles (id, user_id, role_id, created_at, updated_at)
 SELECT gen_random_uuid(), u.id, r.id, NOW(), NOW()
@@ -322,7 +322,7 @@ INSERT INTO clients (id, person_id, status, created_at, updated_at)
 SELECT gen_random_uuid(), p.id, 'INACTIVE', NOW(), NOW() FROM persons p WHERE p.identification = '1105017774'
 ON CONFLICT (person_id) DO NOTHING;
 INSERT INTO users (id, person_id, password, status, must_change_password, created_at, updated_at)
-SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$kOVJ3afrAbUHav/DgixwDg==$ozB1K40J2wHhWVVD3uuhXo8AiYNCd02LnI4Vg+uRs4cYLBVXNJaPOhW7rATbmid0/2aMvHPxxCKFkxu2Mj7feA==', 'ACTIVE', TRUE, NOW(), NOW() FROM persons p WHERE p.identification = '1105017774'
+SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$zKEU9Yy6XbSgqwzy2VWIRA==$8R2lH9GHezUaGpDqZOun1wR26/cBEQczJBBZXTozLpalTXTKo2yMs2/T6pEcPk+J1+F9MduyQHw4NSHtVWzyrA==', 'ACTIVE', TRUE, NOW(), NOW() FROM persons p WHERE p.identification = '1105017774'
 ON CONFLICT (person_id) DO NOTHING;
 INSERT INTO user_roles (id, user_id, role_id, created_at, updated_at)
 SELECT gen_random_uuid(), u.id, r.id, NOW(), NOW()
@@ -338,7 +338,7 @@ INSERT INTO clients (id, person_id, status, created_at, updated_at)
 SELECT gen_random_uuid(), p.id, 'DEACTIVATED', NOW(), NOW() FROM persons p WHERE p.identification = '1105018145'
 ON CONFLICT (person_id) DO NOTHING;
 INSERT INTO users (id, person_id, password, status, must_change_password, created_at, updated_at)
-SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$kOVJ3afrAbUHav/DgixwDg==$ozB1K40J2wHhWVVD3uuhXo8AiYNCd02LnI4Vg+uRs4cYLBVXNJaPOhW7rATbmid0/2aMvHPxxCKFkxu2Mj7feA==', 'ACTIVE', TRUE, NOW(), NOW() FROM persons p WHERE p.identification = '1105018145'
+SELECT gen_random_uuid(), p.id, 'scrypt$16384$8$1$zKEU9Yy6XbSgqwzy2VWIRA==$8R2lH9GHezUaGpDqZOun1wR26/cBEQczJBBZXTozLpalTXTKo2yMs2/T6pEcPk+J1+F9MduyQHw4NSHtVWzyrA==', 'ACTIVE', TRUE, NOW(), NOW() FROM persons p WHERE p.identification = '1105018145'
 ON CONFLICT (person_id) DO NOTHING;
 INSERT INTO user_roles (id, user_id, role_id, created_at, updated_at)
 SELECT gen_random_uuid(), u.id, r.id, NOW(), NOW()
