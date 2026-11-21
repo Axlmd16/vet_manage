@@ -23,7 +23,7 @@ describe('CatalogsPage', () => {
     expect(screen.getByText('Panel de especies')).toBeInTheDocument();
   });
 
-  it('oculta Especies sin species:read y abre la primera pestaña permitida (Administrador)', () => {
+  it('oculta Especies sin species:read y abre la primera pestaña permitida', () => {
     permissions = new Set(['breeds:read']);
     render(<CatalogsPage />);
 
