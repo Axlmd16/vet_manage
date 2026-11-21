@@ -35,20 +35,23 @@ describe('Catálogos de permisos y roles', () => {
     }
   });
 
-  // Matriz de roles y permisos del Módulo 1, sección 2.4 (HU-13 a HU-16).
-  it.each([
-    ['administrator', []],
-    ['manager', ['species:read']],
-    ['veterinarian', ['species:create', 'species:read', 'species:update', 'species:change-status']],
-    ['veterinary_technician', ['species:read']],
-    ['receptionist', ['species:read']],
-    ['cashier', []],
-    ['warehouse_keeper', []],
-    ['client', []],
-  ])('los permisos de especies de %s siguen la matriz', (role, expected) => {
-    const species = [...keysOf(role)].filter((key) => key.startsWith('species:'));
+  // Matriz de roles y permisos del Módulo 1, sección 2.4: especies (HU-13 a HU-16) y razas (HU-17 a HU-20).
+  const manage = ['create', 'read', 'update', 'change-status'];
+  describe.each(['species', 'breeds'])('permisos de %s', (catalog) => {
+    it.each([
+      ['administrator', []],
+      ['manager', ['read']],
+      ['veterinarian', manage],
+      ['veterinary_technician', ['read']],
+      ['receptionist', ['read']],
+      ['cashier', []],
+      ['warehouse_keeper', []],
+      ['client', []],
+    ])('%s sigue la matriz', (role, actions) => {
+      const granted = [...keysOf(role)].filter((key) => key.startsWith(`${catalog}:`));
 
-    expect(species.sort()).toEqual([...expected].sort());
+      expect(granted.sort()).toEqual(actions.map((action) => `${catalog}:${action}`).sort());
+    });
   });
 
   it('el Administrador gestiona usuarios y auditoría pero no clientes ni pacientes', () => {
