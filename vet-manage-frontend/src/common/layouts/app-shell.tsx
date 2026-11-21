@@ -32,6 +32,7 @@ const mainNavigation: NavItem[] = [
 
 const inventoryNavigation: NavItem[] = [
   { label: 'Productos', to: '/inventory/products', icon: PackageIcon, permission: 'inventory:read' },
+  { label: 'Proveedores', to: '/inventory/suppliers', icon: UsersIcon, permission: 'suppliers:read' },
   { label: 'Categorías', to: '/inventory/categories', icon: FolderIcon, permission: 'inventory:read' },
   { label: 'Marcas', to: '/inventory/brands', icon: TagIcon, permission: 'inventory:read' },
   { label: 'Entrada de lotes', to: '/inventory/batches/new', icon: BoxIcon, permission: 'inventory:register-entry' },

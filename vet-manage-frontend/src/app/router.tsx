@@ -14,6 +14,8 @@ import { CatalogPage } from '../modules/inventory/pages/catalog-page';
 import { ProductDetailPage } from '../modules/inventory/pages/product-detail-page';
 import { ProductFormPage } from '../modules/inventory/pages/product-form-page';
 import { ProductsPage } from '../modules/inventory/pages/products-page';
+import { SupplierFormPage } from '../modules/suppliers/pages/supplier-form-page';
+import { SuppliersPage } from '../modules/suppliers/pages/suppliers-page';
 import { UsersPage } from '../modules/users/pages/users-page';
 import { UserRegisterPage } from '../modules/users/pages/user-register-page';
 import { UserRoleAssignmentPage } from '../modules/users/pages/user-role-assignment-page';
@@ -42,6 +44,9 @@ export function AppRouter() {
           <Route path="inventory/products/:id" element={<RequirePermission permission="inventory:read"><ProductDetailPage /></RequirePermission>} />
           <Route path="inventory/batches/new" element={<RequirePermission permission="inventory:register-entry"><BatchEntryPage /></RequirePermission>} />
           <Route path="inventory/batches/:id" element={<RequirePermission permission="inventory:read"><BatchDetailPage /></RequirePermission>} />
+          <Route path="inventory/suppliers" element={<RequirePermission permission="suppliers:read"><SuppliersPage /></RequirePermission>} />
+          <Route path="inventory/suppliers/new" element={<RequirePermission permission="suppliers:create"><SupplierFormPage /></RequirePermission>} />
+          <Route path="inventory/suppliers/:id/edit" element={<RequirePermission permission="suppliers:read"><RequirePermission permission="suppliers:update"><SupplierFormPage /></RequirePermission></RequirePermission>} />
           <Route path="users" element={<RequirePermission permission="users:read"><UsersPage /></RequirePermission>} />
           <Route path="users/new" element={<RequirePermission permission="users:create"><UserRegisterPage /></RequirePermission>} />
           <Route path="users/:id/roles" element={<RequirePermission permission="users:assign-roles"><UserRoleAssignmentPage /></RequirePermission>} />
