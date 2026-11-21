@@ -1,4 +1,4 @@
-// Genera matrices de casos y defectos para HU-06, HU-12, HU-17 y HU-57.
+// Genera matrices de casos y defectos para HU-06, HU-12, HU-17, HU-52 y HU-57.
 // Uso (desde qa/): node sprint-1/tools/build-matrices-historias.mjs
 import ExcelJS from 'exceljs';
 import { readFileSync } from 'node:fs';
@@ -64,7 +64,15 @@ const evidenceByCase = {
   'CP-52-06': 'qa/sprint-1/reports/e2e/evidencias/CP-52-API-consulta-usuarios-20261121.json',
   'CP-52-07': 'qa/sprint-1/reports/e2e/evidencias/CP-52-API-consulta-usuarios-20261121.json',
   'CP-52-08': 'qa/sprint-1/reports/e2e/evidencias/CP-52-API-consulta-usuarios-20261121.json',
-  'CP-12-01': 'qa/sprint-1/reports/e2e/evidencias/CP-12-01-pacientes-placeholder.png; API HTTP 404.',
+  'CP-12-01': 'qa/sprint-1/reports/e2e/evidencias/CP-12-HU12-Staging-20261121.json (API + UI).',
+  'CP-12-02': 'qa/sprint-1/reports/e2e/evidencias/CP-12-HU12-Staging-20261121.json (API + UI).',
+  'CP-12-03': 'qa/sprint-1/reports/e2e/evidencias/CP-12-HU12-Staging-20261121.json (API + UI).',
+  'CP-12-04': 'qa/sprint-1/reports/e2e/evidencias/CP-12-HU12-Staging-20261121.json (API + UI).',
+  'CP-12-05': 'qa/sprint-1/reports/e2e/evidencias/CP-12-HU12-Staging-20261121.json (API + UI).',
+  'CP-12-06': 'qa/sprint-1/reports/e2e/evidencias/CP-12-HU12-Staging-20261121.json (API + UI).',
+  'CP-12-07': 'qa/sprint-1/reports/e2e/evidencias/CP-12-HU12-Staging-20261121.json (API + UI).',
+  'CP-12-08': 'qa/sprint-1/reports/e2e/evidencias/CP-12-HU12-Staging-20261121.json (API + UI).',
+  'CP-12-09': 'qa/sprint-1/reports/e2e/evidencias/CP-12-HU12-Staging-20261121.json (API + permisos).',
   'CP-17-04': 'qa/sprint-1/reports/e2e/evidencias/CP-17-04-especies-disponibles.png',
   'CP-57-01': 'qa/sprint-1/reports/e2e/evidencias/cucumber-CP-57-01.png',
   'CP-57-05': 'qa/sprint-1/reports/e2e/evidencias/CP-57-05-bloqueo.png',
@@ -83,15 +91,15 @@ const observationsByCase = {
   'CP-52-06': 'Bloqueado: el Staging no tiene Veterinarios inactivos, por lo que no se pudo validar de forma discriminante la combinación rol+estado. Los siete resultados devueltos eran ACTIVE.',
   'CP-52-07': 'Pasó: búsqueda por cédula inexistente respondió HTTP 200 con total 0 y lista vacía.',
   'CP-52-08': 'Pasó: sin token respondió HTTP 401 y Cajero HTTP 403. Evidencia API; no se capturó evidencia visual.',
-  'CP-12-01': 'Falló: pantalla de consulta no implementada y GET /pets responde 404. DEF-11.',
-  'CP-12-02': 'Bloqueado: no existe búsqueda por código mientras falte la consulta de pacientes.',
-  'CP-12-03': 'Bloqueado: no existe búsqueda de pacientes por nombre del cliente.',
-  'CP-12-04': 'Bloqueado: no existe búsqueda de pacientes por cédula del cliente.',
-  'CP-12-05': 'Bloqueado: no existe la búsqueda de pacientes que ignore tildes.',
-  'CP-12-06': 'Bloqueado: no existe la búsqueda de pacientes sin resultados.',
-  'CP-12-07': 'Bloqueado: no existe el formulario de búsqueda para probar el criterio vacío.',
-  'CP-12-08': 'Bloqueado: no existe la consulta para verificar los estados de pacientes.',
-  'CP-12-09': 'Pendiente: GET /pets responde 404; no se pudo verificar el control de permisos.',
+  'CP-12-01': 'Pasó en Staging: buscar Firu mostró a Firulais; al seleccionarlo se abrió su ficha con código, especie, cliente, cédula y estado. Retest de DEF-11.',
+  'CP-12-02': 'Pasó: PAC-000004 devolvió únicamente a Firulais. El código de ejemplo anterior PAC-000001 no corresponde a Firulais en los datos actuales de Staging.',
+  'CP-12-03': 'Pasó: Ped devolvió a Firulais y Luna, ambos asociados a Pedro Castillo.',
+  'CP-12-04': 'Pasó: el prefijo 11050 devolvió pacientes de cédulas que comienzan con ese valor; la cédula completa 1105017030 devolvió los dos pacientes de Pedro.',
+  'CP-12-05': 'Pasó en API y UI: JOSE con espacios exteriores y jos encontraron a José.',
+  'CP-12-06': 'Pasó en API y UI: sin coincidencias, la interfaz mostró el mensaje requerido.',
+  'CP-12-07': 'Pasó en UI: pulsar Buscar con el campo vacío/espacios no generó una petición adicional al API.',
+  'CP-12-08': 'Pasó: Nube devolvió estados ACTIVE, INACTIVE y DEACTIVATED; tabla mostró código, nombre, especie, cliente y estado.',
+  'CP-12-09': 'Pasó: Cajero recibió HTTP 403 sin datos de pacientes.',
   'CP-17-01': 'Pasó: el registro de raza respondió HTTP 201.',
   'CP-17-02': 'Pendiente: no se ejecutó esta validación.',
   'CP-17-03': 'Pendiente: no se ejecutó esta validación.',
@@ -109,7 +117,7 @@ const defectCases = {
   'DEF-08': 'CP-06-01, CP-06-03',
   'DEF-09': 'CP-06-02',
   'DEF-10': 'CP-06-01',
-  'DEF-11': 'CP-12-01; CP-12-02 a CP-12-08 bloqueados',
+  'DEF-11': 'CP-12-01 (detección ciclo 1); CP-12-01 a CP-12-09 (retest ciclo 2)',
 };
 const defectTypes = {
   'DEF-06': 'Autenticación / flujo de acceso',
@@ -246,7 +254,7 @@ await createTableWorkbook(
   'Casos de prueba',
   caseColumns,
   caseRows,
-  'matriz-casos-HU-06-HU-12-HU-17-HU-52-HU-57.xlsx',
+  'matriz-casos-HU-06-HU-12-HU-17-HU-52-HU-57-retest.xlsx',
 );
 await createTableWorkbook(
   'Defectos',

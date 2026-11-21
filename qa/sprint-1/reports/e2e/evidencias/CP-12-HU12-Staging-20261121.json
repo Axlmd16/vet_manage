@@ -1,0 +1,195 @@
+{
+  "executedAt": "2026-11-21T15:47:46.227Z",
+  "environment": "Staging QA local (Docker), desplegado desde test/sprint-1-qa con HU-12 integrada",
+  "actors": [
+    "Recepcionista qa.recepcion@vetmanage.test",
+    "Cajero qa.cajero@vetmanage.test"
+  ],
+  "apiBase": "http://localhost:3180/api/v1",
+  "frontend": "http://localhost:5184/pets",
+  "method": "Consultas API de solo lectura y comprobaciones en UI con Playwright; no se crearon ni modificaron registros.",
+  "passed": 9,
+  "blocked": 0,
+  "failed": 0,
+  "cases": [
+    {
+      "id": "CP-12-01",
+      "scenario": "Busqueda por nombre parcial y consulta de ficha",
+      "status": "Pasó",
+      "details": {
+        "api": {
+          "http": 200,
+          "query": "Firu",
+          "count": 1,
+          "result": {
+            "code": "PAC-000004",
+            "name": "Firulais",
+            "species": "Canino",
+            "breed": "Labrador Retriever",
+            "client": "Pedro Castillo",
+            "clientIdentification": "1105017030",
+            "status": "ACTIVE"
+          }
+        },
+        "ui": {
+          "searchFoundPatient": true,
+          "detailDialogOpened": true,
+          "detailContainsName": true,
+          "detailContainsClient": true,
+          "detailContainsSpecies": true,
+          "detailContainsStatus": true
+        }
+      }
+    },
+    {
+      "id": "CP-12-02",
+      "scenario": "Busqueda por codigo exacto",
+      "status": "Pasó",
+      "details": {
+        "http": 200,
+        "searchCode": "PAC-000004",
+        "matches": [
+          "PAC-000004 Firulais"
+        ],
+        "uniqueMatch": true,
+        "fixtureNote": "El ejemplo PAC-0001/PAC-000001 no corresponde al codigo de Firulais en el Staging actual; se verifico el codigo generado actual PAC-000004."
+      }
+    },
+    {
+      "id": "CP-12-03",
+      "scenario": "Busqueda por primer nombre parcial del cliente",
+      "status": "Pasó",
+      "details": {
+        "http": 200,
+        "query": "Ped",
+        "count": 2,
+        "matches": [
+          "Firulais - Pedro Castillo",
+          "Luna - Pedro Castillo"
+        ],
+        "allBelongToMatchingClient": true
+      }
+    },
+    {
+      "id": "CP-12-04",
+      "scenario": "Busqueda por prefijo y cedula completa del cliente",
+      "status": "Pasó",
+      "details": {
+        "prefix": {
+          "query": "11050",
+          "http": 200,
+          "count": 9,
+          "allClientIdentificationsStartWithQuery": true,
+          "includesPedroPatients": [
+            "Firulais",
+            "Luna"
+          ]
+        },
+        "fullIdentification": {
+          "query": "1105017030",
+          "http": 200,
+          "count": 2,
+          "matches": [
+            "Firulais",
+            "Luna"
+          ]
+        }
+      }
+    },
+    {
+      "id": "CP-12-05",
+      "scenario": "Busqueda ignorando espacios exteriores, mayusculas y tildes",
+      "status": "Pasó",
+      "details": {
+        "api": {
+          "spacedUppercaseQuery": " JOSE ",
+          "matches": [
+            "José"
+          ],
+          "http": 200,
+          "shortUnaccentedQuery": "jos",
+          "shortMatches": [
+            "José"
+          ],
+          "shortHttp": 200
+        },
+        "ui": {
+          "spacedUppercaseFoundJose": true,
+          "shortUnaccentedFoundJose": true
+        }
+      }
+    },
+    {
+      "id": "CP-12-06",
+      "scenario": "Busqueda sin resultados",
+      "status": "Pasó",
+      "details": {
+        "api": {
+          "http": 200,
+          "total": 0,
+          "items": 0
+        },
+        "ui": {
+          "expectedMessageShown": true,
+          "message": "No se encontraron pacientes que coincidan con la búsqueda"
+        }
+      }
+    },
+    {
+      "id": "CP-12-07",
+      "scenario": "Busqueda con criterio vacio",
+      "status": "Pasó",
+      "details": {
+        "ui": {
+          "submittedEmptyOrWhitespaceCriterion": true,
+          "additionalPatientApiRequests": 0,
+          "initialListLoadedBeforeSubmit": true
+        }
+      }
+    },
+    {
+      "id": "CP-12-08",
+      "scenario": "Visualizacion de pacientes en todos los estados",
+      "status": "Pasó",
+      "details": {
+        "http": 200,
+        "query": "Nube",
+        "count": 3,
+        "patients": [
+          {
+            "code": "PAC-000010",
+            "name": "Nube",
+            "status": "ACTIVE",
+            "species": "Felino",
+            "client": "Ana Ruiz"
+          },
+          {
+            "code": "PAC-000012",
+            "name": "Nube Baja",
+            "status": "DEACTIVATED",
+            "species": "Felino",
+            "client": "Ana Ruiz"
+          },
+          {
+            "code": "PAC-000011",
+            "name": "Nube Inactiva",
+            "status": "INACTIVE",
+            "species": "Felino",
+            "client": "Ana Ruiz"
+          }
+        ],
+        "uiDisplaysAllThreeStates": true
+      }
+    },
+    {
+      "id": "CP-12-09",
+      "scenario": "Control de permiso de consulta para Cajero",
+      "status": "Pasó",
+      "details": {
+        "http": 403,
+        "message": "No tiene permisos para realizar esta acción",
+        "patientDataReturned": false
+      }
+    }
+  ]
+}

@@ -748,10 +748,10 @@ export const CASES = [
   },
   {
     id: 'CP-12-02', hu: 'HU-12', ref: 'Esc. 2', tipo: 'Positiva', nivel: 'Integración API + E2E',
-    pre: `${SEED} Firulais tiene el código PAC-000001.`,
+    pre: `${SEED} Firulais tiene el código PAC-000004 en el Staging actual.`,
     desc: 'Buscar un paciente por su código identificador exacto.',
-    pasos: ['Ingresar PAC-000001 en el buscador.', 'Presionar "Buscar".'],
-    datos: 'PAC-000001',
+    pasos: ['Ingresar PAC-000004 en el buscador.', 'Presionar "Buscar".'],
+    datos: 'PAC-000004',
     esperado: 'Aparece únicamente Firulais y se puede consultar su ficha.',
   },
   {
@@ -768,7 +768,7 @@ export const CASES = [
     desc: 'Buscar pacientes por prefijo de 5 a 10 dígitos de la cédula del cliente.',
     pasos: ['Buscar con el prefijo 11050.', 'Repetir la búsqueda con la cédula completa 1105017030.'],
     datos: '11050 · 1105017030',
-    esperado: 'Ambas búsquedas muestran los pacientes asociados a Pedro Castillo.',
+    esperado: 'El prefijo devuelve solo pacientes cuyo cliente tenga una cédula que comience por 11050 e incluye a Pedro; la cédula completa devuelve los pacientes asociados a Pedro Castillo.',
   },
   {
     id: 'CP-12-05', hu: 'HU-12', ref: 'Esc. 5', tipo: 'Positiva', nivel: 'Integración API + E2E',

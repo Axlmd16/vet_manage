@@ -14,11 +14,12 @@ Documentación de QA del Sprint 1 según el *Plan de Pruebas Ágil – VetManage
 | 2. Staging, semilla (pg_dump/pg_restore), CE-01 a CE-03, unitarias e integración API | [03-staging-y-ejecucion-unit-api.md](03-staging-y-ejecucion-unit-api.md) | [Validación CE](../../../../qa/sprint-1/reports/ce-validation.md) · [Cobertura](../../../../qa/sprint-1/reports/coverage/index.html) · [Newman](../../../../qa/sprint-1/reports/newman/newman-report.html) |
 | 3. E2E (Playwright / Cucumber.js) | [04-ejecucion-e2e.md](04-ejecucion-e2e.md) · [05-matriz-errores.md](05-matriz-errores.md) | [Matriz de errores (.xlsx)](entregables/matriz-errores-sprint-1.xlsx) |
 | Reporte: una evidencia por caso | [evidencias/README.md](evidencias/README.md) | 109 fichas `evidencias/CP-xx-yy.jpg` |
-| Pruebas HU-52 | API de solo lectura contra Staging | [Matriz de HU-52 (.xlsx)](entregables/matriz-casos-HU-06-HU-12-HU-17-HU-52-HU-57.xlsx) · [Evidencia API (JSON)](../../../../qa/sprint-1/reports/e2e/evidencias/CP-52-API-consulta-usuarios-20261121.json) |
+| Retest HU-12 | API y UI en Staging | [Matriz de casos (.xlsx)](entregables/matriz-casos-HU-06-HU-12-HU-17-HU-52-HU-57-retest.xlsx) · [Evidencia API + UI (JSON)](../../../../qa/sprint-1/reports/e2e/evidencias/CP-12-HU12-Staging-20261121.json) |
+| Pruebas HU-52 | API de solo lectura contra Staging | [Matriz de HU-52 (.xlsx)](entregables/matriz-casos-HU-06-HU-12-HU-17-HU-52-HU-57-retest.xlsx) · [Evidencia API (JSON)](../../../../qa/sprint-1/reports/e2e/evidencias/CP-52-API-consulta-usuarios-20261121.json) |
 
 ## Resumen de resultados
 
-La matriz contiene **117 casos de prueba** (41 positivos, 60 negativos y 16 de valor límite). Se consolidaron los resultados automatizados de los 86 casos originales (72 pasaron, 14 fallaron) y la ejecución manual de HU-06, HU-12 y HU-17: 7 pasaron, 3 fallaron, 8 quedaron bloqueados y 5 siguen pendientes. HU-52 agrega 8 casos revisados mediante API: 5 pasaron y 3 quedaron bloqueados por diferencias entre los datos de Staging y las precondiciones de la historia. Los hallazgos de HU-06 y HU-12 se registraron junto a los 7 defectos previos: **11 defectos** (7 de severidad Alta, 4 Media, ninguno Crítico). Los casos bloqueados de HU-12 no se contaron como aprobados ni fallidos porque la funcionalidad de consulta no está disponible.
+La matriz contiene **117 casos de prueba** (41 positivos, 60 negativos y 16 de valor límite). Se consolidaron los resultados automatizados de los 86 casos originales (72 pasaron, 14 fallaron) y la ejecución manual de HU-06, HU-12 y HU-17: 16 pasaron, 2 fallaron, 1 quedó bloqueado y 4 siguen pendientes. HU-12 fue retesteada en Staging después de integrar su implementación: sus 9 casos (8 escenarios de aceptación y el control de permisos) pasaron. HU-52 agrega 8 casos revisados mediante API: 5 pasaron y 3 quedaron bloqueados por diferencias entre los datos de Staging y las precondiciones de la historia. El registro contiene **12 defectos** (7 de severidad Alta, 4 Media y 1 Crítico); DEF-11 quedó cerrado tras el retest de HU-12.
 
 Resultados históricos de los 86 casos originales:
 
@@ -47,15 +48,16 @@ Se integró `upstream/development` (renombrado pet → patient, auditoría HT-04
 - **DEF-07 cerrado:** el Administrador ya recibe 403 al registrar especies (CP-13-09 pasa).
 - **DEF-05 corregido en parte:** el alta de usuarios y el cambio de roles quedan en `audit_logs` (CP-51-18 pasa), pero sin valor anterior ni nuevo (CP-54-14 falla).
 - **DEF-01 a DEF-04 y DEF-06 siguen abiertos.**
+- **DEF-11 cerrado en retest ciclo 2:** consulta HU-12 disponible; CP-12-01 a CP-12-09 pasan.
 - **DEF-12 nuevo (Crítico):** en una base nueva las migraciones fallan por el orden de `agendamiento_citas` y `rename_pets_to_patients`. Staging usa un rodeo temporal (`qa/sprint-1/staging/scripts/workaround-migration-order.sh`).
-- Los casos de HU-06, HU-12 y HU-17 se ejecutaron a mano; conservan su resultado manual y conviene repetirlos ahora que HU-06 está integrada.
+- HU-12 se ejecutó nuevamente en API y UI de Staging después de integrar su implementación; HU-06 y HU-17 conservan sus resultados manuales previos.
 
 Resultados de ejecución manual para las historias solicitadas:
 
 | HU | Pasaron | Fallaron | Bloqueados | Pendientes | Hallazgos |
 | --- | :-: | :-: | :-: | :-: | --- |
 | HU-06 Consultar clientes | 1 | 2 | 1 | 0 | DEF-08 a DEF-10 |
-| HU-12 Consultar datos del paciente | 0 | 1 | 7 | 1 | DEF-11 |
+| HU-12 Consultar datos del paciente | 9 | 0 | 0 | 0 | DEF-11 cerrado tras retest ciclo 2 |
 | HU-17 Registrar raza | 6 | 0 | 0 | 4 | — |
 | HU-52 Consultar usuarios | 5 | 0 | 3 | 0 | Sin defecto confirmado; escenarios bloqueados por la semilla de Staging |
 
@@ -71,16 +73,16 @@ Resultados de ejecución manual para las historias solicitadas:
 | DEF-08 | HU-06 | 2 - High | Pantalla de clientes sin búsqueda ni consulta |
 | DEF-09 | HU-06 | 3 - Medium | Búsqueda no encuentra nombres sin tilde |
 | DEF-10 | HU-06 | 2 - High | No se muestran las mascotas asociadas al cliente |
-| DEF-11 | HU-12 | 2 - High | Pantalla y endpoint de consulta de pacientes no implementados |
+| DEF-11 | HU-12 | 2 - High | ~~Pantalla y endpoint de consulta de pacientes no implementados~~ **Cerrado en ciclo 2 tras retest CP-12-01 a CP-12-09** |
 | DEF-12 | Migraciones | 1 - Critical | En una base nueva las migraciones fallan (agendamiento referencia `patients` antes de que exista) |
 
-Por HU: **HU-51, HU-54, HU-07 y HU-13** cumplen sus criterios de aceptación (con DEF-05 y DEF-07 como hallazgos de seguridad transversales); **HU-01** no cumple; **HU-57** cumple salvo el Esc. 9 (DEF-06).
+Por HU: **HU-12, HU-51, HU-54, HU-07 y HU-13** cumplen sus criterios de aceptación (con DEF-05 y DEF-07 como hallazgos transversales); **HU-01** no cumple; **HU-57** cumple salvo el Esc. 9 (DEF-06).
 
 ## Criterios de salida (estado al 20/11/2026)
 
 | Criterio | Estado | Detalle |
 | --- | --- | --- |
-| CS-01 Ejecución completa | ⏳ | Los 86 casos originales se ejecutaron. HU-06 y HU-17 se ejecutaron parcialmente; HU-12 tiene 7 casos bloqueados por la funcionalidad ausente |
+| CS-01 Ejecución completa | ⏳ | Los 86 casos originales se ejecutaron. HU-12 quedó retesteada (9/9 pasan); HU-06 y HU-17 se ejecutaron parcialmente |
 | CS-02 Sin defectos críticos/bloqueantes abiertos | ❌ | DEF-12 (Crítico) bloquea cualquier despliegue desde cero |
 | CS-03 Defectos menores documentados | ⏳ | Documentados; falta la decisión del PO sobre diferirlos |
 | CS-04 Criterios de aceptación cumplidos | ❌ | HU-01 no cumple (DEF-01 a DEF-04); HU-57 Esc. 9 (DEF-06) |
