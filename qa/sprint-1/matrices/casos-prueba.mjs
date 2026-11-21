@@ -157,6 +157,72 @@ export const CASES = [
     esperado: 'Existe un registro de auditoría con usuario que ejecutó, rol, fecha/hora, acción "Registrar usuario" y valor nuevo.',
   },
 
+  // ───────────────────────────── HU-52 Consultar usuarios ─────────────────────────────
+  {
+    id: 'CP-52-01', hu: 'HU-52', ref: 'Esc. 1', tipo: 'Positiva', nivel: 'Integración API',
+    pre: `${SEED} ${ADMIN}`,
+    desc: 'Consultar la lista inicial de usuarios y avanzar a la página siguiente.',
+    pasos: ['Enviar GET /users?page=1&pageSize=20.', 'Verificar campos y orden por apellido.', 'Enviar GET /users?page=2&pageSize=20 y comprobar que no se repitan usuarios.'],
+    datos: 'Staging contiene 36 usuarios; página de 20.',
+    esperado: 'HTTP 200; página 1 muestra 20 usuarios ordenados por apellido y los campos cédula, nombre, correo, roles y estado. Página 2 muestra los restantes sin duplicados.',
+  },
+  {
+    id: 'CP-52-02', hu: 'HU-52', ref: 'Esc. 2', tipo: 'Positiva', nivel: 'Integración API',
+    pre: `${SEED} ${ADMIN} Existe el usuario QA Carlos Pérez.`,
+    desc: 'Buscar un usuario por cédula.',
+    pasos: ['Enviar GET /users?q=1105013336.', 'Verificar los datos del usuario encontrado.'],
+    datos: '1105013336 · qa.cperez@vetmanage.test',
+    esperado: 'HTTP 200; se muestra Carlos Pérez con correo, roles y estado.',
+  },
+  {
+    id: 'CP-52-03', hu: 'HU-52', ref: 'Esc. 3', tipo: 'Positiva', nivel: 'Integración API',
+    pre: `${SEED} ${ADMIN} En la semilla debe haber dos usuarios con apellido Pérez.`,
+    desc: 'Buscar por apellido parcial y devolver todas las coincidencias.',
+    pasos: ['Enviar GET /users?q=rez.', 'Verificar que aparezcan los dos usuarios con apellido Pérez.'],
+    datos: 'Búsqueda ASCII "rez" para encontrar "Pérez".',
+    esperado: 'HTTP 200; aparecen Carlos Pérez y Ana Pérez.',
+  },
+  {
+    id: 'CP-52-04', hu: 'HU-52', ref: 'Esc. 4', tipo: 'Positiva', nivel: 'Integración API',
+    pre: `${SEED} ${ADMIN} Hay tres Veterinarios; uno tiene un rol adicional.`,
+    desc: 'Filtrar por Veterinario y mostrar todos los roles de cada usuario.',
+    pasos: ['Enviar GET /users?role=veterinarian.', 'Verificar que solo aparezcan los tres Veterinarios.', 'Verificar que el usuario multirrol conserve ambos roles.'],
+    datos: 'Rol veterinarian; usuario gerente.veterinario@vetmanage.local es multirrol.',
+    esperado: 'HTTP 200; aparecen tres Veterinarios y se muestran todos los roles de los usuarios multirrol.',
+  },
+  {
+    id: 'CP-52-05', hu: 'HU-52', ref: 'Esc. 5', tipo: 'Positiva', nivel: 'Integración API',
+    pre: `${SEED} ${ADMIN} Hay dos cuentas INACTIVE y una DEACTIVATED.`,
+    desc: 'Filtrar usuarios inactivos y dados de baja.',
+    pasos: ['Enviar GET /users?status=INACTIVE.', 'Enviar GET /users?status=DEACTIVATED.', 'Comprobar el total y estado de cada resultado.'],
+    datos: 'Estados INACTIVE y DEACTIVATED.',
+    esperado: 'HTTP 200; se muestran exactamente dos cuentas INACTIVE y una DEACTIVATED.',
+  },
+  {
+    id: 'CP-52-06', hu: 'HU-52', ref: 'Esc. 6', tipo: 'Positiva', nivel: 'Integración API',
+    pre: `${SEED} ${ADMIN} Hay Veterinarios activos e inactivos.`,
+    desc: 'Combinar filtros de rol Veterinario y estado Activo.',
+    pasos: ['Enviar GET /users?role=veterinarian&status=ACTIVE.', 'Verificar que todos los resultados sean Veterinarios activos.'],
+    datos: 'role=veterinarian · status=ACTIVE',
+    esperado: 'HTTP 200; solo aparecen usuarios con rol Veterinario y estado ACTIVE.',
+  },
+  {
+    id: 'CP-52-07', hu: 'HU-52', ref: 'Esc. 7', tipo: 'Negativa', nivel: 'Integración API',
+    pre: `${SEED} ${ADMIN} No existe una cuenta con la cédula consultada.`,
+    desc: 'Buscar un usuario inexistente.',
+    pasos: ['Enviar GET /users?q=0000000000.', 'Verificar que la colección esté vacía.'],
+    datos: 'Cédula 0000000000.',
+    esperado: 'HTTP 200; no se encuentran usuarios (lista vacía y total 0).',
+  },
+  {
+    id: 'CP-52-08', hu: 'HU-52', ref: 'Esc. 8', tipo: 'Negativa', nivel: 'Integración API',
+    pre: SEED,
+    desc: 'Denegar la consulta a usuarios sin autenticación o sin permiso users:read.',
+    pasos: ['Enviar GET /users sin token.', 'Iniciar sesión como Cajero y enviar GET /users.'],
+    datos: 'Sin token; qa.cajero@vetmanage.test / QaVet2026.',
+    esperado: 'Sin token: HTTP 401. Cajero: HTTP 403 con mensaje de permisos insuficientes.',
+  },
+
   // ─────────────────────── HU-54 Asignar y quitar roles al usuario ───────────────────────
   {
     id: 'CP-54-01', hu: 'HU-54', ref: 'Esc. 1', tipo: 'Positiva', nivel: 'Unitaria + Integración API + E2E',

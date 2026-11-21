@@ -2,7 +2,7 @@
 
 Documentación de QA del Sprint 1 según el *Plan de Pruebas Ágil – VetManage* (sección 6.3, cronograma del Sprint 1).
 
-**HU bajo prueba:** HU-51 Registrar usuario · HU-54 Asignar y quitar roles · HU-57 Iniciar sesión · HU-01 Registrar cliente · HU-06 Consultar clientes · HU-07 Registrar paciente · HU-12 Consultar paciente · HU-13 Registrar especie · HU-17 Registrar raza.
+**HU bajo prueba:** HU-51 Registrar usuario · HU-52 Consultar usuarios · HU-54 Asignar y quitar roles · HU-57 Iniciar sesión · HU-01 Registrar cliente · HU-06 Consultar clientes · HU-07 Registrar paciente · HU-12 Consultar paciente · HU-13 Registrar especie · HU-17 Registrar raza.
 
 **Rama:** `test/sprint-1-qa` (desde `development`). El código de las pruebas está en [`qa/`](../../../../qa/), `vet-manage-api/test/qa/` y `vet-manage-frontend/src/test/qa/`; esta carpeta tiene la documentación y los entregables.
 
@@ -14,10 +14,11 @@ Documentación de QA del Sprint 1 según el *Plan de Pruebas Ágil – VetManage
 | 2. Staging, semilla (pg_dump/pg_restore), CE-01 a CE-03, unitarias e integración API | [03-staging-y-ejecucion-unit-api.md](03-staging-y-ejecucion-unit-api.md) | [Validación CE](../../../../qa/sprint-1/reports/ce-validation.md) · [Cobertura](../../../../qa/sprint-1/reports/coverage/index.html) · [Newman](../../../../qa/sprint-1/reports/newman/newman-report.html) |
 | 3. E2E (Playwright / Cucumber.js) | [04-ejecucion-e2e.md](04-ejecucion-e2e.md) · [05-matriz-errores.md](05-matriz-errores.md) | [Matriz de errores (.xlsx)](entregables/matriz-errores-sprint-1.xlsx) |
 | Reporte: una evidencia por caso | [evidencias/README.md](evidencias/README.md) | 109 fichas `evidencias/CP-xx-yy.jpg` |
+| Pruebas HU-52 | API de solo lectura contra Staging | [Matriz de HU-52 (.xlsx)](entregables/matriz-casos-HU-06-HU-12-HU-17-HU-52-HU-57.xlsx) · [Evidencia API (JSON)](../../../../qa/sprint-1/reports/e2e/evidencias/CP-52-API-consulta-usuarios-20261121.json) |
 
 ## Resumen de resultados
 
-La matriz contiene **109 casos de prueba** (35 positivos, 58 negativos y 16 de valor límite). Se consolidaron los resultados automatizados de los 86 casos originales (72 pasaron, 14 fallaron) y la ejecución manual de HU-06, HU-12 y HU-17: 7 pasaron, 3 fallaron, 8 quedaron bloqueados y 5 siguen pendientes. Los hallazgos de HU-06 y HU-12 se registraron junto a los 7 defectos previos: **11 defectos** (7 de severidad Alta, 4 Media, ninguno Crítico). Los casos bloqueados de HU-12 no se contaron como aprobados ni fallidos porque la funcionalidad de consulta no está disponible.
+La matriz contiene **117 casos de prueba** (41 positivos, 60 negativos y 16 de valor límite). Se consolidaron los resultados automatizados de los 86 casos originales (72 pasaron, 14 fallaron) y la ejecución manual de HU-06, HU-12 y HU-17: 7 pasaron, 3 fallaron, 8 quedaron bloqueados y 5 siguen pendientes. HU-52 agrega 8 casos revisados mediante API: 5 pasaron y 3 quedaron bloqueados por diferencias entre los datos de Staging y las precondiciones de la historia. Los hallazgos de HU-06 y HU-12 se registraron junto a los 7 defectos previos: **11 defectos** (7 de severidad Alta, 4 Media, ninguno Crítico). Los casos bloqueados de HU-12 no se contaron como aprobados ni fallidos porque la funcionalidad de consulta no está disponible.
 
 Resultados históricos de los 86 casos originales:
 
@@ -56,6 +57,7 @@ Resultados de ejecución manual para las historias solicitadas:
 | HU-06 Consultar clientes | 1 | 2 | 1 | 0 | DEF-08 a DEF-10 |
 | HU-12 Consultar datos del paciente | 0 | 1 | 7 | 1 | DEF-11 |
 | HU-17 Registrar raza | 6 | 0 | 0 | 4 | — |
+| HU-52 Consultar usuarios | 5 | 0 | 3 | 0 | Sin defecto confirmado; escenarios bloqueados por la semilla de Staging |
 
 | Defecto | HU | Severidad | Resumen |
 | --- | --- | --- | --- |

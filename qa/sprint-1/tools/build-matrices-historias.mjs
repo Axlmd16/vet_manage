@@ -13,12 +13,14 @@ const { CASES } = await import(pathToFileURL(join(sprint, 'matrices', 'casos-pru
 const { DEFECTS } = await import(pathToFileURL(join(sprint, 'matrices', 'defectos.mjs')).href);
 const results = JSON.parse(readFileSync(join(sprint, 'matrices', 'resultados-ejecucion.json'), 'utf8'));
 
-const stories = new Set(['HU-06', 'HU-12', 'HU-17', 'HU-57']);
-const requirementByStory = { 'HU-06': 'RF-06', 'HU-12': 'RF-08', 'HU-17': 'RF-17', 'HU-57': 'RF-61' };
+const stories = new Set(['HU-06', 'HU-12', 'HU-17', 'HU-52', 'HU-57']);
+const requirementByStory = { 'HU-06': 'RF-06', 'HU-12': 'RF-08', 'HU-17': 'RF-17', 'HU-52': 'RF-56', 'HU-57': 'RF-61' };
 const priorityByCase = {
   'CP-06-01': 'Alta', 'CP-06-02': 'Alta', 'CP-06-03': 'Media', 'CP-06-04': 'Alta',
   'CP-12-01': 'Alta', 'CP-12-02': 'Alta', 'CP-12-03': 'Alta', 'CP-12-04': 'Alta',
   'CP-12-05': 'Media', 'CP-12-06': 'Media', 'CP-12-07': 'Media', 'CP-12-08': 'Alta', 'CP-12-09': 'Alta',
+  'CP-52-01': 'Alta', 'CP-52-02': 'Alta', 'CP-52-03': 'Alta', 'CP-52-04': 'Alta',
+  'CP-52-05': 'Alta', 'CP-52-06': 'Alta', 'CP-52-07': 'Media', 'CP-52-08': 'Alta',
   'CP-17-01': 'Alta', 'CP-17-02': 'Media', 'CP-17-03': 'Alta', 'CP-17-04': 'Alta',
   'CP-17-05': 'Media', 'CP-17-06': 'Baja', 'CP-17-07': 'Alta', 'CP-17-08': 'Media',
   'CP-17-09': 'Alta', 'CP-17-10': 'Alta',
@@ -29,6 +31,14 @@ const priorityByCase = {
 const rolesByCase = {
   'CP-06-04': 'Cajero (sin permiso de consulta)',
   'CP-12-09': 'Cajero (sin permiso de consulta)',
+  'CP-52-01': 'Administrador',
+  'CP-52-02': 'Administrador',
+  'CP-52-03': 'Administrador',
+  'CP-52-04': 'Administrador',
+  'CP-52-05': 'Administrador',
+  'CP-52-06': 'Administrador',
+  'CP-52-07': 'Administrador',
+  'CP-52-08': 'Sin token y Cajero',
   'CP-17-10': 'Sin token y Recepcionista',
   'CP-57-01': 'Veterinario',
   'CP-57-02': 'Gerente y Administrador',
@@ -46,6 +56,14 @@ const evidenceByCase = {
   'CP-06-02': 'Verificación manual API: HTTP 200, resultados vacíos (sin captura guardada).',
   'CP-06-03': 'qa/sprint-1/reports/e2e/evidencias/CP-06-01-clientes-placeholder.png',
   'CP-06-04': 'Verificación manual API: HTTP 403 para Cajero (sin captura guardada).',
+  'CP-52-01': 'qa/sprint-1/reports/e2e/evidencias/CP-52-API-consulta-usuarios-20261121.json',
+  'CP-52-02': 'qa/sprint-1/reports/e2e/evidencias/CP-52-API-consulta-usuarios-20261121.json',
+  'CP-52-03': 'qa/sprint-1/reports/e2e/evidencias/CP-52-API-consulta-usuarios-20261121.json',
+  'CP-52-04': 'qa/sprint-1/reports/e2e/evidencias/CP-52-API-consulta-usuarios-20261121.json',
+  'CP-52-05': 'qa/sprint-1/reports/e2e/evidencias/CP-52-API-consulta-usuarios-20261121.json',
+  'CP-52-06': 'qa/sprint-1/reports/e2e/evidencias/CP-52-API-consulta-usuarios-20261121.json',
+  'CP-52-07': 'qa/sprint-1/reports/e2e/evidencias/CP-52-API-consulta-usuarios-20261121.json',
+  'CP-52-08': 'qa/sprint-1/reports/e2e/evidencias/CP-52-API-consulta-usuarios-20261121.json',
   'CP-12-01': 'qa/sprint-1/reports/e2e/evidencias/CP-12-01-pacientes-placeholder.png; API HTTP 404.',
   'CP-17-04': 'qa/sprint-1/reports/e2e/evidencias/CP-17-04-especies-disponibles.png',
   'CP-57-01': 'qa/sprint-1/reports/e2e/evidencias/cucumber-CP-57-01.png',
@@ -57,6 +75,14 @@ const observationsByCase = {
   'CP-06-02': 'Falló: buscar “lucia” no devuelve a Lucía Ordóñez. DEF-09.',
   'CP-06-03': 'Bloqueado: no existe la búsqueda en la pantalla Clientes. DEF-08.',
   'CP-06-04': 'Pasó: el API respondió HTTP 403 al Cajero.',
+  'CP-52-01': 'Pasó en Staging: 20 usuarios en la primera página, 16 en la segunda, orden por apellido y sin duplicados. Hay 36 usuarios, mientras el criterio describe 45.',
+  'CP-52-02': 'Pasó: encontró a Carlos Pérez por cédula y devolvió correo, roles y estado. Se usó la cuenta sembrada 1105013336; la historia cita otra cédula de ejemplo.',
+  'CP-52-03': 'Bloqueado: solo existe un usuario sembrado con apellido Pérez; la historia requiere dos coincidencias. Búsqueda respondió HTTP 200.',
+  'CP-52-04': 'Bloqueado: el Staging devuelve siete Veterinarios, no los tres definidos en el escenario; no se modificaron datos para adecuar la semilla.',
+  'CP-52-05': 'Pasó: filtro INACTIVE devolvió dos y DEACTIVATED devolvió uno, con estados correctos.',
+  'CP-52-06': 'Bloqueado: el Staging no tiene Veterinarios inactivos, por lo que no se pudo validar de forma discriminante la combinación rol+estado. Los siete resultados devueltos eran ACTIVE.',
+  'CP-52-07': 'Pasó: búsqueda por cédula inexistente respondió HTTP 200 con total 0 y lista vacía.',
+  'CP-52-08': 'Pasó: sin token respondió HTTP 401 y Cajero HTTP 403. Evidencia API; no se capturó evidencia visual.',
   'CP-12-01': 'Falló: pantalla de consulta no implementada y GET /pets responde 404. DEF-11.',
   'CP-12-02': 'Bloqueado: no existe búsqueda por código mientras falte la consulta de pacientes.',
   'CP-12-03': 'Bloqueado: no existe búsqueda de pacientes por nombre del cliente.',
@@ -220,7 +246,7 @@ await createTableWorkbook(
   'Casos de prueba',
   caseColumns,
   caseRows,
-  'matriz-casos-HU-06-HU-12-HU-17-HU-57.xlsx',
+  'matriz-casos-HU-06-HU-12-HU-17-HU-52-HU-57.xlsx',
 );
 await createTableWorkbook(
   'Defectos',

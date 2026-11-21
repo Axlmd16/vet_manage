@@ -1,0 +1,217 @@
+{
+  "executedAt": "2026-11-21T13:23:22.415Z",
+  "environment": "Staging QA local (Docker)",
+  "endpoint": "http://localhost:3180/api/v1/users",
+  "testType": "API de solo lectura; evidencia visual de UI no capturada",
+  "passed": 5,
+  "blocked": 3,
+  "failed": 0,
+  "cases": [
+    {
+      "id": "CP-52-01",
+      "scenario": "Lista inicial y paginacion",
+      "status": "Pasó",
+      "details": {
+        "http": 200,
+        "page1Rows": 20,
+        "page2Rows": 16,
+        "total": 36,
+        "pageSize": 20,
+        "requiredFieldsPresent": true,
+        "orderedByLastName": true,
+        "pageOverlap": 0,
+        "acceptanceFixtureExpected": 45,
+        "stagingUsers": 36
+      }
+    },
+    {
+      "id": "CP-52-02",
+      "scenario": "Busqueda por cedula",
+      "status": "Pasó",
+      "details": {
+        "http": 200,
+        "identification": "1105013336",
+        "firstName": "Carlos",
+        "lastName": "Pérez",
+        "email": "qa.cperez@vetmanage.test",
+        "roles": [
+          "receptionist"
+        ],
+        "status": "ACTIVE",
+        "acceptanceFixtureIdentification": "1104567890"
+      }
+    },
+    {
+      "id": "CP-52-03",
+      "scenario": "Busqueda parcial por apellido Perez",
+      "status": "Bloqueado",
+      "details": {
+        "http": 200,
+        "matchCount": 1,
+        "matches": [
+          {
+            "identification": "1105013336",
+            "name": "Carlos Pérez"
+          }
+        ],
+        "requiredMatches": 2,
+        "searchFragment": "rez"
+      }
+    },
+    {
+      "id": "CP-52-04",
+      "scenario": "Filtro por rol Veterinario y roles multiples",
+      "status": "Bloqueado",
+      "details": {
+        "http": 200,
+        "count": 7,
+        "allHaveVeterinarian": true,
+        "users": [
+          {
+            "email": "qa.bloqueo.api@vetmanage.test",
+            "roles": [
+              "veterinarian"
+            ]
+          },
+          {
+            "email": "qa.bloqueo@vetmanage.test",
+            "roles": [
+              "veterinarian"
+            ]
+          },
+          {
+            "email": "qa.contador@vetmanage.test",
+            "roles": [
+              "veterinarian"
+            ]
+          },
+          {
+            "email": "veterinario2@vetmanage.local",
+            "roles": [
+              "veterinarian"
+            ]
+          },
+          {
+            "email": "veterinario@vetmanage.local",
+            "roles": [
+              "veterinarian"
+            ]
+          },
+          {
+            "email": "gerente.veterinario@vetmanage.local",
+            "roles": [
+              "manager",
+              "veterinarian"
+            ]
+          },
+          {
+            "email": "qa.veterinario@vetmanage.test",
+            "roles": [
+              "veterinarian"
+            ]
+          }
+        ],
+        "acceptanceExpectedCount": 3
+      }
+    },
+    {
+      "id": "CP-52-05",
+      "scenario": "Filtro por estados INACTIVE y DEACTIVATED",
+      "status": "Pasó",
+      "details": {
+        "inactiveHttp": 200,
+        "inactiveCount": 2,
+        "inactiveStatuses": [
+          "INACTIVE"
+        ],
+        "deactivatedHttp": 200,
+        "deactivatedCount": 1,
+        "deactivatedStatuses": [
+          "DEACTIVATED"
+        ]
+      }
+    },
+    {
+      "id": "CP-52-06",
+      "scenario": "Filtro combinado por rol y estado",
+      "status": "Bloqueado",
+      "details": {
+        "http": 200,
+        "count": 7,
+        "matches": [
+          {
+            "email": "qa.bloqueo.api@vetmanage.test",
+            "status": "ACTIVE",
+            "roles": [
+              "veterinarian"
+            ]
+          },
+          {
+            "email": "qa.bloqueo@vetmanage.test",
+            "status": "ACTIVE",
+            "roles": [
+              "veterinarian"
+            ]
+          },
+          {
+            "email": "qa.contador@vetmanage.test",
+            "status": "ACTIVE",
+            "roles": [
+              "veterinarian"
+            ]
+          },
+          {
+            "email": "veterinario2@vetmanage.local",
+            "status": "ACTIVE",
+            "roles": [
+              "veterinarian"
+            ]
+          },
+          {
+            "email": "veterinario@vetmanage.local",
+            "status": "ACTIVE",
+            "roles": [
+              "veterinarian"
+            ]
+          },
+          {
+            "email": "gerente.veterinario@vetmanage.local",
+            "status": "ACTIVE",
+            "roles": [
+              "manager",
+              "veterinarian"
+            ]
+          },
+          {
+            "email": "qa.veterinario@vetmanage.test",
+            "status": "ACTIVE",
+            "roles": [
+              "veterinarian"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "CP-52-07",
+      "scenario": "Busqueda sin resultados",
+      "status": "Pasó",
+      "details": {
+        "http": 200,
+        "total": 0,
+        "items": 0,
+        "query": "0000000000"
+      }
+    },
+    {
+      "id": "CP-52-08",
+      "scenario": "Permisos: sin token y Cajero",
+      "status": "Pasó",
+      "details": {
+        "anonymousHttp": 401,
+        "cashierHttp": 403,
+        "cashierMessage": "No tiene permisos para realizar esta acción"
+      }
+    }
+  ]
+}
