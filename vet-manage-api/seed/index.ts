@@ -5,6 +5,8 @@ import { DEMO_PASSWORD, seedIdentity } from './identity.seed.ts';
 import { seedInventory } from './inventory.seed.ts';
 import { seedBreeds } from './breeds.seed.ts';
 import { seedSpecies } from './species.seed.ts';
+import { seedHu23Iva } from './modulo-3-tienda-productos/hu-23-iva.seed.ts';
+import { seedHu30Notifications } from './modulo-3-tienda-productos/hu-30-notificaciones.seed.ts';
 
 const connectionString = process.env.DATABASE_URL;
 if (!connectionString) throw new Error('DATABASE_URL is required to run the seed');
@@ -18,6 +20,12 @@ try {
 
   const result = await seedInventory(prisma);
   console.log(`Inventory seed completado: ${result.categories} categorías, ${result.brands} marcas, ${result.products} productos.`);
+
+  const hu23 = await seedHu23Iva(prisma);
+  console.log(`HU-23 seed completado: ${hu23.categories} categorías, ${hu23.products} productos e IVA inicial configurado.`);
+
+  const hu30 = await seedHu30Notifications(prisma);
+  console.log(`HU-30 seed completado: ${hu30.products} productos, ${hu30.lots} lotes y ${hu30.notifications} notificaciones.`);
 
   const species = await seedSpecies(prisma);
   console.log(`Species seed completado: ${species.species} especies de ejemplo.`);
