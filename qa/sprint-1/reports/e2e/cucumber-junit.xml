@@ -1,60 +1,76 @@
 <?xml version="1.0"?>
-<testsuite name="Cucumber" time="32.809" tests="9" skipped="0" failures="1" errors="0" timestamp="2026-11-20T21:08:14.867Z">
-  <testcase classname="HU-01 Registrar datos del cliente" name="Escenario 1 - Registro exitoso de un cliente con datos válidos" time="7.575">
-    <failure type="Error" message="expect(locator).toContainText(expected) failed&#xA;&#xA;Locator: locator('.toast-region')&#xA;Expected substring: &quot;Cliente registrado exitosamente&quot;&#xA;Received string:    &quot;&quot;&#xA;Timeout: 5000ms&#xA;&#xA;Call log:&#xA;  - Expect &quot;toContainText&quot; locator('.toast-region') with timeout 5000ms&#xA;  - waiting for locator('.toast-region')&#xA;    12 × locator resolved to &lt;div aria-live=&quot;polite&quot; aria-atomic=&quot;false&quot; class=&quot;toast-region&quot;>…&lt;/div>&#xA;       - unexpected value &quot;✓ListoCliente registrado correctamente.×&quot;&#xA;    2 × locator resolved to &lt;div aria-live=&quot;polite&quot; aria-atomic=&quot;false&quot; class=&quot;toast-region&quot;>&lt;/div>&#xA;      - unexpected value &quot;&quot;&#xA;"><![CDATA[    at captureRawStack (C:\VetManage\vet_manage\qa\node_modules\playwright-core\lib\coreBundle.js:9551:17)
-    at callMatcherAsStep (C:\VetManage\vet_manage\qa\node_modules\playwright\lib\matchers\expect.js:13342:57)
-    at Object.toContainText (C:\VetManage\vet_manage\qa\node_modules\playwright\lib\matchers\expect.js:13334:23)
-    at VetWorld.<anonymous> (C:\VetManage\vet_manage\qa\sprint-1\e2e\features\step_definitions\steps.mjs:75:34)]]></failure>
+<testsuite name="Cucumber" time="34.762" tests="9" skipped="0" failures="5" errors="0" timestamp="2026-11-22T01:18:05.896Z">
+  <testcase classname="HU-01 Registrar datos del cliente" name="Escenario 1 - Registro exitoso de un cliente con datos válidos" time="5.371">
+    <failure type="Error" message="[2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m&#xA;&#xA;Expected: [32m&quot;ACTIVE&quot;[39m&#xA;Received: [31mundefined[39m&#xA;&#xA;Call Log:&#xA;- Timeout 5000ms exceeded while waiting on the predicate"><![CDATA[    at captureRawStack (C:\vet_manage\qa\node_modules\playwright-core\lib\coreBundle.js:9551:17)
+    at callMatcherAsStep (C:\vet_manage\qa\node_modules\playwright\lib\matchers\expect.js:13342:57)
+    at Object.toBe (C:\vet_manage\qa\node_modules\playwright\lib\matchers\expect.js:13334:23)
+    at VetWorld.<anonymous> (C:\vet_manage\qa\sprint-1\e2e\features\step_definitions\steps.mjs:145:6)]]></failure>
     <system-out><![CDATA[Dado que el "Recepcionista" se encuentra en el formulario de registro de cliente..passed
 Cuando ingresa cédula "1105020364", nombres "Sofía", apellidos "Granda", teléfono "0987001122" y correo "sofia.granda@correo.test"..passed
 Y presiona "Guardar cliente"................................................passed
-Entonces el cliente "1105020364" debe quedar guardado con estado "ACTIVE"...passed
-Y debe mostrar el mensaje "Cliente registrado exitosamente".................failed]]></system-out>
+Entonces el cliente "1105020364" debe quedar guardado con estado "ACTIVE"...failed
+Y debe mostrar el mensaje "Cliente registrado exitosamente".................skipped]]></system-out>
   </testcase>
-  <testcase classname="HU-07 Registrar datos del paciente" name="Escenario 1 - Registro exitoso de un paciente con datos válidos" time="4.832">
+  <testcase classname="HU-07 Registrar datos del paciente" name="Escenario 1 - Registro exitoso de un paciente con datos válidos" time="6.816">
+    <failure type="Error" message="[2mexpect([22m[31mlocator[39m[2m).[22mtoContainText[2m([22m[32mexpected[39m[2m)[22m failed&#xA;&#xA;Locator: locator('.toast-region')&#xA;Expected substring: [32m&quot;Paciente registrado exitosamente&quot;[39m&#xA;Received string:    [31m&quot;&quot;[39m&#xA;Timeout: 5000ms&#xA;&#xA;Call log:&#xA;[2m  - Expect &quot;toContainText&quot; locator('.toast-region') with timeout 5000ms[22m&#xA;[2m  - waiting for locator('.toast-region')[22m&#xA;[2m    - locator resolved to &lt;div aria-live=&quot;polite&quot; aria-atomic=&quot;false&quot; class=&quot;toast-region&quot;>&lt;/div>[22m&#xA;[2m    - unexpected value &quot;&quot;[22m&#xA;[2m    12 × locator resolved to &lt;div aria-live=&quot;polite&quot; aria-atomic=&quot;false&quot; class=&quot;toast-region&quot;>…&lt;/div>[22m&#xA;[2m       - unexpected value &quot;!No se pudo completarError interno del servidor×&quot;[22m&#xA;[2m    - locator resolved to &lt;div aria-live=&quot;polite&quot; aria-atomic=&quot;false&quot; class=&quot;toast-region&quot;>&lt;/div>[22m&#xA;[2m    - unexpected value &quot;&quot;[22m&#xA;"><![CDATA[    at captureRawStack (C:\vet_manage\qa\node_modules\playwright-core\lib\coreBundle.js:9551:17)
+    at callMatcherAsStep (C:\vet_manage\qa\node_modules\playwright\lib\matchers\expect.js:13342:57)
+    at Object.toContainText (C:\vet_manage\qa\node_modules\playwright\lib\matchers\expect.js:13334:23)
+    at VetWorld.<anonymous> (C:\vet_manage\qa\sprint-1\e2e\features\step_definitions\steps.mjs:75:34)]]></failure>
     <system-out><![CDATA[Dado que el "Recepcionista" se encuentra en el formulario de registro de pacientes..passed
 Cuando ingresa nombre "Kira", especie "Felino", raza "Siamés", sexo "Hembra", nacimiento "15032023", peso "3.9" y talla "24"..passed
 Y selecciona al cliente "Ordóñez" y presiona "Guardar"......................passed
-Entonces debe mostrar el mensaje "Paciente registrado exitosamente".........passed
-Y el paciente "Kira" debe quedar "ACTIVE" con un código "PAC-######" generado..passed]]></system-out>
+Entonces debe mostrar el mensaje "Paciente registrado exitosamente".........failed
+Y el paciente "Kira" debe quedar "ACTIVE" con un código "PAC-######" generado..skipped]]></system-out>
   </testcase>
-  <testcase classname="HU-13 Registrar especie" name="Escenario 1 - Registro exitoso de una especie" time="1.648">
+  <testcase classname="HU-13 Registrar especie" name="Escenario 1 - Registro exitoso de una especie" time="5.958">
+    <failure type="Error" message="[2mexpect([22m[31mlocator[39m[2m).[22mtoContainText[2m([22m[32mexpected[39m[2m)[22m failed&#xA;&#xA;Locator: locator('.toast-region')&#xA;Expected substring: [32m&quot;Especie registrada exitosamente&quot;[39m&#xA;Received string:    [31m&quot;&quot;[39m&#xA;Timeout: 5000ms&#xA;&#xA;Call log:&#xA;[2m  - Expect &quot;toContainText&quot; locator('.toast-region') with timeout 5000ms[22m&#xA;[2m  - waiting for locator('.toast-region')[22m&#xA;[2m    - locator resolved to &lt;div aria-live=&quot;polite&quot; aria-atomic=&quot;false&quot; class=&quot;toast-region&quot;>&lt;/div>[22m&#xA;[2m    - unexpected value &quot;&quot;[22m&#xA;[2m    12 × locator resolved to &lt;div aria-live=&quot;polite&quot; aria-atomic=&quot;false&quot; class=&quot;toast-region&quot;>…&lt;/div>[22m&#xA;[2m       - unexpected value &quot;!No se pudo completarError interno del servidor×&quot;[22m&#xA;[2m    - locator resolved to &lt;div aria-live=&quot;polite&quot; aria-atomic=&quot;false&quot; class=&quot;toast-region&quot;>&lt;/div>[22m&#xA;[2m    - unexpected value &quot;&quot;[22m&#xA;"><![CDATA[    at captureRawStack (C:\vet_manage\qa\node_modules\playwright-core\lib\coreBundle.js:9551:17)
+    at callMatcherAsStep (C:\vet_manage\qa\node_modules\playwright\lib\matchers\expect.js:13342:57)
+    at Object.toContainText (C:\vet_manage\qa\node_modules\playwright\lib\matchers\expect.js:13334:23)
+    at VetWorld.<anonymous> (C:\vet_manage\qa\sprint-1\e2e\features\step_definitions\steps.mjs:75:34)]]></failure>
     <system-out><![CDATA[Dado que el "Veterinario" accede al módulo de gestión de especies...........passed
 Cuando ingresa el nombre "Camélido", la descripción "Llamas y alpacas" y selecciona "Guardar especie"..passed
-Entonces debe mostrar el mensaje "Especie registrada exitosamente"..........passed
-Y la especie "Camélido" debe estar disponible en el catálogo................passed]]></system-out>
+Entonces debe mostrar el mensaje "Especie registrada exitosamente"..........failed
+Y la especie "Camélido" debe estar disponible en el catálogo................skipped]]></system-out>
   </testcase>
-  <testcase classname="HU-13 Registrar especie" name="Escenario 4 - Cancelación del registro" time="1.673">
+  <testcase classname="HU-13 Registrar especie" name="Escenario 4 - Cancelación del registro" time="0.968">
     <system-out><![CDATA[Dado que el "Veterinario" accede al módulo de gestión de especies...........passed
 Cuando ingresa el nombre "Insecto" y selecciona "Cancelar"..................passed
 Entonces la especie "Insecto" no debe estar en el catálogo..................passed]]></system-out>
   </testcase>
-  <testcase classname="HU-51 Registrar usuario" name="Escenario 1 - Registro exitoso con un rol" time="2.062">
+  <testcase classname="HU-51 Registrar usuario" name="Escenario 1 - Registro exitoso con un rol" time="5.914">
+    <failure type="Error" message="[2mexpect([22m[31mlocator[39m[2m).[22mtoContainText[2m([22m[32mexpected[39m[2m)[22m failed&#xA;&#xA;Locator: locator('.toast-region')&#xA;Expected substring: [32m&quot;Usuario registrado correctamente&quot;[39m&#xA;Received string:    [31m&quot;&quot;[39m&#xA;Timeout: 5000ms&#xA;&#xA;Call log:&#xA;[2m  - Expect &quot;toContainText&quot; locator('.toast-region') with timeout 5000ms[22m&#xA;[2m  - waiting for locator('.toast-region')[22m&#xA;[2m    2 × locator resolved to &lt;div aria-live=&quot;polite&quot; aria-atomic=&quot;false&quot; class=&quot;toast-region&quot;>&lt;/div>[22m&#xA;[2m      - unexpected value &quot;&quot;[22m&#xA;[2m    11 × locator resolved to &lt;div aria-live=&quot;polite&quot; aria-atomic=&quot;false&quot; class=&quot;toast-region&quot;>…&lt;/div>[22m&#xA;[2m       - unexpected value &quot;!No se pudo completarError interno del servidor×&quot;[22m&#xA;[2m    - locator resolved to &lt;div aria-live=&quot;polite&quot; aria-atomic=&quot;false&quot; class=&quot;toast-region&quot;>&lt;/div>[22m&#xA;[2m    - unexpected value &quot;&quot;[22m&#xA;"><![CDATA[    at captureRawStack (C:\vet_manage\qa\node_modules\playwright-core\lib\coreBundle.js:9551:17)
+    at callMatcherAsStep (C:\vet_manage\qa\node_modules\playwright\lib\matchers\expect.js:13342:57)
+    at Object.toContainText (C:\vet_manage\qa\node_modules\playwright\lib\matchers\expect.js:13334:23)
+    at VetWorld.<anonymous> (C:\vet_manage\qa\sprint-1\e2e\features\step_definitions\steps.mjs:75:34)]]></failure>
     <system-out><![CDATA[Dado que el "Administrador" se encuentra en el formulario de registro de personal..passed
 Cuando ingresa cédula "1105019622", nombres "Lucía", apellidos "Benítez", correo "lucia.benitez@vetmanage.test" y teléfono "0991112233"..passed
 Y selecciona el rol "Veterinario" y presiona "Guardar usuario"..............passed
-Entonces debe mostrar el mensaje "Usuario registrado correctamente".........passed
-Y la cuenta "lucia.benitez@vetmanage.test" debe quedar en estado "ACTIVE" con el rol "veterinarian"..passed
-Y debe enviar las credenciales al correo "lucia.benitez@vetmanage.test".....passed]]></system-out>
+Entonces debe mostrar el mensaje "Usuario registrado correctamente".........failed
+Y la cuenta "lucia.benitez@vetmanage.test" debe quedar en estado "ACTIVE" con el rol "veterinarian"..skipped
+Y debe enviar las credenciales al correo "lucia.benitez@vetmanage.test".....skipped]]></system-out>
   </testcase>
-  <testcase classname="HU-51 Registrar usuario" name="Escenario 9 - Usuario sin permiso" time="1.154">
+  <testcase classname="HU-51 Registrar usuario" name="Escenario 9 - Usuario sin permiso" time="0.888">
     <system-out><![CDATA[Dado que un "Recepcionista" inició sesión...................................passed
 Cuando intenta abrir el formulario de registro de personal..................passed
 Entonces el sistema debe mostrar el mensaje "No tiene permisos para realizar esta acción"..passed]]></system-out>
   </testcase>
-  <testcase classname="HU-54 Asignar y quitar roles al usuario" name="Escenario 1 - Asignar un rol adicional" time="1.587">
+  <testcase classname="HU-54 Asignar y quitar roles al usuario" name="Escenario 1 - Asignar un rol adicional" time="6.189">
+    <failure type="Error" message="[2mexpect([22m[31mlocator[39m[2m).[22mtoContainText[2m([22m[32mexpected[39m[2m)[22m failed&#xA;&#xA;Locator: locator('.toast-region')&#xA;Expected substring: [32m&quot;Roles actualizados correctamente&quot;[39m&#xA;Received string:    [31m&quot;&quot;[39m&#xA;Timeout: 5000ms&#xA;&#xA;Call log:&#xA;[2m  - Expect &quot;toContainText&quot; locator('.toast-region') with timeout 5000ms[22m&#xA;[2m  - waiting for locator('.toast-region')[22m&#xA;[2m    - locator resolved to &lt;div aria-live=&quot;polite&quot; aria-atomic=&quot;false&quot; class=&quot;toast-region&quot;>&lt;/div>[22m&#xA;[2m    - unexpected value &quot;&quot;[22m&#xA;[2m    12 × locator resolved to &lt;div aria-live=&quot;polite&quot; aria-atomic=&quot;false&quot; class=&quot;toast-region&quot;>…&lt;/div>[22m&#xA;[2m       - unexpected value &quot;!No se pudo completarError interno del servidor×&quot;[22m&#xA;[2m    - locator resolved to &lt;div aria-live=&quot;polite&quot; aria-atomic=&quot;false&quot; class=&quot;toast-region&quot;>&lt;/div>[22m&#xA;[2m    - unexpected value &quot;&quot;[22m&#xA;"><![CDATA[    at captureRawStack (C:\vet_manage\qa\node_modules\playwright-core\lib\coreBundle.js:9551:17)
+    at callMatcherAsStep (C:\vet_manage\qa\node_modules\playwright\lib\matchers\expect.js:13342:57)
+    at Object.toContainText (C:\vet_manage\qa\node_modules\playwright\lib\matchers\expect.js:13334:23)
+    at VetWorld.<anonymous> (C:\vet_manage\qa\sprint-1\e2e\features\step_definitions\steps.mjs:75:34)]]></failure>
     <system-out><![CDATA[Dado que "Carlos Pérez" tiene el rol "Recepcionista"........................passed
 Cuando el "Administrador" le asigna el rol "Cajero" y presiona "Guardar cambios"..passed
-Entonces debe mostrar el mensaje "Roles actualizados correctamente".........passed
-Y en su siguiente inicio de sesión Carlos debe tener los roles "cashier,receptionist"..passed]]></system-out>
+Entonces debe mostrar el mensaje "Roles actualizados correctamente".........failed
+Y en su siguiente inicio de sesión Carlos debe tener los roles "cashier,receptionist"..skipped]]></system-out>
   </testcase>
-  <testcase classname="HU-57 Iniciar sesión" name="Escenario 1 - Inicio de sesión exitoso" time="1.242">
+  <testcase classname="HU-57 Iniciar sesión" name="Escenario 1 - Inicio de sesión exitoso" time="0.655">
     <system-out><![CDATA[Dado que el "Veterinario" tiene una cuenta activa...........................passed
 Cuando ingresa su correo y la contraseña "QaVet2026" y presiona "Iniciar sesión"..passed
 Entonces el sistema debe iniciar la sesión..................................passed
 Y debe mostrar la pantalla principal con la opción "Pacientes"..............passed]]></system-out>
   </testcase>
-  <testcase classname="HU-57 Iniciar sesión" name="Escenario 5 - Bloqueo por intentos fallidos" time="3.064">
+  <testcase classname="HU-57 Iniciar sesión" name="Escenario 5 - Bloqueo por intentos fallidos" time="1.62">
     <system-out><![CDATA[Dado que el usuario "qa.bloqueo@vetmanage.test" ha fallado 4 intentos consecutivos de inicio de sesión..passed
 Cuando falla el quinto intento..............................................passed
 Entonces el sistema debe mostrar el mensaje "Cuenta bloqueada temporalmente. Intente en 15 minutos"..passed

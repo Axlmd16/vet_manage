@@ -1,82 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="VetManage – QA Sprint 1 (HU-51, HU-54, HU-57, HU-01, HU-07, HU-13)" tests="30" time="2.073">
-  <testsuite name="00 · Preparación (tokens e IDs de la semilla) / Login Administrador" id="d93d257d-0d91-416b-9ffd-050f00456a00" timestamp="2026-11-20T21:06:31.092Z" tests="1" failures="0" errors="0" time="0.217">
-    <testcase name="HTTP 200" time="0.217" classname="00PreparacionTokensEIDsDeLaSemillaLoginAdministrador"/>
+<testsuites name="VetManage – QA Sprint 1 (HU-51, HU-54, HU-57, HU-01, HU-07, HU-13)" tests="30" time="1.940">
+  <testsuite name="00 · Preparación (tokens e IDs de la semilla) / Login Administrador" id="0e97f9f0-2563-4fe2-bae0-2cd8fd96cac3" timestamp="2026-11-22T01:15:22.797Z" tests="1" failures="0" errors="0" time="0.263">
+    <testcase name="HTTP 200" time="0.263" classname="00PreparacionTokensEIDsDeLaSemillaLoginAdministrador"/>
   </testsuite>
-  <testsuite name="00 · Preparación (tokens e IDs de la semilla) / Login Recepcionista" id="74b207ab-8ece-4dd6-bbe9-6f3c91d436aa" timestamp="2026-11-20T21:06:31.092Z" tests="1" failures="0" errors="0" time="0.101">
-    <testcase name="HTTP 200" time="0.101" classname="00PreparacionTokensEIDsDeLaSemillaLoginRecepcionista"/>
+  <testsuite name="00 · Preparación (tokens e IDs de la semilla) / Login Recepcionista" id="d6bacb5b-a1c8-49ff-9f49-c3f3c665f50d" timestamp="2026-11-22T01:15:22.797Z" tests="1" failures="0" errors="0" time="0.177">
+    <testcase name="HTTP 200" time="0.177" classname="00PreparacionTokensEIDsDeLaSemillaLoginRecepcionista"/>
   </testsuite>
-  <testsuite name="00 · Preparación (tokens e IDs de la semilla) / Login Veterinario" id="8084f565-da75-4539-b615-5f8693fe5235" timestamp="2026-11-20T21:06:31.092Z" tests="1" failures="0" errors="0" time="0.102">
-    <testcase name="HTTP 200" time="0.102" classname="00PreparacionTokensEIDsDeLaSemillaLoginVeterinario"/>
+  <testsuite name="00 · Preparación (tokens e IDs de la semilla) / Login Veterinario" id="80b59ade-7c84-412d-a907-07e8238ca26c" timestamp="2026-11-22T01:15:22.797Z" tests="1" failures="0" errors="0" time="0.093">
+    <testcase name="HTTP 200" time="0.093" classname="00PreparacionTokensEIDsDeLaSemillaLoginVeterinario"/>
   </testsuite>
-  <testsuite name="00 · Preparación (tokens e IDs de la semilla) / Buscar a Carlos Pérez" id="fcc2065b-7c78-4477-b628-3c7f39125139" timestamp="2026-11-20T21:06:31.092Z" tests="1" failures="0" errors="0" time="0.043">
-    <testcase name="HTTP 200" time="0.043" classname="00PreparacionTokensEIDsDeLaSemillaBuscarACarlosPerez"/>
+  <testsuite name="00 · Preparación (tokens e IDs de la semilla) / Buscar a Carlos Pérez" id="b761a6ef-4cf3-4aa5-b417-ef65a2924af5" timestamp="2026-11-22T01:15:22.797Z" tests="1" failures="0" errors="0" time="0.039">
+    <testcase name="HTTP 200" time="0.039" classname="00PreparacionTokensEIDsDeLaSemillaBuscarACarlosPerez"/>
   </testsuite>
-  <testsuite name="00 · Preparación (tokens e IDs de la semilla) / Buscar a Pedro Castillo (cliente)" id="a7a34270-e5a2-404e-851b-d96bc1785f24" timestamp="2026-11-20T21:06:31.092Z" tests="1" failures="0" errors="0" time="0.041">
-    <testcase name="HTTP 200" time="0.041" classname="00PreparacionTokensEIDsDeLaSemillaBuscarAPedroCastilloCliente"/>
+  <testsuite name="00 · Preparación (tokens e IDs de la semilla) / Buscar a Pedro Castillo (cliente)" id="107dd14e-45e5-4e55-a052-c35b14e0ba39" timestamp="2026-11-22T01:15:22.797Z" tests="1" failures="0" errors="0" time="0.044">
+    <testcase name="HTTP 200" time="0.044" classname="00PreparacionTokensEIDsDeLaSemillaBuscarAPedroCastilloCliente"/>
   </testsuite>
-  <testsuite name="00 · Preparación (tokens e IDs de la semilla) / Especies activas" id="68db55e1-94ae-40d5-afb8-b7739421a847" timestamp="2026-11-20T21:06:31.092Z" tests="1" failures="0" errors="0" time="0.023">
-    <testcase name="HTTP 200" time="0.023" classname="00PreparacionTokensEIDsDeLaSemillaEspeciesActivas"/>
+  <testsuite name="00 · Preparación (tokens e IDs de la semilla) / Especies activas" id="7e29be25-67c3-41d5-a44b-ac4a74af6e3b" timestamp="2026-11-22T01:15:22.797Z" tests="1" failures="0" errors="0" time="0.032">
+    <testcase name="HTTP 200" time="0.032" classname="00PreparacionTokensEIDsDeLaSemillaEspeciesActivas"/>
   </testsuite>
-  <testsuite name="00 · Preparación (tokens e IDs de la semilla) / Razas de Canino" id="7616454a-392d-47e4-8c77-94203afb5fa9" timestamp="2026-11-20T21:06:31.092Z" tests="1" failures="0" errors="0" time="0.024">
-    <testcase name="HTTP 200" time="0.024" classname="00PreparacionTokensEIDsDeLaSemillaRazasDeCanino"/>
+  <testsuite name="00 · Preparación (tokens e IDs de la semilla) / Razas de Canino" id="59888c5e-64e9-4676-a669-27ef52dc670b" timestamp="2026-11-22T01:15:22.797Z" tests="1" failures="0" errors="0" time="0.032">
+    <testcase name="HTTP 200" time="0.032" classname="00PreparacionTokensEIDsDeLaSemillaRazasDeCanino"/>
   </testsuite>
-  <testsuite name="HU-57 · Iniciar sesión / CP-57-01 Login correcto" id="95c8aefe-7ee0-47f7-9d7d-7c9373e461df" timestamp="2026-11-20T21:06:31.092Z" tests="3" failures="0" errors="0" time="0.193">
-    <testcase name="HTTP 200" time="0.193" classname="Hu57IniciarSesionCp5701LoginCorrecto"/>
-    <testcase name="Entrega accessToken" time="0.193" classname="Hu57IniciarSesionCp5701LoginCorrecto"/>
-    <testcase name="Responde en menos de 2 s" time="0.193" classname="Hu57IniciarSesionCp5701LoginCorrecto"/>
+  <testsuite name="HU-57 · Iniciar sesión / CP-57-01 Login correcto" id="13a7c808-e459-40da-a56d-34c22bf5dbef" timestamp="2026-11-22T01:15:22.797Z" tests="3" failures="0" errors="0" time="0.079">
+    <testcase name="HTTP 200" time="0.079" classname="Hu57IniciarSesionCp5701LoginCorrecto"/>
+    <testcase name="Entrega accessToken" time="0.079" classname="Hu57IniciarSesionCp5701LoginCorrecto"/>
+    <testcase name="Responde en menos de 2 s" time="0.079" classname="Hu57IniciarSesionCp5701LoginCorrecto"/>
   </testsuite>
-  <testsuite name="HU-57 · Iniciar sesión / CP-57-03 Contraseña incorrecta" id="5ebc4ee7-f52a-4cb7-8410-af0fb482ca33" timestamp="2026-11-20T21:06:31.092Z" tests="2" failures="0" errors="0" time="0.126">
-    <testcase name="HTTP 401" time="0.126" classname="Hu57IniciarSesionCp5703ContrasenaIncorrecta"/>
-    <testcase name="Mensaje genérico" time="0.126" classname="Hu57IniciarSesionCp5703ContrasenaIncorrecta"/>
+  <testsuite name="HU-57 · Iniciar sesión / CP-57-03 Contraseña incorrecta" id="64a3dd74-8472-47a8-b5e7-b9aec89e49b5" timestamp="2026-11-22T01:15:22.797Z" tests="2" failures="0" errors="0" time="0.077">
+    <testcase name="HTTP 401" time="0.077" classname="Hu57IniciarSesionCp5703ContrasenaIncorrecta"/>
+    <testcase name="Mensaje genérico" time="0.077" classname="Hu57IniciarSesionCp5703ContrasenaIncorrecta"/>
   </testsuite>
-  <testsuite name="HU-57 · Iniciar sesión / CP-57-04 Campos vacíos" id="814db752-63de-4355-88e0-15d22bc27ea6" timestamp="2026-11-20T21:06:31.092Z" tests="2" failures="0" errors="0" time="0.008">
-    <testcase name="HTTP 400" time="0.008" classname="Hu57IniciarSesionCp5704CamposVacios"/>
-    <testcase name="Mensaje: Ingrese su correo y contraseña" time="0.008" classname="Hu57IniciarSesionCp5704CamposVacios"/>
+  <testsuite name="HU-57 · Iniciar sesión / CP-57-04 Campos vacíos" id="176e089c-629c-48ad-a3ab-e5012f857925" timestamp="2026-11-22T01:15:22.797Z" tests="2" failures="0" errors="0" time="0.005">
+    <testcase name="HTTP 400" time="0.005" classname="Hu57IniciarSesionCp5704CamposVacios"/>
+    <testcase name="Mensaje: Ingrese su correo y contraseña" time="0.005" classname="Hu57IniciarSesionCp5704CamposVacios"/>
   </testsuite>
-  <testsuite name="HU-57 · Iniciar sesión / CP-57-08 Cuenta inactiva" id="ce6ef865-2bbf-4cf9-a3a8-be78b6052d43" timestamp="2026-11-20T21:06:31.092Z" tests="2" failures="0" errors="0" time="0.117">
-    <testcase name="HTTP 403" time="0.117" classname="Hu57IniciarSesionCp5708CuentaInactiva"/>
-    <testcase name="Mensaje: Su cuenta se encuentra desactivada. Contacte al administrador" time="0.117" classname="Hu57IniciarSesionCp5708CuentaInactiva"/>
+  <testsuite name="HU-57 · Iniciar sesión / CP-57-08 Cuenta inactiva" id="f3d9ada5-347b-4da2-8873-30586177b70e" timestamp="2026-11-22T01:15:22.797Z" tests="2" failures="0" errors="0" time="0.069">
+    <testcase name="HTTP 403" time="0.069" classname="Hu57IniciarSesionCp5708CuentaInactiva"/>
+    <testcase name="Mensaje: Su cuenta se encuentra desactivada. Contacte al administrador" time="0.069" classname="Hu57IniciarSesionCp5708CuentaInactiva"/>
   </testsuite>
-  <testsuite name="HU-51 · Registrar usuario / CP-51-01 Registrar Veterinario" id="8b593c23-bb78-4c67-a11b-ba5765a9b9b2" timestamp="2026-11-20T21:06:31.092Z" tests="3" failures="0" errors="0" time="0.173">
-    <testcase name="HTTP 201" time="0.173" classname="Hu51RegistrarUsuarioCp5101RegistrarVeterinario"/>
-    <testcase name="Mensaje: Usuario registrado correctamente" time="0.173" classname="Hu51RegistrarUsuarioCp5101RegistrarVeterinario"/>
-    <testcase name="Cuenta ACTIVE" time="0.173" classname="Hu51RegistrarUsuarioCp5101RegistrarVeterinario"/>
+  <testsuite name="HU-51 · Registrar usuario / CP-51-01 Registrar Veterinario" id="9f5952b8-b6ea-46ff-a41a-93391fad41ab" timestamp="2026-11-22T01:15:22.797Z" tests="3" failures="0" errors="0" time="0.205">
+    <testcase name="HTTP 201" time="0.205" classname="Hu51RegistrarUsuarioCp5101RegistrarVeterinario"/>
+    <testcase name="Mensaje: Usuario registrado correctamente" time="0.205" classname="Hu51RegistrarUsuarioCp5101RegistrarVeterinario"/>
+    <testcase name="Cuenta ACTIVE" time="0.205" classname="Hu51RegistrarUsuarioCp5101RegistrarVeterinario"/>
   </testsuite>
-  <testsuite name="HU-51 · Registrar usuario / CP-51-07 Cédula del personal repetida" id="fc039c95-4443-4ba8-9142-4ffbb743a7e3" timestamp="2026-11-20T21:06:31.092Z" tests="2" failures="0" errors="0" time="0.149">
-    <testcase name="HTTP 409" time="0.149" classname="Hu51RegistrarUsuarioCp5107CedulaDelPersonalRepetida"/>
-    <testcase name="Mensaje: Número de cédula ya registrado" time="0.149" classname="Hu51RegistrarUsuarioCp5107CedulaDelPersonalRepetida"/>
+  <testsuite name="HU-51 · Registrar usuario / CP-51-07 Cédula del personal repetida" id="af805b88-6173-4d66-80d5-1f3e46cda4f4" timestamp="2026-11-22T01:15:22.797Z" tests="2" failures="0" errors="0" time="0.089">
+    <testcase name="HTTP 409" time="0.089" classname="Hu51RegistrarUsuarioCp5107CedulaDelPersonalRepetida"/>
+    <testcase name="Mensaje: Número de cédula ya registrado" time="0.089" classname="Hu51RegistrarUsuarioCp5107CedulaDelPersonalRepetida"/>
   </testsuite>
-  <testsuite name="HU-51 · Registrar usuario / CP-51-11 Correo repetido" id="f02a89af-212b-49f1-8795-b3ac773225a7" timestamp="2026-11-20T21:06:31.092Z" tests="2" failures="0" errors="0" time="0.088">
-    <testcase name="HTTP 409" time="0.088" classname="Hu51RegistrarUsuarioCp5111CorreoRepetido"/>
-    <testcase name="Mensaje: El correo ya se encuentra registrado" time="0.088" classname="Hu51RegistrarUsuarioCp5111CorreoRepetido"/>
+  <testsuite name="HU-51 · Registrar usuario / CP-51-11 Correo repetido" id="f2f55d78-f023-4695-bf76-cbefd7f0fe69" timestamp="2026-11-22T01:15:22.797Z" tests="2" failures="0" errors="0" time="0.075">
+    <testcase name="HTTP 409" time="0.075" classname="Hu51RegistrarUsuarioCp5111CorreoRepetido"/>
+    <testcase name="Mensaje: El correo ya se encuentra registrado" time="0.075" classname="Hu51RegistrarUsuarioCp5111CorreoRepetido"/>
   </testsuite>
-  <testsuite name="HU-51 · Registrar usuario / CP-51-14 Recepcionista sin permiso" id="424f7437-1b6f-4467-b869-ea66e657fb46" timestamp="2026-11-20T21:06:31.092Z" tests="2" failures="0" errors="0" time="0.009">
-    <testcase name="HTTP 403" time="0.009" classname="Hu51RegistrarUsuarioCp5114RecepcionistaSinPermiso"/>
-    <testcase name="Mensaje: No tiene permisos para realizar esta acción" time="0.009" classname="Hu51RegistrarUsuarioCp5114RecepcionistaSinPermiso"/>
+  <testsuite name="HU-51 · Registrar usuario / CP-51-14 Recepcionista sin permiso" id="a4605d93-378a-491c-b1fd-44cffd6a9a87" timestamp="2026-11-22T01:15:22.797Z" tests="2" failures="0" errors="0" time="0.011">
+    <testcase name="HTTP 403" time="0.011" classname="Hu51RegistrarUsuarioCp5114RecepcionistaSinPermiso"/>
+    <testcase name="Mensaje: No tiene permisos para realizar esta acción" time="0.011" classname="Hu51RegistrarUsuarioCp5114RecepcionistaSinPermiso"/>
   </testsuite>
-  <testsuite name="HU-54 · Asignar y quitar roles / CP-54-07 Roles disponibles sin el ya asignado" id="f4e5b5d0-18cf-4fad-be15-d50a191955b7" timestamp="2026-11-20T21:06:31.092Z" tests="2" failures="0" errors="0" time="0.019">
-    <testcase name="HTTP 200" time="0.019" classname="Hu54AsignarYQuitarRolesCp5407RolesDisponiblesSinElYaAsignado"/>
-    <testcase name="Recepcionista no es opción" time="0.019" classname="Hu54AsignarYQuitarRolesCp5407RolesDisponiblesSinElYaAsignado"/>
+  <testsuite name="HU-54 · Asignar y quitar roles / CP-54-07 Roles disponibles sin el ya asignado" id="1b7d2b0c-3026-4a62-8792-a5fbf2b830fc" timestamp="2026-11-22T01:15:22.797Z" tests="2" failures="0" errors="0" time="0.021">
+    <testcase name="HTTP 200" time="0.021" classname="Hu54AsignarYQuitarRolesCp5407RolesDisponiblesSinElYaAsignado"/>
+    <testcase name="Recepcionista no es opción" time="0.021" classname="Hu54AsignarYQuitarRolesCp5407RolesDisponiblesSinElYaAsignado"/>
   </testsuite>
-  <testsuite name="HU-54 · Asignar y quitar roles / CP-54-01 Asignar Cajero" id="e7d98ecf-17f6-437b-a8a0-591e935d4b20" timestamp="2026-11-20T21:06:31.092Z" tests="3" failures="0" errors="0" time="0.054">
-    <testcase name="HTTP 200" time="0.054" classname="Hu54AsignarYQuitarRolesCp5401AsignarCajero"/>
-    <testcase name="Mensaje: Roles actualizados correctamente" time="0.054" classname="Hu54AsignarYQuitarRolesCp5401AsignarCajero"/>
-    <testcase name="Queda con 2 roles" time="0.054" classname="Hu54AsignarYQuitarRolesCp5401AsignarCajero"/>
+  <testsuite name="HU-54 · Asignar y quitar roles / CP-54-01 Asignar Cajero" id="32dcc710-3008-47c5-bb2c-7b3c41d90e0d" timestamp="2026-11-22T01:15:22.797Z" tests="3" failures="0" errors="0" time="0.048">
+    <testcase name="HTTP 200" time="0.048" classname="Hu54AsignarYQuitarRolesCp5401AsignarCajero"/>
+    <testcase name="Mensaje: Roles actualizados correctamente" time="0.048" classname="Hu54AsignarYQuitarRolesCp5401AsignarCajero"/>
+    <testcase name="Queda con 2 roles" time="0.048" classname="Hu54AsignarYQuitarRolesCp5401AsignarCajero"/>
   </testsuite>
-  <testsuite name="HU-54 · Asignar y quitar roles / CP-54-04 Quitar todos los roles" id="257842d8-8e12-4894-b1bd-92d016b89c38" timestamp="2026-11-20T21:06:31.092Z" tests="2" failures="0" errors="0" time="0.010">
-    <testcase name="HTTP 400" time="0.010" classname="Hu54AsignarYQuitarRolesCp5404QuitarTodosLosRoles"/>
-    <testcase name="Mensaje: El usuario debe tener al menos un rol" time="0.010" classname="Hu54AsignarYQuitarRolesCp5404QuitarTodosLosRoles"/>
+  <testsuite name="HU-54 · Asignar y quitar roles / CP-54-04 Quitar todos los roles" id="f42a0d49-24d2-496b-9081-7e79ad0e70d6" timestamp="2026-11-22T01:15:22.797Z" tests="2" failures="0" errors="0" time="0.009">
+    <testcase name="HTTP 400" time="0.009" classname="Hu54AsignarYQuitarRolesCp5404QuitarTodosLosRoles"/>
+    <testcase name="Mensaje: El usuario debe tener al menos un rol" time="0.009" classname="Hu54AsignarYQuitarRolesCp5404QuitarTodosLosRoles"/>
   </testsuite>
-  <testsuite name="HU-54 · Asignar y quitar roles / CP-54-09 Veterinario sin permiso" id="29d2a2e8-b1f0-4533-a084-c5bf31c3278d" timestamp="2026-11-20T21:06:31.092Z" tests="1" failures="0" errors="0" time="0.009">
-    <testcase name="HTTP 403" time="0.009" classname="Hu54AsignarYQuitarRolesCp5409VeterinarioSinPermiso"/>
+  <testsuite name="HU-54 · Asignar y quitar roles / CP-54-09 Veterinario sin permiso" id="379e1db9-564b-445a-95de-0c00e105fdb2" timestamp="2026-11-22T01:15:22.797Z" tests="1" failures="0" errors="0" time="0.011">
+    <testcase name="HTTP 403" time="0.011" classname="Hu54AsignarYQuitarRolesCp5409VeterinarioSinPermiso"/>
   </testsuite>
-  <testsuite name="HU-01 · Registrar cliente / CP-01-01 Registrar cliente válido" id="8be120c2-da0f-4463-be93-7c9170a79f9e" timestamp="2026-11-20T21:06:31.092Z" tests="2" failures="1" errors="0" time="0.096">
-    <testcase name="HTTP 201" time="0.096" classname="Hu01RegistrarClienteCp0101RegistrarClienteValido"/>
-    <testcase name="Mensaje: Cliente registrado exitosamente" time="0.096" classname="Hu01RegistrarClienteCp0101RegistrarClienteValido">
+  <testsuite name="HU-01 · Registrar cliente / CP-01-01 Registrar cliente válido" id="83d08112-5363-4b72-8f84-1b7d05248fbc" timestamp="2026-11-22T01:15:22.797Z" tests="2" failures="1" errors="0" time="0.135">
+    <testcase name="HTTP 201" time="0.135" classname="Hu01RegistrarClienteCp0101RegistrarClienteValido"/>
+    <testcase name="Mensaje: Cliente registrado exitosamente" time="0.135" classname="Hu01RegistrarClienteCp0101RegistrarClienteValido">
       <failure type="AssertionFailure" message="expected 'Cliente registrado correctamente' to deeply equal 'Cliente registrado exitosamente'">
         <![CDATA[Failed 1 times.]]>
-        <![CDATA[Collection JSON ID: c4d18059-0c9a-4e10-9cec-7e4d95e1024a.]]>
+        <![CDATA[Collection JSON ID: 5d8ae11a-0087-4fbf-9e89-deab49234d30.]]>
         <![CDATA[Collection name: VetManage – QA Sprint 1 (HU-51, HU-54, HU-57, HU-01, HU-07, HU-13).]]>
         <![CDATA[Request name: HU-01 · Registrar cliente / CP-01-01 Registrar cliente válido.]]>
         <![CDATA[Test description: Mensaje: Cliente registrado exitosamente.]]>
@@ -86,11 +86,11 @@
       </failure>
     </testcase>
   </testsuite>
-  <testsuite name="HU-01 · Registrar cliente / CP-01-06 Cédula de cliente existente" id="e6b7bb68-0328-463e-a150-79b690b4a115" timestamp="2026-11-20T21:06:31.092Z" tests="2" failures="2" errors="0" time="0.083">
-    <testcase name="HTTP 409" time="0.083" classname="Hu01RegistrarClienteCp0106CedulaDeClienteExistente">
+  <testsuite name="HU-01 · Registrar cliente / CP-01-06 Cédula de cliente existente" id="5d8407b1-fcaf-4de6-95a6-000e7e892f5b" timestamp="2026-11-22T01:15:22.797Z" tests="2" failures="2" errors="0" time="0.094">
+    <testcase name="HTTP 409" time="0.094" classname="Hu01RegistrarClienteCp0106CedulaDeClienteExistente">
       <failure type="AssertionFailure" message="expected response to have status code 409 but got 201">
         <![CDATA[Failed 1 times.]]>
-        <![CDATA[Collection JSON ID: c4d18059-0c9a-4e10-9cec-7e4d95e1024a.]]>
+        <![CDATA[Collection JSON ID: 5d8ae11a-0087-4fbf-9e89-deab49234d30.]]>
         <![CDATA[Collection name: VetManage – QA Sprint 1 (HU-51, HU-54, HU-57, HU-01, HU-07, HU-13).]]>
         <![CDATA[Request name: HU-01 · Registrar cliente / CP-01-06 Cédula de cliente existente.]]>
         <![CDATA[Test description: HTTP 409.]]>
@@ -99,10 +99,10 @@
    at Object.eval sandbox-script.js:1:21).]]>
       </failure>
     </testcase>
-    <testcase name="Mensaje: Número de cédula ya registrado" time="0.083" classname="Hu01RegistrarClienteCp0106CedulaDeClienteExistente">
+    <testcase name="Mensaje: Número de cédula ya registrado" time="0.094" classname="Hu01RegistrarClienteCp0106CedulaDeClienteExistente">
       <failure type="AssertionFailure" message="expected 'Cliente registrado correctamente' to deeply equal 'Número de cédula ya registrado'">
         <![CDATA[Failed 1 times.]]>
-        <![CDATA[Collection JSON ID: c4d18059-0c9a-4e10-9cec-7e4d95e1024a.]]>
+        <![CDATA[Collection JSON ID: 5d8ae11a-0087-4fbf-9e89-deab49234d30.]]>
         <![CDATA[Collection name: VetManage – QA Sprint 1 (HU-51, HU-54, HU-57, HU-01, HU-07, HU-13).]]>
         <![CDATA[Request name: HU-01 · Registrar cliente / CP-01-06 Cédula de cliente existente.]]>
         <![CDATA[Test description: Mensaje: Número de cédula ya registrado.]]>
@@ -112,12 +112,12 @@
       </failure>
     </testcase>
   </testsuite>
-  <testsuite name="HU-01 · Registrar cliente / CP-01-07 Cédula alfanumérica" id="f82f8546-6e60-40d6-8696-efd12a2cc5fa" timestamp="2026-11-20T21:06:31.092Z" tests="2" failures="1" errors="0" time="0.018">
-    <testcase name="HTTP 400" time="0.018" classname="Hu01RegistrarClienteCp0107CedulaAlfanumerica"/>
-    <testcase name="Mensaje: Número de cédula no válido" time="0.018" classname="Hu01RegistrarClienteCp0107CedulaAlfanumerica">
+  <testsuite name="HU-01 · Registrar cliente / CP-01-07 Cédula alfanumérica" id="42887d76-7434-4301-b24f-97ba9866bd73" timestamp="2026-11-22T01:15:22.797Z" tests="2" failures="1" errors="0" time="0.009">
+    <testcase name="HTTP 400" time="0.009" classname="Hu01RegistrarClienteCp0107CedulaAlfanumerica"/>
+    <testcase name="Mensaje: Número de cédula no válido" time="0.009" classname="Hu01RegistrarClienteCp0107CedulaAlfanumerica">
       <failure type="AssertionFailure" message="expected 'La cédula debe tener 10 dígitos válid…' to deeply equal 'Número de cédula no válido'">
         <![CDATA[Failed 1 times.]]>
-        <![CDATA[Collection JSON ID: c4d18059-0c9a-4e10-9cec-7e4d95e1024a.]]>
+        <![CDATA[Collection JSON ID: 5d8ae11a-0087-4fbf-9e89-deab49234d30.]]>
         <![CDATA[Collection name: VetManage – QA Sprint 1 (HU-51, HU-54, HU-57, HU-01, HU-07, HU-13).]]>
         <![CDATA[Request name: HU-01 · Registrar cliente / CP-01-07 Cédula alfanumérica.]]>
         <![CDATA[Test description: Mensaje: Número de cédula no válido.]]>
@@ -127,34 +127,34 @@
       </failure>
     </testcase>
   </testsuite>
-  <testsuite name="HU-01 · Registrar cliente / Login Cajero" id="ae2b557a-337c-48c1-8f86-ab51e377cbb3" timestamp="2026-11-20T21:06:31.092Z" tests="1" failures="0" errors="0" time="0.175">
-    <testcase name="HTTP 200" time="0.175" classname="Hu01RegistrarClienteLoginCajero"/>
+  <testsuite name="HU-01 · Registrar cliente / Login Cajero" id="c48df2e1-1e89-4190-b7a8-a7f2f4c4b990" timestamp="2026-11-22T01:15:22.797Z" tests="1" failures="0" errors="0" time="0.178">
+    <testcase name="HTTP 200" time="0.178" classname="Hu01RegistrarClienteLoginCajero"/>
   </testsuite>
-  <testsuite name="HU-01 · Registrar cliente / CP-01-14 Cajero sin permiso" id="c638d0ba-05e6-4b2b-96b1-9e1ebf8d9aea" timestamp="2026-11-20T21:06:31.092Z" tests="2" failures="0" errors="0" time="0.010">
-    <testcase name="HTTP 403" time="0.010" classname="Hu01RegistrarClienteCp0114CajeroSinPermiso"/>
-    <testcase name="Mensaje: No tiene permisos para realizar esta acción" time="0.010" classname="Hu01RegistrarClienteCp0114CajeroSinPermiso"/>
+  <testsuite name="HU-01 · Registrar cliente / CP-01-14 Cajero sin permiso" id="9050570c-a43f-43fa-a87b-459000455a3d" timestamp="2026-11-22T01:15:22.797Z" tests="2" failures="0" errors="0" time="0.009">
+    <testcase name="HTTP 403" time="0.009" classname="Hu01RegistrarClienteCp0114CajeroSinPermiso"/>
+    <testcase name="Mensaje: No tiene permisos para realizar esta acción" time="0.009" classname="Hu01RegistrarClienteCp0114CajeroSinPermiso"/>
   </testsuite>
-  <testsuite name="HU-07 · Registrar paciente / CP-07-01 Registrar paciente válido" id="e79dfa8c-c608-4181-9a6c-1a5084ef44b5" timestamp="2026-11-20T21:06:31.092Z" tests="3" failures="0" errors="0" time="0.048">
-    <testcase name="HTTP 201" time="0.048" classname="Hu07RegistrarPacienteCp0701RegistrarPacienteValido"/>
-    <testcase name="Mensaje: Paciente registrado exitosamente" time="0.048" classname="Hu07RegistrarPacienteCp0701RegistrarPacienteValido"/>
-    <testcase name="Código PAC-######" time="0.048" classname="Hu07RegistrarPacienteCp0701RegistrarPacienteValido"/>
+  <testsuite name="HU-07 · Registrar paciente / CP-07-01 Registrar paciente válido" id="d4bafee2-764b-4d8c-bd94-66e4a5d8844d" timestamp="2026-11-22T01:15:22.797Z" tests="3" failures="0" errors="0" time="0.056">
+    <testcase name="HTTP 201" time="0.056" classname="Hu07RegistrarPacienteCp0701RegistrarPacienteValido"/>
+    <testcase name="Mensaje: Paciente registrado exitosamente" time="0.056" classname="Hu07RegistrarPacienteCp0701RegistrarPacienteValido"/>
+    <testcase name="Código PAC-######" time="0.056" classname="Hu07RegistrarPacienteCp0701RegistrarPacienteValido"/>
   </testsuite>
-  <testsuite name="HU-07 · Registrar paciente / CP-07-04 Sin cliente" id="8dd447f5-052d-4bae-bf2b-f780332a61b6" timestamp="2026-11-20T21:06:31.092Z" tests="2" failures="0" errors="0" time="0.018">
-    <testcase name="HTTP 400" time="0.018" classname="Hu07RegistrarPacienteCp0704SinCliente"/>
-    <testcase name="Mensaje: Debe seleccionar un cliente registrado" time="0.018" classname="Hu07RegistrarPacienteCp0704SinCliente"/>
+  <testsuite name="HU-07 · Registrar paciente / CP-07-04 Sin cliente" id="19959be2-d4cd-416b-be0c-95791d74052e" timestamp="2026-11-22T01:15:22.797Z" tests="2" failures="0" errors="0" time="0.014">
+    <testcase name="HTTP 400" time="0.014" classname="Hu07RegistrarPacienteCp0704SinCliente"/>
+    <testcase name="Mensaje: Debe seleccionar un cliente registrado" time="0.014" classname="Hu07RegistrarPacienteCp0704SinCliente"/>
   </testsuite>
-  <testsuite name="HU-07 · Registrar paciente / CP-07-12 Peso cero" id="b16e889c-bbf3-484e-bba7-4d7555b3c55b" timestamp="2026-11-20T21:06:31.092Z" tests="2" failures="0" errors="0" time="0.025">
-    <testcase name="HTTP 400" time="0.025" classname="Hu07RegistrarPacienteCp0712PesoCero"/>
-    <testcase name="Mensaje: El peso y la talla deben ser valores numéricos mayores que cero" time="0.025" classname="Hu07RegistrarPacienteCp0712PesoCero"/>
+  <testsuite name="HU-07 · Registrar paciente / CP-07-12 Peso cero" id="8fdb1d6e-8716-464e-aa0b-e0e86dc438a1" timestamp="2026-11-22T01:15:22.797Z" tests="2" failures="0" errors="0" time="0.013">
+    <testcase name="HTTP 400" time="0.013" classname="Hu07RegistrarPacienteCp0712PesoCero"/>
+    <testcase name="Mensaje: El peso y la talla deben ser valores numéricos mayores que cero" time="0.013" classname="Hu07RegistrarPacienteCp0712PesoCero"/>
   </testsuite>
-  <testsuite name="HU-13 · Registrar especie / CP-13-01 Registrar especie" id="328c6059-6f78-4e04-9e18-a14517bbc61b" timestamp="2026-11-20T21:06:31.092Z" tests="2" failures="0" errors="0" time="0.042">
-    <testcase name="HTTP 201" time="0.042" classname="Hu13RegistrarEspecieCp1301RegistrarEspecie"/>
-    <testcase name="Mensaje: Especie registrada exitosamente" time="0.042" classname="Hu13RegistrarEspecieCp1301RegistrarEspecie"/>
+  <testsuite name="HU-13 · Registrar especie / CP-13-01 Registrar especie" id="2ff44f9a-71ba-4a4c-90e1-ce445194ef11" timestamp="2026-11-22T01:15:22.797Z" tests="2" failures="0" errors="0" time="0.029">
+    <testcase name="HTTP 201" time="0.029" classname="Hu13RegistrarEspecieCp1301RegistrarEspecie"/>
+    <testcase name="Mensaje: Especie registrada exitosamente" time="0.029" classname="Hu13RegistrarEspecieCp1301RegistrarEspecie"/>
   </testsuite>
-  <testsuite name="HU-13 · Registrar especie / CP-13-02 Nombre vacío" id="de21b709-7b17-4aac-8f4f-5be78612b6bd" timestamp="2026-11-20T21:06:31.092Z" tests="1" failures="0" errors="0" time="0.032">
-    <testcase name="HTTP 400" time="0.032" classname="Hu13RegistrarEspecieCp1302NombreVacio"/>
+  <testsuite name="HU-13 · Registrar especie / CP-13-02 Nombre vacío" id="a5486009-3627-49a5-b58a-b4cc50e982db" timestamp="2026-11-22T01:15:22.797Z" tests="1" failures="0" errors="0" time="0.015">
+    <testcase name="HTTP 400" time="0.015" classname="Hu13RegistrarEspecieCp1302NombreVacio"/>
   </testsuite>
-  <testsuite name="HU-13 · Registrar especie / CP-13-08 Recepcionista sin permiso" id="999f979e-3c0a-4ebf-a1ba-40a56abb00f1" timestamp="2026-11-20T21:06:31.092Z" tests="1" failures="0" errors="0" time="0.020">
-    <testcase name="HTTP 403" time="0.020" classname="Hu13RegistrarEspecieCp1308RecepcionistaSinPermiso"/>
+  <testsuite name="HU-13 · Registrar especie / CP-13-08 Recepcionista sin permiso" id="6533feb3-f632-4992-9ba7-f28862cea578" timestamp="2026-11-22T01:15:22.797Z" tests="1" failures="0" errors="0" time="0.009">
+    <testcase name="HTTP 403" time="0.009" classname="Hu13RegistrarEspecieCp1308RecepcionistaSinPermiso"/>
   </testsuite>
 </testsuites>
