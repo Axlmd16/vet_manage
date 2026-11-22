@@ -67,8 +67,7 @@ export const ROLES: readonly RoleDefinition[] = [
       'users:change-status', 'users:deactivate',
       'roles:manage-permissions', 'audit:read', 'audit:export',
       'inventory:read',
-      // Especies: el Administrador no tiene acceso (matriz de roles, sección 2.4).
-      ...catalogManagement('breeds'),
+      // Especies y razas: el Administrador no tiene acceso (matriz de roles, sección 2.4).
       ...schedulingAdmin,
     ],
   },
