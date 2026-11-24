@@ -11,8 +11,11 @@
 .clients-page .status-badge--active { color: #1f7a53; background: #e8f7f0; border-color: #bfead5; }
 .clients-page .status-badge--inactive { color: #c2414b; background: #fdecec; border-color: #f7c5ca; }
 .clients-page .status-badge--deactivated { color: #64748b; background: #f1f5f9; border-color: #cbd5e1; }
-.clients-feedback { margin-bottom: 14px; }
 .clients-actions-cell { white-space: nowrap; }
+.clients-actions-cell .clients-icon-btn + .clients-icon-btn { margin-left: 6px; }
+.clients-icon-btn.clients-icon-btn--edit { color: #2f5fd0; background: #f1f5ff; border-color: #c9d7fb; }
+.clients-icon-btn.clients-icon-btn--edit:hover,
+.clients-icon-btn.clients-icon-btn--edit:focus-visible { color: #224bb0; background: #e3ebff; border-color: #a9c0f7; }
 .clients-icon-btn {
   position: relative;
   display: inline-flex;

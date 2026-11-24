@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import type { FormEvent, ReactNode } from 'react';
+import type { FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   CheckIcon, HomeIcon, IdCardIcon, InfoIcon, MailIcon, PawIcon, PhoneIcon, ShieldIcon, UserIcon,
 } from '../../../common/components/icons';
+import { ClientField as Field } from '../components/client-field';
 import { useToast } from '../../../common/components/toast-context';
 import { buildClientInput, describeApiError, MISSING_FIELDS, registrationOutcome, validateRegistration } from '../form-rules';
 import type { FieldErrors, Form } from '../form-rules';
@@ -154,18 +155,5 @@ export function ClientRegisterPage() {
         </div>
       </form>
     </section>
-  );
-}
-
-function Field({ label, required, hint, error, icon, className = '', children }: {
-  label: string; required?: boolean; hint?: string; error?: string; icon: ReactNode; className?: string; children: ReactNode;
-}) {
-  return (
-    <label className={`field ${className}`}>
-      <span>{label}{required && <b> *</b>}</span>
-      <span className="input-icon">{icon}{children}</span>
-      {hint && !error && <small>{hint}</small>}
-      {error && <small className="field-error">{error}</small>}
-    </label>
   );
 }

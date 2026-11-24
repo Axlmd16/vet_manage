@@ -1,7 +1,9 @@
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { ApiError } from '../../../infrastructure/api/http-client';
 import { MemoryRouter } from 'react-router-dom';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { ToastProvider } from '../../../common/components/toast';
 import { AuthContext, type AuthContextValue } from '../../auth/auth-context';
 import { RequirePermission } from '../../auth/components/require-permission';
 import { clientsApi } from '../services/clients-api';
@@ -13,6 +15,7 @@ vi.mock('../services/clients-api', () => ({
     list: vi.fn(),
     pets: vi.fn(),
     inactivate: vi.fn(),
+    update: vi.fn(),
   },
 }));
 
@@ -58,11 +61,13 @@ function renderPage(overrides: Partial<AuthContextValue> = {}) {
 
   return render(
     <AuthContext.Provider value={auth}>
-      <MemoryRouter>
-        <RequirePermission permission="clients:read">
-          <ClientsPage />
-        </RequirePermission>
-      </MemoryRouter>
+      <ToastProvider>
+        <MemoryRouter>
+          <RequirePermission permission="clients:read">
+            <ClientsPage />
+          </RequirePermission>
+        </MemoryRouter>
+      </ToastProvider>
     </AuthContext.Provider>,
   );
 }
@@ -232,7 +237,8 @@ describe('ClientsPage', () => {
     await userEvent.click(within(dialog).getByRole('button', { name: 'Confirmar' }));
 
     await waitFor(() => expect(clientsApi.inactivate).toHaveBeenCalledWith('2'));
-    expect(screen.getByRole('status')).toHaveTextContent('Cliente inactivado correctamente');
+    expect(await screen.findByRole('status')).toHaveTextContent('Cliente inactivado correctamente');
+    expect(screen.getByRole('status').closest('.toast')).not.toBeNull();
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Ver mascotas de Luis Mena' })).toBeInTheDocument();
   });
@@ -257,7 +263,100 @@ describe('ClientsPage', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Inactivar' }));
     await userEvent.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Confirmar' }));
 
-    expect(await screen.findByRole('alert')).toHaveTextContent('No se puede inactivar un cliente dado de baja');
+    const alert = await screen.findByRole('alert');
+    expect(alert).toHaveTextContent('No se puede inactivar un cliente dado de baja');
+    expect(alert.closest('.toast')).not.toBeNull();
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  });
+
+  describe('Editar cliente (HU-02)', () => {
+    it('muestra Editar a quien tiene clients:update, salvo en clientes dados de baja', async () => {
+      vi.mocked(clientsApi.list).mockResolvedValue({
+        items: [
+          makeClient('1', 'Luis', 'Mena', 'ACTIVE'),
+          makeClient('2', 'Ana', 'Aguilar', 'INACTIVE'),
+          makeClient('3', 'Carlos', 'Baja', 'DEACTIVATED'),
+        ],
+        total: 3,
+        page: 1,
+        pageSize: 20,
+        totalPages: 1,
+      });
+
+      renderPage();
+      const rows = within(await screen.findByRole('table', { name: 'Clientes' })).getAllByRole('row').slice(1);
+
+      expect(within(rows[0]).getByRole('button', { name: 'Editar a Luis Mena' })).toBeInTheDocument();
+      expect(within(rows[1]).getByRole('button', { name: 'Editar a Ana Aguilar' })).toBeInTheDocument();
+      expect(within(rows[2]).queryByRole('button', { name: /editar/i })).not.toBeInTheDocument();
+    });
+
+    it('muestra la columna de acciones solo con Editar cuando falta clients:inactivate', async () => {
+      renderPage({ hasPermission: (permission) => permission === 'clients:read' || permission === 'clients:update' });
+      await screen.findByText('Luis Mena');
+
+      expect(screen.getByRole('columnheader', { name: 'Acciones' })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'Editar a Luis Mena' })).toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: 'Inactivar' })).not.toBeInTheDocument();
+    });
+
+    it('oculta Editar sin el permiso clients:update', async () => {
+      renderPage({ hasPermission: (permission) => permission === 'clients:read' });
+      await screen.findByText('Luis Mena');
+
+      expect(screen.queryByRole('button', { name: /editar/i })).not.toBeInTheDocument();
+      expect(screen.queryByRole('columnheader', { name: 'Acciones' })).not.toBeInTheDocument();
+    });
+
+    it('guarda los cambios, cierra el formulario y actualiza la fila', async () => {
+      vi.mocked(clientsApi.update).mockResolvedValue({
+        id: '2', identification: '0924321', firstName: 'Luis Alberto', lastName: 'Mena',
+        email: '2@example.test', phone: '0992222222', address: null, status: 'ACTIVE',
+      });
+      renderPage();
+      await userEvent.click(await screen.findByRole('button', { name: 'Editar a Luis Mena' }));
+
+      const dialog = screen.getByRole('dialog', { name: 'Editar cliente' });
+      await userEvent.clear(within(dialog).getByLabelText(/nombres/i));
+      await userEvent.type(within(dialog).getByLabelText(/nombres/i), 'Luis Alberto');
+      await userEvent.type(within(dialog).getByLabelText(/teléfono/i), '0992222222');
+      await userEvent.click(within(dialog).getByRole('button', { name: 'Guardar Cambios' }));
+
+      await waitFor(() => expect(clientsApi.update).toHaveBeenCalledWith('2', {
+        firstName: 'Luis Alberto', lastName: 'Mena', email: '2@example.test', phone: '0992222222', address: '',
+      }));
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+      expect(await screen.findByRole('status')).toHaveTextContent('Datos actualizados correctamente');
+      expect(screen.getByRole('status').closest('.toast')).not.toBeNull();
+      expect(screen.getByText('Luis Alberto Mena')).toBeInTheDocument();
+    });
+
+    it('cancela la edición sin llamar a la API ni cambiar la fila', async () => {
+      renderPage();
+      await userEvent.click(await screen.findByRole('button', { name: 'Editar a Luis Mena' }));
+
+      const dialog = screen.getByRole('dialog', { name: 'Editar cliente' });
+      await userEvent.type(within(dialog).getByLabelText(/teléfono/i), '0992222222');
+      await userEvent.click(within(dialog).getByRole('button', { name: 'Cancelar' }));
+
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+      expect(clientsApi.update).not.toHaveBeenCalled();
+      expect(screen.getByText('Luis Mena')).toBeInTheDocument();
+    });
+
+    it('mantiene el formulario abierto y resalta el correo si la API lo rechaza', async () => {
+      vi.mocked(clientsApi.update).mockRejectedValue(
+        new ApiError('El correo ya se encuentra registrado', 409, { code: 'CLIENT_EMAIL_TAKEN', errors: ['email'] }),
+      );
+      renderPage();
+      await userEvent.click(await screen.findByRole('button', { name: 'Editar a Luis Mena' }));
+
+      const dialog = screen.getByRole('dialog', { name: 'Editar cliente' });
+      await userEvent.type(within(dialog).getByLabelText(/teléfono/i), '0992222222');
+      await userEvent.click(within(dialog).getByRole('button', { name: 'Guardar Cambios' }));
+
+      expect(await within(dialog).findByRole('alert')).toHaveTextContent('El correo ya se encuentra registrado');
+      expect(within(dialog).getByLabelText(/correo electrónico/i)).toHaveAttribute('aria-invalid', 'true');
+    });
   });
 });

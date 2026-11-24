@@ -1,8 +1,11 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
+import { useToast } from '../../../common/components/toast-context';
 import { useAuth } from '../../auth/auth-context';
+import { ClientEditModal } from '../components/client-edit-modal';
+import { UPDATED } from '../form-rules';
 import { clientsApi } from '../services/clients-api';
-import type { ClientListItem, ClientPage, ClientPet, ClientQuery, ClientStatus } from '../types';
+import type { ClientListItem, ClientPage, ClientPet, ClientQuery, ClientStatus, UpdateClientInput } from '../types';
 import './clients-page.css';
 
 const SEARCH_VALIDATION_MESSAGE = 'Ingrese al menos 2 caracteres para buscar por nombre o los 10 dígitos de la cédula';
@@ -30,6 +33,15 @@ function InactivateClientIcon() {
   );
 }
 
+function EditClientIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M12 20h9" />
+      <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+    </svg>
+  );
+}
+
 function emptyPage(page: number, pageSize: number): ClientPage {
   return { items: [], total: 0, page, pageSize, totalPages: 0 };
 }
@@ -38,14 +50,17 @@ export function ClientsPage() {
   const { hasPermission } = useAuth();
   const canCreate = hasPermission('clients:create');
   const canInactivate = hasPermission('clients:inactivate');
+  const canUpdate = hasPermission('clients:update');
+  const { showToast } = useToast();
+  const showActions = canInactivate || canUpdate;
   const [search, setSearch] = useState('');
   const [query, setQuery] = useState<ClientQuery>({ page: 1, pageSize: 20 });
   const [result, setResult] = useState<ClientPage>(emptyPage(1, 20));
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [validationError, setValidationError] = useState<string | null>(null);
-  const [feedback, setFeedback] = useState<{ kind: 'success' | 'error'; text: string } | null>(null);
   const [pendingClient, setPendingClient] = useState<ClientListItem | null>(null);
+  const [editingClient, setEditingClient] = useState<ClientListItem | null>(null);
   const [submittingStatus, setSubmittingStatus] = useState(false);
   const [expandedClient, setExpandedClient] = useState<string | null>(null);
   const [petsByClient, setPetsByClient] = useState<Record<string, ClientPet[]>>({});
@@ -137,7 +152,6 @@ export function ClientsPage() {
     if (!pendingClient) return;
     const target = pendingClient;
     setSubmittingStatus(true);
-    setFeedback(null);
 
     try {
       await clientsApi.inactivate(target.id);
@@ -150,17 +164,35 @@ export function ClientsPage() {
           items: current.items.map((item) => (item.id === target.id ? { ...item, status: 'INACTIVE' } : item)),
         }));
       }
-      setFeedback({ kind: 'success', text: 'Cliente inactivado correctamente' });
+      showToast('Cliente inactivado correctamente', 'success');
       setPendingClient(null);
     } catch (cause: unknown) {
-      setFeedback({
-        kind: 'error',
-        text: cause instanceof Error ? cause.message : 'No se pudo inactivar al cliente.',
-      });
+      showToast(cause instanceof Error ? cause.message : 'No se pudo inactivar al cliente.', 'error');
       setPendingClient(null);
     } finally {
       setSubmittingStatus(false);
     }
+  }
+
+  // Guarda la edición; si la API la rechaza, el error vuelve al formulario para resaltar los campos.
+  async function saveClient(input: UpdateClientInput) {
+    if (!editingClient) return;
+    const updated = await clientsApi.update(editingClient.id, input);
+    setResult((current) => ({
+      ...current,
+      items: current.items.map((item) => (item.id === updated.id
+        ? {
+            ...item,
+            firstName: updated.firstName,
+            lastName: updated.lastName,
+            email: updated.email,
+            phone: updated.phone,
+            address: updated.address,
+          }
+        : item)),
+    }));
+    setEditingClient(null);
+    showToast(UPDATED, 'success');
   }
 
   return (
@@ -214,15 +246,6 @@ export function ClientsPage() {
 
       {validationError && <div className="inline-notice inline-notice--error" role="alert">{validationError}</div>}
 
-      {feedback && (
-        <div
-          className={`inline-notice inline-notice--${feedback.kind} clients-feedback`}
-          role={feedback.kind === 'error' ? 'alert' : 'status'}
-        >
-          {feedback.text}
-        </div>
-      )}
-
       <div className="catalog-card">
         {loading ? (
           <div className="empty-state">Cargando clientes…</div>
@@ -245,7 +268,7 @@ export function ClientsPage() {
                   <th>Correo</th>
                   <th>Estado</th>
                   <th>Mascotas</th>
-                  {canInactivate && <th>Acciones</th>}
+                  {showActions && <th>Acciones</th>}
                 </tr>
               </thead>
               <tbody>
@@ -254,15 +277,14 @@ export function ClientsPage() {
                     key={client.id}
                     client={client}
                     canInactivate={canInactivate}
+                    canUpdate={canUpdate}
                     expanded={expandedClient === client.id}
                     pets={petsByClient[client.id]}
                     petsLoading={petsLoading && expandedClient === client.id}
                     petsError={petsError && expandedClient === client.id ? petsError : null}
                     onToggle={() => togglePets(client.id)}
-                    onInactivate={() => {
-                      setFeedback(null);
-                      setPendingClient(client);
-                    }}
+                    onInactivate={() => setPendingClient(client)}
+                    onEdit={() => setEditingClient(client)}
                   />
                 ))}
               </tbody>
@@ -293,6 +315,10 @@ export function ClientsPage() {
           </button>
         </div>
       </div>
+
+      {editingClient && (
+        <ClientEditModal client={editingClient} onSubmit={saveClient} onCancel={() => setEditingClient(null)} />
+      )}
 
       {pendingClient && (
         <div
@@ -373,24 +399,29 @@ export function ClientsPage() {
 type FragmentRowProps = {
   client: ClientListItem;
   canInactivate: boolean;
+  canUpdate: boolean;
   expanded: boolean;
   pets: ClientPet[] | undefined;
   petsLoading: boolean;
   petsError: string | null;
   onToggle: () => void;
   onInactivate: () => void;
+  onEdit: () => void;
 };
 
 function FragmentRow({
   client,
   canInactivate,
+  canUpdate,
   expanded,
   pets,
   petsLoading,
   petsError,
   onToggle,
   onInactivate,
+  onEdit,
 }: FragmentRowProps) {
+  const showActions = canInactivate || canUpdate;
   return (
     <>
       <tr>
@@ -413,9 +444,21 @@ function FragmentRow({
             {expanded ? 'Ocultar mascotas' : 'Ver mascotas'}
           </button>
         </td>
-        {canInactivate && (
+        {showActions && (
           <td className="clients-actions-cell">
-            {client.status === 'ACTIVE' && (
+            {canUpdate && client.status !== 'DEACTIVATED' && (
+              <button
+                className="clients-icon-btn clients-icon-btn--edit"
+                type="button"
+                aria-label={`Editar a ${client.firstName} ${client.lastName}`}
+                title="Editar"
+                data-tooltip="Editar"
+                onClick={onEdit}
+              >
+                <EditClientIcon />
+              </button>
+            )}
+            {canInactivate && client.status === 'ACTIVE' && (
               <button
                 className="clients-icon-btn clients-icon-btn--inactivate"
                 type="button"
@@ -432,7 +475,7 @@ function FragmentRow({
       </tr>
       {expanded && (
         <tr className="clients-pets-row">
-          <td colSpan={canInactivate ? 6 : 5}>
+          <td colSpan={showActions ? 6 : 5}>
             {petsLoading ? (
               <span>Cargando mascotas…</span>
             ) : petsError ? (
