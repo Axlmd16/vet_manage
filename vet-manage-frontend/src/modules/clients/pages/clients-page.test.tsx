@@ -12,6 +12,7 @@ vi.mock('../services/clients-api', () => ({
   clientsApi: {
     list: vi.fn(),
     pets: vi.fn(),
+    inactivate: vi.fn(),
   },
 }));
 
@@ -188,5 +189,75 @@ describe('ClientsPage', () => {
     expect(screen.getByText('No tiene permisos para realizar esta acción')).toBeInTheDocument();
     expect(screen.queryByRole('table')).not.toBeInTheDocument();
     expect(clientsApi.list).not.toHaveBeenCalled();
+  });
+
+  it('muestra Inactivar solo para clientes activos con permiso clients:inactivate', async () => {
+    vi.mocked(clientsApi.list).mockResolvedValue({
+      items: [
+        makeClient('1', 'Luis', 'Mena', 'ACTIVE'),
+        makeClient('2', 'Ana', 'Aguilar', 'INACTIVE'),
+        makeClient('3', 'Carlos', 'Baja', 'DEACTIVATED'),
+      ],
+      total: 3,
+      page: 1,
+      pageSize: 20,
+      totalPages: 1,
+    });
+
+    renderPage();
+    const table = await screen.findByRole('table', { name: 'Clientes' });
+    const rows = within(table).getAllByRole('row').slice(1);
+
+    expect(within(rows[0]).getByRole('button', { name: 'Inactivar' })).toBeInTheDocument();
+    expect(within(rows[1]).queryByRole('button', { name: 'Inactivar' })).not.toBeInTheDocument();
+    expect(within(rows[2]).queryByRole('button', { name: 'Inactivar' })).not.toBeInTheDocument();
+  });
+
+  it('oculta Inactivar cuando el usuario no tiene clients:inactivate', async () => {
+    renderPage({ hasPermission: (permission) => permission === 'clients:read' });
+    await screen.findByRole('table', { name: 'Clientes' });
+
+    expect(screen.queryByRole('button', { name: 'Inactivar' })).not.toBeInTheDocument();
+  });
+
+  it('inactiva un cliente tras confirmar y conserva el acceso a sus mascotas', async () => {
+    vi.mocked(clientsApi.inactivate).mockResolvedValue({ id: '2', status: 'INACTIVE' });
+    renderPage();
+    await screen.findByText('Luis Mena');
+
+    await userEvent.click(screen.getByRole('button', { name: 'Inactivar' }));
+    const dialog = screen.getByRole('dialog');
+    expect(within(dialog).getByText('Luis Mena')).toBeInTheDocument();
+
+    await userEvent.click(within(dialog).getByRole('button', { name: 'Confirmar' }));
+
+    await waitFor(() => expect(clientsApi.inactivate).toHaveBeenCalledWith('2'));
+    expect(screen.getByRole('status')).toHaveTextContent('Cliente inactivado correctamente');
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Ver mascotas de Luis Mena' })).toBeInTheDocument();
+  });
+
+  it('cancela la inactivación sin llamar a la API', async () => {
+    renderPage();
+    await screen.findByText('Luis Mena');
+
+    await userEvent.click(screen.getByRole('button', { name: 'Inactivar' }));
+    const dialog = screen.getByRole('dialog');
+    await userEvent.click(within(dialog).getByRole('button', { name: 'Cancelar' }));
+
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(clientsApi.inactivate).not.toHaveBeenCalled();
+  });
+
+  it('muestra el mensaje de error del backend si falla la inactivación', async () => {
+    vi.mocked(clientsApi.inactivate).mockRejectedValue(new Error('No se puede inactivar un cliente dado de baja'));
+    renderPage();
+    await screen.findByText('Luis Mena');
+
+    await userEvent.click(screen.getByRole('button', { name: 'Inactivar' }));
+    await userEvent.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Confirmar' }));
+
+    expect(await screen.findByRole('alert')).toHaveTextContent('No se puede inactivar un cliente dado de baja');
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 });

@@ -82,11 +82,12 @@ The system SHALL create an audit record, with the authenticated user as the acto
 | Inactivate a user account | Usuarios | The person's identification and full name |
 | Reactivate a user account | Usuarios | The person's identification and full name |
 | Register a client | Clientes | The person's identification and full name |
+| Inactivate a client | Clientes | The person's identification and full name |
 | Register a patient | Pacientes | The patient's name and code |
 | Register a species | Especies | The species name |
 | Register a breed | Razas | The breed name and its species |
 
-For a staff user, the action is "Registrar", including when an existing person is reused. For a role change, the action is "Asignar roles". For inactivating a user account, the action is "Inactivar" with `previousValue` and `newValue` recording the status transition. For reactivating a user account, the action is "Activar" with `previousValue` and `newValue` recording the status transition. The other actions are "Registrar".
+For a staff user, the action is "Registrar", including when an existing person is reused. For a role change, the action is "Asignar roles". For inactivating a user account or a client, the action is "Inactivar" with `previousValue` and `newValue` recording the status transition. For reactivating a user account, the action is "Activar" with `previousValue` and `newValue` recording the status transition. The other actions are "Registrar".
 
 #### Scenario: Staff user registered
 - **WHEN** the Administrator registers the user with identification "1710000017" and name "Marcelo Paredes"
@@ -107,6 +108,10 @@ For a staff user, the action is "Registrar", including when an existing person i
 #### Scenario: User account reactivated
 - **WHEN** the Administrator reactivates the inactive user "Luis Torres"
 - **THEN** an audit record is created in the same transaction with action "Activar", module "Usuarios", affected record containing Luis Torres's identification and full name, previous value "Inactivo" and new value "Activo"
+
+#### Scenario: Client inactivated
+- **WHEN** a Receptionist or Manager inactivates the active client "Juan Pérez"
+- **THEN** an audit record is created in the same transaction with action "Inactivar", module "Clientes", affected record containing Juan Pérez's identification and full name, previous value "Activo" and new value "Inactivo"
 
 #### Scenario: Patient registered
 - **WHEN** a Receptionist registers the patient "Firulais" for a client
