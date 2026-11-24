@@ -62,7 +62,7 @@ The audit records of a user SHALL be kept when that user is inactivated or deact
 - **THEN** the 5 audit records of that user are still stored
 
 ### Requirement: Uniform actions and modules
-The system SHALL take the action and module names from a shared catalog, so that the same action always has the same name in every module. The catalog SHALL include at least the actions "Registrar", "Asignar roles", "Inactivar", "Activar" and "Cambiar contraseña". It SHALL include at least the modules "Usuarios", "Clientes", "Pacientes", "Especies" and "Razas".
+The system SHALL take the action and module names from a shared catalog, so that the same action always has the same name in every module. The catalog SHALL include at least the actions "Registrar", "Asignar roles", "Inactivar", "Activar", "Cambiar contraseña" and "Actualizar". It SHALL include at least the modules "Usuarios", "Clientes", "Pacientes", "Especies" and "Razas".
 
 #### Scenario: Same action in different modules
 - **WHEN** a client and a patient are registered
@@ -75,6 +75,10 @@ The system SHALL take the action and module names from a shared catalog, so that
 #### Scenario: Password change action in shared catalog
 - **WHEN** a user changes their password
 - **THEN** the audit record uses the catalog action "Cambiar contraseña" with the module "Usuarios"
+
+#### Scenario: Update action in shared catalog
+- **WHEN** a breed is updated
+- **THEN** the audit record uses the catalog action "Actualizar" with the module "Razas"
 
 ### Requirement: Audited actions
 The system SHALL create an audit record, with the authenticated user as the actor, when any of these actions finishes successfully:
@@ -91,8 +95,9 @@ The system SHALL create an audit record, with the authenticated user as the acto
 | Register a patient | Pacientes | The patient's name and code |
 | Register a species | Especies | The species name |
 | Register a breed | Razas | The breed name and its species |
+| Update a breed | Razas | The breed name and its species |
 
-For a staff user, the action is "Registrar", including when an existing person is reused. For a role change, the action is "Asignar roles". For inactivating a user account or a client, the action is "Inactivar" with `previousValue` and `newValue` recording the status transition. For reactivating a user account, the action is "Activar" with `previousValue` and `newValue` recording the status transition. For changing a password, the action is "Cambiar contraseña" and the audit record SHALL NOT store plaintext passwords or password hashes. The other actions are "Registrar".
+For a staff user, the action is "Registrar", including when an existing person is reused. For a role change, the action is "Asignar roles". For inactivating a user account or a client, the action is "Inactivar" with `previousValue` and `newValue` recording the status transition. For reactivating a user account, the action is "Activar" with `previousValue` and `newValue` recording the status transition. For changing a password, the action is "Cambiar contraseña" and the audit record SHALL NOT store plaintext passwords or password hashes. For updating a breed, the action is "Actualizar" with `previousValue` and `newValue` recording the modified fields. The other actions are "Registrar".
 
 #### Scenario: Staff user registered
 - **WHEN** the Administrator registers the user with identification "1710000017" and name "Marcelo Paredes"
@@ -129,6 +134,10 @@ For a staff user, the action is "Registrar", including when an existing person i
 #### Scenario: Species and breed registered
 - **WHEN** a Veterinarian registers the species "Canino" and then the breed "Labrador" for that species
 - **THEN** two records are created, one with the module "Especies" and the other with the module "Razas", both with the Veterinarian as user
+
+#### Scenario: Breed updated
+- **WHEN** a Veterinarian updates the breed "Labrador" to "Labrador Retriever"
+- **THEN** an audit record is created in the same transaction with action "Actualizar", module "Razas", affected record "Labrador Retriever (Canino)", and previous/new values
 
 #### Scenario: Read operations are not audited
 - **WHEN** a user lists users, clients, species or breeds
