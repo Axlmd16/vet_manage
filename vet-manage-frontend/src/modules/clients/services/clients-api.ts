@@ -7,6 +7,8 @@ import type {
   InactivatedClient,
   RegisteredClient,
   RegisterClientInput,
+  UpdateClientInput,
+  UpdatedClient,
 } from '../types';
 
 export const clientsApi = {
@@ -27,6 +29,9 @@ export const clientsApi = {
   },
   register(input: RegisterClientInput) {
     return postJson<RegisteredClient, RegisterClientInput>('/clients', input);
+  },
+  update(clientId: string, input: UpdateClientInput) {
+    return patchJson<UpdatedClient, UpdateClientInput>(`/clients/${clientId}`, input);
   },
   inactivate(clientId: string) {
     return patchJson<InactivatedClient, Record<string, never>>(`/clients/${clientId}/inactivate`, {});
