@@ -62,7 +62,7 @@ The audit records of a user SHALL be kept when that user is inactivated or deact
 - **THEN** the 5 audit records of that user are still stored
 
 ### Requirement: Uniform actions and modules
-The system SHALL take the action and module names from a shared catalog, so that the same action always has the same name in every module. The catalog SHALL include at least the actions "Registrar", "Asignar roles", "Inactivar" and "Activar". It SHALL include at least the modules "Usuarios", "Clientes", "Pacientes", "Especies" and "Razas".
+The system SHALL take the action and module names from a shared catalog, so that the same action always has the same name in every module. The catalog SHALL include at least the actions "Registrar", "Asignar roles", "Inactivar", "Activar" and "Actualizar". It SHALL include at least the modules "Usuarios", "Clientes", "Pacientes", "Especies" and "Razas".
 
 #### Scenario: Same action in different modules
 - **WHEN** a client and a patient are registered
@@ -71,6 +71,10 @@ The system SHALL take the action and module names from a shared catalog, so that
 #### Scenario: User status actions in shared catalog
 - **WHEN** a user account is inactivated and later reactivated
 - **THEN** the audit records use the catalog actions "Inactivar" and "Activar" with the module "Usuarios"
+
+#### Scenario: Update action in shared catalog
+- **WHEN** a species is updated
+- **THEN** the audit record uses the catalog action "Actualizar" with the module "Especies"
 
 ### Requirement: Audited actions
 The system SHALL create an audit record, with the authenticated user as the actor, when any of these actions finishes successfully:
@@ -85,9 +89,10 @@ The system SHALL create an audit record, with the authenticated user as the acto
 | Inactivate a client | Clientes | The person's identification and full name |
 | Register a patient | Pacientes | The patient's name and code |
 | Register a species | Especies | The species name |
+| Update a species | Especies | The species name |
 | Register a breed | Razas | The breed name and its species |
 
-For a staff user, the action is "Registrar", including when an existing person is reused. For a role change, the action is "Asignar roles". For inactivating a user account or a client, the action is "Inactivar" with `previousValue` and `newValue` recording the status transition. For reactivating a user account, the action is "Activar" with `previousValue` and `newValue` recording the status transition. The other actions are "Registrar".
+For a staff user, the action is "Registrar", including when an existing person is reused. For a role change, the action is "Asignar roles". For inactivating a user account or a client, the action is "Inactivar" with `previousValue` and `newValue` recording the status transition. For reactivating a user account, the action is "Activar" with `previousValue` and `newValue` recording the status transition. For updating a species, the action is "Actualizar" with `previousValue` and `newValue` recording the modified fields. The other actions are "Registrar".
 
 #### Scenario: Staff user registered
 - **WHEN** the Administrator registers the user with identification "1710000017" and name "Marcelo Paredes"
@@ -120,6 +125,10 @@ For a staff user, the action is "Registrar", including when an existing person i
 #### Scenario: Species and breed registered
 - **WHEN** a Veterinarian registers the species "Canino" and then the breed "Labrador" for that species
 - **THEN** two records are created, one with the module "Especies" and the other with the module "Razas", both with the Veterinarian as user
+
+#### Scenario: Species updated
+- **WHEN** a Veterinarian updates the species "Canino" to "Canino doméstico"
+- **THEN** an audit record is created in the same transaction with action "Actualizar", module "Especies", affected record "Canino doméstico", and previous/new values
 
 #### Scenario: Read operations are not audited
 - **WHEN** a user lists users, clients, species or breeds

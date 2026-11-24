@@ -4,6 +4,7 @@ export const AUDIT_ACTIONS = {
   assignRoles: 'Asignar roles',
   inactivate: 'Inactivar',
   activate: 'Activar',
+  update: 'Actualizar',
 } as const;
 
 export const AUDIT_MODULES = {
