@@ -240,14 +240,20 @@ button { cursor: pointer; }
 .species-card__title { display: flex; align-items: center; gap: 12px; }
 .species-card__icon { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 11px; color: #416fe7; background: #edf2ff; flex-shrink: 0; }
 .species-count-badge { display: inline-flex; align-items: center; padding: 6px 12px; border-radius: 999px; color: #416fe7; background: #edf2ff; border: 1px solid #dbe7ff; font-size: 11px; font-weight: 750; white-space: nowrap; }
-.species-table td { vertical-align: middle; }
-.species-table tbody tr { transition: background-color 140ms ease; }
-.species-table tbody tr:hover { background: #f8fafd; }
+.species-table td, .breeds-table td { vertical-align: middle; }
+.species-table tbody tr, .breeds-table tbody tr { transition: background-color 140ms ease; }
+.species-table tbody tr:hover, .breeds-table tbody tr:hover { background: #f8fafd; }
 .species-table__name { width: 22%; }
 .species-table__description { width: 42%; }
 .species-table__date { width: 14%; white-space: nowrap; }
 .species-table__status { width: 12%; white-space: nowrap; }
 .species-table__actions { width: 10%; white-space: nowrap; text-align: right; }
+.breeds-table__name { width: 20%; }
+.breeds-table__species { width: 14%; white-space: nowrap; }
+.breeds-table__description { width: 34%; }
+.breeds-table__date { width: 12%; white-space: nowrap; }
+.breeds-table__status { width: 10%; white-space: nowrap; }
+.breeds-table__actions { width: 10%; white-space: nowrap; text-align: right; }
 .species-name-cell { display: inline-flex; align-items: center; gap: 10px; }
 .species-row-icon { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 9px; color: #416fe7; background: #edf2ff; flex-shrink: 0; }
 .species-desc-cell { display: inline-flex; align-items: center; gap: 7px; color: #4b5a69; }

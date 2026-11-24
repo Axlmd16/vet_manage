@@ -11,6 +11,7 @@ import { PatientRepository } from './repositories/patient.repository.js';
 import { SpeciesRepository } from './repositories/species.repository.js';
 import { ListActiveBreedsService } from './services/breeds/list-active-breeds.service.js';
 import { RegisterBreedService } from './services/breeds/register-breed.service.js';
+import { UpdateBreedService } from './services/breeds/update-breed.service.js';
 import { RegisterPatientService } from './services/patients/register-patient.service.js';
 import { SearchPatientsService } from './services/patients/search-patients.service.js';
 import { ListActiveSpeciesService } from './services/species/list-active-species.service.js';
@@ -29,6 +30,7 @@ import { UpdateSpeciesService } from './services/species/update-species.service.
     UpdateSpeciesService,
     RegisterBreedService,
     ListActiveBreedsService,
+    UpdateBreedService,
     RegisterPatientService,
     SearchPatientsService,
   ],
