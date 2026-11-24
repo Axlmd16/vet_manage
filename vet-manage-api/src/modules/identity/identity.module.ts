@@ -11,6 +11,7 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard.js';
 import { PermissionsGuard } from './guards/permissions.guard.js';
 import { AccessService } from './services/access.service.js';
 import { AuthService } from './services/auth.service.js';
+import { ChangePasswordService } from './services/change-password.service.js';
 import { IdentityBootstrap } from './services/identity-bootstrap.service.js';
 import { InitialAdminService } from './services/initial-admin.service.js';
 import { PasswordHasher } from './services/password-hasher.service.js';
@@ -43,6 +44,7 @@ import { UserRoleAssignmentService } from './services/user-role-assignment.servi
     TokenService,
     AccessService,
     AuthService,
+    ChangePasswordService,
     SessionService,
     UserRegistrationService,
     ClientRegistrationService,
