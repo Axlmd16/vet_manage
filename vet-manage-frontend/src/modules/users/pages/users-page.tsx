@@ -1,8 +1,13 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
+import { useToast } from '../../../common/components/toast-context';
 import { useAuth } from '../../auth/auth-context';
+import { UserEditModal } from '../components/user-edit-modal';
+import { NOTICE_FAILED, UPDATED } from '../form-rules';
 import { usersApi } from '../services/users-api';
-import type { AssignableRole, ChangeableUserStatus, UserListItem, UserPage, UserQuery, UserStatus } from '../types';
+import type {
+  AssignableRole, ChangeableUserStatus, UpdateUserInput, UserDetail, UserListItem, UserPage, UserQuery, UserStatus,
+} from '../types';
 import './users-page.css';
 
 const statusLabels: Record<UserStatus, string> = {
@@ -52,6 +57,24 @@ function ActivateUserIcon() {
   );
 }
 
+function EditUserIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M12 20h9" />
+      <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+    </svg>
+  );
+}
+
+function ViewUserIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  );
+}
+
 function emptyPage(page: number, pageSize: number): UserPage {
   return { items: [], total: 0, page, pageSize };
 }
@@ -60,16 +83,21 @@ export function UsersPage() {
   const { hasPermission } = useAuth();
   const canAssignRoles = hasPermission('users:assign-roles');
   const canChangeStatus = hasPermission('users:change-status');
-  const showActions = canAssignRoles || canChangeStatus;
+  const canUpdate = hasPermission('users:update');
+  const canView = hasPermission('users:read');
+  const showActions = canAssignRoles || canChangeStatus || canUpdate || canView;
+  const { showToast } = useToast();
   const [search, setSearch] = useState('');
   const [query, setQuery] = useState<UserQuery>({ page: 1, pageSize: 20 });
   const [result, setResult] = useState<UserPage>(emptyPage(1, 20));
   const [roles, setRoles] = useState<AssignableRole[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [feedback, setFeedback] = useState<{ kind: 'success' | 'error'; text: string } | null>(null);
   const [pendingAction, setPendingAction] = useState<PendingStatusChange | null>(null);
   const [submittingStatus, setSubmittingStatus] = useState(false);
+  // Usuario abierto en el formulario de edición o en su ficha de solo lectura (HU-53).
+  const [openedUser, setOpenedUser] = useState<{ user: UserDetail; readOnly: boolean } | null>(null);
+  const [openingId, setOpeningId] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -129,7 +157,6 @@ export function UsersPage() {
     if (!pendingAction) return;
     const { user, targetStatus } = pendingAction;
     setSubmittingStatus(true);
-    setFeedback(null);
 
     try {
       await usersApi.changeStatus(user.id, targetStatus);
@@ -137,20 +164,42 @@ export function UsersPage() {
         ...current,
         items: current.items.map((item) => (item.id === user.id ? { ...item, status: targetStatus } : item)),
       }));
-      setFeedback({
-        kind: 'success',
-        text: targetStatus === 'INACTIVE' ? 'Cuenta inactivada correctamente' : 'Cuenta activada correctamente',
-      });
+      showToast(targetStatus === 'INACTIVE' ? 'Cuenta inactivada correctamente' : 'Cuenta activada correctamente', 'success');
       setPendingAction(null);
     } catch (cause: unknown) {
-      setFeedback({
-        kind: 'error',
-        text: cause instanceof Error ? cause.message : 'No se pudo actualizar el estado de la cuenta.',
-      });
+      showToast(cause instanceof Error ? cause.message : 'No se pudo actualizar el estado de la cuenta.', 'error');
       setPendingAction(null);
     } finally {
       setSubmittingStatus(false);
     }
+  }
+
+  // Consulta los datos actuales (incluido el teléfono, que no trae el listado) antes de abrir el formulario.
+  async function openUser(user: UserListItem) {
+    const readOnly = user.status === 'DEACTIVATED';
+    setOpeningId(user.id);
+    try {
+      setOpenedUser({ user: await usersApi.get(user.id), readOnly });
+    } catch (cause: unknown) {
+      showToast(cause instanceof Error ? cause.message : 'No se pudieron consultar los datos del usuario.', 'error');
+    } finally {
+      setOpeningId(null);
+    }
+  }
+
+  // Guarda la edición; si la API la rechaza, el error vuelve al formulario para resaltar los campos.
+  async function saveUser(input: UpdateUserInput) {
+    if (!openedUser) return;
+    const updated = await usersApi.update(openedUser.user.id, input);
+    setResult((current) => ({
+      ...current,
+      items: current.items.map((item) => (item.id === updated.id
+        ? { ...item, firstName: updated.firstName, lastName: updated.lastName, email: updated.email }
+        : item)),
+    }));
+    setOpenedUser(null);
+    showToast(UPDATED, 'success');
+    if (updated.noticeSent === false) showToast(NOTICE_FAILED, 'warning');
   }
 
   return (
@@ -214,15 +263,6 @@ export function UsersPage() {
         </div>
       </form>
 
-      {feedback && (
-        <div
-          className={`inline-notice inline-notice--${feedback.kind} users-feedback`}
-          role={feedback.kind === 'error' ? 'alert' : 'status'}
-        >
-          {feedback.text}
-        </div>
-      )}
-
       <div className="catalog-card">
         {loading ? (
           <div className="empty-state">Cargando usuarios…</div>
@@ -258,6 +298,32 @@ export function UsersPage() {
                     {showActions && (
                       <td className="users-actions-cell">
                         <div className="users-actions-group">
+                          {canUpdate && user.status !== 'DEACTIVATED' && (
+                            <button
+                              className="users-icon-btn users-icon-btn--edit"
+                              type="button"
+                              aria-label={`Editar a ${user.firstName} ${user.lastName}`}
+                              title="Editar"
+                              data-tooltip="Editar"
+                              disabled={openingId === user.id}
+                              onClick={() => openUser(user)}
+                            >
+                              <EditUserIcon />
+                            </button>
+                          )}
+                          {canView && user.status === 'DEACTIVATED' && (
+                            <button
+                              className="users-icon-btn users-icon-btn--view"
+                              type="button"
+                              aria-label={`Ver datos de ${user.firstName} ${user.lastName}`}
+                              title="Ver datos"
+                              data-tooltip="Ver datos"
+                              disabled={openingId === user.id}
+                              onClick={() => openUser(user)}
+                            >
+                              <ViewUserIcon />
+                            </button>
+                          )}
                           {canAssignRoles && (
                             <Link
                               className="users-icon-btn users-icon-btn--roles"
@@ -276,10 +342,7 @@ export function UsersPage() {
                               aria-label="Inactivar"
                               title="Inactivar"
                               data-tooltip="Inactivar"
-                              onClick={() => {
-                                setFeedback(null);
-                                setPendingAction({ user, targetStatus: 'INACTIVE' });
-                              }}
+                              onClick={() => setPendingAction({ user, targetStatus: 'INACTIVE' })}
                             >
                               <InactivateUserIcon />
                             </button>
@@ -291,10 +354,7 @@ export function UsersPage() {
                               aria-label="Activar"
                               title="Activar"
                               data-tooltip="Activar"
-                              onClick={() => {
-                                setFeedback(null);
-                                setPendingAction({ user, targetStatus: 'ACTIVE' });
-                              }}
+                              onClick={() => setPendingAction({ user, targetStatus: 'ACTIVE' })}
                             >
                               <ActivateUserIcon />
                             </button>
@@ -332,6 +392,15 @@ export function UsersPage() {
           </button>
         </div>
       </div>
+
+      {openedUser && (
+        <UserEditModal
+          user={openedUser.user}
+          readOnly={openedUser.readOnly}
+          onSubmit={openedUser.readOnly ? undefined : saveUser}
+          onClose={() => setOpenedUser(null)}
+        />
+      )}
 
       {pendingAction && (
         <div

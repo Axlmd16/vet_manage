@@ -69,6 +69,27 @@ describe('ClientEditModal', () => {
     expect(onSubmit).not.toHaveBeenCalled();
   });
 
+  it('solo deja escribir números en el teléfono', async () => {
+    setup();
+
+    await userEvent.clear(screen.getByLabelText(/teléfono/i));
+    await userEvent.type(screen.getByLabelText(/teléfono/i), '09a9b2-22 2222xyz');
+
+    expect(screen.getByLabelText(/teléfono/i)).toHaveValue('0992222222');
+  });
+
+  it('no recorta un teléfono de 11 dígitos: muestra el mensaje sin llamar a la API', async () => {
+    const { onSubmit } = setup();
+
+    await userEvent.clear(screen.getByLabelText(/teléfono/i));
+    await userEvent.type(screen.getByLabelText(/teléfono/i), '09876543210');
+    await userEvent.click(screen.getByRole('button', { name: 'Guardar Cambios' }));
+
+    expect(screen.getByLabelText(/teléfono/i)).toHaveValue('09876543210');
+    expect(screen.getByLabelText(/teléfono/i)).toHaveAttribute('aria-invalid', 'true');
+    expect(onSubmit).not.toHaveBeenCalled();
+  });
+
   it('envía los datos sin la cédula', async () => {
     const { onSubmit } = setup();
 
