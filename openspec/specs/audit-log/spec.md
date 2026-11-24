@@ -77,8 +77,8 @@ The system SHALL take the action and module names from a shared catalog, so that
 - **THEN** the audit record uses the catalog action "Cambiar contraseña" with the module "Usuarios"
 
 #### Scenario: Update action in shared catalog
-- **WHEN** a breed is updated
-- **THEN** the audit record uses the catalog action "Actualizar" with the module "Razas"
+- **WHEN** a species or breed is updated
+- **THEN** the audit record uses the catalog action "Actualizar" with the module "Especies" or "Razas" respectively
 
 ### Requirement: Audited actions
 The system SHALL create an audit record, with the authenticated user as the actor, when any of these actions finishes successfully:
@@ -94,10 +94,11 @@ The system SHALL create an audit record, with the authenticated user as the acto
 | Inactivate a client | Clientes | The person's identification and full name |
 | Register a patient | Pacientes | The patient's name and code |
 | Register a species | Especies | The species name |
+| Update a species | Especies | The species name |
 | Register a breed | Razas | The breed name and its species |
 | Update a breed | Razas | The breed name and its species |
 
-For a staff user, the action is "Registrar", including when an existing person is reused. For a role change, the action is "Asignar roles". For inactivating a user account or a client, the action is "Inactivar" with `previousValue` and `newValue` recording the status transition. For reactivating a user account, the action is "Activar" with `previousValue` and `newValue` recording the status transition. For changing a password, the action is "Cambiar contraseña" and the audit record SHALL NOT store plaintext passwords or password hashes. For updating a breed, the action is "Actualizar" with `previousValue` and `newValue` recording the modified fields. The other actions are "Registrar".
+For a staff user, the action is "Registrar", including when an existing person is reused. For a role change, the action is "Asignar roles". For inactivating a user account or a client, the action is "Inactivar" with `previousValue` and `newValue` recording the status transition. For reactivating a user account, the action is "Activar" with `previousValue` and `newValue` recording the status transition. For changing a password, the action is "Cambiar contraseña" and the audit record SHALL NOT store plaintext passwords or password hashes. For updating a species or a breed, the action is "Actualizar" with `previousValue` and `newValue` recording the modified fields. The other actions are "Registrar".
 
 #### Scenario: Staff user registered
 - **WHEN** the Administrator registers the user with identification "1710000017" and name "Marcelo Paredes"
@@ -134,6 +135,10 @@ For a staff user, the action is "Registrar", including when an existing person i
 #### Scenario: Species and breed registered
 - **WHEN** a Veterinarian registers the species "Canino" and then the breed "Labrador" for that species
 - **THEN** two records are created, one with the module "Especies" and the other with the module "Razas", both with the Veterinarian as user
+
+#### Scenario: Species updated
+- **WHEN** a Veterinarian updates the species "Canino" to "Canino doméstico"
+- **THEN** an audit record is created in the same transaction with action "Actualizar", module "Especies", affected record "Canino doméstico", and previous/new values
 
 #### Scenario: Breed updated
 - **WHEN** a Veterinarian updates the breed "Labrador" to "Labrador Retriever"

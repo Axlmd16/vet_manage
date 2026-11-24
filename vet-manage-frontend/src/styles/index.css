@@ -243,6 +243,11 @@ button { cursor: pointer; }
 .species-table td, .breeds-table td { vertical-align: middle; }
 .species-table tbody tr, .breeds-table tbody tr { transition: background-color 140ms ease; }
 .species-table tbody tr:hover, .breeds-table tbody tr:hover { background: #f8fafd; }
+.species-table__name { width: 22%; }
+.species-table__description { width: 42%; }
+.species-table__date { width: 14%; white-space: nowrap; }
+.species-table__status { width: 12%; white-space: nowrap; }
+.species-table__actions { width: 10%; white-space: nowrap; text-align: right; }
 .breeds-table__name { width: 20%; }
 .breeds-table__species { width: 14%; white-space: nowrap; }
 .breeds-table__description { width: 34%; }
