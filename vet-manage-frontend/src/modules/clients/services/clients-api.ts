@@ -1,9 +1,10 @@
-import { getJson, postJson } from '../../../infrastructure/api/http-client';
+import { getJson, patchJson, postJson } from '../../../infrastructure/api/http-client';
 import type {
   AssignableRole,
   ClientPage,
   ClientPet,
   ClientQuery,
+  InactivatedClient,
   RegisteredClient,
   RegisterClientInput,
 } from '../types';
@@ -26,5 +27,8 @@ export const clientsApi = {
   },
   register(input: RegisterClientInput) {
     return postJson<RegisteredClient, RegisterClientInput>('/clients', input);
+  },
+  inactivate(clientId: string) {
+    return patchJson<InactivatedClient, Record<string, never>>(`/clients/${clientId}/inactivate`, {});
   },
 };

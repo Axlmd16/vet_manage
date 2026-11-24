@@ -87,11 +87,12 @@ The system SHALL create an audit record, with the authenticated user as the acto
 | Reactivate a user account | Usuarios | The person's identification and full name |
 | Change own password | Usuarios | The person's identification and full name |
 | Register a client | Clientes | The person's identification and full name |
+| Inactivate a client | Clientes | The person's identification and full name |
 | Register a patient | Pacientes | The patient's name and code |
 | Register a species | Especies | The species name |
 | Register a breed | Razas | The breed name and its species |
 
-For a staff user, the action is "Registrar", including when an existing person is reused. For a role change, the action is "Asignar roles". For inactivating a user account, the action is "Inactivar" with `previousValue` and `newValue` recording the status transition. For reactivating a user account, the action is "Activar" with `previousValue` and `newValue` recording the status transition. For changing a password, the action is "Cambiar contraseña" and the audit record SHALL NOT store plaintext passwords or password hashes. The other actions are "Registrar".
+For a staff user, the action is "Registrar", including when an existing person is reused. For a role change, the action is "Asignar roles". For inactivating a user account or a client, the action is "Inactivar" with `previousValue` and `newValue` recording the status transition. For reactivating a user account, the action is "Activar" with `previousValue` and `newValue` recording the status transition. For changing a password, the action is "Cambiar contraseña" and the audit record SHALL NOT store plaintext passwords or password hashes. The other actions are "Registrar".
 
 #### Scenario: Staff user registered
 - **WHEN** the Administrator registers the user with identification "1710000017" and name "Marcelo Paredes"
@@ -116,6 +117,10 @@ For a staff user, the action is "Registrar", including when an existing person i
 #### Scenario: Password changed
 - **WHEN** a user successfully changes their password
 - **THEN** an audit record is created in the same transaction with action "Cambiar contraseña", module "Usuarios", affected record containing the user's identification and full name, and no password values stored
+
+#### Scenario: Client inactivated
+- **WHEN** a Receptionist or Manager inactivates the active client "Juan Pérez"
+- **THEN** an audit record is created in the same transaction with action "Inactivar", module "Clientes", affected record containing Juan Pérez's identification and full name, previous value "Activo" and new value "Inactivo"
 
 #### Scenario: Patient registered
 - **WHEN** a Receptionist registers the patient "Firulais" for a client
