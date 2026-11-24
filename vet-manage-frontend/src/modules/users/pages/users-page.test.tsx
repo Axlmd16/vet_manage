@@ -12,6 +12,7 @@ vi.mock('../services/users-api', () => ({
   usersApi: {
     list: vi.fn(),
     assignableRoles: vi.fn(),
+    changeStatus: vi.fn(),
   },
 }));
 
@@ -197,5 +198,92 @@ describe('UsersPage', () => {
     expect(screen.getByText('No tiene permisos para realizar esta acción')).toBeInTheDocument();
     expect(screen.queryByRole('table')).not.toBeInTheDocument();
     expect(usersApi.list).not.toHaveBeenCalled();
+  });
+
+  it('muestra Inactivar para activos, Activar para inactivos y oculta ambos para dados de baja', async () => {
+    vi.mocked(usersApi.list).mockResolvedValue({
+      items: [
+        makeUser('1', 'Luis', 'Torres', 'ACTIVE'),
+        makeUser('2', 'Ana', 'Aguilar', 'INACTIVE'),
+        makeUser('3', 'Carlos', 'Baja', 'DEACTIVATED'),
+      ],
+      total: 3,
+      page: 1,
+      pageSize: 20,
+    });
+
+    renderPage();
+    const table = await screen.findByRole('table', { name: 'Usuarios' });
+    const rows = within(table).getAllByRole('row').slice(1);
+
+    expect(within(rows[0]).getByRole('button', { name: 'Inactivar' })).toBeInTheDocument();
+    expect(within(rows[1]).getByRole('button', { name: 'Activar' })).toBeInTheDocument();
+    expect(within(rows[2]).queryByRole('button', { name: 'Inactivar' })).not.toBeInTheDocument();
+    expect(within(rows[2]).queryByRole('button', { name: 'Activar' })).not.toBeInTheDocument();
+  });
+
+  it('oculta Inactivar y Activar cuando no tiene permiso users:change-status', async () => {
+    renderPage({ hasPermission: (permission) => permission === 'users:read' });
+    await screen.findByRole('table', { name: 'Usuarios' });
+
+    expect(screen.queryByRole('button', { name: 'Inactivar' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Activar' })).not.toBeInTheDocument();
+  });
+
+  it('inactiva una cuenta tras confirmar el diálogo y actualiza el estado', async () => {
+    vi.mocked(usersApi.changeStatus).mockResolvedValue({ id: '2', status: 'INACTIVE' });
+    renderPage();
+    await screen.findByText('Luis Mena');
+
+    await userEvent.click(screen.getByRole('button', { name: 'Inactivar' }));
+    const dialog = screen.getByRole('dialog');
+    expect(within(dialog).getByText(/Luis Mena/)).toBeInTheDocument();
+
+    await userEvent.click(within(dialog).getByRole('button', { name: 'Confirmar' }));
+
+    await waitFor(() => {
+      expect(usersApi.changeStatus).toHaveBeenCalledWith('2', 'INACTIVE');
+    });
+    expect(screen.getByRole('status')).toHaveTextContent('Cuenta inactivada correctamente');
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  });
+
+  it('cancela la inactivación sin llamar a la API', async () => {
+    renderPage();
+    await screen.findByText('Luis Mena');
+
+    await userEvent.click(screen.getByRole('button', { name: 'Inactivar' }));
+    const dialog = screen.getByRole('dialog');
+    await userEvent.click(within(dialog).getByRole('button', { name: 'Cancelar' }));
+
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(usersApi.changeStatus).not.toHaveBeenCalled();
+  });
+
+  it('activa una cuenta inactiva tras confirmar el diálogo', async () => {
+    vi.mocked(usersApi.changeStatus).mockResolvedValue({ id: '1', status: 'ACTIVE' });
+    renderPage();
+    await screen.findByText('Ana Aguilar');
+
+    await userEvent.click(screen.getByRole('button', { name: 'Activar' }));
+    const dialog = screen.getByRole('dialog');
+    await userEvent.click(within(dialog).getByRole('button', { name: 'Confirmar' }));
+
+    await waitFor(() => {
+      expect(usersApi.changeStatus).toHaveBeenCalledWith('1', 'ACTIVE');
+    });
+    expect(screen.getByRole('status')).toHaveTextContent('Cuenta activada correctamente');
+  });
+
+  it('muestra el mensaje de error del backend si se rechaza el cambio de estado', async () => {
+    vi.mocked(usersApi.changeStatus).mockRejectedValue(new Error('No puede inactivar su propia cuenta'));
+    renderPage();
+    await screen.findByText('Luis Mena');
+
+    await userEvent.click(screen.getByRole('button', { name: 'Inactivar' }));
+    await userEvent.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Confirmar' }));
+
+    expect(await screen.findByRole('alert')).toHaveTextContent('No puede inactivar su propia cuenta');
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 });

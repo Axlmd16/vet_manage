@@ -21,6 +21,7 @@ import { UserQueryRepository } from './repositories/user-query.repository.js';
 import { UserQueryService } from './services/user-query.service.js';
 import { UserRegistrationService } from './services/user-registration.service.js';
 import { ClientRegistrationService } from './services/client-registration.service.js';
+import { ChangeUserStatusService } from './services/change-user-status.service.js';
 import { UserRoleAssignmentService } from './services/user-role-assignment.service.js';
 
 @Module({
@@ -48,6 +49,7 @@ import { UserRoleAssignmentService } from './services/user-role-assignment.servi
     UserQueryRepository,
     UserQueryService,
     UserRoleAssignmentService,
+    ChangeUserStatusService,
     JwtAuthGuard,
     PermissionsGuard,
   ],

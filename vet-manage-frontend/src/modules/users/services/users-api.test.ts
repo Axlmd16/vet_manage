@@ -5,6 +5,7 @@ import { usersApi } from './users-api';
 
 vi.mock('../../../infrastructure/api/http-client', () => ({
   getJson: vi.fn(),
+  patchJson: vi.fn(),
   postJson: vi.fn(),
   putJson: vi.fn(),
 }));
@@ -65,5 +66,21 @@ describe('usersApi role assignment', () => {
     await usersApi.updateRoleAssignment('u1', ['receptionist', 'cashier']);
 
     expect(putJson).toHaveBeenCalledWith('/users/u1/role-assignment', { roles: ['receptionist', 'cashier'] });
+  });
+});
+
+describe('usersApi.changeStatus', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('envía PATCH al endpoint de estado del usuario', async () => {
+    const { patchJson } = await import('../../../infrastructure/api/http-client');
+    vi.mocked(patchJson).mockResolvedValue({ id: 'u1', status: 'INACTIVE' });
+
+    const result = await usersApi.changeStatus('u1', 'INACTIVE');
+
+    expect(patchJson).toHaveBeenCalledWith('/users/u1/status', { status: 'INACTIVE' });
+    expect(result).toEqual({ id: 'u1', status: 'INACTIVE' });
   });
 });
