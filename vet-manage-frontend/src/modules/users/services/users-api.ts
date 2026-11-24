@@ -5,6 +5,9 @@ import type {
   ChangedUserStatus,
   RegisteredUser,
   RegisterUserInput,
+  UpdatedUser,
+  UpdateUserInput,
+  UserDetail,
   UserPage,
   UserQuery,
   UserRoleAssignment,
@@ -33,6 +36,12 @@ export const usersApi = {
   },
   register(input: RegisterUserInput) {
     return postJson<RegisteredUser, RegisterUserInput>('/users', input);
+  },
+  get(userId: string) {
+    return getJson<UserDetail>(`/users/${userId}`);
+  },
+  update(userId: string, input: UpdateUserInput) {
+    return patchJson<UpdatedUser, UpdateUserInput>(`/users/${userId}`, input);
   },
   getRoleAssignment(userId: string) {
     return getJson<UserRoleAssignment>(`/users/${userId}/role-assignment`);
