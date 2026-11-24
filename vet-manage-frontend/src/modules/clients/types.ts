@@ -39,6 +39,11 @@ export type InactivatedClient = {
   status: 'INACTIVE';
 };
 
+export type ActivatedClient = {
+  id: string;
+  status: 'ACTIVE';
+};
+
 export type ClientListItem = {
   id: string;
   personId: string;

@@ -1,5 +1,6 @@
 import { getJson, patchJson, postJson } from '../../../infrastructure/api/http-client';
 import type {
+  ActivatedClient,
   AssignableRole,
   ClientPage,
   ClientPet,
@@ -35,5 +36,8 @@ export const clientsApi = {
   },
   inactivate(clientId: string) {
     return patchJson<InactivatedClient, Record<string, never>>(`/clients/${clientId}/inactivate`, {});
+  },
+  activate(clientId: string) {
+    return patchJson<ActivatedClient, Record<string, never>>(`/clients/${clientId}/activate`, {});
   },
 };
