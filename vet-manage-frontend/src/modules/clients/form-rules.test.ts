@@ -2,7 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { ApiError } from '../../infrastructure/api/http-client';
 import {
   buildClientInput, buildClientUpdateInput, describeApiError, INVALID_ADDRESS, INVALID_EMAIL, INVALID_IDENTIFICATION,
-  INVALID_PHONE, isEmailLocked, MAIL_FAILED, MISSING_FIELDS, registrationOutcome, toEditForm, validateClientUpdate,
+  INVALID_PHONE, isEmailLocked, MAIL_FAILED, MISSING_FIELDS, registrationOutcome, sanitizePhone, toEditForm,
+  validateClientUpdate,
   validateRegistration,
 } from './form-rules';
 import type { Form } from './form-rules';
@@ -203,5 +204,17 @@ describe('describeApiError en la edición', () => {
     const deactivated = new ApiError('No se puede actualizar un cliente dado de baja', 409, { code: 'CLIENT_DEACTIVATED' });
 
     expect(describeApiError(deactivated)).toEqual({ message: deactivated.message, errors: {} });
+  });
+});
+
+describe('sanitizePhone', () => {
+  it.each([
+    ['09a9b1c', '0991'],
+    ['099 222-2222', '0992222222'],
+    ['+593992222222', '593992222222'],
+    ['09922222229999', '09922222229999'],
+    ['abc', ''],
+  ])('convierte %j en %j', (value, expected) => {
+    expect(sanitizePhone(value)).toBe(expected);
   });
 });

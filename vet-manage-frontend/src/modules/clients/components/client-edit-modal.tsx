@@ -2,8 +2,8 @@ import { useEffect, useState, type FormEvent } from 'react';
 import { HomeIcon, IdCardIcon, InfoIcon, MailIcon, PhoneIcon, UserIcon } from '../../../common/components/icons';
 import { ClientField as Field } from './client-field';
 import {
-  buildClientUpdateInput, describeApiError, EMAIL_LOCKED_HINT, isEmailLocked, MISSING_FIELDS, toEditForm,
-  validateClientUpdate,
+  buildClientUpdateInput, describeApiError, EMAIL_LOCKED_HINT, isEmailLocked, MISSING_FIELDS, sanitizePhone,
+  toEditForm, validateClientUpdate,
 } from '../form-rules';
 import type { EditForm, FieldErrors } from '../form-rules';
 import type { ClientListItem, UpdateClientInput } from '../types';
@@ -92,8 +92,8 @@ export function ClientEditModal({ client, onSubmit, onCancel }: ClientEditModalP
                 <input value={client.identification} disabled readOnly />
               </Field>
               <Field label="Teléfono" required error={errors.phone} icon={<PhoneIcon size={16} />}>
-                <input type="tel" value={form.phone} placeholder="0991234567" autoComplete="off" disabled={saving}
-                  aria-invalid={Boolean(errors.phone)} onChange={(event) => update('phone', event.target.value)} />
+                <input type="tel" inputMode="numeric" value={form.phone} placeholder="0991234567" autoComplete="off"
+                  disabled={saving} aria-invalid={Boolean(errors.phone)} onChange={(event) => update('phone', sanitizePhone(event.target.value))} />
               </Field>
               <Field label="Nombres" required error={errors.firstName} icon={<UserIcon size={16} />}>
                 <input value={form.firstName} maxLength={100} disabled={saving} aria-invalid={Boolean(errors.firstName)}

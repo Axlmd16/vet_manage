@@ -14,6 +14,12 @@ export const MAIL_FAILED = 'Cliente registrado, pero no se pudo enviar el correo
 const REGISTERED = 'Cliente registrado exitosamente';
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const PHONE_PATTERN = /^09\d{8}$/;
+
+// En la edición (HU-02) el teléfono solo admite números. No se recorta la longitud: con 9 u 11 dígitos
+// la validación muestra el mensaje, como en el registro (HU-01), en lugar de guardar un número recortado.
+export function sanitizePhone(value: string): string {
+  return value.replace(/\D/g, '');
+}
 const ADDRESS_MAX = 255;
 
 export type FieldName = 'identification' | 'firstName' | 'lastName' | 'email' | 'phone' | 'address' | 'roles';

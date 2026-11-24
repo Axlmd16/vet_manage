@@ -6,7 +6,9 @@ import {
 } from '../../../common/components/icons';
 import { ClientField as Field } from '../components/client-field';
 import { useToast } from '../../../common/components/toast-context';
-import { buildClientInput, describeApiError, MISSING_FIELDS, registrationOutcome, validateRegistration } from '../form-rules';
+import {
+  buildClientInput, describeApiError, MISSING_FIELDS, registrationOutcome, sanitizePhone, validateRegistration,
+} from '../form-rules';
 import type { FieldErrors, Form } from '../form-rules';
 import { clientsApi } from '../services/clients-api';
 import { CLIENT_ROLE } from '../types';
@@ -98,8 +100,8 @@ export function ClientRegisterPage() {
                   aria-invalid={Boolean(errors.identification)} onChange={(event) => update('identification', event.target.value.replace(/\D/g, ''))} />
               </Field>
               <Field label="Teléfono" required error={errors.phone} icon={<PhoneIcon size={16} />}>
-                <input type="tel" value={form.phone} placeholder="0991234567" autoComplete="off"
-                  aria-invalid={Boolean(errors.phone)} onChange={(event) => update('phone', event.target.value)} />
+                <input type="tel" inputMode="numeric" value={form.phone} placeholder="0991234567" autoComplete="off"
+                  aria-invalid={Boolean(errors.phone)} onChange={(event) => update('phone', sanitizePhone(event.target.value))} />
               </Field>
               <Field label="Nombres" required error={errors.firstName} icon={<UserIcon size={16} />}>
                 <input value={form.firstName} maxLength={100} placeholder="Nombres completos" aria-invalid={Boolean(errors.firstName)}
