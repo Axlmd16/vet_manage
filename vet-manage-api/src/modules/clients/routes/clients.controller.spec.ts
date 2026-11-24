@@ -12,19 +12,25 @@ function build() {
     total: 0,
     totalPages: 0,
   }));
-  const listPets = vi.fn(async () => []);
+  const listPets = vi.fn(async (): Promise<unknown[]> => []);
   const inactivate = vi.fn(async () => ({
     message: 'Cliente inactivado correctamente',
     client: { id: 'c1', status: 'INACTIVE' as const },
   }));
+  const update = vi.fn(async () => ({
+    message: 'Datos actualizados correctamente',
+    client: { id: 'c1', firstName: 'Carlos' },
+  }));
   const service = { list, listPets };
   const statusChange = { inactivate };
+  const updateClient = { update };
   return {
-    controller: new ClientsController(service as never, statusChange as never),
+    controller: new ClientsController(service as never, statusChange as never, updateClient as never),
     service,
     list,
     listPets,
     inactivate,
+    update,
   };
 }
 
@@ -86,5 +92,21 @@ describe('ClientsController', () => {
 
     expect(ctx.inactivate).toHaveBeenCalledWith('c1', 'u1');
     expect(result).toEqual(success({ id: 'c1', status: 'INACTIVE' }, 'Cliente inactivado correctamente'));
+  });
+
+  it('exige el permiso clients:update al actualizar un cliente', () => {
+    const method = Object.getOwnPropertyDescriptor(ClientsController.prototype, 'update')?.value;
+    const permissions = Reflect.getMetadata(PERMISSIONS_METADATA, method as object);
+
+    expect(permissions).toEqual(['clients:update']);
+  });
+
+  it('delega la actualización con el usuario autenticado y devuelve la envoltura success', async () => {
+    const dto = { firstName: 'Carlos', phone: '0992222222' };
+
+    const result = await ctx.controller.update('c1', dto, { user: { id: 'u1', personId: 'p1' } } as never);
+
+    expect(ctx.update).toHaveBeenCalledWith('c1', dto, 'u1');
+    expect(result).toEqual(success({ id: 'c1', firstName: 'Carlos' }, 'Datos actualizados correctamente'));
   });
 });
