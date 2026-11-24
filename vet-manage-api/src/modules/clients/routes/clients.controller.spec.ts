@@ -13,8 +13,19 @@ function build() {
     totalPages: 0,
   }));
   const listPets = vi.fn(async () => []);
+  const inactivate = vi.fn(async () => ({
+    message: 'Cliente inactivado correctamente',
+    client: { id: 'c1', status: 'INACTIVE' as const },
+  }));
   const service = { list, listPets };
-  return { controller: new ClientsController(service as never), service, list, listPets };
+  const statusChange = { inactivate };
+  return {
+    controller: new ClientsController(service as never, statusChange as never),
+    service,
+    list,
+    listPets,
+    inactivate,
+  };
 }
 
 describe('ClientsController', () => {
@@ -61,5 +72,19 @@ describe('ClientsController', () => {
 
     expect(ctx.listPets).toHaveBeenCalledWith('c1');
     expect(result).toEqual(success(pets));
+  });
+
+  it('exige el permiso clients:inactivate al inactivar un cliente', () => {
+    const method = Object.getOwnPropertyDescriptor(ClientsController.prototype, 'inactivate')?.value;
+    const permissions = Reflect.getMetadata(PERMISSIONS_METADATA, method as object);
+
+    expect(permissions).toEqual(['clients:inactivate']);
+  });
+
+  it('delega la inactivación con el usuario autenticado y devuelve la envoltura success', async () => {
+    const result = await ctx.controller.inactivate('c1', { user: { id: 'u1', personId: 'p1' } } as never);
+
+    expect(ctx.inactivate).toHaveBeenCalledWith('c1', 'u1');
+    expect(result).toEqual(success({ id: 'c1', status: 'INACTIVE' }, 'Cliente inactivado correctamente'));
   });
 });

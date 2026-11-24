@@ -14,6 +14,11 @@ export type RegisterClientInput = {
 
 export type ClientStatus = 'ACTIVE' | 'INACTIVE' | 'DEACTIVATED';
 
+export type InactivatedClient = {
+  id: string;
+  status: 'INACTIVE';
+};
+
 export type ClientListItem = {
   id: string;
   personId: string;
