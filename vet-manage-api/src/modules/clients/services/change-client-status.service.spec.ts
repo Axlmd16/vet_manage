@@ -95,4 +95,73 @@ describe('ChangeClientStatusService', () => {
     expect(tx.client.update).not.toHaveBeenCalled();
     expect(audit.record).not.toHaveBeenCalled();
   });
+
+  describe('activate (HU-05)', () => {
+    it('activa un cliente inactivo y registra la fecha y el usuario en la auditoría', async () => {
+      const tx = baseTx({ status: 'INACTIVE' });
+      const { service, audit } = build(tx);
+
+      const result = await service.activate('c-1', 'u-receptionist');
+
+      expect(result).toEqual({
+        message: 'Cliente activado correctamente',
+        client: { id: 'c-1', status: 'ACTIVE' },
+      });
+      expect(tx.client.update).toHaveBeenCalledWith({
+        where: { id: 'c-1' },
+        data: { status: 'ACTIVE' },
+      });
+      expect(audit.record).toHaveBeenCalledWith(tx, {
+        actorId: 'u-receptionist',
+        action: 'Activar',
+        module: 'Clientes',
+        affectedRecord: '1104567890 - Juan Pérez',
+        previousValue: { status: 'Inactivo' },
+        newValue: { status: 'Activo' },
+      });
+    });
+
+    it('es idempotente si el cliente ya está activo y no registra auditoría', async () => {
+      const tx = baseTx({ status: 'ACTIVE' });
+      const { service, audit } = build(tx);
+
+      const result = await service.activate('c-1', 'u-manager');
+
+      expect(result).toEqual({
+        message: CLIENT_STATUS_MESSAGES.activated,
+        client: { id: 'c-1', status: 'ACTIVE' },
+      });
+      expect(tx.client.update).not.toHaveBeenCalled();
+      expect(audit.record).not.toHaveBeenCalled();
+    });
+
+    it('devuelve 404 si el cliente no existe', async () => {
+      const tx = baseTx();
+      tx.client.findUnique.mockResolvedValue(null);
+      const { service, audit } = build(tx);
+
+      await expect(service.activate('c-missing', 'u-manager')).rejects.toMatchObject({
+        statusCode: 404,
+        message: 'Cliente no encontrado',
+      });
+      expect(tx.client.update).not.toHaveBeenCalled();
+      expect(audit.record).not.toHaveBeenCalled();
+    });
+
+    it('rechaza activar un cliente dado de baja sin escribir ni auditar (R-05)', async () => {
+      const tx = baseTx({ status: 'DEACTIVATED' });
+      const { service, audit } = build(tx);
+
+      const error = await service.activate('c-1', 'u-manager').catch((e: unknown) => e);
+
+      expect(error).toBeInstanceOf(ApiException);
+      expect(error).toMatchObject({
+        statusCode: 400,
+        message: 'No se puede activar un cliente dado de baja',
+        code: 'CLIENT_STATUS_DEACTIVATED',
+      });
+      expect(tx.client.update).not.toHaveBeenCalled();
+      expect(audit.record).not.toHaveBeenCalled();
+    });
+  });
 });
