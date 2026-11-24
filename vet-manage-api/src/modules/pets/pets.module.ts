@@ -15,6 +15,7 @@ import { RegisterPatientService } from './services/patients/register-patient.ser
 import { SearchPatientsService } from './services/patients/search-patients.service.js';
 import { ListActiveSpeciesService } from './services/species/list-active-species.service.js';
 import { RegisterSpeciesService } from './services/species/register-species.service.js';
+import { UpdateSpeciesService } from './services/species/update-species.service.js';
 
 @Module({
   imports: [PrismaModule, AuditModule, IdentityModule, ClientsModule],
@@ -25,6 +26,7 @@ import { RegisterSpeciesService } from './services/species/register-species.serv
     PatientRepository,
     RegisterSpeciesService,
     ListActiveSpeciesService,
+    UpdateSpeciesService,
     RegisterBreedService,
     ListActiveBreedsService,
     RegisterPatientService,
