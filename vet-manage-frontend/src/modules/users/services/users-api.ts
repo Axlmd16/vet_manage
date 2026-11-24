@@ -1,6 +1,8 @@
-import { getJson, postJson, putJson } from '../../../infrastructure/api/http-client';
+import { getJson, patchJson, postJson, putJson } from '../../../infrastructure/api/http-client';
 import type {
   AssignableRole,
+  ChangeableUserStatus,
+  ChangedUserStatus,
   RegisteredUser,
   RegisterUserInput,
   UserPage,
@@ -37,5 +39,8 @@ export const usersApi = {
   },
   updateRoleAssignment(userId: string, roles: string[]) {
     return putJson<UserRoleAssignment, { roles: string[] }>(`/users/${userId}/role-assignment`, { roles });
+  },
+  changeStatus(userId: string, status: ChangeableUserStatus) {
+    return patchJson<ChangedUserStatus, { status: ChangeableUserStatus }>(`/users/${userId}/status`, { status });
   },
 };

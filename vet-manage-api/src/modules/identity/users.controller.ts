@@ -1,10 +1,12 @@
-import { Body, Controller, Get, HttpCode, Param, Post, Put, Query, Req } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Patch, Post, Put, Query, Req } from '@nestjs/common';
 import { ApiException } from '../../common/errors/api-exception.js';
 import { success } from '../../common/errors/api-response.js';
 import { RequirePermissions } from './decorators/require-permissions.decorator.js';
+import { ChangeUserStatusDto } from './dtos/change-user-status.dto.js';
 import { QueryUsersDto } from './dtos/query-users.dto.js';
 import { RegisterUserDto } from './dtos/register-user.dto.js';
 import { UpdateUserRoleAssignmentDto } from './dtos/update-user-role-assignment.dto.js';
+import { ChangeUserStatusService } from './services/change-user-status.service.js';
 import { UserQueryService } from './services/user-query.service.js';
 import { UserRegistrationService } from './services/user-registration.service.js';
 import { UserRoleAssignmentService } from './services/user-role-assignment.service.js';
@@ -16,6 +18,7 @@ export class UsersController {
     private readonly registration: UserRegistrationService,
     private readonly query: UserQueryService,
     private readonly roleAssignment: UserRoleAssignmentService,
+    private readonly statusChange: ChangeUserStatusService,
   ) {}
 
   @Get()
@@ -57,5 +60,17 @@ export class UsersController {
       await this.roleAssignment.update(id, input.roles, request.user.id),
       'Roles actualizados correctamente',
     );
+  }
+
+  @Patch(':id/status')
+  @RequirePermissions('users:change-status')
+  async changeStatus(
+    @Param('id') id: string,
+    @Body() input: ChangeUserStatusDto,
+    @Req() request: AuthenticatedRequest,
+  ) {
+    if (!request.user) throw ApiException.unauthorized();
+    const { message, user } = await this.statusChange.changeStatus(id, input.status, request.user.id);
+    return success(user, message);
   }
 }

@@ -2,6 +2,8 @@
 export const AUDIT_ACTIONS = {
   register: 'Registrar',
   assignRoles: 'Asignar roles',
+  inactivate: 'Inactivar',
+  activate: 'Activar',
 } as const;
 
 export const AUDIT_MODULES = {

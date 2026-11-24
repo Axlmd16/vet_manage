@@ -22,6 +22,12 @@ export type RegisteredUser = {
 };
 
 export type UserStatus = 'ACTIVE' | 'INACTIVE' | 'DEACTIVATED';
+export type ChangeableUserStatus = 'ACTIVE' | 'INACTIVE';
+
+export type ChangedUserStatus = {
+  id: string;
+  status: ChangeableUserStatus;
+};
 
 export type UserListItem = {
   id: string;
