@@ -4,6 +4,7 @@ export const AUDIT_ACTIONS = {
   assignRoles: 'Asignar roles',
   inactivate: 'Inactivar',
   activate: 'Activar',
+  changePassword: 'Cambiar contraseña',
   update: 'Actualizar',
 } as const;
 

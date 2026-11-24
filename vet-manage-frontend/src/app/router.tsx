@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { AppShell } from '../common/layouts/app-shell';
 import { RequireAuth } from '../modules/auth/components/require-auth';
 import { RequirePermission } from '../modules/auth/components/require-permission';
+import { ChangePasswordPage } from '../modules/auth/pages/change-password-page';
 import { LoginPage } from '../modules/auth/pages/login-page';
 import { CATALOG_PERMISSIONS } from '../modules/catalogs/catalog-tabs';
 import { CatalogsPage } from '../modules/catalogs/pages/catalogs-page';
@@ -33,6 +34,7 @@ export function AppRouter() {
       <Route element={<RequireAuth />}>
         <Route element={<AppShell />}>
           <Route index element={<DashboardPage />} />
+          <Route path="change-password" element={<ChangePasswordPage />} />
           <Route path="pets" element={<RequirePermission permission="pets:read"><PatientsPage /></RequirePermission>} />
           <Route path="catalogs" element={<RequirePermission permission={CATALOG_PERMISSIONS}><CatalogsPage /></RequirePermission>} />
           <Route path="clients" element={<RequirePermission permission="clients:read"><ClientsPage /></RequirePermission>} />
