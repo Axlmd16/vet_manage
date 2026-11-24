@@ -40,6 +40,18 @@ export class ClientsController {
     return success(client, message);
   }
 
+  // Vuelve a activar un cliente inactivo (HU-05); un cliente dado de baja no se puede activar.
+  @Patch(':clientId/activate')
+  @RequirePermissions('clients:activate')
+  async activate(
+    @Param('clientId', ParseUUIDPipe) clientId: string,
+    @Req() request: AuthenticatedRequest,
+  ) {
+    if (!request.user) throw ApiException.unauthorized();
+    const { message, client } = await this.statusChange.activate(clientId, request.user.id);
+    return success(client, message);
+  }
+
   // Actualiza los datos de contacto del cliente (HU-02); la cédula no se modifica.
   @Patch(':clientId')
   @RequirePermissions('clients:update')

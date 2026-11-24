@@ -69,6 +69,22 @@ describe('clientsApi.inactivate', () => {
   });
 });
 
+describe('clientsApi.activate', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('envía PATCH al endpoint de activación del cliente (HU-05)', async () => {
+    const { patchJson } = await import('../../../infrastructure/api/http-client');
+    vi.mocked(patchJson).mockResolvedValue({ id: 'c1', status: 'ACTIVE' });
+
+    const result = await clientsApi.activate('c1');
+
+    expect(patchJson).toHaveBeenCalledWith('/clients/c1/activate', {});
+    expect(result).toEqual({ id: 'c1', status: 'ACTIVE' });
+  });
+});
+
 describe('clientsApi.update', () => {
   beforeEach(() => {
     vi.clearAllMocks();

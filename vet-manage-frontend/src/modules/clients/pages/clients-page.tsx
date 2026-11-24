@@ -33,6 +33,42 @@ function InactivateClientIcon() {
   );
 }
 
+function ActivateClientIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <polyline points="16 11 18 13 22 9" />
+    </svg>
+  );
+}
+
+type StatusTarget = 'ACTIVE' | 'INACTIVE';
+
+// Textos del diálogo de confirmación según la acción: inactivar (HU-04) o activar (HU-05).
+const STATUS_ACTIONS: Record<StatusTarget, {
+  title: string;
+  from: ClientStatus;
+  description: string;
+  success: string;
+  failure: string;
+}> = {
+  INACTIVE: {
+    title: 'Inactivar cliente',
+    from: 'ACTIVE',
+    description: 'El cliente no podrá ser seleccionado en nuevas transacciones mientras esté inactivo. Su información y los historiales clínicos de sus mascotas se conservarán intactos.',
+    success: 'Cliente inactivado correctamente',
+    failure: 'No se pudo inactivar al cliente.',
+  },
+  ACTIVE: {
+    title: 'Activar cliente',
+    from: 'INACTIVE',
+    description: 'El cliente volverá a estar disponible para agendar citas y otras transacciones de la clínica. Su información y los historiales clínicos de sus mascotas se conservan sin cambios.',
+    success: 'Cliente activado correctamente',
+    failure: 'No se pudo activar al cliente.',
+  },
+};
+
 function EditClientIcon() {
   return (
     <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -50,16 +86,17 @@ export function ClientsPage() {
   const { hasPermission } = useAuth();
   const canCreate = hasPermission('clients:create');
   const canInactivate = hasPermission('clients:inactivate');
+  const canActivate = hasPermission('clients:activate');
   const canUpdate = hasPermission('clients:update');
   const { showToast } = useToast();
-  const showActions = canInactivate || canUpdate;
+  const showActions = canInactivate || canActivate || canUpdate;
   const [search, setSearch] = useState('');
   const [query, setQuery] = useState<ClientQuery>({ page: 1, pageSize: 20 });
   const [result, setResult] = useState<ClientPage>(emptyPage(1, 20));
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [validationError, setValidationError] = useState<string | null>(null);
-  const [pendingClient, setPendingClient] = useState<ClientListItem | null>(null);
+  const [pendingAction, setPendingAction] = useState<{ client: ClientListItem; targetStatus: StatusTarget } | null>(null);
   const [editingClient, setEditingClient] = useState<ClientListItem | null>(null);
   const [submittingStatus, setSubmittingStatus] = useState(false);
   const [expandedClient, setExpandedClient] = useState<string | null>(null);
@@ -148,27 +185,29 @@ export function ClientsPage() {
     setExpandedClient(clientId);
   }
 
-  async function confirmInactivation() {
-    if (!pendingClient) return;
-    const target = pendingClient;
+  async function confirmStatusChange() {
+    if (!pendingAction) return;
+    const { client: target, targetStatus } = pendingAction;
+    const texts = STATUS_ACTIONS[targetStatus];
     setSubmittingStatus(true);
 
     try {
-      await clientsApi.inactivate(target.id);
+      if (targetStatus === 'ACTIVE') await clientsApi.activate(target.id);
+      else await clientsApi.inactivate(target.id);
       if (query.status) {
         const refreshed = await clientsApi.list(query);
         setResult(refreshed);
       } else {
         setResult((current) => ({
           ...current,
-          items: current.items.map((item) => (item.id === target.id ? { ...item, status: 'INACTIVE' } : item)),
+          items: current.items.map((item) => (item.id === target.id ? { ...item, status: targetStatus } : item)),
         }));
       }
-      showToast('Cliente inactivado correctamente', 'success');
-      setPendingClient(null);
+      showToast(texts.success, 'success');
+      setPendingAction(null);
     } catch (cause: unknown) {
-      showToast(cause instanceof Error ? cause.message : 'No se pudo inactivar al cliente.', 'error');
-      setPendingClient(null);
+      showToast(cause instanceof Error ? cause.message : texts.failure, 'error');
+      setPendingAction(null);
     } finally {
       setSubmittingStatus(false);
     }
@@ -194,6 +233,9 @@ export function ClientsPage() {
     setEditingClient(null);
     showToast(UPDATED, 'success');
   }
+
+  const activating = pendingAction?.targetStatus === 'ACTIVE';
+  const pendingTexts = pendingAction ? STATUS_ACTIONS[pendingAction.targetStatus] : null;
 
   return (
     <section className="clients-page">
@@ -277,13 +319,15 @@ export function ClientsPage() {
                     key={client.id}
                     client={client}
                     canInactivate={canInactivate}
+                    canActivate={canActivate}
                     canUpdate={canUpdate}
                     expanded={expandedClient === client.id}
                     pets={petsByClient[client.id]}
                     petsLoading={petsLoading && expandedClient === client.id}
                     petsError={petsError && expandedClient === client.id ? petsError : null}
                     onToggle={() => togglePets(client.id)}
-                    onInactivate={() => setPendingClient(client)}
+                    onInactivate={() => setPendingAction({ client, targetStatus: 'INACTIVE' })}
+                    onActivate={() => setPendingAction({ client, targetStatus: 'ACTIVE' })}
                     onEdit={() => setEditingClient(client)}
                   />
                 ))}
@@ -320,11 +364,11 @@ export function ClientsPage() {
         <ClientEditModal client={editingClient} onSubmit={saveClient} onCancel={() => setEditingClient(null)} />
       )}
 
-      {pendingClient && (
+      {pendingAction && (
         <div
           className="clients-modal-backdrop"
           onClick={() => {
-            if (!submittingStatus) setPendingClient(null);
+            if (!submittingStatus) setPendingAction(null);
           }}
         >
           <div
@@ -335,19 +379,19 @@ export function ClientsPage() {
             onClick={(event) => event.stopPropagation()}
           >
             <div className="clients-modal__header">
-              <div className="clients-modal__icon">
-                <InactivateClientIcon />
+              <div className={`clients-modal__icon${activating ? ' clients-modal__icon--activate' : ''}`}>
+                {activating ? <ActivateClientIcon /> : <InactivateClientIcon />}
               </div>
               <div className="clients-modal__title-wrap">
                 <span className="clients-modal__eyebrow">Gestión de clientes</span>
-                <h3 id="client-status-dialog-title">Inactivar cliente</h3>
+                <h3 id="client-status-dialog-title">{pendingTexts?.title}</h3>
               </div>
               <button
                 className="clients-modal__close"
                 type="button"
                 aria-label="Cerrar"
                 disabled={submittingStatus}
-                onClick={() => setPendingClient(null)}
+                onClick={() => setPendingAction(null)}
               >
                 ×
               </button>
@@ -356,19 +400,17 @@ export function ClientsPage() {
             <div className="clients-modal__body">
               <div className="clients-modal__client-card">
                 <div className="clients-modal__client-info">
-                  <strong>{pendingClient.firstName} {pendingClient.lastName}</strong>
-                  <span>{pendingClient.email}</span>
+                  <strong>{pendingAction.client.firstName} {pendingAction.client.lastName}</strong>
+                  <span>{pendingAction.client.email}</span>
                 </div>
                 <div className="clients-modal__transition">
-                  <span className="status-badge status-badge--active">Activo</span>
+                  <StatusBadge status={STATUS_ACTIONS[pendingAction.targetStatus].from} />
                   <span className="clients-modal__arrow" aria-hidden="true">→</span>
-                  <span className="status-badge status-badge--inactive">Inactivo</span>
+                  <StatusBadge status={pendingAction.targetStatus} />
                 </div>
               </div>
 
-              <p className="clients-modal__description">
-                El cliente no podrá ser seleccionado en nuevas transacciones mientras esté inactivo. Su información y los historiales clínicos de sus mascotas se conservarán intactos.
-              </p>
+              <p className="clients-modal__description">{pendingTexts?.description}</p>
             </div>
 
             <div className="clients-modal__actions">
@@ -376,15 +418,15 @@ export function ClientsPage() {
                 className="button button--ghost"
                 type="button"
                 disabled={submittingStatus}
-                onClick={() => setPendingClient(null)}
+                onClick={() => setPendingAction(null)}
               >
                 Cancelar
               </button>
               <button
-                className="button clients-modal__confirm"
+                className={`button clients-modal__confirm${activating ? ' clients-modal__confirm--activate' : ''}`}
                 type="button"
                 disabled={submittingStatus}
-                onClick={() => void confirmInactivation()}
+                onClick={() => void confirmStatusChange()}
               >
                 {submittingStatus ? 'Guardando…' : 'Confirmar'}
               </button>
@@ -399,6 +441,7 @@ export function ClientsPage() {
 type FragmentRowProps = {
   client: ClientListItem;
   canInactivate: boolean;
+  canActivate: boolean;
   canUpdate: boolean;
   expanded: boolean;
   pets: ClientPet[] | undefined;
@@ -406,12 +449,18 @@ type FragmentRowProps = {
   petsError: string | null;
   onToggle: () => void;
   onInactivate: () => void;
+  onActivate: () => void;
   onEdit: () => void;
 };
+
+function StatusBadge({ status }: { status: ClientStatus }) {
+  return <span className={`status-badge status-badge--${statusClasses[status]}`}>{statusLabels[status]}</span>;
+}
 
 function FragmentRow({
   client,
   canInactivate,
+  canActivate,
   canUpdate,
   expanded,
   pets,
@@ -419,9 +468,10 @@ function FragmentRow({
   petsError,
   onToggle,
   onInactivate,
+  onActivate,
   onEdit,
 }: FragmentRowProps) {
-  const showActions = canInactivate || canUpdate;
+  const showActions = canInactivate || canActivate || canUpdate;
   return (
     <>
       <tr>
@@ -468,6 +518,18 @@ function FragmentRow({
                 onClick={onInactivate}
               >
                 <InactivateClientIcon />
+              </button>
+            )}
+            {canActivate && client.status === 'INACTIVE' && (
+              <button
+                className="clients-icon-btn clients-icon-btn--activate"
+                type="button"
+                aria-label="Activar"
+                title="Activar"
+                data-tooltip="Activar"
+                onClick={onActivate}
+              >
+                <ActivateClientIcon />
               </button>
             )}
           </td>

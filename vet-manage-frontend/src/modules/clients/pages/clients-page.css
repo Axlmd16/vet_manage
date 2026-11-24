@@ -12,6 +12,12 @@
 .clients-page .status-badge--inactive { color: #c2414b; background: #fdecec; border-color: #f7c5ca; }
 .clients-page .status-badge--deactivated { color: #64748b; background: #f1f5f9; border-color: #cbd5e1; }
 .clients-actions-cell { white-space: nowrap; }
+.clients-icon-btn.clients-icon-btn--activate { color: #15803d; background: #f0fdf4; border-color: #bbf7d0; }
+.clients-icon-btn.clients-icon-btn--activate:hover,
+.clients-icon-btn.clients-icon-btn--activate:focus-visible { color: #166534; background: #dcfce7; border-color: #86efac; }
+.clients-modal__icon.clients-modal__icon--activate { color: #1f7a53; background: #e8f7f0; border-color: #bfead5; }
+.clients-modal__confirm.clients-modal__confirm--activate { background: #1f7a53; }
+.clients-modal__confirm.clients-modal__confirm--activate:hover:not(:disabled) { background: #186242; }
 .clients-actions-cell .clients-icon-btn + .clients-icon-btn { margin-left: 6px; }
 .clients-icon-btn.clients-icon-btn--edit { color: #2f5fd0; background: #f1f5ff; border-color: #c9d7fb; }
 .clients-icon-btn.clients-icon-btn--edit:hover,

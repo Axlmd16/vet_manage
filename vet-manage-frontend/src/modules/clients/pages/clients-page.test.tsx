@@ -15,6 +15,7 @@ vi.mock('../services/clients-api', () => ({
     list: vi.fn(),
     pets: vi.fn(),
     inactivate: vi.fn(),
+    activate: vi.fn(),
     update: vi.fn(),
   },
 }));
@@ -357,6 +358,145 @@ describe('ClientsPage', () => {
 
       expect(await within(dialog).findByRole('alert')).toHaveTextContent('El correo ya se encuentra registrado');
       expect(within(dialog).getByLabelText(/correo electrónico/i)).toHaveAttribute('aria-invalid', 'true');
+    });
+  });
+  describe('Activar cliente (HU-05)', () => {
+    const mixedPage = (): ClientPage => ({
+      items: [
+        makeClient('1', 'Luis', 'Mena', 'ACTIVE'),
+        makeClient('2', 'Ana', 'Aguilar', 'INACTIVE'),
+        makeClient('3', 'Carlos', 'Baja', 'DEACTIVATED'),
+      ],
+      total: 3,
+      page: 1,
+      pageSize: 20,
+      totalPages: 1,
+    });
+
+    it('muestra Activar solo en los clientes inactivos y ninguna acción de estado en los dados de baja (escenario 5)', async () => {
+      vi.mocked(clientsApi.list).mockResolvedValue(mixedPage());
+      renderPage();
+      const table = await screen.findByRole('table', { name: 'Clientes' });
+      const rows = within(table).getAllByRole('row').slice(1);
+
+      expect(within(rows[0]).queryByRole('button', { name: 'Activar' })).not.toBeInTheDocument();
+      expect(within(rows[1]).getByRole('button', { name: 'Activar' })).toBeInTheDocument();
+      expect(within(rows[1]).queryByRole('button', { name: 'Inactivar' })).not.toBeInTheDocument();
+      expect(within(rows[2]).queryByRole('button', { name: 'Activar' })).not.toBeInTheDocument();
+      expect(within(rows[2]).queryByRole('button', { name: 'Inactivar' })).not.toBeInTheDocument();
+    });
+
+    it('oculta Activar sin el permiso clients:activate', async () => {
+      renderPage({ hasPermission: (permission) => permission !== 'clients:activate' });
+      await screen.findByText('Ana Aguilar');
+
+      expect(screen.queryByRole('button', { name: 'Activar' })).not.toBeInTheDocument();
+    });
+
+    it('muestra la columna de acciones solo con Activar cuando es el único permiso de estado', async () => {
+      renderPage({ hasPermission: (permission) => permission === 'clients:read' || permission === 'clients:activate' });
+      await screen.findByText('Ana Aguilar');
+
+      expect(screen.getByRole('columnheader', { name: 'Acciones' })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'Activar' })).toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: 'Inactivar' })).not.toBeInTheDocument();
+    });
+
+    it('activa un cliente tras confirmar, actualiza la fila y muestra el toast (escenario 1)', async () => {
+      vi.mocked(clientsApi.activate).mockResolvedValue({ id: '1', status: 'ACTIVE' });
+      renderPage();
+      await screen.findByText('Ana Aguilar');
+
+      await userEvent.click(screen.getByRole('button', { name: 'Activar' }));
+      const dialog = screen.getByRole('dialog', { name: 'Activar cliente' });
+      expect(within(dialog).getByText('Ana Aguilar')).toBeInTheDocument();
+      expect(within(dialog).getByText('1@example.test')).toBeInTheDocument();
+      const badges = within(dialog).getAllByText(/^(Activo|Inactivo)$/).map((badge) => badge.textContent);
+      expect(badges).toEqual(['Inactivo', 'Activo']);
+
+      await userEvent.click(within(dialog).getByRole('button', { name: 'Confirmar' }));
+
+      await waitFor(() => expect(clientsApi.activate).toHaveBeenCalledWith('1'));
+      expect(clientsApi.inactivate).not.toHaveBeenCalled();
+      expect(await screen.findByRole('status')).toHaveTextContent('Cliente activado correctamente');
+      expect(screen.getByRole('status').closest('.toast')).not.toBeNull();
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+      const row = screen.getByText('Ana Aguilar').closest('tr') as HTMLElement;
+      expect(within(row).getByText('Activo')).toBeInTheDocument();
+      expect(within(row).getByRole('button', { name: 'Inactivar' })).toBeInTheDocument();
+      expect(within(row).getByRole('button', { name: 'Ver mascotas de Ana Aguilar' })).toBeInTheDocument();
+    });
+
+    it('recarga la lista si hay un filtro de estado activo', async () => {
+      vi.mocked(clientsApi.activate).mockResolvedValue({ id: '1', status: 'ACTIVE' });
+      renderPage();
+      await screen.findByText('Ana Aguilar');
+      await userEvent.selectOptions(screen.getByLabelText('Filtrar por estado'), 'INACTIVE');
+      await screen.findByText('Ana Aguilar');
+      vi.mocked(clientsApi.list).mockClear();
+
+      await userEvent.click(screen.getByRole('button', { name: 'Activar' }));
+      await userEvent.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Confirmar' }));
+
+      await waitFor(() => expect(clientsApi.list).toHaveBeenCalledWith(expect.objectContaining({ status: 'INACTIVE' })));
+    });
+
+    it('cancela la activación sin llamar a la API y deja al cliente inactivo (escenario 4)', async () => {
+      renderPage();
+      await screen.findByText('Ana Aguilar');
+
+      await userEvent.click(screen.getByRole('button', { name: 'Activar' }));
+      await userEvent.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Cancelar' }));
+
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+      expect(clientsApi.activate).not.toHaveBeenCalled();
+      const row = screen.getByText('Ana Aguilar').closest('tr') as HTMLElement;
+      expect(within(row).getByText('Inactivo')).toBeInTheDocument();
+    });
+
+    it('deshabilita Confirmar y Cancelar mientras se activa', async () => {
+      let finish: (value: { id: string; status: 'ACTIVE' }) => void = () => undefined;
+      vi.mocked(clientsApi.activate).mockImplementation(() => new Promise((resolve) => { finish = resolve; }));
+      renderPage();
+      await screen.findByText('Ana Aguilar');
+
+      await userEvent.click(screen.getByRole('button', { name: 'Activar' }));
+      const dialog = screen.getByRole('dialog');
+      await userEvent.click(within(dialog).getByRole('button', { name: 'Confirmar' }));
+
+      expect(within(dialog).getByRole('button', { name: 'Guardando…' })).toBeDisabled();
+      expect(within(dialog).getByRole('button', { name: 'Cancelar' })).toBeDisabled();
+      finish({ id: '1', status: 'ACTIVE' });
+      await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
+    });
+
+    it('muestra en un toast el error de la API y no cambia la fila', async () => {
+      vi.mocked(clientsApi.activate).mockRejectedValue(
+        new ApiError('No se puede activar un cliente dado de baja', 400, { code: 'CLIENT_STATUS_DEACTIVATED' }),
+      );
+      renderPage();
+      await screen.findByText('Ana Aguilar');
+
+      await userEvent.click(screen.getByRole('button', { name: 'Activar' }));
+      await userEvent.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Confirmar' }));
+
+      const alert = await screen.findByRole('alert');
+      expect(alert).toHaveTextContent('No se puede activar un cliente dado de baja');
+      expect(alert.closest('.toast')).not.toBeNull();
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+      const row = screen.getByText('Ana Aguilar').closest('tr') as HTMLElement;
+      expect(within(row).getByText('Inactivo')).toBeInTheDocument();
+    });
+
+    it('mantiene el diálogo de inactivar con su título y su transición', async () => {
+      renderPage();
+      await screen.findByText('Luis Mena');
+
+      await userEvent.click(screen.getByRole('button', { name: 'Inactivar' }));
+      const dialog = screen.getByRole('dialog', { name: 'Inactivar cliente' });
+      const badges = within(dialog).getAllByText(/^(Activo|Inactivo)$/).map((badge) => badge.textContent);
+
+      expect(badges).toEqual(['Activo', 'Inactivo']);
     });
   });
 });
