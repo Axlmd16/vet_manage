@@ -24,6 +24,8 @@ import { UserRegistrationService } from './services/user-registration.service.js
 import { ClientRegistrationService } from './services/client-registration.service.js';
 import { ChangeUserStatusService } from './services/change-user-status.service.js';
 import { UserRoleAssignmentService } from './services/user-role-assignment.service.js';
+import { UserDetailService } from './services/user-detail.service.js';
+import { UpdateUserService } from './services/update-user.service.js';
 
 @Module({
   imports: [
@@ -52,6 +54,8 @@ import { UserRoleAssignmentService } from './services/user-role-assignment.servi
     UserQueryService,
     UserRoleAssignmentService,
     ChangeUserStatusService,
+    UserDetailService,
+    UpdateUserService,
     JwtAuthGuard,
     PermissionsGuard,
   ],
