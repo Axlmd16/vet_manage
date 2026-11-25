@@ -7,28 +7,33 @@
 
 - [ ] 2.1 Agregar `deactivate: 'Dar de baja'` a `AUDIT_ACTIONS` en `src/modules/audit/audit.catalog.ts` y actualizar la prueba del catálogo.
 
-## 3. Dominio de agenda (coordinado con el Módulo 2)
+## 3. Backend – Baja de clientes
 
-- [ ] 3.1 Crear `src/modules/scheduling/appointments/services/pending-appointments.service.ts` con `countFutureByClient(clientId, now)` (citas `PROGRAMADA` o `CONFIRMADA` con `fechaHora > now` de los pacientes del cliente) y exportarlo desde su módulo.
-- [ ] 3.2 Probar `pending-appointments.service.spec.ts`: cuenta citas futuras programadas y confirmadas; ignora pasadas, canceladas, finalizadas y de otros clientes.
+- [ ] 3.1 Crear `src/modules/clients/dtos/deactivate-client.dto.ts` (`reason` opcional en el DTO; la validación de negocio la hace el servicio para responder con los mensajes de la HU).
+- [ ] 3.2 Agregar `deactivate(clientId, reason, actorId)` a `ChangeClientStatusService`: motivo obligatorio de 1 a 500 caracteres (`400`), cliente inexistente (`404`), ya desactivado (`409` «El cliente está desactivado»), actualización de estado y datos de la baja, y auditoría "Dar de baja" en la misma transacción.
+- [ ] 3.3 Exponer `PATCH /clients/:clientId/deactivate` en `clients.controller.ts` con `ParseUUIDPipe` y `@RequirePermissions('clients:deactivate')`.
+- [ ] 3.4 Devolver `deactivatedAt`, `deactivationReason` y el nombre del responsable en el listado/detalle de clientes (`clients.repository.ts`, `client-response.dto.ts`).
+- [ ] 3.5 En `RegisterPatientService`, responder «El cliente está desactivado» (`409`) para clientes `DEACTIVATED`, manteniendo el mensaje de HU-07 para `INACTIVE`.
 
-## 4. Backend – Baja de clientes
+## 4. Pruebas de backend (positivos, negativos y valor límite)
 
-- [ ] 4.1 Crear `src/modules/clients/dtos/deactivate-client.dto.ts` (`reason` opcional en el DTO; la validación de negocio la hace el servicio para responder con los mensajes de la HU).
-- [ ] 4.2 Agregar `deactivate(clientId, reason, actorId)` a `ChangeClientStatusService`: motivo obligatorio y ≤ 500 (`400`), cliente inexistente (`404`), ya de baja (`409`), citas pendientes (`409` con el conteo), actualización de estado y datos de la baja, y auditoría "Dar de baja" en la misma transacción.
-- [ ] 4.3 Exponer `PATCH /clients/:clientId/deactivate` en `clients.controller.ts` con `ParseUUIDPipe` y `@RequirePermissions('clients:deactivate')`; importar el módulo de agenda en `clients.module.ts`.
-- [ ] 4.4 Devolver `deactivatedAt`, `deactivationReason` y el nombre del responsable en el listado/detalle de clientes (`clients.repository.ts`, `client-response.dto.ts`).
-- [ ] 4.5 Pruebas: `change-client-status.service.spec.ts` (baja desde Activo e Inactivo, motivo vacío/en blanco/500/501, 404, ya de baja, citas pendientes, auditoría con valores anterior y nuevo, sin auditoría al rechazar, fallo de auditoría revierte) y `clients.controller.spec.ts` (endpoint y permiso).
-- [ ] 4.6 Prueba e2e en `test/clients/` (una carpeta por dominio): baja con Gerente, `403` con Recepcionista, registro de paciente rechazado para cliente de baja y registro en `audit_logs`.
+- [ ] 4.1 `change-client-status.service.spec.ts` — positivos: baja desde Activo y desde Inactivo, datos de la baja guardados y motivo recortado; negativos: sin motivo, motivo en blanco, cliente inexistente, ya desactivado, fallo de auditoría revierte; límite: motivo de 1, 500 y 501 caracteres; auditoría con valores anterior y nuevo y sin registro al rechazar.
+- [ ] 4.2 `clients.controller.spec.ts`: endpoint, `ParseUUIDPipe` y permiso `clients:deactivate`.
+- [ ] 4.3 `register-patient.service.spec.ts`: cliente `DEACTIVATED` con «El cliente está desactivado» y cliente `INACTIVE` con el mensaje de HU-07.
+- [ ] 4.4 Prueba e2e en `test/clients/`: baja con Gerente, `403` con Recepcionista y Técnico, `401` sin sesión, registro en `audit_logs` y edición rechazada después de la baja.
 
 ## 5. Frontend – Acción «Dar de baja»
 
 - [ ] 5.1 Agregar `deactivate(clientId, reason)` y los campos de la baja en `src/modules/clients/services/clients-api.ts` y `types.ts`, con su prueba.
-- [ ] 5.2 En `clients-page.tsx` / `clients-page.css`: botón «Dar de baja» solo con `clients:deactivate` y estado `ACTIVE`/`INACTIVE`; modal con motivo obligatorio (máx. 500), transición `→ De baja`, «Cancelar» sin cambios y «Confirmar baja»; mensaje de citas pendientes con el conteo.
+- [ ] 5.2 En `clients-page.tsx` / `clients-page.css`: botón «Dar de baja» solo con `clients:deactivate` y estado `ACTIVE`/`INACTIVE`; modal con motivo obligatorio y contador hasta 500, transición `→ De baja`, «Cancelar» sin cambios y «Confirmar baja».
 - [ ] 5.3 Vista de un cliente `De baja` en solo lectura con fecha, responsable, motivo y mascotas; sin acciones de edición ni cambio de estado.
-- [ ] 5.4 Pruebas en `clients-page.test.tsx`: visibilidad por permiso y estado, motivo obligatorio, confirmación, cancelación, error de citas pendientes y vista de solo lectura.
+- [ ] 5.4 Pruebas en `clients-page.test.tsx` — positivos: baja confirmada y vista de solo lectura; negativos: sin permiso, motivo vacío, error de la API, cancelación; límite: motivo de 500 caracteres.
 
 ## 6. Verificación final
 
 - [ ] 6.1 Ejecutar `docker compose exec -T api sh -c 'npm test && npm run lint && npx tsc -p tsconfig.build.json --noEmit'` y `docker compose exec -T frontend sh -c 'npm test && npm run lint && npm run build'`.
 - [ ] 6.2 Verificar en `audit_logs` el registro "Dar de baja" con valor anterior y nuevo tras una baja real.
+
+## 7. Pendiente (cambio aparte, requiere aprobación del Módulo 2)
+
+- [ ] 7.1 Verificar citas futuras `PROGRAMADA`/`CONFIRMADA` antes de la baja (HU-03 Esc. 2) mediante un servicio del dominio de agenda. No se implementa en este cambio.
