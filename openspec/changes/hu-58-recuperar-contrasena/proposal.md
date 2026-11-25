@@ -17,7 +17,8 @@ Documentación funcional de referencia:
 - Nuevo servicio `RecoverPasswordService` (`src/modules/identity/services/recover-password.service.ts`, nombre previsto en la estructura de carpetas) y plantilla de correo `password-reset-email.ts`.
 - Al restablecer: `mustChangePassword = false`, reinicio del contador de intentos y del bloqueo temporal, y cierre de todas las sesiones abiertas de la cuenta.
 - Auditoría en la misma transacción con dos acciones nuevas del catálogo: **"Solicitar recuperación"** (cuando el correo pertenece a una cuenta activa) y **"Restablecer contraseña"**. Nunca se guarda el token ni la contraseña.
-- Límite de solicitudes por correo para evitar el envío masivo de correos.
+- Límite de **3 solicitudes por correo cada 15 minutos**, aprobado por el PO como nuevo criterio de aceptación (HU-58 Esc. 8, agregado en `docs/modulo-1-historial-clinico/historias-usuario/08-autenticacion-usuarios.md`).
+- Pruebas con casos positivos, negativos y de valor límite (vigencia 29:59 / 30:00, contraseña de 7 / 8 caracteres, 3.ª / 4.ª solicitud).
 - Frontend: enlace «¿Olvidó su contraseña?» en `LoginPage` (reemplaza el texto de ayuda actual), página pública `/forgot-password` y página pública `/reset-password?token=…`.
 
 ## Capabilities

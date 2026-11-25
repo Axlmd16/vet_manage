@@ -31,7 +31,7 @@
 
 3. **Respuesta uniforme y sin diferencia de tiempos**
    - La solicitud responde siempre el mismo `200`. El envío del correo se hace después de confirmar la transacción y sus errores solo se registran en el log, para que un fallo de SMTP no delate que la cuenta existe.
-   - Límite: contador en Redis `auth:password-reset:<sha256(email)>` con ventana de 15 minutos y máximo 3 (mismo patrón que `auth.service.ts`). Si Redis falla, se permite la solicitud y se registra una advertencia.
+   - Límite (HU-58 Esc. 8, aprobado por el PO): contador en Redis `auth:password-reset:<sha256(email)>` con ventana de 15 minutos y máximo 3 (mismo patrón que `auth.service.ts`). Si Redis falla, se permite la solicitud y se registra una advertencia.
 
 4. **Endpoints públicos en `AuthController`**
    - `POST /auth/password-reset/request`, `GET /auth/password-reset/validate`, `POST /auth/password-reset/confirm`, todos `@HttpCode(200)` y sin `@Authenticated()`, como `login` y `refresh`.
@@ -67,4 +67,3 @@
 ## Open Questions
 
 - ¿Las cuentas de rol Cliente (que hoy reciben credenciales al registrarse) también usan esta recuperación? La matriz de roles dice que sí; se implementa para todas las cuentas activas.
-- ¿El límite de 3 solicitudes cada 15 minutos es aceptable para el PO?
