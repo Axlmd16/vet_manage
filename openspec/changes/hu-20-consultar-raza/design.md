@@ -17,7 +17,7 @@
 **Non-Goals:**
 - Paginación: el catálogo de razas es pequeño; se reconsidera si supera unos cientos de registros.
 - Activar e inactivar razas (HU-19).
-- Cambiar los permisos del Administrador sobre razas (ver preguntas abiertas).
+- Cambiar permisos: el Administrador ya no tiene permisos de razas en development (matriz 2.4); este cambio solo lo fija con pruebas.
 
 ## Decisions
 
@@ -53,4 +53,4 @@ Sin migraciones. Verificación con `make up` (API `3080`, frontend `5174`).
 
 ## Open Questions
 
-- La matriz de roles (2.4) no da al Administrador acceso a razas, pero hoy tiene `breeds:*` (PR #21 corrigió lo mismo para especies). ¿Se corrige también para razas en esta HU o en una tarea aparte?
+Ninguna. El PO confirmó que el Administrador no debe tener acceso a las razas (matriz de roles, sección 2.4).

@@ -11,8 +11,8 @@
 
 ## 3. Pruebas de backend
 
-- [ ] 3.1 `find-breeds.service.spec.ts`: sin filtros, búsqueda parcial, sin mayúsculas ni tildes, filtro por especie, combinación, sin resultados, búsqueda de 100/101 caracteres y especie inválida.
-- [ ] 3.2 `breed.controller.spec.ts`: filtros, detalle, 404 y permiso `breeds:read`.
+- [ ] 3.1 `find-breeds.service.spec.ts` con casos positivos, negativos y de valor límite (búsqueda vacía, de 1, 100 y 101 caracteres): sin filtros, búsqueda parcial, sin mayúsculas ni tildes, filtro por especie, combinación, sin resultados, búsqueda de 100/101 caracteres y especie inválida.
+- [ ] 3.2 `breed.controller.spec.ts`: filtros, detalle, 404, 400 por id inválido y permiso `breeds:read`; prueba de `roles.catalog` que verifica que el Administrador no tiene permisos `breeds:*`.
 - [ ] 3.3 Prueba e2e en `test/pets/breeds.e2e-spec.ts`: consulta con Cajero (`403`) y verificación de que buscar y ver el detalle no agregan filas a `audit_logs`.
 
 ## 4. Frontend – Consulta en `BreedsPage`
@@ -20,7 +20,7 @@
 - [ ] 4.1 Agregar `listBreeds({ search, speciesId })` y `getBreed(id)` en `src/modules/pets/services/breed.service.ts` y `types.ts`, con su prueba.
 - [ ] 4.2 En `breeds-page.tsx`: campo de búsqueda con espera de 300 ms, filtro «Todas las especies» + especies (inactivas marcadas) y mensaje de sin resultados.
 - [ ] 4.3 Panel de detalle de solo lectura (nombre, especie, descripción o «Sin descripción», estado «Activa»/«Inactiva»), manteniendo la edición de HU-18 solo con `breeds:update`.
-- [ ] 4.4 Pruebas en `breeds-page.test.tsx`: búsqueda, limpieza, filtro, combinación, sin resultados, detalle y aviso sin permiso.
+- [ ] 4.4 Pruebas en `breeds-page.test.tsx` (positivos, negativos y valor límite): búsqueda, limpieza, filtro, combinación, sin resultados, detalle y aviso sin permiso.
 
 ## 5. Verificación final
 

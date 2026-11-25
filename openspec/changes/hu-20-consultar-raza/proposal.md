@@ -30,4 +30,6 @@ Documentación funcional de referencia:
   - `src/modules/pets/repositories/breed.repository.ts` (consulta con filtros).
   - Sin cambios de esquema ni de catálogo de auditoría.
 - **Frontend (`vet-manage-frontend`)**: `src/modules/pets/pages/breeds-page.tsx`, `services/breed.service.ts`, `types.ts` y sus pruebas.
+- **Permisos:** el Administrador no tiene acceso a las razas (matriz 2.4, ya aplicado en `development`); se fija con pruebas.
+- Pruebas con casos positivos, negativos y de valor límite.
 - **Fuera de alcance**: paginación (el catálogo de razas es pequeño); activar e inactivar razas (HU-19).
