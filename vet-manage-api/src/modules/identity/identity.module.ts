@@ -12,6 +12,8 @@ import { PermissionsGuard } from './guards/permissions.guard.js';
 import { AccessService } from './services/access.service.js';
 import { AuthService } from './services/auth.service.js';
 import { ChangePasswordService } from './services/change-password.service.js';
+import { RecoverPasswordService } from './services/recover-password.service.js';
+import { PasswordResetTokenRepository } from './repositories/password-reset-token.repository.js';
 import { IdentityBootstrap } from './services/identity-bootstrap.service.js';
 import { InitialAdminService } from './services/initial-admin.service.js';
 import { PasswordHasher } from './services/password-hasher.service.js';
@@ -47,6 +49,8 @@ import { UpdateUserService } from './services/update-user.service.js';
     AccessService,
     AuthService,
     ChangePasswordService,
+    RecoverPasswordService,
+    PasswordResetTokenRepository,
     SessionService,
     UserRegistrationService,
     ClientRegistrationService,
