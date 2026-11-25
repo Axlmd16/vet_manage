@@ -6,6 +6,7 @@ export const AUDIT_ACTIONS = {
   activate: 'Activar',
   changePassword: 'Cambiar contraseña',
   update: 'Actualizar',
+  deactivate: 'Dar de baja',
 } as const;
 
 export const AUDIT_MODULES = {
