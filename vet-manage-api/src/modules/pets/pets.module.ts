@@ -14,6 +14,7 @@ import { RegisterBreedService } from './services/breeds/register-breed.service.j
 import { UpdateBreedService } from './services/breeds/update-breed.service.js';
 import { RegisterPatientService } from './services/patients/register-patient.service.js';
 import { SearchPatientsService } from './services/patients/search-patients.service.js';
+import { ChangeSpeciesStatusService } from './services/species/change-species-status.service.js';
 import { ListActiveSpeciesService } from './services/species/list-active-species.service.js';
 import { RegisterSpeciesService } from './services/species/register-species.service.js';
 import { UpdateSpeciesService } from './services/species/update-species.service.js';
@@ -28,6 +29,7 @@ import { UpdateSpeciesService } from './services/species/update-species.service.
     RegisterSpeciesService,
     ListActiveSpeciesService,
     UpdateSpeciesService,
+    ChangeSpeciesStatusService,
     RegisterBreedService,
     ListActiveBreedsService,
     UpdateBreedService,
