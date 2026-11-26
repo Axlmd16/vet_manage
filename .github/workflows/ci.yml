@@ -38,8 +38,16 @@ jobs:
       - name: Linter
         run: npm run lint
 
-      - name: Pruebas unitarias
-        run: npm test
+      - name: Pruebas unitarias y cobertura
+        run: npm run test:cov
+
+      - name: Subir reporte de cobertura (API)
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ci-api-coverage
+          if-no-files-found: ignore
+          path: vet-manage-api/coverage
 
       - name: Build
         run: npm run build
