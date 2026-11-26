@@ -1,0 +1,162 @@
+# Pipeline permanente de QA y Regresión – Módulo 1 (Fork).
+# Corre en ramas test/** y bajo demanda (workflow_dispatch) eligiendo el sprint o regresión completa.
+# Compatible con la estructura de Sprint 1 (qa/sprint-1/staging) y la estructura centralizada (qa/staging).
+name: QA Regresión Módulo 1
+
+on:
+  push:
+    branches: ['test/**']
+  workflow_dispatch:
+    inputs:
+      sprint:
+        description: 'Suite de QA a ejecutar'
+        type: choice
+        default: all
+        options:
+          - all
+          - sprint-1
+          - sprint-2
+
+concurrency:
+  group: qa-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit:
+    name: Unitarias QA (Vitest)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: |
+            vet-manage-api/package-lock.json
+            vet-manage-frontend/package-lock.json
+
+      - name: Unitarias QA del API
+        working-directory: vet-manage-api
+        run: |
+          if ! node -e "const p = require('./package.json'); process.exit(p.scripts?.['test:qa:unit'] ? 0 : 1)"; then
+            echo "Aviso: no existe el script 'test:qa:unit' en vet-manage-api/package.json en esta rama."
+            exit 0
+          fi
+          npm ci
+          npx prisma generate
+          npm run test:qa:unit
+
+      - name: Unitarias QA del Frontend
+        if: always()
+        working-directory: vet-manage-frontend
+        run: |
+          if ! node -e "const p = require('./package.json'); process.exit(p.scripts?.['test:qa'] ? 0 : 1)"; then
+            echo "Aviso: no existe el script 'test:qa' en vet-manage-frontend/package.json en esta rama."
+            exit 0
+          fi
+          npm ci
+          npm run test:qa
+
+      - name: Subir reportes unitarios y cobertura
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qa-unit-y-cobertura
+          if-no-files-found: ignore
+          path: |
+            qa/**/reports/unit
+            qa/**/reports/unit-frontend
+            qa/**/reports/coverage
+
+  api-e2e:
+    name: Integración API + E2E (Staging)
+    runs-on: ubuntu-latest
+    needs: unit
+    if: always()
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Detectar estructura de Staging QA
+        id: staging
+        run: |
+          if [ -d "qa/staging" ]; then
+            echo "dir=qa/staging" >> "$GITHUB_OUTPUT"
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          elif [ -d "qa/sprint-1/staging" ]; then
+            echo "dir=qa/sprint-1/staging" >> "$GITHUB_OUTPUT"
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Aviso: no se encontró carpeta qa/staging ni qa/sprint-1/staging en esta rama."
+          fi
+
+      - name: Desplegar Staging
+        if: steps.staging.outputs.exists == 'true'
+        run: bash "${{ steps.staging.outputs.dir }}/scripts/deploy-staging.sh"
+
+      - name: Cargar datos semilla
+        if: steps.staging.outputs.exists == 'true'
+        run: bash "${{ steps.staging.outputs.dir }}/scripts/seed-staging.sh"
+
+      - name: Instalar dependencias y Chromium
+        if: steps.staging.outputs.exists == 'true'
+        run: |
+          (cd vet-manage-api && npm ci && npx prisma generate)
+          (cd vet-manage-frontend && npm ci)
+          (cd qa && npm ci && npx playwright install --with-deps chromium)
+
+      - name: Validar criterios de entrada (CE)
+        if: steps.staging.outputs.exists == 'true'
+        continue-on-error: true
+        run: |
+          if [ -f "${{ steps.staging.outputs.dir }}/scripts/validate-ce.sh" ]; then
+            bash "${{ steps.staging.outputs.dir }}/scripts/validate-ce.sh"
+          fi
+
+      - name: Ejecutar suites de Integración API y E2E
+        if: steps.staging.outputs.exists == 'true'
+        env:
+          QA_SPRINT: ${{ inputs.sprint || 'all' }}
+        run: |
+          set +e
+          STATUS=0
+
+          if [ -f "qa/run-all.sh" ]; then
+            bash qa/run-all.sh || STATUS=$?
+          else
+            if [ "$QA_SPRINT" = "all" ]; then
+              SPRINTS="sprint-1 sprint-2"
+            else
+              SPRINTS="$QA_SPRINT"
+            fi
+
+            for s in $SPRINTS; do
+              if [ -f "qa/$s/run-unit-api.sh" ]; then
+                echo "=== [$s] Integración API ==="
+                bash "qa/$s/run-unit-api.sh" || STATUS=$?
+              fi
+              if [ -f "qa/$s/run-e2e.sh" ]; then
+                echo "=== [$s] E2E y Aceptación ==="
+                bash "qa/$s/run-e2e.sh" || STATUS=$?
+              fi
+            done
+          fi
+
+          exit $STATUS
+
+      - name: Subir reportes y evidencias QA
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qa-reportes-staging
+          if-no-files-found: ignore
+          path: qa/**/reports
+
+      - name: Bajar Staging
+        if: always() && steps.staging.outputs.exists == 'true'
+        run: docker compose -f "${{ steps.staging.outputs.dir }}/docker-compose.staging.yml" down -v
