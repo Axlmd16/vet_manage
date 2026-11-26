@@ -65,6 +65,51 @@ describe('SpeciesPage', () => {
     expect(screen.queryByRole('button', { name: /editar/i })).not.toBeInTheDocument();
   });
 
+  it('filtra las especies por coincidencia parcial del nombre sin distinguir mayúsculas', async () => {
+    vi.mocked(speciesApi.listSpecies).mockResolvedValue([
+      ...sampleSpecies,
+      {
+        ...sampleSpecies[0],
+        id: 'sp-2',
+        name: 'Felino',
+        description: 'Gatos domésticos',
+      },
+    ]);
+    permissions = new Set(['species:read']);
+    renderPage();
+    await screen.findByText('Canino');
+
+    await userEvent.type(screen.getByRole('searchbox', { name: 'Buscar especies por nombre' }), 'fEL');
+
+    expect(screen.getByText('Felino')).toBeInTheDocument();
+    expect(screen.queryByText('Canino')).not.toBeInTheDocument();
+  });
+
+  it('muestra un mensaje cuando la búsqueda no encuentra especies', async () => {
+    permissions = new Set(['species:read']);
+    renderPage();
+    await screen.findByText('Canino');
+
+    await userEvent.type(screen.getByRole('searchbox', { name: 'Buscar especies por nombre' }), 'Inexistente');
+
+    expect(screen.getByRole('status')).toHaveTextContent('No se encontraron especies');
+    expect(screen.queryByText('Canino')).not.toBeInTheDocument();
+  });
+
+  it('muestra nombre, descripción y estado al seleccionar un resultado', async () => {
+    vi.mocked(speciesApi.listSpecies).mockResolvedValue([{ ...sampleSpecies[0], isActive: false }]);
+    permissions = new Set(['species:read']);
+    renderPage();
+    await screen.findByText('Canino');
+
+    await userEvent.click(screen.getByRole('button', { name: 'Ver información de Canino' }));
+
+    const dialog = screen.getByRole('dialog', { name: 'Información de la especie' });
+    expect(within(dialog).getByText('Canino')).toBeInTheDocument();
+    expect(within(dialog).getByText('Perros domésticos')).toBeInTheDocument();
+    expect(within(dialog).getByText('Inactiva')).toBeInTheDocument();
+  });
+
   it('actualiza una especie exitosamente y muestra toast de confirmación', async () => {
     permissions = new Set(['species:read', 'species:update']);
     vi.mocked(speciesApi.updateSpecies).mockResolvedValue({

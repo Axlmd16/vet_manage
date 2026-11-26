@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { PawIcon, PlusIcon } from '../../../common/components/icons';
+import { PawIcon, PlusIcon, SearchIcon } from '../../../common/components/icons';
 import { useToast } from '../../../common/components/toast-context';
 import { useAuth } from '../../auth/auth-context';
 import { SpeciesForm } from '../components/species-form';
@@ -90,6 +90,8 @@ export function SpeciesPage() {
   const [listError, setListError] = useState<string | null>(null);
   const [isCreateOpen, setCreateOpen] = useState(false);
   const [editingSpecies, setEditingSpecies] = useState<Species | null>(null);
+  const [viewingSpecies, setViewingSpecies] = useState<Species | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [pendingStatus, setPendingStatus] = useState<{ species: Species; isActive: boolean } | null>(null);
   const [changingStatus, setChangingStatus] = useState(false);
@@ -100,7 +102,11 @@ export function SpeciesPage() {
   const canUpdate = hasPermission('species:update');
   const canChangeStatus = hasPermission('species:change-status');
   const showActions = canUpdate || canChangeStatus;
-  const modalOpen = isCreateOpen || editingSpecies !== null;
+  const modalOpen = isCreateOpen || editingSpecies !== null || viewingSpecies !== null;
+  const normalizedSearch = searchTerm.trim().toLocaleLowerCase('es');
+  const filteredSpecies = species.filter((item) =>
+    item.name.toLocaleLowerCase('es').includes(normalizedSearch),
+  );
   const statusTexts = pendingStatus ? STATUS_TEXTS[pendingStatus.isActive ? 'activate' : 'inactivate'] : null;
 
   useEffect(() => {
@@ -133,6 +139,7 @@ export function SpeciesPage() {
       if (event.key === 'Escape' && !submitting) {
         setCreateOpen(false);
         setEditingSpecies(null);
+        setViewingSpecies(null);
       }
     };
 
@@ -177,6 +184,7 @@ export function SpeciesPage() {
     if (submitting) return;
     setCreateOpen(false);
     setEditingSpecies(null);
+    setViewingSpecies(null);
   };
 
   const handleRegister = async (draft: RegisterSpeciesDraft) => {
@@ -216,14 +224,24 @@ export function SpeciesPage() {
 
   return (
     <div>
-      {canCreate && (
-        <div className="species-toolbar">
+      <form className="species-toolbar" role="search" onSubmit={(event) => event.preventDefault()}>
+        <label className="search-field">
+          <SearchIcon size={16} />
+          <input
+            type="search"
+            aria-label="Buscar especies por nombre"
+            placeholder="Buscar especie por nombre"
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+          />
+        </label>
+        {canCreate && (
           <button type="button" className="button button--primary" onClick={() => setCreateOpen(true)}>
             <PlusIcon size={16} />
             Nueva especie
           </button>
-        </div>
-      )}
+        )}
+      </form>
 
       {listLoading ? (
         <div className="empty-state">Cargando especies…</div>
@@ -236,6 +254,14 @@ export function SpeciesPage() {
           </span>
           <strong>No hay especies registradas</strong>
           <p>Registra una nueva especie para comenzar a clasificar a los pacientes.</p>
+        </div>
+      ) : filteredSpecies.length === 0 ? (
+        <div className="catalog-empty" role="status">
+          <span className="catalog-empty__icon">
+            <PawIcon size={22} />
+          </span>
+          <strong>No se encontraron especies</strong>
+          <p>Prueba con otro nombre para encontrar una especie registrada.</p>
         </div>
       ) : (
         <div className="catalog-card">
@@ -250,7 +276,7 @@ export function SpeciesPage() {
               </div>
             </div>
             <span className="species-count-badge">
-              {species.length} {species.length === 1 ? 'especie' : 'especies'}
+              {filteredSpecies.length} {filteredSpecies.length === 1 ? 'especie' : 'especies'}
             </span>
           </div>
           <div className="product-table-wrap">
@@ -265,14 +291,21 @@ export function SpeciesPage() {
                 </tr>
               </thead>
               <tbody>
-                {species.map((item) => (
+                {filteredSpecies.map((item) => (
                   <tr key={item.id}>
                     <td className="species-table__name">
                       <div className="species-name-cell">
                         <span className="species-row-icon" aria-hidden="true">
                           <PawIcon size={15} />
                         </span>
-                        <strong>{item.name}</strong>
+                        <button
+                          type="button"
+                          className="species-detail-trigger"
+                          aria-label={`Ver información de ${item.name}`}
+                          onClick={() => setViewingSpecies(item)}
+                        >
+                          {item.name}
+                        </button>
                       </div>
                     </td>
                     <td className="species-table__description">
@@ -337,6 +370,54 @@ export function SpeciesPage() {
                 ))}
               </tbody>
             </table>
+          </div>
+        </div>
+      )}
+
+      {viewingSpecies && (
+        <div
+          className="modal-overlay"
+          role="presentation"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setViewingSpecies(null);
+          }}
+        >
+          <div className="modal-card" role="dialog" aria-modal="true" aria-labelledby="species-detail-title">
+            <div className="modal-card__heading">
+              <div>
+                <span className="eyebrow">Catálogo</span>
+                <h3 id="species-detail-title">Información de la especie</h3>
+                <p>Consulta los datos registrados de esta especie.</p>
+              </div>
+              <button
+                type="button"
+                className="modal-card__close"
+                aria-label="Cerrar información"
+                onClick={() => setViewingSpecies(null)}
+              >
+                ×
+              </button>
+            </div>
+            <div className="modal-card__body">
+              <dl className="species-detail__grid">
+                <div>
+                  <dt>Nombre</dt>
+                  <dd>{viewingSpecies.name}</dd>
+                </div>
+                <div>
+                  <dt>Descripción</dt>
+                  <dd>{viewingSpecies.description || 'Sin descripción'}</dd>
+                </div>
+                <div>
+                  <dt>Estado</dt>
+                  <dd>
+                    <span className={`status-badge status-badge--${viewingSpecies.isActive ? 'active' : 'inactive'}`}>
+                      {viewingSpecies.isActive ? 'Activa' : 'Inactiva'}
+                    </span>
+                  </dd>
+                </div>
+              </dl>
+            </div>
           </div>
         </div>
       )}
