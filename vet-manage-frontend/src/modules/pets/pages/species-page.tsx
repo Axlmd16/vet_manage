@@ -5,6 +5,7 @@ import { useAuth } from '../../auth/auth-context';
 import { SpeciesForm } from '../components/species-form';
 import { speciesApi } from '../services/species.service';
 import type { RegisterSpeciesDraft, Species } from '../types';
+import './species-page.css';
 
 function EditIcon() {
   return (
@@ -14,6 +15,46 @@ function EditIcon() {
     </svg>
   );
 }
+
+function InactivateIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="9" />
+      <line x1="5.6" y1="5.6" x2="18.4" y2="18.4" />
+    </svg>
+  );
+}
+
+function ActivateIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="9" />
+      <polyline points="8 12.5 11 15.5 16 9.5" />
+    </svg>
+  );
+}
+
+const statusLabel = (isActive: boolean) => (isActive ? 'Activa' : 'Inactiva');
+
+function StatusBadge({ isActive }: { isActive: boolean }) {
+  return <span className={`status-badge status-badge--${isActive ? 'active' : 'inactive'}`}>{statusLabel(isActive)}</span>;
+}
+
+// Textos del diálogo de confirmación según la acción (HU-15).
+const STATUS_TEXTS = {
+  inactivate: {
+    title: 'Inactivar especie',
+    description: 'La especie no se podrá elegir al registrar razas ni pacientes mientras esté inactiva. Sus razas y pacientes registrados se conservan.',
+    success: 'Especie inactivada correctamente',
+    failure: 'No se pudo inactivar la especie',
+  },
+  activate: {
+    title: 'Activar especie',
+    description: 'La especie volverá a estar disponible para registrar razas y pacientes.',
+    success: 'Especie activada correctamente',
+    failure: 'No se pudo activar la especie',
+  },
+} as const;
 
 function CalendarIcon() {
   return (
@@ -52,16 +93,21 @@ export function SpeciesPage() {
   const [viewingSpecies, setViewingSpecies] = useState<Species | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [pendingStatus, setPendingStatus] = useState<{ species: Species; isActive: boolean } | null>(null);
+  const [changingStatus, setChangingStatus] = useState(false);
   const { showToast } = useToast();
   const { hasPermission } = useAuth();
 
   const canCreate = hasPermission('species:create');
   const canUpdate = hasPermission('species:update');
+  const canChangeStatus = hasPermission('species:change-status');
+  const showActions = canUpdate || canChangeStatus;
   const modalOpen = isCreateOpen || editingSpecies !== null || viewingSpecies !== null;
   const normalizedSearch = searchTerm.trim().toLocaleLowerCase('es');
   const filteredSpecies = species.filter((item) =>
     item.name.toLocaleLowerCase('es').includes(normalizedSearch),
   );
+  const statusTexts = pendingStatus ? STATUS_TEXTS[pendingStatus.isActive ? 'activate' : 'inactivate'] : null;
 
   useEffect(() => {
     let cancelled = false;
@@ -100,6 +146,39 @@ export function SpeciesPage() {
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [modalOpen, submitting]);
+
+  useEffect(() => {
+    if (!pendingStatus) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && !changingStatus) setPendingStatus(null);
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [pendingStatus, changingStatus]);
+
+  const closeStatusDialog = () => {
+    if (!changingStatus) setPendingStatus(null);
+  };
+
+  // Confirma el cambio de estado (HU-15); la fila se reemplaza con la especie que devuelve la API.
+  const confirmStatusChange = async () => {
+    if (!pendingStatus) return;
+    const { species: target, isActive } = pendingStatus;
+    const texts = STATUS_TEXTS[isActive ? 'activate' : 'inactivate'];
+    setChangingStatus(true);
+    try {
+      const updated = await speciesApi.changeStatus(target.id, isActive);
+      setSpecies((current) => current.map((item) => (item.id === updated.id ? updated : item)));
+      showToast(texts.success, 'success');
+    } catch (cause) {
+      showToast(cause instanceof Error ? cause.message : texts.failure, 'error');
+    } finally {
+      setChangingStatus(false);
+      setPendingStatus(null);
+    }
+  };
 
   const closeModal = () => {
     if (submitting) return;
@@ -208,7 +287,7 @@ export function SpeciesPage() {
                   <th className="species-table__description">Descripción</th>
                   <th className="species-table__date">Actualizada</th>
                   <th className="species-table__status">Estado</th>
-                  {canUpdate && <th className="species-table__actions">Acciones</th>}
+                  {showActions && <th className="species-table__actions">Acciones</th>}
                 </tr>
               </thead>
               <tbody>
@@ -246,22 +325,45 @@ export function SpeciesPage() {
                       </span>
                     </td>
                     <td className="species-table__status">
-                      <span className={`status-badge status-badge--${item.isActive ? 'active' : 'inactive'}`}>
-                        {item.isActive ? 'Activa' : 'Inactiva'}
-                      </span>
+                      <StatusBadge isActive={item.isActive} />
                     </td>
-                    {canUpdate && (
+                    {showActions && (
                       <td className="species-table__actions">
-                        <button
-                          type="button"
-                          className="species-icon-btn"
-                          aria-label={`Editar ${item.name}`}
-                          title="Editar especie"
-                          data-tooltip="Editar especie"
-                          onClick={() => setEditingSpecies(item)}
-                        >
-                          <EditIcon />
-                        </button>
+                        {canUpdate && (
+                          <button
+                            type="button"
+                            className="species-icon-btn"
+                            aria-label={`Editar ${item.name}`}
+                            title="Editar especie"
+                            data-tooltip="Editar especie"
+                            onClick={() => setEditingSpecies(item)}
+                          >
+                            <EditIcon />
+                          </button>
+                        )}
+                        {canChangeStatus && (item.isActive ? (
+                          <button
+                            type="button"
+                            className="species-icon-btn species-icon-btn--inactivate"
+                            aria-label={`Inactivar ${item.name}`}
+                            title="Inactivar especie"
+                            data-tooltip="Inactivar especie"
+                            onClick={() => setPendingStatus({ species: item, isActive: false })}
+                          >
+                            <InactivateIcon />
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            className="species-icon-btn species-icon-btn--activate"
+                            aria-label={`Activar ${item.name}`}
+                            title="Activar especie"
+                            data-tooltip="Activar especie"
+                            onClick={() => setPendingStatus({ species: item, isActive: true })}
+                          >
+                            <ActivateIcon />
+                          </button>
+                        ))}
                       </td>
                     )}
                   </tr>
@@ -315,6 +417,63 @@ export function SpeciesPage() {
                   </dd>
                 </div>
               </dl>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {pendingStatus && statusTexts && (
+        <div
+          className="modal-overlay"
+          role="presentation"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) closeStatusDialog();
+          }}
+        >
+          <div
+            className="modal-card species-status-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="species-status-title"
+          >
+            <div className="modal-card__heading">
+              <div>
+                <span className="eyebrow">Catálogo</span>
+                <h3 id="species-status-title">{statusTexts.title}</h3>
+              </div>
+              <button
+                type="button"
+                className="modal-card__close"
+                aria-label="Cerrar"
+                onClick={closeStatusDialog}
+                disabled={changingStatus}
+              >
+                ×
+              </button>
+            </div>
+            <div className="modal-card__body">
+              <div className="species-status-dialog__species">
+                <strong>{pendingStatus.species.name}</strong>
+                <span className="species-status-dialog__transition">
+                  <StatusBadge isActive={pendingStatus.species.isActive} />
+                  <span aria-hidden="true">→</span>
+                  <StatusBadge isActive={pendingStatus.isActive} />
+                </span>
+              </div>
+              <p className="species-status-dialog__description">{statusTexts.description}</p>
+              <div className="species-status-dialog__actions">
+                <button type="button" className="button button--ghost" onClick={closeStatusDialog} disabled={changingStatus}>
+                  Cancelar
+                </button>
+                <button
+                  type="button"
+                  className={`button species-status-dialog__confirm${pendingStatus.isActive ? ' species-status-dialog__confirm--activate' : ''}`}
+                  onClick={() => void confirmStatusChange()}
+                  disabled={changingStatus}
+                >
+                  {changingStatus ? 'Guardando…' : 'Confirmar'}
+                </button>
+              </div>
             </div>
           </div>
         </div>
