@@ -20,6 +20,15 @@ function EditIcon() {
   );
 }
 
+function StatusIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M12 2v10" />
+      <path d="M18.4 6.6a8 8 0 1 1-12.8 0" />
+    </svg>
+  );
+}
+
 function CalendarIcon() {
   return (
     <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -55,9 +64,10 @@ export function BreedsPage() {
   const [isCreateOpen, setCreateOpen] = useState(false);
   const [editingBreed, setEditingBreed] = useState<Breed | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [changingBreedId, setChangingBreedId] = useState<string | null>(null);
   const [species, setSpecies] = useState<SpeciesOption[]>([]);
   const [speciesLoading, setSpeciesLoading] = useState(false);
-  const { showToast } = useToast();
+  const { showToast, confirm } = useToast();
   const { hasPermission } = useAuth();
 
   // HU-20: búsqueda por nombre, filtro por especie y detalle en solo lectura.
@@ -69,6 +79,8 @@ export function BreedsPage() {
 
   const canCreate = hasPermission('breeds:create');
   const canUpdate = hasPermission('breeds:update');
+  const canChangeStatus = hasPermission('breeds:change-status');
+  const showActions = canUpdate || canChangeStatus;
   const modalOpen = isCreateOpen || editingBreed !== null;
   const hasFilters = debouncedSearch.trim() !== '' || speciesFilter !== '';
 
@@ -207,6 +219,34 @@ export function BreedsPage() {
     }
   };
 
+  const handleChangeStatus = async (breed: Breed) => {
+    const activating = !breed.isActive;
+    const action = activating ? 'activar' : 'inactivar';
+    const accepted = await confirm(
+      `¿Confirmas que deseas ${action} la raza "${breed.name}"?`,
+      `Sí, ${action}`,
+      activating ? 'success' : 'danger',
+    );
+    if (!accepted) return;
+
+    setChangingBreedId(breed.id);
+    try {
+      const updated = activating
+        ? await breedApi.activateBreed(breed.id)
+        : await breedApi.inactivateBreed(breed.id);
+      setBreeds((current) =>
+        current.map((item) =>
+          item.id === updated.id ? { ...item, isActive: updated.isActive, updatedAt: updated.updatedAt } : item,
+        ),
+      );
+      showToast(activating ? 'Raza activada correctamente' : 'Raza inactivada correctamente', 'success');
+    } catch (cause) {
+      showToast(cause instanceof Error ? cause.message : 'No se pudo cambiar el estado de la raza', 'error');
+    } finally {
+      setChangingBreedId(null);
+    }
+  };
+
   return (
     <div>
       {canCreate && (
@@ -290,7 +330,7 @@ export function BreedsPage() {
                   <th className="breeds-table__description">Descripción</th>
                   <th className="breeds-table__date">Actualizada</th>
                   <th className="breeds-table__status">Estado</th>
-                  {canUpdate && <th className="breeds-table__actions">Acciones</th>}
+                  {showActions && <th className="breeds-table__actions">Acciones</th>}
                 </tr>
               </thead>
               <tbody>
@@ -335,18 +375,33 @@ export function BreedsPage() {
                         {item.isActive ? 'Activa' : 'Inactiva'}
                       </span>
                     </td>
-                    {canUpdate && (
+                    {showActions && (
                       <td className="breeds-table__actions">
-                        <button
-                          type="button"
-                          className="species-icon-btn"
-                          aria-label={`Editar ${item.name}`}
-                          title="Editar raza"
-                          data-tooltip="Editar raza"
-                          onClick={() => openEditModal(item)}
-                        >
-                          <EditIcon />
-                        </button>
+                        {canUpdate && (
+                          <button
+                            type="button"
+                            className="species-icon-btn"
+                            aria-label={`Editar ${item.name}`}
+                            title="Editar raza"
+                            data-tooltip="Editar raza"
+                            onClick={() => openEditModal(item)}
+                          >
+                            <EditIcon />
+                          </button>
+                        )}
+                        {canChangeStatus && (
+                          <button
+                            type="button"
+                            className="species-icon-btn"
+                            aria-label={`${item.isActive ? 'Inactivar' : 'Activar'} ${item.name}`}
+                            title={`${item.isActive ? 'Inactivar' : 'Activar'} raza`}
+                            data-tooltip={`${item.isActive ? 'Inactivar' : 'Activar'} raza`}
+                            disabled={changingBreedId === item.id}
+                            onClick={() => void handleChangeStatus(item)}
+                          >
+                            <StatusIcon />
+                          </button>
+                        )}
                       </td>
                     )}
                   </tr>
