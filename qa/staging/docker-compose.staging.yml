@@ -1,0 +1,125 @@
+# Ambiente Staging local para QA – Módulo 1.
+# Aislado del ambiente de desarrollo: otro nombre de proyecto, otra base de datos y otros puertos.
+# La API corre compilada (node dist/main.js) y el frontend con `vite build` + `vite preview`,
+# es decir, como se desplegaría, no en modo desarrollo con hot reload.
+#
+# Uso (desde la raíz del repo):  bash qa/staging/scripts/deploy-staging.sh
+name: vet-manage-staging
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: vet_manage_staging
+      POSTGRES_USER: vetmanage
+      POSTGRES_PASSWORD: vetmanage_staging_password
+    command: ['postgres', '-p', '56432']
+    ports:
+      - '56432:56432'
+    volumes:
+      - staging_postgres:/var/lib/postgresql/data
+      - ./seed:/qa-seed:ro
+      - ./backups:/qa-backups
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U vetmanage -d vet_manage_staging -p 56432']
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  redis:
+    image: redis:8-alpine
+    command: ['redis-server', '--port', '57379']
+    ports:
+      - '57379:57379'
+    healthcheck:
+      test: ['CMD', 'redis-cli', '-p', '57379', 'ping']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  rabbitmq:
+    image: rabbitmq:4-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: vetmanage
+      RABBITMQ_DEFAULT_PASS: vetmanage_staging_password
+    volumes:
+      - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+    ports:
+      - '56672:56672'
+    healthcheck:
+      test: ['CMD', 'rabbitmq-diagnostics', '-q', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  mailpit:
+    image: axllent/mailpit:latest
+    environment:
+      MP_SMTP_BIND_ADDR: 0.0.0.0:52025
+      MP_UI_BIND_ADDR: 0.0.0.0:59025
+    ports:
+      - '52025:52025'
+      - '59025:59025'
+
+  api:
+    build:
+      context: ../../vet-manage-api
+      dockerfile: Dockerfile
+      target: build
+    environment:
+      NODE_ENV: staging
+      PORT: 3180
+      API_PREFIX: api/v1
+      CORS_ORIGIN: http://localhost:5184
+      DATABASE_URL: postgresql://vetmanage:vetmanage_staging_password@postgres:56432/vet_manage_staging?schema=public
+      REDIS_URL: redis://redis:57379
+      RABBITMQ_URL: amqp://vetmanage:vetmanage_staging_password@rabbitmq:56672
+      APP_URL: http://localhost:5184
+      SMTP_HOST: mailpit
+      SMTP_PORT: 52025
+      SMTP_SECURE: 'false'
+      SMTP_USER: ''
+      SMTP_PASSWORD: ''
+      MAIL_FROM: VetManage Staging <no-reply@vetmanage.test>
+      RBAC_SYNC_MODE: strict
+      JWT_SECRET: vetmanage-staging-jwt-secret-qa-sprint-1-0123456789
+      JWT_EXPIRES_IN: 15m
+      SESSION_EXPIRES_IN: 12h
+      ADMIN_EMAIL: admin@vetmanage.local
+      ADMIN_PASSWORD: Admin12345
+      ADMIN_IDENTIFICATION: '1700000001'
+      ADMIN_FIRST_NAME: Administrador
+      ADMIN_LAST_NAME: Inicial
+    command: ['sh', '-c', 'npx prisma migrate deploy && node dist/main.js']
+    ports:
+      - '3180:3180'
+    healthcheck:
+      test: ['CMD-SHELL', 'wget -qO- http://127.0.0.1:3180/api/v1/health/ready >/dev/null 2>&1']
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      mailpit:
+        condition: service_started
+
+  frontend:
+    build:
+      context: ../../vet-manage-frontend
+      dockerfile: Dockerfile
+    environment:
+      VITE_API_URL: http://localhost:3180/api/v1
+    command: ['sh', '-c', 'npx vite build && npx vite preview --host 0.0.0.0 --port 5184 --strictPort']
+    ports:
+      - '5184:5184'
+    depends_on:
+      api:
+        condition: service_healthy
+
+volumes:
+  staging_postgres:
