@@ -39,6 +39,7 @@ check CE-01 "HU-07 documentada con criterios Gherkin" hu_scenarios 02-pacientes.
 check CE-01 "HU-13 documentada con criterios Gherkin" hu_scenarios 03-especies-razas.md HU-13
 
 # ── CE-02: funcionalidad integrada (PR aprobados en development) y desplegada en Staging ──
+git -C "$ROOT" fetch -q origin development 2>/dev/null
 merged() { # merged <rama remota>
   git -C "$ROOT" fetch -q origin "$1" 2>/dev/null
   if git -C "$ROOT" merge-base --is-ancestor "origin/$1" origin/development; then echo "origin/$1 integrada en development"; else echo "origin/$1 NO integrada"; return 1; fi
